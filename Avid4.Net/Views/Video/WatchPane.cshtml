@@ -1,0 +1,67 @@
+﻿<div id="videoPlaying">
+    <div class="videoTitle" align="center"><strong>@(Zoom.Title)</strong></div>
+
+    <table style="width: 100%">
+	  <tr>
+		  <td class="centeredButton">
+              @if (Zoom.IsDvdMode)
+              {
+        	        <img id="videoDvdMenu" src="/Content/Buttons/Select.Menu.Button.png" />
+              }
+              else
+              {
+                  <text>&nbsp;</text>
+              }
+		  <td class="centeredButton"><img id="videoPlayPause" src="~/Content/Buttons/PlayPauseButton.png" /></td>
+		  <td class="centeredButton"><img id="videoStop" src="~/Content/Buttons/Transport.Stop.png" /></td>
+	  </tr>
+    </table>
+    <br />
+    <br />
+    <table style="width: 100%">
+	    <tr>
+		    <td class="centeredButton"><img id="videoBack60" src="~/Content/Buttons/Minus60.png" /></td>
+		    <td class="centeredButton"><img id="videoBack10" src="~/Content/Buttons/Minus10.png" /></td>
+		    <td class="centeredButton"><img id="videoForward10" src="~/Content/Buttons/Plus10.png" /></td>
+		    <td class="centeredButton"><img id="videoForward60" src="~/Content/Buttons/Plus60.png" /></td>
+	    </tr>
+    </table>
+
+    <div class="videoTimelineInfo" id="videoTimelineInfo"></div>
+    <table style="width: 100%">
+        <tr>
+            <td><div class="videoInfoLeft" id="PlaybackInfo.ElapsedTimeDisplay"/></td>
+            <td><div class="videoInfoRight" id="PlaybackInfo.TotalTimeDisplay"/></td>
+        </tr>
+    </table>
+    <br/>
+    <div>
+        <div id="videoPosSlider" class="videoPosSlider noUiSlider">&nbsp;</div>  
+    </div>
+
+</div>
+
+<div id="videoMenu">
+    <br/>
+    <table>
+	    <tr>
+		    <td>&nbsp;</td>
+		    <td class="centeredButton"><img id="videoMenuUp" src="~/Content/Buttons/BigRound/Nav.Up.png" /></td>
+		    <td>&nbsp;</td>
+	    </tr>
+	    <tr>
+		    <td class="centeredButton"><img id="videoMenuLeft" src="~/Content/Buttons/BigRound/Nav.Left.png" /></td>
+		    <td class="centeredButton"><img id="videoMenuSelect" src="~/Content/Buttons/BigRound/OK.png" /></td>
+		    <td class="centeredButton"><img id="videoMenuRight" src="~/Content/Buttons/BigRound/Nav.Right.png" /></td>
+	    </tr>
+	    <tr>
+		    <td>&nbsp;</td>
+		    <td class="centeredButton"><img id="videoMenuDown" src="~/Content/Buttons/BigRound/Nav.Down.png" /></td>
+		    <td>&nbsp;</td>
+		    <td>&nbsp;</td>
+		    <td>&nbsp;</td>
+		    <td class="centeredButton"><img id="videoStop" src="~/Content/Buttons/Transport.Stop.png" /></td>
+	    </tr>
+    </table>
+
+</div>

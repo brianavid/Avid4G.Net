@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Sky";
+}
+
+@Html.Partial("TopBarWide")
+@section scripts {
+    @Html.Raw(Render.Script("topBar", Request))
+    @Html.Raw(Render.Script("homeWide", Request))
+    @Html.Raw(Render.Script("sky", Request))
+}
+
+<div id="skyPanes">
+    <div id ="skyLeftPane">
+        <table class="buttonRow">
+	        <tr>
+	            <td class="centeredButton">	<img id="displaySkyLive" src="/Content/Buttons/Select.TV.Button.png" /></td>
+	            <td class="centeredButton">	<img id="displaySkyRecordings" src="/Content/Buttons/Planner.png" /></td>
+	            <td class="centeredButton">	<img id="displaySkyRadio" src="/Content/Buttons/Select.Radio.Button.png" /></td>
+            </tr>
+        </table>
+
+       <div class="skyChannels" id="skyChannels" style="display:none">
+            @Html.Partial("ChannelsPane")
+        </div>
+        <div class="skyRecordings" id="skyRecordings">
+            @Html.Partial("RecordingsPane")
+        </div>    
+    </div>
+    <div id ="skyRightPane">
+         <div class="skyButtons" id="skyButtonsPane">
+            @Html.Partial("ButtonsPane")
+        </div>
+
+        <div class="skyControlPane" id="skyControlPane">
+            @Html.Partial("ControlPane")
+        </div>
+    </div>
+</div>

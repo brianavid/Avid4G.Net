@@ -1,0 +1,263 @@
+﻿@{
+    switch (ViewBag.Mode as string)
+    {
+        default:
+            break;
+        case "Library":
+            {
+                <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibraryArtists">
+                    <div class="musicBrowserTitle">Artists</div>
+                </div>
+                <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibraryAlbums">
+                    <div class="musicBrowserTitle">Albums</div>
+                </div>
+                <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibraryComposers">
+                    <div class="musicBrowserTitle">Composers</div>
+                </div>
+                <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibraryPlaylists">
+                    <div class="musicBrowserTitle">Playlists</div>
+                </div>
+                <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibraryLuckyDip">
+                    <div class="musicBrowserTitle">Lucky Dip</div>
+                </div>
+                <div class="musicBrowserLibrary browserItem" id="musicBrowserLibrarySearch">
+                    <div class="musicBrowserTitle">Search</div>
+                </div>
+            }
+            break;
+            
+        case "Composers":
+            var composers = JRMC.GetAllComposers();
+            foreach (string composer in composers)
+            {
+                    <div class="musicBrowserComposer musicBrowserItem" id="@JRMC.GetIdForComposer(composer)">
+                        <div class="musicBrowserTitle">@composer</div>
+                    </div>
+            }
+            break;
+            
+        case "Playlists":
+            Dictionary<string, string>[] playlists = JRMC.GetPlayLists();
+            if (playlists != null)
+            {
+                foreach (var playlist in playlists)
+                {
+                    if (playlist["Path"].StartsWith("Avid\\"))
+                    {
+                        <div class="musicBrowserPlaylist musicBrowserItem" id="@playlist["ID"]">
+                            <div class="musicBrowserTitle"><span class="playButton">&gt;&nbsp;</span>@playlist["Name"]</div>
+                        </div>
+                    }
+                }
+            }
+            break;
+            
+        case "ArtistInitials":
+        case "AlbumInitials":
+            var initials = ViewBag.Mode == "ArtistInitials" ? JRMC.GetArtistInitialLetters() : JRMC.GetAlbumInitialLetters();
+            string[] initialsArray = initials.ToArray();
+            
+            <table class="buttonGrid">
+                @for (int i = 0; i <= (initialsArray.Length-1) / 6; i++)
+                { 
+                    <tr>
+                        @for (int j = 0; j < 6 && i * 6 + j < initialsArray.Length;  j++)
+                        {
+                            string initial = initialsArray[i * 6 + j];
+                            <td class="centeredButton" style="width:16.7%">
+                                <div class="@(ViewBag.Mode == "ArtistInitials" ? "musicBrowserArtistsInitial" : "musicBrowserAlbumInitial")" id="@initial">
+                                    <div class="musicBrowserTitle">@initial</div>
+                                </div>
+                            </td>
+                        }
+                    </tr>
+                }
+            </table>
+            break;
+            
+        case "ArtistsOfInitial":
+            var artists = JRMC.GetArtistsByInitialLetter(ViewBag.Id);
+            foreach (var artist in artists)
+            {
+                <div class="musicBrowserArtist musicBrowserItem" id ="@JRMC.GetIdForArtist(artist)">
+                    <div class="musicBrowserTitle">@artist</div>
+                </div>
+            }
+            break;
+
+        case "AlbumsOfInitial":
+        case "AlbumsOfArtist":
+        case "AlbumsOfComposer":
+        case "AlbumsOfTrack":
+        case "LuckyDip":
+            AlbumCollection albums = null;
+            IEnumerable<AlbumData> albumList = null;
+            switch (ViewBag.Mode as string)
+            {
+                case "AlbumsOfInitial":
+                    albums = JRMC.GetAlbumsByInitialLetter(ViewBag.Id);
+                    break;
+                case "AlbumsOfArtist":
+                    albums = JRMC.GetAlbumsForArtistId(ViewBag.Id);
+                    break;
+                case "AlbumsOfComposer":
+                    albums = JRMC.GetAlbumsForComposerId(ViewBag.Id);
+                    break;
+                case "AlbumsOfTrack":
+                    albumList = JRMC.GetAlbumsByTrackId(ViewBag.Id);
+                    break;
+                case "LuckyDip":
+                    albumList = JRMC.GetLuckyDipAlbums();
+                    break;
+            }
+            if (albums != null || albumList != null)
+            {
+                string lastArtist = string.Empty;
+
+                foreach (var album in (albumList ?? albums.InAlbumOrder))
+                {
+                    if (album.Track0.Info.ContainsKey("Album"))
+                    {
+                        string albumArtist = album.Track0.Info.ContainsKey("Album Artist") ? album.Track0.Info["Album Artist"] :
+                            album.Track0.Info.ContainsKey("Artist") ? album.Track0.Info["Artist"] : string.Empty;
+
+                        <div class="musicBrowserAlbum musicBrowserItem" id="@album.AlbumId">
+                            <div class="musicBrowserDisplayContext" >
+                                @if (JRMC.IsClassicalAlbum(album))
+                                {
+                                    <div class="musicBrowserDisplayComposer">@JRMC.GetAlbumComposers(album)</div>
+                                    lastArtist = "";
+                                }
+                                else if (albumArtist != lastArtist)
+                                {
+                                    <div class="musicBrowserDisplayArtist">@albumArtist</div>
+                                    lastArtist = albumArtist;
+                                }
+                            </div>
+                            <div class="musicBrowserTitle" id="@album.Track0.Info["Key"]"><span class="playButton">&gt;&nbsp;</span>@album.Track0.Info["Album"]</div>
+                        </div>
+                    }
+                }
+            }
+            break;
+
+        case "Tracks":
+        case "AllTracksOnAlbum":
+            TrackData[] tracks = null;
+            switch (ViewBag.Mode as string)
+            {
+                case "Tracks":
+                    tracks = JRMC.GetTracksByAlbumId(ViewBag.Id);
+                    break;
+                case "AllTracksOnAlbum":
+                    tracks = JRMC.GetTracksByAlbumId(JRMC.GetAlbumIdByTrackId(ViewBag.Id));
+                    break;
+            }
+            if (tracks != null)
+            {
+                string lastAlbum = string.Empty;
+                string lastArtist = string.Empty;
+
+                foreach (var track in tracks)
+                {
+                    string album = track.Info.ContainsKey("Album") ? track.Info["Album"] : string.Empty;
+                    string artist = track.Info.ContainsKey("Artist") ? track.Info["Artist"] : string.Empty;
+                    string duration = track.Info.ContainsKey("Duration") ? track.Info["Duration"] : string.Empty;
+                    var trackId = track.Info["Key"];
+                    var albumId = JRMC.GetAlbumIdByTrackId(trackId);
+
+                    <div class="musicBrowserTrack musicBrowserItem" id="@trackId">
+                        @if (artist != lastArtist || album != lastAlbum)
+                        {
+                            <div class="musicBrowserDisplayContext" >
+                                @if (artist != lastArtist)
+                                {
+                                    <div class='musicBrowserDisplayArtist'>@artist</div>
+                                    lastArtist = artist;
+                                }
+
+                                @if (album != lastAlbum)
+                                {
+                                    <div class='musicBrowserDisplayAlbum'>@album</div>
+                                    lastAlbum = album;
+                                }
+                            </div>
+                        }
+
+                        <div class="musicBrowserTitle"><span class="playButton">&gt;&nbsp;</span>@track.Info["Name"]</div>
+                        @if (!string.IsNullOrEmpty(duration))
+                        {
+                            <div class="musicBrowserDuration">@JRMC.FormatDuration(duration)</div>
+                        }
+                    </div>
+                }
+            }
+
+            break;
+        case "Search":
+            {
+                string searchText = "";
+                TrackData[] searchTracks = null;
+                string searchQuery = ViewBag.Query;
+                
+                if (!String.IsNullOrEmpty(searchQuery))
+                {
+                    searchText = HttpUtility.UrlDecode(searchQuery);
+                    searchTracks = JRMC.SearchTracks(searchText);
+                }
+                
+                <form id="musicSearchForm" runat="server">
+                    <table class="buttonRow">
+	                    <tr>
+                            <td style='width: 75%'><input id='SearchText' type='text' style='width: 100%' value='@(searchText)' /></td>
+                            <td class="centeredButton" style='width: 25%'>
+                                <img id="goMusicSearch" src="/Content/Buttons/MiniRound/Search.png" />
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                    
+                if (searchTracks != null)
+                {
+                    string lastAlbum = string.Empty;
+                    string lastArtist = string.Empty;
+
+                    foreach (var track in searchTracks)
+                    {
+                        string album = track.Info.ContainsKey("Album") ? track.Info["Album"] : string.Empty;
+                        string artist = track.Info.ContainsKey("Artist") ? track.Info["Artist"] : string.Empty;
+                        string duration = track.Info.ContainsKey("Duration") ? track.Info["Duration"] : string.Empty;
+                        var trackId = track.Info["Key"];
+                        var albumId = JRMC.GetAlbumIdByTrackId(trackId);
+
+                        <div class="musicBrowserTrack musicBrowserSearchTrack musicBrowserItem" id="@trackId">
+                            @if (artist != lastArtist || album != lastAlbum)
+                            {
+                                <div class="musicBrowserDisplayContext" >
+                                    @if (artist != lastArtist)
+                                    {
+                                        <div class='musicBrowserDisplayArtist'>@artist</div>
+                                        lastArtist = artist;
+                                    }
+
+                                    @if (album != lastAlbum)
+                                    {
+                                        <div class='musicBrowserDisplayAlbum'>@album</div>
+                                        lastAlbum = album;
+                                    }
+                                </div>
+                            }
+
+                            <div class="musicBrowserTitle"><span class="playButton">&gt;&nbsp;</span>@track.Info["Name"]</div>
+                            @if (!string.IsNullOrEmpty(duration))
+                            {
+                                <div class="musicBrowserDuration">@JRMC.FormatDuration(duration)</div>
+                            }
+                        </div>
+                    }
+                }
+            }
+            break;
+
+    }
+}

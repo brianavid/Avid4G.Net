@@ -1,0 +1,42 @@
+﻿<div id='TopBar'>
+
+  <table class="topBar @(Running.RunningProgramTopBarClass)">
+	  <tr>
+		<td class="centeredButton"><img id="toggleSettings" src='~/Content/Buttons/SmallRound/Spanner.png'></td>
+		<td width='20%'>
+		  <table>
+			<tr>
+			  <td class='pageTitle' align='center'>
+				<div id=homeTitle>@Running.RunningProgram</div>
+			  </td>
+			</tr>
+			<tr>
+			  <td class='pageTitle' align='center'>
+				<div id=volumeDisplay>@Receiver.VolumeDisplay</div>
+			  </td>
+			</tr>
+		  </table>
+
+		  </td>
+		  <td class="centeredButton"><img id="volumeDown" src='~/Content/Buttons/SmallRound/Audio.Volume.Down.png'></td>
+		  <td class="centeredButton"><img id="volumeUp" src='~/Content/Buttons/SmallRound/Audio.Volume.Up.png'></td>
+		  <td class="centeredButton"><img id="volumeMute" src='~/Content/Buttons/SmallRound/Audio.Mute.On.png'></td>
+		@if (ViewData.ContainsKey("IsHome"))
+		{
+		  <td class="centeredButton"><img id="allOff" src='~/Content/Buttons/SmallRound/Power.Off.png'></td>
+		}
+        else if (ViewData.ContainsKey("LinkBack"))
+		{
+		  <td class="centeredButton"><img id="goBack" src='~/Content/Buttons/SmallRound/Back.png'></td>
+		}
+		else
+		{
+		  <td class="centeredButton"><img id="goHome" src='~/Content/Buttons/SmallRound/Home.png'></td>
+		}
+	  </tr>
+  </table>
+</div>
+<div id="topBarTitle" style="display:none">@ViewBag.Title</div>
+
+@Html.Partial("ActionMenu")
+

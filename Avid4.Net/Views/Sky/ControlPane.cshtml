@@ -1,0 +1,60 @@
+﻿<div class="skyControlPad" id="skyControlPad">
+    @{
+        if (SkyData.Sky.CurrentRecording == null && SkyData.Sky.CurrentChannel == null)
+        {
+            SkyData.Sky.GetCurrentChannelInfo();
+        } 
+        
+        if (SkyData.Sky.CurrentRecording != null)
+        {
+            var sky = SkyData.Sky;
+            var recording = sky.CurrentRecording;
+
+            <div class="skyRecording noborder" id="@recording.Id">
+                <div class="skyRecordingInfo">
+                    <div class="skyRecordingWhen">@String.Format("{0} [{1} mins]", recording.WhenRecorded.ToString("ddd dd MMM HH:mm"), Math.Round(recording.Duration.TotalMinutes))</div>
+                    <div class="skyRecordingChannel">&nbsp;@recording.ChannelName</div>
+                </div>
+                <div class="skyRecordingName">@recording.Title</div>
+                <div class="skyRecordingDescription">@recording.Description</div>
+            </div>
+        }
+        else if (SkyData.Sky.CurrentChannel != null)
+        {
+            var sky = SkyData.Sky;
+            var channel = sky.CurrentChannel;
+            var nowAndNext = sky.GetNowAndNext(channel);
+            <div class="skyProgramme noborder">
+                <div class="skyProgrammeInfo">
+                    <div class="skyProgrammeChannel">@String.Format("{0}", @channel.Display)</div>
+                </div>
+
+                <div class="skyChannelNowNext">
+                    @if (nowAndNext != null)
+                    {
+                        if (nowAndNext.Now != null)
+                        {
+                            <div class="skyProgrammeInfo">
+                                <div class="skyProgrammeWhen">@String.Format("{0} [{1} mins]", @nowAndNext.Now.StartTime.ToLocalTime().ToShortTimeString(), Math.Round(nowAndNext.Now.Duration.TotalMinutes))</div>
+                            </div>
+                            <div class="skyProgrammeName">@nowAndNext.Now.Title</div>
+                            <div class="skyProgrammeDescription">@nowAndNext.Now.Description</div>
+                        }
+                        if (nowAndNext.Next != null)
+                        {
+                            <div class="skyProgrammeInfo">
+                                <div class="skyProgrammeWhen">@String.Format("{0} [{1} mins]", @nowAndNext.Next.StartTime.ToLocalTime().ToShortTimeString(), Math.Round(nowAndNext.Next.Duration.TotalMinutes))</div>
+                            </div>
+                            <div class="skyProgrammeName">@nowAndNext.Next.Title</div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+        
+        <div class="skyControlActionLine">
+            <div class="skyControlAction skyControlActionL">&nbsp;</div>
+            <div class="skyControlAction skyControlActionR">&nbsp;</div>
+        </div>
+    }
+</div>

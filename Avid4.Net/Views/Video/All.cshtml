@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Video";
+}
+
+@Html.Partial("TopBarWide")
+@section scripts {
+    @Html.Raw(Render.Script("topBar", Request))
+    @Html.Raw(Render.Script("homeWide", Request))
+    @Html.Raw(Render.Script("video", Request))
+}
+
+<div id="videoPanes">
+    <div id ="videoLeftPane">
+        <table class="buttonRow">
+	        <tr>
+	            <td class="centeredButton">	<img id="displayVideoRecordings" src="/Content/Buttons/Select.TV.Button.png" /></td>
+	            <td class="centeredButton">	<img id="displayDVDs" src="/Content/Buttons/Select.DVD.Button.png" /></td>
+            </tr>
+        </table>
+
+        <div class="videoRecordings" id="videoRecordings">
+            @Html.Partial("RecordingsPane")
+        </div>
+        <div class="videoDvds" id="videoDvds" style="display:none">
+            @Html.Partial("DVDsPane")
+        </div>
+    </div>
+
+    <div id ="videoRightPane">
+        <div class="videoWatchPane" id="videoWatchPane">
+            @Html.Partial("WatchPane")
+        </div>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+﻿@{
+    Dictionary<string, string>[] queue = JRMC.GetQueue();;
+
+    if (queue != null)
+    {
+        string lastAlbum = string.Empty;
+        string lastArtist = string.Empty;
+        for (int i = 0; i < queue.Length; i++)
+        {
+            var track = queue[i];
+
+            if (!track["Name"].StartsWith("BBC Radio"))
+            {
+                <div id='Track_@i' class='musicPlaybackQueueItem' >
+
+                @{
+                    string album = track.ContainsKey("Album") ? track["Album"] : string.Empty;
+                    string artist = track.ContainsKey("Artist") ? track["Artist"] : string.Empty;
+                    string duration = track.ContainsKey("Duration") ? track["Duration"] : string.Empty;
+                }
+
+                @if (artist != lastArtist || album != lastAlbum)
+                {
+                    <div id='Track_@i' class='musicPlaybackQueueContext' >
+
+                        @if (artist != lastArtist)
+                        {
+                            <div class='musicPlaybackQueueArtist'>@artist</div>
+                            lastArtist = artist;
+                        }
+
+                        @if (album != lastAlbum)
+                        {
+                            <div class='musicPlaybackQueueAlbum'>@album</div>
+                            lastAlbum = album;
+                        }
+
+                    </div>
+                }
+
+                <div class='musicPlaybackQueueTitle'>@track["Name"]</div>
+
+                @if (!string.IsNullOrEmpty(duration))
+                {
+                    <div class='musicPlaybackQueueDuration'>@JRMC.FormatDuration(duration)</div>
+                }
+
+                </div>
+            }
+        }
+    }
+}
+

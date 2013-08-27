@@ -1,0 +1,14 @@
+﻿@{
+	ViewBag.Title = "Music";
+}
+
+@Html.Partial("TopBar")
+@section scripts {
+    @Html.Raw(Render.Script("topBar", Request))
+    @Html.Raw(Render.Script("music", Request))
+}
+
+@Html.Partial("PaneButtons")
+<div class="musicPlaybackQueueItems" id="musicPlaybackQueueItems">
+    @Html.Partial("QueuePane")
+</div>

@@ -1,0 +1,43 @@
+﻿@{
+    foreach (var drive in System.IO.DriveInfo.GetDrives())
+    {
+        if (drive.DriveType == System.IO.DriveType.CDRom && drive.IsReady)
+        {
+            <div class="videoDvdDrive videoDvd" id="@(drive.Name.Substring(0, 1))">
+                <div class="videoRecordingName"><span class="playButton">&gt;&nbsp;</span><span class="videoRecordingTitle">@(drive.Name.Substring(0, 1)): @drive.VolumeLabel</span></div>
+            </div>
+            <div class="videoDvdDrive videoDvd">&nbsp;</div>
+        }
+    }
+
+    var bluRays = System.IO.Directory.GetFiles(Config.BluRayPath, "*.*");
+    if (bluRays.Length != 0)
+    {
+        foreach (var file in bluRays)
+        {
+            if (System.IO.File.GetAttributes(file).HasFlag(System.IO.FileAttributes.Hidden))
+            {
+                continue;
+            }
+            string leaf = System.IO.Path.GetFileName(file);
+            int lastDot = leaf.LastIndexOf('.');
+            if (lastDot > 0)
+            {
+                string title = leaf.Substring(0, lastDot);
+                <div class="videoBluRay videoDvd" id="@file" >
+                    <div class="videoRecordingName"><span class="playButton">&gt;&nbsp;</span><span class="videoRecordingTitle">@title</span></div>
+                </div>
+            }
+        }
+        <div class="videoBluRay videoDvd">&nbsp;</div>
+    }
+
+    foreach (var dir in System.IO.Directory.GetDirectories(Config.DvdPath, "*.*"))
+    {
+        string leaf = System.IO.Path.GetFileName(dir);
+
+        <div class="videoDvdDirectory videoDvd" id="@dir" >
+            <div class="videoRecordingName"><span class="playButton">&gt;&nbsp;</span><span class="videoRecordingTitle">@leaf</span></div>
+        </div>
+    }
+}

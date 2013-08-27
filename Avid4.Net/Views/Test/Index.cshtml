@@ -1,0 +1,157 @@
+﻿@{
+    ViewBag.Title = "Index";
+
+    string[] Numbers = 
+    {
+        "Zero",
+        "One",
+        "Two",
+        "Three",
+        "Four",
+        "Five",
+        "Six",
+        "Seven",
+        "Eight",
+        "Nine",
+        "Ten",
+        "Eleven",
+        "Twelve",
+        "Thirteen",
+        "Fourteen",
+        "Fifteen",
+        "Sixteen",
+        "Seventeen",
+        "Eighteen",
+        "Nineteen",
+        "Twenty"
+    };
+    
+    string[] Letters =
+    {
+        "Alpha",
+        "Bravo",
+        "Charlie",
+        "Delta",
+        "Echo",
+        "Foxtrot",
+        "Golf",
+        "Hotel",
+        "India",
+        "Juliet",
+        "Kilo",
+        "Lima",
+        "Mike",
+        "November",
+        "Oscar",
+        "Papa",
+        "Quebec",
+        "Romeo",
+        "Sierra",
+        "Tango",
+        "Uniform",
+        "Victor",
+        "Whisky",
+        "Xray",
+        "Yankee",
+        "Zulu"        
+    };
+}
+
+<style type="text/css">
+
+.display {
+    height: 40px;
+    border-width: thin; 
+    border-color: #3a5069; 
+}
+
+.testList {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+}
+
+.testItem {
+    width: 100%;
+    border-width: thin; 
+    border-color: #3a5069; 
+    border-top-style: none; 
+    border-bottom-style: solid;
+    color: #3a5069;
+    display: block;
+    padding-right: 0px;
+    background-image: url('');
+    font-size: 1.2em;
+    padding-top:10px;
+    padding-bottom:10px;}
+
+</style>
+
+<h2>Test</h2>
+<div class="display" id="display"></div>
+<div class="testList" id="numbersList">
+    @for (int i = 0; i < Numbers.Length; i++)
+    {
+        <div class="testItem" id="Item@(i)" >@(Numbers[i])</div>
+    }
+    @for (int i = 0; i < Letters.Length; i++)
+    {
+        <div class="testItem" id="Item@(Numbers.Length+i)" >@(Letters[i])</div>
+    }
+</div>
+
+@section scripts
+{
+    <script type='text/javascript'>
+        function testDisplay(s)
+        {
+            $("#display").text(s);
+        }
+        $(function () {
+            $(".testList").each(function () {
+                $(this).height($(window).height() - this.offsetTop)
+            })
+
+            $(".display").click(function () { testDisplay("")})
+
+            var h = $("#numbersList").hammer();
+            var lastY = 0;
+            var lastStartEvent = undefined;
+
+            h.on("tap hold swipeleft swiperight", function (e) {
+                testDisplay(e.type + " " + e.target.id);
+            })
+
+            h.on("dragup dragdown", function (e) {
+                var g = e.gesture;
+                if (g.startEvent != lastStartEvent)
+                {
+                    lastY = 0;
+                    lastStartEvent = g.startEvent;
+                }
+                var deltaY = Math.round(g.deltaY);
+                if (deltaY != lastY)
+                {
+                    var deltaText = deltaY < lastY ? "+=" + (lastY - deltaY) + "px" : "-=" + (deltaY - lastY) + "px"
+                    $(".testList").scrollTo(deltaText, 1, { axis: 'y' })
+                    lastY = deltaY;
+                    testDisplay(e.type + " " + e.target.id + " " + deltaY + " " + deltaText) ;
+                }
+            })
+
+            h.on("dragend", function (e) {
+                var g = e.gesture;
+                var direction = g.direction;
+                if (direction == "up" || direction == "down")
+                {
+                    var deltaText = (g.direction == "up" ? "+=" : "-=") + Math.round(40 * g.velocityY * g.velocityY) + "px"
+                    var duration = Math.round(200 * g.velocityY)
+                    $(".testList").scrollTo(deltaText, duration, { axis: 'y', easing: 'easeOutQuad' })
+                    testDisplay(e.type + " " + e.target.id + " : " + deltaText + " in " + duration);
+                }
+            })
+        })
+
+    </script>
+}
+

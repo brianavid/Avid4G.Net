@@ -1,0 +1,29 @@
+﻿@{
+	ViewBag.Title = "";
+}
+
+@Html.Partial("TopBar")
+@section scripts {
+    @Html.Raw(Render.Script("topBar", Request))
+    @Html.Raw(Render.Script("home", Request))
+}
+
+<table class="buttonGrid">
+	<tr>
+		<td class="centeredButton"><img id="selectTV" src="~/Content/Buttons/Select.TV.Button.png"></td>
+		<td class="centeredButton"><img id="selectSky" src="~/Content/Buttons/Select.Sky.Button.png"></td>
+		<td class="centeredButton"><img id="selectVideo" src="~/Content/Buttons/Select.Video.Button.png"></td>
+	</tr>
+	<tr>
+		<td class="centeredButton"><img id="selectRadio" src="~/Content/Buttons/Select.Radio.Button.png"></td>
+		<td class="centeredButton"><img id="selectSpotify" src="~/Content/Buttons/Select.Spotify.Button.png"></td>
+		<td class="centeredButton"><img id="selectMusic" src="~/Content/Buttons/Select.Music.Button.png"></td>
+	</tr>
+	<tr>
+		<td class="centeredButton"><img id="selectEpg" src="~/Content/Buttons/Select.Guide.Button.png"></td>
+		<td class="centeredButton"><img id="selectWeb" src="~/Content/Buttons/iPlayer.png"></td>
+		<td class="centeredButton"><img id="selectPhotos" src="~/Content/Buttons/Select.Photos.Button.png"></td>
+	</tr>
+</table>
+
+

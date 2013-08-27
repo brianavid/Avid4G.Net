@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "Spotify";
+}
+
+@Html.Partial("TopBarWide")
+@section scripts {
+    @Html.Raw(Render.Script("topBar", Request))
+    @Html.Raw(Render.Script("homeWide", Request))
+    @Html.Raw(Render.Script("spotify", Request))
+}
+
+<div class="spotifyPad" id="spotifyPad">&nbsp;</div>

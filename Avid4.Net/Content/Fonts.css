@@ -1,0 +1,11 @@
+﻿@font-face {
+    font-family: guifx_v2_transportsregular;
+    src: url('/Content/Fonts/guifx_v2_transports-webfont.eot');
+    src: url('/Content/Fonts/guifx_v2_transports-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/Content/Fonts/guifx_v2_transports-webfont.woff') format('woff'),
+         url('/Content/Fonts/guifx_v2_transports-webfont.ttf') format('truetype'),
+         url('/Content/Fonts/guifx_v2_transports-webfont.svg#guifx_v2_transportsregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+

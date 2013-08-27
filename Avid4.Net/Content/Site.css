@@ -1,0 +1,345 @@
+﻿body {
+    font-size: .85em;
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    color: #232323;
+    background-color: #fff;
+}
+
+header, footer, nav, section {
+    display: block;
+}
+
+
+/* Styles for basic forms
+-----------------------------------------------------------*/
+fieldset {
+    border: 1px solid #ddd;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+}
+
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+textarea {
+    min-height: 75px;
+}
+
+.editor-label {
+    margin: 1em 0 0 0;
+}
+
+.editor-field {
+    margin: 0.5em 0 0 0;
+}
+
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error {
+    color: #f00;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+.input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+/* Styles for ...
+-----------------------------------------------------------*/
+
+.topBar {
+    width: 100%;
+    background-color: #ccc;
+}
+
+.topBarNone {
+    background-color: #ccc;
+}
+
+.topBarSky {
+    background-color: #c87070;
+}
+
+.topBarMusic {
+    background-color: #709AC8;
+}
+
+.topBarVideo {
+    background-color: #f69e00;
+}
+
+.topBarSpotify {
+    background-color: #8abf33;
+}
+
+.topBarIplayer {
+    background-color: #f54997;
+}
+
+.buttonGrid {
+    width:100%;
+    border-spacing:25px;
+}
+
+.buttonRow {
+    width:100%;
+}
+
+.centeredButton {
+    text-align:center;
+
+}
+
+.searchText {
+    padding: 5px;
+}
+
+.musicInfoImage, .spotifyInfoImage
+{
+    border: solid 1px #6F5230;
+    position: relative;
+    float: left;
+    margin: 0em 1em 1em 0em;
+}
+
+.musicInfoAlbum, .spotifyInfoAlbum {
+    font-style: italic;
+}
+
+.musicInfoComposer {
+    font-style: italic;
+}
+
+.musicInfoTrackName, .spotifyInfoTrackName {
+    font-weight: bold;
+}
+
+.musicPlayingTrack, .spotifyPlayingTrack, .videoTitle {
+    font-size: 1.4em;
+    font-weight: normal;
+}
+
+.musicPlaybackStatus, .spotifyPlaybackStatus
+{
+    font-size:medium; 
+    height: 100%;
+    float: left;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 0 0 10px 0
+}
+
+.musicPlaybackControls, .spotifyPlaybackControls {
+    clear: both;
+}
+
+.musicPosSlider, .videoPosSlider {
+    width:90%;
+    margin-left:5%;
+}
+
+.musicPlaybackQueueItems, .musicBrowserItems, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoDvds {
+    overflow-y:hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.musicPlaybackQueueItem, .musicBrowserItem, .spotifyPlaybackQueueItem, .spotifyBrowserItem, .skyChannel, .skyRecording, .skyRecordingGroup, .skyProgramme, .skyRecordingAction, .videoRecording, .videoDvd, .videoRecordingAction, .actionMenuItem {
+    width: 100%;
+    border-width: thin; 
+    border-color: #3a5069; 
+    border-top-style: none; 
+    border-bottom-style: solid;
+}
+
+.musicPlaybackQueueTitle, .musicBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .skyChannelName, .skyProgrammeName, .skyRecordingName, .skyRecordingAction, .videoRecordingName, .videoRecordingAction, .actionMenuItem {
+    color: #3a5069;
+    display: block;
+    padding-right: 0px;
+    background-image: url('');
+    font-size: 1.2em;
+    clear: both;
+}
+
+.musicPlaybackQueueTitle, .musicBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .skyRecordingAction, .actionMenuItem, .videoDvd, .videoRecordingAction {
+    padding-top:10px;
+    padding-bottom:10px;}
+
+.musicPlaybackQueueContext, .musicBrowserDisplayContext, .spotifyPlaybackQueueContext, .spotifyBrowserDisplayContext {
+    width: 80%; 
+    margin-left: 20%; 
+    font-size: small; 
+    text-align: right;
+}
+
+.videoTitle {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.skyControlPad {
+    background-image:url("/Content/SkyPad.png");
+    background-repeat:no-repeat;
+    background-position-x:center;
+    background-position-y:bottom;
+    height: 260px;
+    -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
+}
+
+.skyProgrammeInfo, .skyRecordingInfo, skyRecordingDescription, .videoRecordingInfo, .videoRecordingDescription, .videoTimelineInfo {
+    font-size: small; 
+}
+
+.skyControlActionLine {
+    font-size: small; 
+    position:absolute;
+    bottom:0;
+    left:0;
+    height:20px;
+    color:red;
+    width:100%;
+}
+
+.skyRecordingBeingRecorded {
+    background-color: #c87070;
+}
+
+.skyRecordingWhen, .skyProgrammeWhen, .skyControlActionL, .videoRecordingWhen, .videoInfoLeft {
+    white-space: nowrap;
+    overflow: hidden;
+    width:65%;
+    float:left;
+}
+
+.skyRecordingChannel, .skyProgrammeChannel, .skyControlActionR, .videoRecordingChannel, .videoInfoRight {
+    white-space: nowrap;
+    overflow: hidden;
+    width:35%;
+    float:right;
+    text-align: right;
+}
+
+.skyRecordingDescription, .skyProgrammeDescription, .videoRecordingDescription {
+    width:90%;
+    margin-left:5%;
+    font-style: italic;
+    padding-bottom:10px;
+}
+
+.skyRecordingPositionSlider {
+    width:90%;
+    margin-left:5%;
+    height:50px;
+}
+
+.skyRecordingActionAlert, .videoRecordingActionAlert {
+    color: red;
+}
+
+.skyWatchRecord {
+    display:none;
+}
+
+.musicPlaybackQueueArtist, .spotifyPlaybackQueueArtist, .musicBrowserDisplayArtist, .spotifyBrowserDisplayArtist {
+}
+
+.musicPlaybackQueueAlbum, .spotifyPlaybackQueueAlbum, .musicBrowserDisplayComposer, .musicBrowserDisplayAlbum, .spotifyBrowserDisplayAlbum {
+    font-style: italic;
+}
+
+.musicPlaybackQueueDuration, .spotifyPlaybackQueueDuration, .musicBrowserDuration, .spotifyBrowserDuration, .skyChannelNumber {
+    font-size: small; 
+    text-align: right; 
+}
+
+.musicBrowserTitle, .spotifyBrowserTitle {
+}
+
+#musicPanes, #spotifyPanes, #skyPanes, #videoPanes {
+    position: relative;
+}
+
+#musicLeftPane, #spotifyLeftPane, #skyLeftPane, #videoLeftPane {
+    width: 50%;
+    position:absolute;
+    left:0px;
+    top:0px;
+    border-right:2px solid #3a5069;
+}
+
+#musicRightPane, #spotifyRightPane, #skyRightPane, #videoRightPane {
+    width: 50%;
+    left:50%;
+    position:absolute;
+    top:0px;
+    border-left:2px solid #3a5069;
+}
+
+#musicControlPane, #spotifyControlPane, #skyControlPane {
+    padding: 5px;
+    height: 260px;
+    background-color:#FFF;
+}
+
+#musicQueuePane, #spotifyQueuePane, #skyButtonsPane {
+    overflow: hidden;
+    border-bottom :2px solid #3a5069;
+    padding: 5px;
+}
+
+#musicBrowserPane, #spotifyBrowserPane {
+    overflow: hidden;
+    padding: 5px;
+}
+
+.overlay, .actionMenuOverlay
+{
+   background-color: #000;
+   opacity: .7;
+   filter: alpha(opacity=70);
+   position: absolute; top: 0; left: 0;
+   width: 100%; height: 100%;
+   z-index: 1000;
+}
+
+.actionMenuOverlay {
+    display:none;
+}
+
+.actionMenu {
+    position:absolute;
+    display:none;
+    padding: 10px;
+    background-color:white;
+    z-index: 1001;
+}
+
+.spotifyPad, .webPad {
+    background-color:#f8f8f8;
+    height: 200px;
+}
+
+#videoMenu {
+    display: none;
+}
+
+
+.noborder {
+    border-style:none;
+}

@@ -1,0 +1,11 @@
+﻿@{
+	ViewBag.Title = "Web";
+}
+
+@Html.Partial("TopBar")
+@section scripts {
+    @Html.Raw(Render.Script("topBar", Request))
+    @Html.Raw(Render.Script("web", Request))
+}
+
+<div class="webPad" id="webPad">&nbsp;</div>

@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Spotify";
+}
+
+@Html.Partial("TopBarWide")
+@section scripts {
+    @Html.Raw(Render.Script("topBar", Request))
+    @Html.Raw(Render.Script("homeWide", Request))
+    @Html.Raw(Render.Script("spotify", Request))
+}
+
+<script type="text/javascript">var JrmcUrl = '@JRMC.Url'; var JrmcHost = '@JRMC.Host';</script>
+
+<div id="spotifyPanes">
+    <div id ="spotifyLeftPane">
+       <div id="spotifyBrowserPane">
+            <div class="spotifyBrowserItems" id="spotifyBrowserItems">
+                @Html.Partial("BrowserPane")
+            </div>
+        </div>
+    </div>
+
+    <div id ="spotifyRightPane">
+         <div id="spotifyQueuePane">
+            <div class="spotifyPlaybackQueueItems" id="spotifyPlaybackQueueItems">
+                @Html.Partial("QueuePane")
+            </div>
+        </div>
+
+        <div id="spotifyControlPane">
+            <div class="spotifyPlayback">
+                @Html.Partial("PlayingPane")
+            </div>        
+        </div>
+    </div>
+</div>

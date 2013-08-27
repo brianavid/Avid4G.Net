@@ -1,0 +1,19 @@
+﻿<table class="buttonRow">
+	<tr>
+	    <td class="centeredButton">	<img id="goSkyWatch" src="/Content/Buttons/Select.Watch.Button.png" /></td>
+        @switch ((string)ViewBag.Mode ?? SkyData.Sky.CurrentMode)
+        {
+            case "Planner":
+        	    <td class="centeredButton">	<img id="goSkyRecordings" src="/Content/Buttons/Planner.png" /></td>
+                break;
+            case "Live":
+	    <td class="centeredButton">	<img id="goSkyLive" src="/Content/Buttons/Select.TV.Button.png" /></td>
+                break;
+            case "Radio":
+	    <td class="centeredButton">	<img id="goSkyRadio" src="/Content/Buttons/Select.Radio.Button.png" /></td>
+                break;
+        }
+	    <td class="centeredButton">	<img id="goSkyControls" src="/Content/Buttons/Controls.png" /></td>
+    </tr>
+</table>
+

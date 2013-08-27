@@ -1,0 +1,17 @@
+﻿@{
+    var recording = RemotePotato.AllRecordings[ViewBag.Id];
+
+        <div class="videoRecording" id="@recording.Id">
+            <div class="videoRecordingInfo">
+                <div class="videoRecordingWhen">@String.Format("{0} [{1} mins]", recording.StartTime.ToString("ddd dd MMM HH:mm"), Math.Round(recording.Duration.TotalMinutes))</div>
+                <div class="videoRecordingChannel">&nbsp;@recording.Channel</div>
+            </div>
+            <div class="videoRecordingName">
+                @recording.Title
+            </div>
+            <div class="videoRecordingDescription">@recording.Description</div>
+        </div>
+    <div class="videoRecordingAction" id="videoRecordingPlayFromStart">Play recording</div>
+    <div class="videoRecordingAction videoRecordingActionAlert" id="videoRecordingDelete">Delete recording</div>
+    <span id="recordingId" style="display:none">@recording.Id</span>
+}

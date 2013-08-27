@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Video";
+}
+
+@Html.Partial("TopBar")
+@section scripts {
+    @Html.Raw(Render.Script("topBar", Request))
+    @Html.Raw(Render.Script("video", Request))
+}
+
+@Html.Partial("PaneButtons")
+<div class="videoDvds" id="videoDvds">
+    @Html.Partial("DVDsPane")
+</div>

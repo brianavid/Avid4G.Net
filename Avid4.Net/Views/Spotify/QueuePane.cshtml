@@ -1,0 +1,48 @@
+﻿@{
+    IEnumerable<Avid.Spotify.SpotifyData.Track> queue = Spotify.GetQueuedTracks();
+
+    if (queue != null)
+    {
+        string lastAlbum = string.Empty;
+        string lastArtist = string.Empty;
+        foreach (var track in queue)
+        {
+            string album = track.AlbumName;
+            string artist = track.TrackArtistNames;
+            string duration = Spotify.FormatDuration(track.Duration);
+            var trackId = track.Id;
+            var albumId = track.AlbumId;
+
+            <div id='@trackId' class='spotifyPlaybackQueueItem' >
+
+                @if (artist != lastArtist || album != lastAlbum)
+                {
+                    <div class='spotifyPlaybackQueueContext' >
+
+                        @if (artist != lastArtist)
+                        {
+                            <div class='spotifyPlaybackQueueArtist'>@artist</div>
+                            lastArtist = artist;
+                        }
+
+                        @if (album != lastAlbum)
+                        {
+                            <div class='spotifyPlaybackQueueAlbum'>@album</div>
+                            lastAlbum = album;
+                        }
+
+                    </div>
+                }
+
+                <div class='spotifyPlaybackQueueTitle'>@track.Name</div>
+
+                @if (!string.IsNullOrEmpty(duration))
+                {
+                    <div class='spotifyPlaybackQueueDuration'>@duration</div>
+                }
+
+            </div>
+        }
+    }
+}
+

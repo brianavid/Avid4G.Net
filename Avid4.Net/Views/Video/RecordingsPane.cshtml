@@ -1,0 +1,17 @@
+﻿@{
+    RemotePotato.LoadAllRecordings();
+    
+    foreach (var recording in RemotePotato.AllRecordings.Values)
+    {
+        <div class="videoRecording" id="@recording.Id">
+            <div class="videoRecordingInfo">
+                <div class="videoRecordingWhen">@String.Format("{0} [{1} mins]", recording.StartTime.ToString("ddd dd MMM HH:mm"), Math.Round(recording.Duration.TotalMinutes))</div>
+                <div class="videoRecordingChannel">&nbsp;@recording.Channel</div>
+            </div>
+            <div class="videoRecordingName">
+                @recording.Title
+            </div>
+            <div class="videoRecordingDescription">&nbsp;</div>
+        </div>
+    }
+}

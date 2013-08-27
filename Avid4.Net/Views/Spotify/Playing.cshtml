@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Spotify";
+}
+
+@Html.Partial("TopBar")
+@section scripts {
+    @Html.Raw(Render.Script("topBar", Request))
+    @Html.Raw(Render.Script("spotify", Request))
+}
+
+<script type="text/javascript">var JrmcUrl = '@JRMC.Url'; var JrmcHost = '@JRMC.Host';</script>
+@Html.Partial("PaneButtons")
+<div class="spotifyPlayback">
+    @Html.Partial("PlayingPane")
+</div>

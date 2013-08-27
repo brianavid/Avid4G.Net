@@ -1,0 +1,30 @@
+﻿@{
+    var sky = SkyData.Sky;
+    var channels = sky.RadioChannels;
+
+    foreach (var channel in channels.Values)
+    {
+        <div class="skyChannel" id="@channel.Id">
+            <div class="skyChannelNumber">@channel.Code</div>
+            <div class="skyChannelName"><span class="playButton">&gt;&nbsp;</span>@channel.Display</div>
+            <div class="skyChannelNowNext">
+                @if (channel.IsFavourite)
+                {
+                    var nowAndNext = sky.GetNowAndNext(channel);
+                    if (nowAndNext != null && nowAndNext.Now != null)
+                    {
+                        <div class="skyProgrammeInfo">@nowAndNext.Now.StartTime.ToLocalTime().ToShortTimeString() @nowAndNext.Now.Title</div>
+                    }
+                    if (nowAndNext != null && nowAndNext.Next != null)
+                    {
+                        <div class="skyProgrammeInfo">@nowAndNext.Next.StartTime.ToLocalTime().ToShortTimeString() @nowAndNext.Next.Title</div>
+                    }
+                }
+                else
+                {
+                    <text>&nbsp;</text>
+                }
+            </div>
+        </div>
+    }
+}

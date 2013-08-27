@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "Sky";
+    SkyData.Sky.CurrentMode = ViewBag.Mode = "Planner";
+}
+
+@Html.Partial("TopBar")
+@section scripts {
+    @Html.Raw(Render.Script("topBar", Request))
+    @Html.Raw(Render.Script("sky", Request))
+}
+
+@Html.Partial("PaneButtons")
+<div class="skyRecordings" id="skyRecordings">
+    @Html.Partial("RecordingsPane")
+</div>

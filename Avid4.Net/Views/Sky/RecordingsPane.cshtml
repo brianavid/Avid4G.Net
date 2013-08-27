@@ -1,0 +1,59 @@
+﻿@{
+    var sky = SkyData.Sky;
+
+    if (ViewBag.GroupTitle != null)
+    {
+        foreach (var recording in sky.AllRecordingsForTitle(ViewBag.GroupTitle))
+        {
+            <div class="skyRecording @(recording.BeingRecorded ? "skyRecordingBeingRecorded" : "")" id="@recording.Id">
+                <div class="skyRecordingInfo">
+                        <div class="skyRecordingWhen">@String.Format("{0} [{1} mins] {2}", recording.WhenRecorded.ToString("ddd dd MMM HH:mm"), Math.Round(recording.Duration.TotalMinutes), sky.SizePercent(recording))</div>
+                    <div class="skyRecordingChannel">&nbsp;@recording.ChannelName</div>
+                </div>
+                <div class="skyRecordingName">
+                    @if (recording.BeenWatched)
+                    {
+                        <span>&#10004;&nbsp;</span>
+                    }
+                    @recording.Title
+                </div>
+                    <div class="skyRecordingDescription">&nbsp;</div>
+            </div>
+        }
+    }
+    else
+    {
+        foreach (var recordings in sky.AllRecordingsGroupedByTitle)
+        {
+            var recording = recordings.First();
+            if (recordings.Count > 1)
+            {
+                <div class="skyRecordingGroup @(recording.BeingRecorded ? "skyRecordingBeingRecorded" : "")" id="@recording.Title">
+                    <div class="skyRecordingInfo">
+                        <div class="skyRecordingWhen">@(recordings.Where(r => !r.BeenWatched).Count()) / @(recordings.Count) recordings @(sky.SizePercent(recordings))</div>
+                        <div class="skyRecordingChannel">&nbsp;@recording.ChannelName</div>
+                    </div>
+                    <div class="skyRecordingName">@recording.Title</div>
+                    <div class="skyRecordingDescription">&nbsp;</div>
+                </div>
+            }
+            else
+            {
+                <div class="skyRecording @(recording.BeingRecorded ? "skyRecordingBeingRecorded" : "")" id="@recording.Id">
+                    <div class="skyRecordingInfo">
+                        <div class="skyRecordingWhen">@String.Format("{0} [{1} mins] {2}", recording.WhenRecorded.ToString("ddd dd MMM HH:mm"), Math.Round(recording.Duration.TotalMinutes), sky.SizePercent(recording))</div>
+                        <div class="skyRecordingChannel">&nbsp;@recording.ChannelName</div>
+                    </div>
+                    <div class="skyRecordingName">
+                        @if (recording.BeenWatched)
+                        {
+                            <span>&#10004;&nbsp;</span>
+                        }
+                        @recording.Title
+                    </div>
+                    <div class="skyRecordingDescription">&nbsp;</div>
+                </div>
+            }
+        }
+    }
+}

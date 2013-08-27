@@ -1,0 +1,26 @@
+﻿@{
+    var sky = SkyData.Sky;
+    var recording = sky.AllRecordings[ViewBag.Id];
+
+    <div class="skyRecording" id="@recording.Id">
+        <div class="skyRecordingInfo">
+            <div class="skyRecordingWhen">@String.Format("{0} [{1} mins]", recording.WhenRecorded.ToString("ddd dd MMM HH:mm"), Math.Round(recording.Duration.TotalMinutes))</div>
+            <div class="skyRecordingChannel">&nbsp;@recording.ChannelName</div>
+        </div>
+        <div class="skyRecordingName">@recording.Title</div>
+        <div class="skyRecordingDescription">@recording.Description</div>
+    </div>
+    <div class="skyRecordingAction" id="skyRecordingPlayFromStart">Play from start: @(recording.PrePad.ToString("hh\\:mm").Substring(1))</div>
+    <div class="skyRecordingAction" id="skyRecordingPlayFromTime">Play from time: <span id="positionValueDisplay">
+            @((recording.LastViewed > recording.PrePad ? recording.LastViewed : recording.PrePad).ToString("hh\\:mm").Substring(1))
+        </span>
+        <br />
+        <br />
+        <div class="skyRecordingPositionSlider noUiSlider" id="skyRecordingPositionSlider"></div>
+    </div>
+    <div class="skyRecordingAction skyRecordingActionAlert" id="skyRecordingDelete">Delete Recording</div>
+    <span id="recordingId" style="display:none">@recording.Id</span>
+    <span id="durationMinutes" style="display:none">@((recording.Duration.Add(recording.PrePad).Add(recording.PostPad)).TotalMinutes)</span>
+    <span id="positionMinutes" style="display:none">@Math.Round((recording.LastViewed > recording.PrePad ? recording.LastViewed : recording.PrePad).TotalMinutes)</span>
+    <span id="positionStartMinutes" style="display:none">@Math.Round(recording.PrePad.TotalMinutes)</span>
+}

@@ -1,0 +1,34 @@
+﻿<div id="playingnow">
+    <div class="subtitle_empty"></div>
+    <div class="spotifyPlayingTrack">
+		<img id="SpotifyInfoImageURL" src="/Content/Spotify.png" class="spotifyInfoImage" alt="Playing Track Image" width="120" height="120" />
+		<div id="SpotifyInfoName" class="spotifyInfoTrackName"></div>
+		<div id="SpotifyInfoArtist" class="spotifyInfoArtist"></div>
+		<div id="SpotifyInfoAlbum" class="spotifyInfoAlbum"></div>
+	</div>
+</div>
+
+<div class="spotifyPlaybackControls">
+	<table style="width: 100%">
+		<tr>
+			<td class="centeredButton"><img id="spotifyPrev" src="~/Content/Buttons/Transport.Prev.png"></td>
+	        <td class="centeredButton"><img id="spotifyMinus10" src="~/Content/Buttons/Minus10.png" /></td>
+			<td class="centeredButton"><img id="spotifyPlayPause" src="~/Content/Buttons/PlayPauseButton.png"></td>
+	        <td class="centeredButton"><img id="spotifyPlus10" src="~/Content/Buttons/Plus10.png" /></td>
+			<td class="centeredButton"><img id="spotifyNext" src="~/Content/Buttons/Transport.Next.png"></td>
+		</tr>
+	</table>
+			  
+	<table style="width: 100%">
+		<tr>
+		    <td class="spotifyPlaybackStatus" id="SpotifyInfoStatus" style="width:30%">&nbsp;</td>
+            <td class="spotifyPlaybackStatus" id="SpotifyInfoPositionDisplay" style="width:40%">&nbsp;</td>
+            <td class="spotifyPlaybackStatus" id="SpotifyInfoPlayingNowPositionDisplay" style="width:30%">&nbsp;</td>
+		</tr>
+	</table>
+
+    <div>
+        <div id="spotifyPosSlider" class="spotifyPosSlider noUiSlider">&nbsp;</div>
+    </div>
+
+</div>
