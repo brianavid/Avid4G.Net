@@ -177,6 +177,10 @@ textarea {
     clear: both;
 }
 
+.musicSelectedQueueItem, .spotifySelectedQueueItem {
+    background-color:#DDD;
+}
+
 .musicPlaybackQueueTitle, .musicBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .skyRecordingAction, .actionMenuItem, .videoDvd, .videoRecordingAction {
     padding-top:10px;
     padding-bottom:10px;}

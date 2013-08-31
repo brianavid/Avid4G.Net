@@ -62,9 +62,9 @@ function UpdateSpotifyDisplayPlayingInformation() {
                 {
                     lastTrackId = trackId;
 
-                    $(".spotifyPlaybackQueueItem").css("background", "#FFF");
+                    $(".spotifySelectedQueueItem").removeClass("spotifySelectedQueueItem")
                     $("#" + trackId + ".spotifyPlaybackQueueItem").each(function () {
-                        $(this).css("background", "#DDD");
+                        $(this).addClass("spotifySelectedQueueItem");
 
                         //  Scroll it into view
                         var topOffset = $(this).offset().top - $(".spotifyPlaybackQueueItems").offset().top
