@@ -3,6 +3,7 @@
 	    <td class="centeredButton">	<img id="goSkyWatch" src="/Content/Buttons/Select.Watch.Button.png" /></td>
         @switch ((string)ViewBag.Mode ?? SkyData.Sky.CurrentMode)
         {
+            default:
             case "Planner":
         	    <td class="centeredButton">	<img id="goSkyRecordings" src="/Content/Buttons/Planner.png" /></td>
                 break;

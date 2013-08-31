@@ -169,6 +169,7 @@ function EnableDragScroll(h) {
     h.on("dragup dragdown", function (e) {
         var g = e.gesture;
         g.preventDefault()
+        $(this).stop(true)
         var max = $(this)[0].scrollHeight - $(this).innerHeight();
 
         var deltaY = Math.round(g.deltaY);
@@ -200,15 +201,17 @@ function EnableDragScroll(h) {
         g.preventDefault()
         var max = $(this)[0].scrollHeight - $(this).innerHeight();
 
+        $(this).stop(true)
+
         if (g.direction == "up" || g.direction == "down")
         {
-            var distance = Math.round(100 * g.velocityY * g.velocityY);
+            var distance = Math.round(400 * g.velocityY);
             var delta = g.direction == "up" ? distance : -distance;
-            var duration = Math.round(250 * g.velocityY)
+            var duration = 1500;
 
             var top = parseInt($(this).scrollTop());
             var newTop = top + delta;
-            var scrollEasing = 'easeOutQuad';
+            var scrollEasing = 'easeOutCubic';
 
             if (newTop < 0)
             {
