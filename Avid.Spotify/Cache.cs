@@ -53,6 +53,13 @@ namespace Avid.Spotify
         internal static void Clear()
         {
             theCache.ClearCache();
+
+            //  Add all currently queued tracks so that they can be found by key
+            var tracks = SpotifySession.GetQueuedTracks();
+            foreach (var track in tracks)
+            {
+                theCache.Add(track);
+            }
         }
 
     }
