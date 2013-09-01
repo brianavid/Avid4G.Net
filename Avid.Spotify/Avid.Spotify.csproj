@@ -73,11 +73,13 @@
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.0.1.2\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="SpotiFire">
-      <HintPath>..\..\SpotiFire-master\SpotiFire.SpotifyLib\bin\Debug\SpotiFire.dll</HintPath>
+    <Reference Include="SpotiFire, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\GitHub\SpotiFire\SpotiFire.SpotifyLib\bin\Debug\SpotiFire.dll</HintPath>
     </Reference>
-    <Reference Include="SpotiFire.Native">
-      <HintPath>..\..\SpotiFire-master\SpotiFire.SpotifyLib\bin\Debug\SpotiFire.Native.dll</HintPath>
+    <Reference Include="SpotiFire.Native, Version=1.0.4970.32110, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\GitHub\SpotiFire\SpotiFire.SpotifyLib\bin\Debug\SpotiFire.Native.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -154,7 +156,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Avid4Green64.ico" />
+    <Content Include="Avid4Green64.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="libspotify.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

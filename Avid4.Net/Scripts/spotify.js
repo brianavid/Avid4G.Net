@@ -256,6 +256,24 @@ function AddBrowserHammerActions() {
 
     EnableDragScroll(browserHammer)
 
+    function copyState()
+    {
+        var state = "";
+        $("#ArtistInfoId").each(function () {
+            state += "&artistInfoId=" + $(this).text()
+        })
+        $("#AlbumInfoId").each(function () {
+            state += "&albumInfoId=" + $(this).text()
+        })
+        $("#TrackInfoId").each(function () {
+            state += "&trackInfoId=" + $(this).text()
+        })
+        $("#PlaylistName").each(function () {
+            state += "&name=" + encodeURIComponent($(this).text())
+        })
+        return state;
+    }
+
     browserHammer.on("swiperight swipeleft", function (e) {
         PopStackedPane("spotifyBrowserItems", function () { ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=Library", "clear") })
         return false;
@@ -349,7 +367,7 @@ function AddBrowserHammerActions() {
     });
 
     browserHammer.on("hold", ".spotifyBrowserAlbum", function (e) {
-        ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=AlbumInfo&id=" + this.id, "push")
+        ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=AlbumInfo&id=" + this.id + copyState(), "push")
     });
 
     browserHammer.on("tap", "#spotifyBrowserLibraryPlayAlbum", function (e) {
@@ -381,12 +399,17 @@ function AddBrowserHammerActions() {
     });
 
     browserHammer.on("tap", "#spotifyBrowserLibraryAlbumTracks", function (e) {
-        ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=TracksOnAlbum&id=" + $("#AlbumInfoId").text(), "push")
+        ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=TracksOnAlbum&id=" + $("#AlbumInfoId").text() + copyState(), "push")
         return false;
     });
 
     browserHammer.on("tap", "#spotifyBrowserLibraryAlbumArtist", function (e) {
         ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=ArtistInfo&id=" + $("#ArtistInfoId").text(), "push")
+        return false;
+    });
+
+    browserHammer.on("tap", "#spotifyBrowserLibraryAddAlbumToPlaylist", function (e) {
+        ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=PlayListsAdd" + copyState(), "none")
         return false;
     });
 
@@ -410,7 +433,7 @@ function AddBrowserHammerActions() {
     });
 
     browserHammer.on("hold", ".spotifyBrowserTrack", function (e) {
-        ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=TrackInfo&id=" + this.id, "push")
+        ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=TrackInfo&id=" + this.id + copyState(), "push")
     });
 
     browserHammer.on("tap", "#spotifyBrowserLibraryPlayTrack", function (e) {
@@ -450,6 +473,79 @@ function AddBrowserHammerActions() {
 
     browserHammer.on("tap", "#spotifyBrowserLibraryTrackArtist", function (e) {
         ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=ArtistInfo&id=" + $("#ArtistInfoId").text(), "push")
+        return false;
+    });
+
+    browserHammer.on("tap", "#spotifyBrowserLibraryAddTrackToPlaylist", function (e) {
+        ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=PlayListsAdd" + copyState(), "none")
+        return false;
+    });
+
+    browserHammer.on("tap", ".spotifyBrowserPlaylistAddTrack", function (e) {
+        $.ajax({
+            url: "/Spotify/AddTrackToPlaylist?id=" + $("#TrackInfoId").text() + "&name=" + this.id,
+            success: function (data) {
+                PopStackedPane("spotifyBrowserItems", function () { ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=Library", "clear") })
+            },
+            cache: false
+        });
+        return false;
+    });
+
+    browserHammer.on("tap", "#spotifyBrowserPlaylistAddTrackNew", function (e) {
+        var query = document.getElementById("spotifyBrowserPlaylistNewName").value
+        $.ajax({
+            url: "/Spotify/AddTrackToPlaylist?id=" + $("#TrackInfoId").text() + "&name=" + query,
+            success: function (data) {
+                PopStackedPane("spotifyBrowserItems", function () { ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=Library", "clear") })
+            },
+            cache: false
+        });
+        return false;
+    });
+
+    browserHammer.on("tap", ".spotifyBrowserPlaylistRemoveTrack", function (e) {
+        $.ajax({
+            url: "/Spotify/RemoveTrackFromPlayList?id=" + $("#TrackInfoId").text() + "&name=" + $("#PlaylistName").text(),
+            success: function (data) {
+                PopStackedPane("spotifyBrowserItems", function () { ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=Library", "clear") })
+            },
+            cache: false
+        });
+        return false;
+    });
+
+    browserHammer.on("tap", ".spotifyBrowserPlaylistAddAlbum", function (e) {
+        $.ajax({
+            url: "/Spotify/AddAlbumToPlaylist?id=" + $("#AlbumInfoId").text() + "&name=" + this.id,
+            success: function (data) {
+                PopStackedPane("spotifyBrowserItems", function () { ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=Library", "clear") })
+            },
+            cache: false
+        });
+        return false;
+    });
+
+    browserHammer.on("tap", ".spotifyBrowserPlaylistRemoveAlbum", function (e) {
+        $.ajax({
+            url: "/Spotify/RemoveAlbumFromPlayList?id=" + $("#AlbumInfoId").text() + "&name=" + $("#PlaylistName").text(),
+            success: function (data) {
+                PopStackedPane("spotifyBrowserItems", function () { ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=Library", "clear") })
+            },
+            cache: false
+        });
+        return false;
+    });
+
+    browserHammer.on("tap", "#spotifyBrowserPlaylistAddAlbumNew", function (e) {
+        var query = document.getElementById("spotifyBrowserPlaylistNewName").value
+        $.ajax({
+            url: "/Spotify/AddAlbumToPlaylist?id=" + $("#AlbumInfoId").text() + "&name=" + query,
+            success: function (data) {
+                PopStackedPane("spotifyBrowserItems", function () { ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=Library", "clear") })
+            },
+            cache: false
+        });
         return false;
     });
 }

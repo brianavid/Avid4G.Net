@@ -120,7 +120,6 @@ namespace Avid.Spotify
         public void AddPlayList(
             string name)
         {
-            //  THIS WILL FAIL AS IT USES UNIMPLEMENTED SPOTIFIRE METHODS
             if (Playlists.ContainsKey(name))
             {
                 return;
@@ -131,9 +130,7 @@ namespace Avid.Spotify
         async Task AddPlayListAsync(
             string name)
         {
-            Playlist playlist = null;   // await new Playlist();    --  NO constructor yet implemented
-            playlist.Name = name;
-            (await SpotifySession.Session.PlaylistContainer).Playlists.Add(playlist);
+            await((await SpotifySession.Session.PlaylistContainer).Playlists.Create(name));
             await BuildPlayLists();
         }
 
@@ -184,10 +181,6 @@ namespace Avid.Spotify
             string name,
             int id)
         {
-            if (!Playlists.ContainsKey(name))
-            {
-                return;
-            }
             Track track = Cache.Get(id) as Track;
             if (track == null)
             {
@@ -200,11 +193,22 @@ namespace Avid.Spotify
             string name,
             Track track)
         {
-            Playlist playlist = await playlists[name];
+            Playlist playlist;
+            if (!Playlists.ContainsKey(name))
+            {
+                playlist = await((await SpotifySession.Session.PlaylistContainer).Playlists.Create(name));
+                await BuildPlayLists();
+            }
+            else
+            {
+                playlist = await playlists[name];
+            }
+
             if (!playlist.Tracks.Contains(track))
             {
                 playlist.Tracks.Add(track);
             }
+            await BuildPlayLists();
         }
 
         [HttpGet]
@@ -212,10 +216,6 @@ namespace Avid.Spotify
             string name,
             int id)
         {
-            if (!Playlists.ContainsKey(name))
-            {
-                return;
-            }
             Album album = Cache.Get(id) as Album;
             if (album == null)
             {
@@ -228,7 +228,17 @@ namespace Avid.Spotify
             string name,
             Album album)
         {
-            Playlist playlist = await playlists[name];
+            Playlist playlist;
+            if (!Playlists.ContainsKey(name))
+            {
+                playlist = await ((await SpotifySession.Session.PlaylistContainer).Playlists.Create(name));
+                await BuildPlayLists();
+            }
+            else
+            {
+                playlist = await playlists[name];
+            }
+
             foreach (Track track in (await album.Browse()).Tracks)
             {
                 if (!playlist.Tracks.Contains(track))
@@ -236,6 +246,7 @@ namespace Avid.Spotify
                     playlist.Tracks.Add(track);
                 }
             }
+            await BuildPlayLists();
         }
 
         [HttpGet]
@@ -264,6 +275,7 @@ namespace Avid.Spotify
             {
                 playlist.Tracks.Remove(track);
             }
+            await BuildPlayLists();
         }
 
         [HttpGet]
@@ -288,13 +300,17 @@ namespace Avid.Spotify
             Album album)
         {
             Playlist playlist = await playlists[name];
-            foreach (Track track in (await album.Browse()).Tracks)
+            var tracks = (await album.Browse()).Tracks;
+            Track[] tracksCopy = new Track[tracks.Count];
+            tracks.CopyTo(tracksCopy, 0);
+            foreach (Track track in tracksCopy)
             {
                 if (playlist.Tracks.Contains(track))
                 {
                     playlist.Tracks.Remove(track);
                 }
             }
+            await BuildPlayLists();
         }
 
 

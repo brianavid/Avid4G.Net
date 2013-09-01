@@ -106,7 +106,7 @@ textarea {
 
 }
 
-.searchText {
+.searchText, .spotifyBrowserPlaylistNewName {
     padding: 5px;
 }
 
@@ -310,6 +310,10 @@ textarea {
 #musicBrowserPane, #spotifyBrowserPane {
     overflow: hidden;
     padding: 5px;
+}
+
+.spotifyBrowserPlaylistHeader {
+    font-style:italic;
 }
 
 .overlay, .actionMenuOverlay

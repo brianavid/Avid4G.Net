@@ -80,6 +80,9 @@ namespace Avid4.Net.Controllers
             string id,
             string name,
             string query,
+            string trackInfoId,
+            string albumInfoId,
+            string artistInfoId,
             string append)
         {
             ViewBag.Mode = mode;
@@ -94,6 +97,18 @@ namespace Avid4.Net.Controllers
             if (query != null)
             {
                 ViewBag.Query = query;
+            }
+            if (trackInfoId != null)
+            {
+                ViewBag.TrackId = trackInfoId;
+            }
+            if (albumInfoId != null)
+            {
+                ViewBag.AlbumId = albumInfoId;
+            }
+            if (artistInfoId != null)
+            {
+                ViewBag.ArtistId = artistInfoId;
             }
             if (append != null)
             {
@@ -240,5 +255,37 @@ namespace Avid4.Net.Controllers
             return File(Spotify.GetAlbumImage(id), "image/png");
         }
 
+        public ContentResult AddTrackToPlaylist(
+            int id,
+            string name)
+        {
+            Spotify.AddTrackToPlayList(name, id);
+            return this.Content("");
+        }
+
+        public ContentResult AddAlbumToPlayList(
+            int id,
+            string name)
+        {
+            Spotify.AddAlbumToPlayList(name, id);
+            return this.Content("");
+        }
+
+
+        public ContentResult RemoveTrackFromPlayList(
+            int id,
+            string name)
+        {
+            Spotify.RemoveTrackFromPlayList(name, id);
+            return this.Content("");
+        }
+
+        public ContentResult RemoveAlbumFromPlayList(
+            int id,
+            string name)
+        {
+            Spotify.RemoveAlbumFromPlayList(name, id);
+            return this.Content("");
+        }
     }
 }

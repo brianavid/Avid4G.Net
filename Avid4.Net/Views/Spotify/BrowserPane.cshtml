@@ -22,16 +22,18 @@
             break;
             
         case "Playlists":
-            IEnumerable<string>playlists = Spotify.GetPlayLists();
-            if (playlists != null)
             {
-                foreach (var playlist in playlists)
+                IEnumerable<string> playlists = Spotify.GetPlayLists();
+                if (playlists != null)
                 {
-                    <div class="spotifyBrowserPlaylist spotifyBrowserItem" id="@playlist">
-                        <div class="spotifyBrowserTitle">@playlist</div>
-                    </div>
+                    foreach (var playlist in playlists)
+                    {
+    <div class="spotifyBrowserPlaylist spotifyBrowserItem" id="@playlist">
+        <div class="spotifyBrowserTitle">@playlist</div>
+    </div>
                 }
             }
+}
             break;
             
         case "SearchArtists":
@@ -192,7 +194,8 @@
                 <div class="spotifyBrowserLibrary spotifyBrowserItem swipeToCancel spotifyBrowserCancel">
                     <div class="spotifyBrowserTitle">Cancel</div>
                 </div>
-                <span id="ArtistInfoId" style="display:none">@artist.Id</span>
+                
+                ViewBag.ArtistId = artist.Id;
             }
             break;
 
@@ -216,11 +219,21 @@
                 <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibraryAlbumArtist">
                     <div class="spotifyBrowserTitle">Artist Info</div>
                 </div>
+                <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibraryAddAlbumToPlaylist">
+                    <div class="spotifyBrowserTitle">Add Album to Playlist</div>
+                </div>
+                if (ViewBag.Name != null)
+                {
+                    <div class="spotifyBrowserLibrary spotifyBrowserItem spotifyBrowserPlaylistRemoveAlbum">
+                        <div class="spotifyBrowserTitle">Remove Album from Playlist "@ViewBag.Name"</div>
+                    </div>
+                }
                 <div class="spotifyBrowserLibrary spotifyBrowserItem swipeToCancel spotifyBrowserCancel">
                     <div class="spotifyBrowserTitle">Cancel</div>
                 </div>
-                <span id="AlbumInfoId" style="display:none">@album.Id</span>
-                <span id="ArtistInfoId" style="display:none">@album.ArtistId</span>
+    
+                ViewBag.AlbumId = album.Id;
+                ViewBag.ArtistId = album.ArtistId;
             }
             break;
 
@@ -245,12 +258,22 @@
                 <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibraryTrackArtist">
                     <div class="spotifyBrowserTitle">Artist Info</div>
                 </div>
+                <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibraryAddTrackToPlaylist">
+                    <div class="spotifyBrowserTitle">Add Track to Playlist</div>
+                </div>
+                if (ViewBag.Name != null)
+                {
+                    <div class="spotifyBrowserLibrary spotifyBrowserItem spotifyBrowserPlaylistRemoveTrack">
+                        <div class="spotifyBrowserTitle">Remove Track from Playlist "@ViewBag.Name"</div>
+                    </div>
+                }
                 <div class="spotifyBrowserLibrary spotifyBrowserItem swipeToCancel spotifyBrowserCancel">
                     <div class="spotifyBrowserTitle">Cancel</div>
                 </div>
-                <span id="TrackInfoId" style="display:none">@track.Id</span>
-                <span id="AlbumInfoId" style="display:none">@track.AlbumId</span>
-                <span id="ArtistInfoId" style="display:none">@track.ArtistId</span>
+    
+                ViewBag.TrackId = track.Id;
+                ViewBag.AlbumId = track.AlbumId;
+                ViewBag.ArtistId = track.ArtistId;
             }
             break;
 
@@ -273,6 +296,7 @@
                 {
                     case "AlbumsOfPlayist":
                         albums = Spotify.GetPlayListAlbums(ViewBag.Name);
+                        <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader"><div class="spotifyBrowserTitle">Playlist "@ViewBag.Name"</div></div>
                         break;
                     case "AlbumsOfArtist":
                         albums = Spotify.GetAlbumsForArtist(id);
@@ -368,5 +392,66 @@
 
             break;
 
+        case "PlayListsAdd":
+            {
+                string actionClass = "";
+                if (ViewBag.AlbumId != null)
+                {
+                    actionClass = "spotifyBrowserPlaylistAddAlbum";
+                    Avid.Spotify.SpotifyData.Album album = Spotify.GetAlbumById(Convert.ToInt32(ViewBag.AlbumId as String));
+                    <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader"><div class="spotifyBrowserTitle">Add album "@album.Name" to ...</div></div>
+                }
+                else if (ViewBag.TrackId != null)
+                {
+                    actionClass = "spotifyBrowserPlaylistAddTrack";
+                    Avid.Spotify.SpotifyData.Track track = Spotify.GetTrackById(Convert.ToInt32(ViewBag.TrackId as String));
+                    <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader"><div class="spotifyBrowserTitle">Add track "@track.Name" to ...</div></div>
+                }
+                if (ViewBag.ArtistId != null)
+                {
+                    Avid.Spotify.SpotifyData.Artist artist = Spotify.GetArtistById(Convert.ToInt32(ViewBag.ArtistId as String));
+                    <div class="@actionClass spotifyBrowserItem" id="@artist.Name">
+                        <div class="spotifyBrowserTitle">@artist.Name</div>
+                    </div>
+                }
+                <div class="spotifyBrowserItem">
+                    <table class="buttonRow">
+	                    <tr>
+                            <td class="centeredButton" style='width: 10%'>
+                                <img id="@(actionClass)New" src="/Content/Buttons/SmallRound/Plus.png" />
+                            </td>
+                            <td style='width: 90%'><input class='spotifyBrowserPlaylistNewName' id='spotifyBrowserPlaylistNewName' type='text' style='width: 95%' /></td>
+                        </tr>
+                    </table>
+                </div>
+                IEnumerable<string>playlists = Spotify.GetPlayLists();
+                if (playlists != null)
+                {
+                    foreach (var playlist in playlists)
+                    {
+                        <div class="@actionClass spotifyBrowserItem" id="@playlist">
+                            <div class="spotifyBrowserTitle">@playlist</div>
+                        </div>
+                    }
+                }
+            }
+            break;
+    }
+
+    if (ViewBag.ArtistId != null)
+    {
+        <span id="ArtistInfoId" style="display:none">@ViewBag.ArtistId</span>
+    }
+    if (ViewBag.AlbumId != null)
+    {
+        <span id="AlbumInfoId" style="display:none">@ViewBag.AlbumId</span>
+    }
+    if (ViewBag.TrackId != null)
+    {
+        <span id="TrackInfoId" style="display:none">@ViewBag.TrackId</span>
+    }
+    if (ViewBag.Name != null)
+    {
+        <span id="PlaylistName" style="display:none">@ViewBag.Name</span>
     }
 }
