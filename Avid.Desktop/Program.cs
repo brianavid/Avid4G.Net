@@ -4,6 +4,7 @@ using System.Linq;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.ServiceModel;
+using System.Configuration;
 
 namespace Avid.Desktop
 {
@@ -17,6 +18,8 @@ namespace Avid.Desktop
         [STAThread]
         static void Main()
         {
+            SkyLocator.GetSkyServices(ConfigurationManager.AppSettings["IpAddress"]);
+
             //  if (!SingleInstance.Start()) { return; }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
