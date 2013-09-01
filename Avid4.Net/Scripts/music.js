@@ -60,20 +60,18 @@ function UpdateJrmcDisplayPlayingInformation() {
                                     element.innerHTML = value; // text
                             }
 
-                            if (name == "PlayingNowPosition") {
+                            if (name == "FileKey") {
                                 if (last_track != value) {
-                                    var track = document.getElementById("Track_" + last_track);
-                                    if (track != null) {
-                                        track.style.backgroundColor = "#FFFFFF";
-                                    }
-                                    track = document.getElementById("Track_" + value);
-                                    if (track != null) {
-                                        track.style.backgroundColor = "#DDDDDD";
-                                    }
-                                    if (last_track == 9999) {
-                                        window.location.hash = "#Track_" + value;
-                                        window.scrollTo(0, window.window.pageYOffset - 100);
-                                    }
+                                    $(".musicSelectedQueueItem").removeClass("musicSelectedQueueItem")
+                                    $("#" + value + ".musicPlaybackQueueItem").each(function () {
+                                        $(this).addClass("musicSelectedQueueItem");
+
+                                        //  Scroll it into view
+                                        var topOffset = $(this).offset().top - $(".musicPlaybackQueueItems").offset().top
+                                        $(".musicPlaybackQueueItems").animate({
+                                            scrollTop: topOffset - 50
+                                        })
+                                    })
                                     last_track = value;
                                 }
                             }
@@ -95,22 +93,29 @@ function UpdateJrmcDisplayPlayingInformation() {
     });
 }
 
-function UpdateQueue(jump)
+function UpdateQueue(display, id)
 {
     last_track = 9999;
     var queueDisplay = document.getElementById("musicPlaybackQueueItems");
     if (queueDisplay != null) {
         ReplacePane("musicPlaybackQueueItems", "/Music/QueuePane", "none",
             function () {
-                if (jump)
-                {
-                    ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Library", "clear")
+                if (display) {
+                    display(id)
                 }
             });
     }
-    else if (jump) {
+    else if (display) {
         LinkTo("/Music/Playing");
     }
+}
+
+function DisplayBrowserAlbumTracksAppend(id) {
+    ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=AllTracksOnAlbum&append=true&id=" + id, "clear")
+}
+
+function DisplayBrowserHome() {
+    ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Library", "clear")
 }
 
 function testDisplay(s) {
@@ -221,6 +226,26 @@ function AddQueueHammerActions(controlHeight) {
         return false;
     });
 
+    queueHammer.on("hold", ".musicPlaybackQueueItem", function (e) {
+        var browserDisplay = document.getElementById("musicBrowserItems");
+        if (browserDisplay) {
+            ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=TrackInfo&id=" + this.id, "push")
+        }
+        else {
+            LinkTo("/Music/Browser?mode=TrackInfo&id=" + this.id);
+        }
+    });
+
+    queueHammer.on("swipeleft swiperight", ".musicPlaybackQueueItem", function (e) {
+        $.ajax({
+            url: "/Music/RemoveQueuedTrack/" + this.id,
+            cache: false,
+            success: function (data) {
+                UpdateQueue(false);
+            },
+        })
+    });
+
 }
 
 var browserHammer = null;
@@ -239,13 +264,8 @@ function AddBrowserHammerActions() {
 
     EnableDragScroll(browserHammer)
 
-    browserHammer.on("swiperight", function (e) {
+    browserHammer.on("swiperight swipeleft", function (e) {
         PopStackedPane("musicBrowserItems", function () { ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Library", "clear") })
-        return false;
-    })
-
-    browserHammer.on("pinchin", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Library", "clear")
         return false;
     })
 
@@ -289,10 +309,10 @@ function AddBrowserHammerActions() {
         $.ajax({
             url: "/Music/SendMCWS?url=" + escape("Playlist/Files?Action=Play&Playlist=" + this.id),
             success: function (data) {
-                UpdateQueue(playNow);
+                UpdateQueue(DisplayBrowserHome);
             },
             error: function (data) {
-                UpdateQueue(playNow);
+                UpdateQueue(DisplayBrowserHome);
             },
             cache: false
         });
@@ -319,39 +339,70 @@ function AddBrowserHammerActions() {
         return false;
     });
 
-    browserHammer.on("swipeleft", ".musicBrowserAlbum", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Tracks&id=" + this.id, "push")
-        return false;
+    browserHammer.on("hold", ".musicBrowserAlbum", function (e) {
+        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=AlbumInfo&id=" + this.id, "push")
     });
 
-    browserHammer.on("swiperight", ".musicBrowserSearchTrack", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=AlbumsOfTrack&id=" + this.id, "clear")
-        return false;
+    browserHammer.on("hold", ".musicBrowserTrack", function (e) {
+        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=TrackInfo&id=" + this.id, "push")
     });
 
-    browserHammer.on("hold", ".musicBrowserAlbum, .musicBrowserTrack", function (e) {
-        $(".playButton").text("+ ")
+    browserHammer.on("tap", ".musicBrowserCancel", function (e) {
+        PopStackedPane("musicBrowserItems", function () { ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Library", "clear") })
+        return false;
     });
 
     browserHammer.on("doubletap", ".musicBrowserAlbum", function (e) {
         var playButton = $(".playButton:first").text();
         var url = "Playback/PlayByKey?Album=1&Key=";
         var playNow = playButton[0] == '>'
-        if (!playNow)
-        {
+        if (!playNow) {
             url = "Playback/PlayByKey?Album=1&Location=End&Key="
         }
 
         $.ajax({
             url: "/Music/SendMCWS?url=" + escape(url + this.id),
             success: function (data) {
-                UpdateQueue(playNow);
+                UpdateQueue(DisplayBrowserHome);
             },
             error: function (data) {
-                UpdateQueue(playNow);
+                UpdateQueue(DisplayBrowserHome);
             },
             cache: false
         });
+        return false;
+    });
+
+    browserHammer.on("tap", "#musicBrowserLibraryPlayAlbum", function (e) {
+        $.ajax({
+            url: "/Music/SendMCWS?url=" + escape("Playback/PlayByKey?Album=1&Key=" + $("#TrackInfoId").text()),
+            success: function (data) {
+                UpdateQueue(DisplayBrowserHome);
+            },
+            error: function (data) {
+                UpdateQueue(DisplayBrowserHome);
+            },
+            cache: false
+        });
+        return false;
+    });
+
+    browserHammer.on("tap", "#musicBrowserLibraryAppendAlbum", function (e) {
+        $.ajax({
+            url: "/Music/SendMCWS?url=" + escape("Playback/PlayByKey?Album=1&Location=End&Key=" + $("#TrackInfoId").text()),
+            success: function (data) {
+                UpdateQueue(false);
+            },
+            error: function (data) {
+                UpdateQueue(false);
+            },
+            cache: false
+        });
+        return false;
+    });
+
+    browserHammer.on("tap", "#musicBrowserLibraryAlbumTracks", function (e) {
+        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Tracks&id=" + $("#TrackInfoId").text(), "clear")
         return false;
     });
 
@@ -376,6 +427,39 @@ function AddBrowserHammerActions() {
             },
             cache: false
         });
+        return false;
+    });
+
+    browserHammer.on("tap", "#musicBrowserLibraryPlayTrack", function (e) {
+        $.ajax({
+            url: "/Music/SendMCWS?url=" + escape("Playback/PlayByKey?Key=" + $("#TrackInfoId").text()),
+            success: function (data) {
+                UpdateQueue(DisplayBrowserAlbumTracksAppend);
+            },
+            error: function (data) {
+                UpdateQueue(DisplayBrowserAlbumTracksAppend);
+            },
+            cache: false
+        });
+        return false;
+    });
+
+    browserHammer.on("tap", "#musicBrowserLibraryAppendTrack", function (e) {
+        $.ajax({
+            url: "/Music/SendMCWS?url=" + escape("Playback/PlayByKey?&Location=End&Key=" + $("#TrackInfoId").text()),
+            success: function (data) {
+                UpdateQueue(DisplayBrowserAlbumTracksAppend);
+            },
+            error: function (data) {
+                UpdateQueue(DisplayBrowserAlbumTracksAppend);
+            },
+            cache: false
+        });
+        return false;
+    });
+
+    browserHammer.on("tap", "#musicBrowserLibraryTrackAlbum", function (e) {
+        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=AlbumInfo&id=" + $("#AlbumInfoId").text(), "clear")
         return false;
     });
 

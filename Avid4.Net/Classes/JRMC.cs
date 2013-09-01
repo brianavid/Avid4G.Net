@@ -243,6 +243,22 @@ public class JRMC
         return (from item in x.Root.Elements("Item") select GetFields(item)).ToArray();
     }
 
+    public static void RemoveQueuedTrack(
+        string id)
+    {
+        Dictionary<string, string>[] queue = GetQueue();
+        int index = 0;
+        foreach (Dictionary<string, string> queuedTrack in queue)
+        {
+            if (queuedTrack["Key"] == id)
+            {
+                break;
+            }
+            index++;
+        }
+        GetXml(Url + "Playback/EditPlaylist?Action=Remove&Source=" + index.ToString());
+    }
+
     public static Dictionary<string, string>[] GetPlayLists()
     {
         var x = GetXml(Url + "Playlists/List");

@@ -165,6 +165,7 @@
                     string duration = track.Info.ContainsKey("Duration") ? track.Info["Duration"] : string.Empty;
                     var trackId = track.Info["Key"];
                     var albumId = JRMC.GetAlbumIdByTrackId(trackId);
+                    string playButton = ViewBag.Append != null ? "+ " : "> ";
 
                     <div class="musicBrowserTrack musicBrowserItem" id="@trackId">
                         @if (artist != lastArtist || album != lastAlbum)
@@ -184,7 +185,7 @@
                             </div>
                         }
 
-                        <div class="musicBrowserTitle"><span class="playButton">&gt;&nbsp;</span>@track.Info["Name"]</div>
+                        <div class="musicBrowserTitle"><span class="playButton">@playButton</span>@track.Info["Name"]</div>
                         @if (!string.IsNullOrEmpty(duration))
                         {
                             <div class="musicBrowserDuration">@JRMC.FormatDuration(duration)</div>
@@ -192,8 +193,77 @@
                     </div>
                 }
             }
-
             break;
+
+        case "AlbumInfo":
+            {
+                tracks = JRMC.GetTracksByAlbumId(ViewBag.Id);
+                var track = tracks[0];
+                var name = track.Info["Name"];
+                string album = track.Info.ContainsKey("Album") ? track.Info["Album"] : string.Empty;
+                string artist = track.Info.ContainsKey("Artist") ? track.Info["Artist"] : string.Empty;
+                string imageUrl = JRMC.Url + "File/GetImage?File=" + track.Info["Key"];
+                <div class="musicPlayingTrack">
+		            <img src="@imageUrl" class="musicInfoImage" alt="No Image" width="120" height="120" />
+		            <div class="musicInfoArtist">@artist</div>
+		            <div class="musicInfoAlbum">@album</div>
+	            </div>
+                <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibraryPlayAlbum">
+                    <div class="spotifyBrowserTitle">Play Album</div>
+                </div>
+                <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibraryAppendAlbum">
+                    <div class="spotifyBrowserTitle">Append Album</div>
+                </div>
+                <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibraryAlbumTracks">
+                    <div class="spotifyBrowserTitle">List Tracks</div>
+                </div>
+                <div class="musicBrowserLibrary musicBrowserItem swipeToCancel musicBrowserCancel">
+                    <div class="spotifyBrowserTitle">Cancel</div>
+                </div>
+    
+                <span id="TrackInfoId" style="display:none">@ViewBag.Id</span>
+            }
+            break;
+
+        case "TrackInfo":
+            {
+                var track = JRMC.GetTrackByTrackId(ViewBag.Id);
+                var name = track.Info["Name"];
+                var genre = track.Info.ContainsKey("Genre") ? track.Info["Genre"] : string.Empty;
+                var composer = track.Info.ContainsKey("Composer") ? track.Info["Composer"] : string.Empty;
+                string album = track.Info.ContainsKey("Album") ? track.Info["Album"] : string.Empty;
+                string artist = track.Info.ContainsKey("Artist") ? track.Info["Artist"] : string.Empty;
+                string imageUrl = JRMC.Url + "File/GetImage?File=" + track.Info["Key"];
+                <div class="musicPlayingTrack">
+		            <img src="@imageUrl" class="musicInfoImage" alt="No Image" width="120" height="120" />
+		            <div>
+                        @if (genre == "Classical" && composer != "" && !name.StartsWith(composer, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            <span class="musicInfoComposer">@composer</span>
+                        }
+		                <span class="musicInfoTrackName">@name</span>
+		            </div>
+		            <div class="musicInfoArtist">@artist</div>
+		            <div class="musicInfoAlbum">@album</div>
+	            </div>
+                <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibraryPlayTrack">
+                    <div class="spotifyBrowserTitle">Play Track</div>
+                </div>
+                <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibraryAppendTrack">
+                    <div class="spotifyBrowserTitle">Append Track</div>
+                </div>
+                <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibraryTrackAlbum">
+                    <div class="spotifyBrowserTitle">Album Info</div>
+                </div>
+                <div class="musicBrowserLibrary musicBrowserItem swipeToCancel musicBrowserCancel">
+                    <div class="spotifyBrowserTitle">Cancel</div>
+                </div>
+    
+                <span id="TrackInfoId" style="display:none">@ViewBag.Id</span>
+                <span id="AlbumInfoId" style="display:none">@JRMC.GetAlbumIdByTrackId(ViewBag.Id)</span>
+            }
+            break;
+
         case "Search":
             {
                 string searchText = "";

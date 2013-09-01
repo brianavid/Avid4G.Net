@@ -56,7 +56,8 @@ namespace Avid4.Net.Controllers
         public ActionResult BrowserPane(
             string mode,
             string id,
-            string query)
+            string query,
+            string append)
         {
             ViewBag.Mode = mode;
             if (id != null)
@@ -66,6 +67,10 @@ namespace Avid4.Net.Controllers
             if (query != null)
             {
                 ViewBag.Query = query;
+            }
+            if (append != null)
+            {
+                ViewBag.Append = append;
             }
 
             return View();
@@ -83,6 +88,13 @@ namespace Avid4.Net.Controllers
         {
             XDocument doc = JRMC.GetXml(JRMC.Url + url);
             return this.Content(doc.ToString(), @"text/xml");
+        }
+
+        public ContentResult RemoveQueuedTrack(
+            string id)
+        {
+            JRMC.RemoveQueuedTrack(id);
+            return this.Content("");
         }
 
     }
