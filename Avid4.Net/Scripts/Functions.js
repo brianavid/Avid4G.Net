@@ -11,13 +11,34 @@ function UpdateVolumeDisplay(displayValue) {
     }
 }
 
+var overlayVisibleForLaunch = false;
+
+function OverlayScreenForLaunch() {
+    if (!overlayVisibleForLaunch) {
+        overlayVisibleForLaunch = true
+        var overlay = document.createElement("div");
+        overlay.setAttribute("id", "overlayLaunch");
+        overlay.setAttribute("class", "overlay");
+        document.body.appendChild(overlay);
+    }
+}
+
+function RemoveScreenOverlay() {
+    if (overlayVisibleForLaunch) {
+        overlayVisibleForLaunch = false;
+        document.body.removeChild(document.getElementById("overlayLaunch"));
+    }
+}
+
 function LaunchProgram(application, url) {
+    OverlayScreenForLaunch()
     $.ajax({
         url: "/Action/Launch?name=" + application,
         success: function (data) {
             window.location = url;
         },
         error: function (xhr, ajaxOptions, thrownError) {
+            RemoveScreenOverlay()
             alert(xhr.status);
             alert(thrownError);
         },
@@ -26,6 +47,7 @@ function LaunchProgram(application, url) {
 }
 
 function StartSky(application, url, mode) {
+    OverlayScreenForLaunch()
     $.ajax({
         url: "/Action/StartSky?mode=" + mode,
         success: function (data) {
@@ -36,6 +58,7 @@ function StartSky(application, url, mode) {
             window.location = url;
         },
         error: function (xhr, ajaxOptions, thrownError) {
+            RemoveScreenOverlay()
             alert(xhr.status);
             alert(thrownError);
         },
@@ -44,40 +67,56 @@ function StartSky(application, url, mode) {
 }
 
 function LaunchProgramWithArgs(application, args, url) {
+    OverlayScreenForLaunch()
     $.ajax({
         url: "/Action/Launch?name=" + application + "&args=" + encodeURIComponent(args),
         success: function (data) {
             window.location = url;
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            RemoveScreenOverlay()
         },
         cache: false
     });
 }
 
 function LaunchNewProgram(application, args, url) {
+    OverlayScreenForLaunch()
     $.ajax({
         url: "/Action/Launch?detach=yes&name=" + application + "&args=" + encodeURIComponent(args),
         success: function (data) {
             window.location = url;
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            RemoveScreenOverlay()
         },
         cache: false
     });
 }
 
 function LaunchNewVideo(args, title, url) {
+    OverlayScreenForLaunch()
     $.ajax({
         url: "/Action/Launch?name=Video&title=" + encodeURIComponent(title) + "&args=" + encodeURIComponent(args),
         success: function (data) {
             window.location = url;
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            RemoveScreenOverlay()
         },
         cache: false
     });
 }
 
 function LaunchNewPhoto(url) {
+    OverlayScreenForLaunch()
     $.ajax({
         url: "/Action/Launch?&detach=yes&name=Photo",
         success: function (data) {
             window.location = url;
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            RemoveScreenOverlay()
         },
         cache: false
     });
