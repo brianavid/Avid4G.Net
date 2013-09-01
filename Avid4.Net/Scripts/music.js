@@ -218,9 +218,9 @@ function AddQueueHammerActions(controlHeight) {
     EnableDragScroll(queueHammer)
 
     queueHammer.on("tap", ".musicPlaybackQueueItem", function (e) {
-        var index = this.id.substring(6);
+
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape("Playback/PlayByIndex?Index=" + index),
+            url: "/Music/SendMCWS?url=" + escape("Playback/PlayByIndex?Index=" + $(".musicPlaybackQueueItem").index(this)),
             cache: false
         })
         return false;
