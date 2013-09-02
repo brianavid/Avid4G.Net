@@ -24,6 +24,7 @@ namespace Avid.Spotify
                 ArtistId = Cache.Key(track.Album.Artist),
                 AlbumArtistName = track.Album.Artist.Name,
                 TrackArtistNames = track.Artists.Aggregate("", ConstructTrackActistNames),
+                TrackFirstArtistId = Cache.Key(track.Artists.First()),
                 Index = track.Index,
                 Duration = (int)Math.Round(track.Duration.TotalSeconds)
             };

@@ -47,7 +47,7 @@ function UpdateSpotifyDisplayPlayingInformation() {
             if (xml != null && xml !="") {
                 var track = xml.documentElement;
                 $("#SpotifyInfoName").text(track.getAttribute("name"));
-                $("#SpotifyInfoArtist").text(track.getAttribute("artist"));
+                $("#SpotifyInfoArtist").text(track.getAttribute("trackArtists"));
                 $("#SpotifyInfoAlbum").text(track.getAttribute("album"));
                 $("#SpotifyInfoStatus").text(track.getAttribute("status"));
                 $("#SpotifyInfoPositionDisplay").text(track.getAttribute("indexDisplay"));

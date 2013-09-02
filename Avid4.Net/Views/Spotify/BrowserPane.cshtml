@@ -207,8 +207,8 @@
                 Avid.Spotify.SpotifyData.Album album = Spotify.GetAlbumById(id);
                 <div class="spotifyPlayingTrack">
 		            <img src="/Spotify/GetAlbumImage/@(album.Id)" class="spotifyInfoImage" alt="Playing Track Image" width="120" height="120" />
-		            <div class="spotifyInfoArtist">@album.Name</div>
-		            <div class="spotifyInfoAlbum">@album.ArtistName</div>
+		            <div class="spotifyInfoArtist">@album.ArtistName</div>
+		            <div class="spotifyInfoAlbum">@album.Name</div>
 	            </div>
                 <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibraryPlayAlbum">
                     <div class="spotifyBrowserTitle">Play Album</div>
@@ -246,8 +246,8 @@
                 <div class="spotifyPlayingTrack">
 		            <img src="/Spotify/GetAlbumImage/@(track.AlbumId)" class="spotifyInfoImage" alt="Playing Track Image" width="120" height="120" />
             		<div class="spotifyInfoTrackName">@(track.Name)</div>
-		            <div class="spotifyInfoArtist">@(track.AlbumName)</div>
-		            <div class="spotifyInfoAlbum">@(track.TrackArtistNames)</div>
+		            <div class="spotifyInfoArtist">@(track.TrackArtistNames)</div>
+		            <div class="spotifyInfoAlbum">@(track.AlbumName)</div>
 	            </div>
                 <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibraryPlayTrack">
                     <div class="spotifyBrowserTitle">Play Track</div>
@@ -276,7 +276,7 @@
     
                 ViewBag.TrackId = track.Id;
                 ViewBag.AlbumId = track.AlbumId;
-                ViewBag.ArtistId = track.ArtistId;
+                ViewBag.ArtistId = track.TrackFirstArtistId;
             }
             break;
 
