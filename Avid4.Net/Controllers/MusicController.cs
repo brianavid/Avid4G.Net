@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Net;
 
 namespace Avid4.Net.Controllers
 {
@@ -57,6 +58,8 @@ namespace Avid4.Net.Controllers
             string mode,
             string id,
             string query,
+            string date,
+            string station,
             string append)
         {
             ViewBag.Mode = mode;
@@ -72,6 +75,14 @@ namespace Avid4.Net.Controllers
             {
                 ViewBag.Append = append;
             }
+            if (date != null)
+            {
+                ViewBag.Date = date;
+            }
+            if (station != null)
+            {
+                ViewBag.Station = station;
+            }
 
             return View();
         }
@@ -84,8 +95,19 @@ namespace Avid4.Net.Controllers
         }
 
         public ContentResult SendMCWS(
-            string url)
+            string url,
+            string noStream)
         {
+            if (url.StartsWith("Playback/PlayByKey?"))
+            {
+                JRMC.ClearStreaming();
+            }
+
+            if (!string.IsNullOrEmpty(noStream) && JRMC.IsStreaming())
+            {
+                return this.Content("");
+            }
+
             XDocument doc = JRMC.GetXml(JRMC.Url + url);
             return this.Content(doc.ToString(), @"text/xml");
         }
@@ -97,5 +119,24 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
+        public ContentResult PlayListenAgain(
+            string pid)
+        {
+            string name;
+            string station;
+            DateTime startTime;
+            string streamUrl = BBC.GetStreamUrl(pid, out name, out station, out startTime);
+            JRMC.SetStreaming(name, station, startTime);
+            JRMC.GetXml(JRMC.Url + "Control/CommandLine?Arguments=/Play " + HttpUtility.UrlEncode(streamUrl));
+            return this.Content("");
+        }
+
+
+        public ActionResult GetListenAgainIcon()
+        {
+            var dir = Server.MapPath("/Content");
+            var path = Path.Combine(dir, "BBC Radio.jpg");
+            return base.File(path, "image/jpeg");
+        }
     }
 }

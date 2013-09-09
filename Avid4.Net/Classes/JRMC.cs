@@ -154,6 +154,10 @@ public class JRMC
         }
     }
 
+    static string currentStreamingName = null;
+    static string currentStreamingStation = null;
+    static DateTime currentStreamingStartTime = DateTime.MinValue;
+
     public static string Url
     {
         get { return Host + "MCWS/v1/"; }
@@ -238,6 +242,17 @@ public class JRMC
 
     public static Dictionary<string, string>[] GetQueue()
     {
+        if (IsStreaming())
+        {
+            return new Dictionary<string,string>[] {
+                new Dictionary<string,string> {
+                    {"Name", currentStreamingName },
+                    {"Artist", currentStreamingStation },
+                    {"Album", currentStreamingStartTime.ToString("ddd HH:mm") }
+                }
+            };
+        }
+
         var x = GetXml(Url + "Playback/Playlist");
 
         return (from item in x.Root.Elements("Item") select GetFields(item)).ToArray();
@@ -285,6 +300,36 @@ public class JRMC
         return true;
     }
 
+    public static void SetStreaming(
+        string name,
+        string station,
+        DateTime startTime)
+    {
+        if (currentStreamingName != null)
+        {
+            GetXml(Url + "Playback/ClearPlaylist");
+        }
+        currentStreamingName = name;
+        currentStreamingStation = station;
+        currentStreamingStartTime = startTime;
+    }
+
+    public static bool IsStreaming()
+    {
+        return currentStreamingName != null;
+    }
+
+    public static void ClearStreaming()
+    {
+        if (currentStreamingName != null)
+        {
+            currentStreamingName = null;
+            currentStreamingStation = null;
+            currentStreamingStartTime = DateTime.MinValue;
+            GetXml(Url + "Playback/ClearPlaylist");
+        }
+    }
+
     public static XElement GetPlaybackInfo()
     {
         var x = GetXml(Url + "Playback/Info");
@@ -305,10 +350,34 @@ public class JRMC
                     }
                 }
             }
+
+            if (currentStreamingName != null)
+            {
+                SetItemValueInInfo( x.Root, "Name", currentStreamingName);
+                SetItemValueInInfo( x.Root, "Artist", currentStreamingStation);
+                SetItemValueInInfo(x.Root, "Album", currentStreamingStartTime.ToString("ddd HH:mm"));
+                SetItemValueInInfo(x.Root, "ImageURL", "/Music/GetListenAgainIcon");
+            }
             return x.Root;
         }
 
         return null;
+    }
+
+    static void SetItemValueInInfo(
+        XElement root,
+        string name,
+        string value)
+    {
+        List<XElement> items = root.Elements("Item").Where(e => e.Attribute("Name").Value == name).ToList();
+        if (items.Count > 0)
+        {
+            items.First().Value = value;
+        }
+        else
+        {
+            root.Add(new XElement("Item", new XAttribute("Name", name), value));
+        }
     }
 
     public static void SendCommand(

@@ -8,8 +8,9 @@
         for (int i = 0; i < queue.Length; i++)
         {
             var track = queue[i];
+            string key = track.ContainsKey("Key") ? track["Key"] : "None";
 
-            <div id='@track["Key"]' class='musicPlaybackQueueItem' >
+            <div id='@key' class='musicPlaybackQueueItem' >
 
             @{
                 string album = track.ContainsKey("Album") ? track["Album"] : string.Empty;

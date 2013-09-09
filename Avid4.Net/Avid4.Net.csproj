@@ -131,6 +131,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\BBC.cs" />
     <Compile Include="Classes\Config.cs" />
     <Compile Include="Classes\Desktop.cs" />
     <Compile Include="Classes\IRCodes.cs" />
@@ -164,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\apple-touch-icon.png" />
+    <Content Include="Content\BBC Radio.jpg" />
     <Content Include="Content\favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

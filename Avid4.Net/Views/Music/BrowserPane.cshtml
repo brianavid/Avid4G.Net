@@ -20,8 +20,11 @@
                 <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibraryLuckyDip">
                     <div class="musicBrowserTitle">Lucky Dip</div>
                 </div>
-                <div class="musicBrowserLibrary browserItem" id="musicBrowserLibrarySearch">
+                <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibrarySearch">
                     <div class="musicBrowserTitle">Search</div>
+                </div>
+                <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibraryListenAgain">
+                    <div class="musicBrowserTitle">BBC Listen Again</div>
                 </div>
             }
             break;
@@ -325,6 +328,82 @@
                             }
                         </div>
                     }
+                }
+            }
+            break;
+            
+        case "ListenAgainSelect":
+            {
+                <div class="TwoColumnBrowse">
+                    <div class="TwoColumnLeft">
+                        <div class="musicBrowserListenAgainStations">
+                            <div class="musicBrowserListenAgainStation musicBrowserItem" id="radio2">
+                                <div class="musicBrowserTitle">Radio 2</div>
+                            </div>
+                            <div class="musicBrowserListenAgainStation musicBrowserItem" id="radio3">
+                                <div class="musicBrowserTitle">Radio 3</div>
+                            </div>
+                            <div class="musicBrowserListenAgainStation musicBrowserItem" id="radio4;fm">
+                                <div class="musicBrowserTitle">Radio 4</div>
+                            </div>
+                            <div class="musicBrowserListenAgainStation musicBrowserItem" id="radio4extra">
+                                <div class="musicBrowserTitle">Radio 4 Extra</div>
+                            </div>
+                        </div>      
+                    </div>      
+                    <div class="TwoColumnRight">
+                        <div class="musicBrowserListenAgainDates">
+                            @for (int i = 0; i <= 7; i++)
+                            {
+                                DateTime date = DateTime.Today.AddDays(-i);
+                                string dayOfWeek = date.DayOfWeek.ToString();
+                                switch (i)
+                                {
+                                    case 0:
+                                        dayOfWeek += " (Today)";
+                                        break;
+                                    case 1:
+                                        dayOfWeek += " (Yesterday)";
+                                        break;
+                                    default:
+                                        dayOfWeek += String.Format(" ({0})", date.Day);
+                                        break;
+                                }
+                                <div class="musicBrowserListenAgainDate musicBrowserItem" id='@(date.ToString("yyyy/MM/dd"))'>
+                                    <div class="musicBrowserTitle">@dayOfWeek</div>
+                                </div>
+                            }
+                        </div>      
+                    </div>      
+                </div>      
+            }
+            break;
+
+        case "ListenAgainProgrammes":
+            {
+                string date = ViewBag.Date;
+                string station = ViewBag.Station;
+                string stationSpecifier = null;
+                
+                if (station.Contains(";"))
+                {
+                    int semiColon = station.IndexOf(';');
+                    stationSpecifier = station.Substring(semiColon + 1);
+                    station = station.Substring(0, semiColon);
+                }
+
+                IEnumerable<BBC.Programme> schedule = BBC.GetSchedule(station, date, stationSpecifier);
+                
+                foreach (BBC.Programme programme in schedule)
+                {
+                    <div class="musicBrowserListenAgainProgramme musicBrowserItem" id="@programme.Pid">
+                        <div class="musicProgrammeInfo" >
+                            <div>@(programme.StartTime.ToString("HH:mm")) [@JRMC.FormatDuration(programme.Duration.TotalMinutes.ToString())]</div>
+                        </div>
+
+                        <div class="musicBrowserTitle"><span class="playButton">&gt;&nbsp;</span>@programme.Title</div>
+                        <div class="musicProgrammeInfo musicProgrammeDescription">@programme.Description</div>
+                    </div>
                 }
             }
             break;

@@ -1,4 +1,4 @@
-﻿var last_track = 9999;
+﻿last_track = 9999;
 
 var PositionMS = 0;
 var DurationMS = 0;
@@ -55,15 +55,26 @@ function UpdateJrmcDisplayPlayingInformation() {
 
                                 // update element
                                 if ((element.src != null) && (element.src != ""))
-                                    element.src = JrmcHost + value; // image
+                                {
+                                    if (value[0] == '/')
+                                    {
+                                        element.src = value; // image
+                                    }
+                                    else
+                                    {
+                                        element.src = JrmcHost + value; // image
+                                    }
+                                }
                                 else
+                                {
                                     element.innerHTML = value; // text
+                                }
                             }
 
                             if (name == "FileKey") {
                                 if (last_track != value) {
                                     $(".musicSelectedQueueItem").removeClass("musicSelectedQueueItem")
-                                    $("#" + value + ".musicPlaybackQueueItem").each(function () {
+$("#" + value + ".musicPlaybackQueueItem").each(function () {
                                         $(this).addClass("musicSelectedQueueItem");
 
                                         //  Scroll it into view
@@ -250,6 +261,9 @@ function AddQueueHammerActions(controlHeight) {
 
 var browserHammer = null;
 
+var selectedDate = null;
+var selectedStation = null;
+
 function AddBrowserHammerActions() {
     $("#musicBrowserItems").each(function () {
         var h = $(window).height() - 24
@@ -296,6 +310,11 @@ function AddBrowserHammerActions() {
 
     browserHammer.on("tap", "#musicBrowserLibrarySearch", function (e) {
         ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Search", "push")
+        return false;
+    });
+
+    browserHammer.on("tap", "#musicBrowserLibraryListenAgain", function (e) {
+        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=ListenAgainSelect", "push")
         return false;
     });
 
@@ -460,6 +479,46 @@ function AddBrowserHammerActions() {
 
     browserHammer.on("tap", "#musicBrowserLibraryTrackAlbum", function (e) {
         ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=AlbumInfo&id=" + $("#AlbumInfoId").text(), "clear")
+        return false;
+    });
+
+    browserHammer.on("tap", ".musicBrowserListenAgainStation", function (e) {
+        $(".musicBrowserListenAgainSelectedStation").removeClass("musicBrowserListenAgainSelectedStation")
+        $(this).addClass("musicBrowserListenAgainSelectedStation");
+        selectedStation = this.id;
+
+        if (selectedDate != null) {
+            ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=ListenAgainProgrammes&date=" + selectedDate + "&station=" + selectedStation, "push")
+            selectedDate = null;
+            selectedStation = null;
+        }
+        return false;
+    });
+
+    browserHammer.on("tap", ".musicBrowserListenAgainDate", function (e) {
+        $(".musicBrowserListenAgainSelectedDate").removeClass("musicBrowserListenAgainSelectedDate")
+        $(this).addClass("musicBrowserListenAgainSelectedDate");
+        selectedDate = this.id;
+
+        if (selectedStation != null) {
+            ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=ListenAgainProgrammes&date=" + selectedDate + "&station=" + selectedStation, "push")
+            selectedDate = null;
+            selectedStation = null;
+        }
+        return false;
+    });
+
+    browserHammer.on("doubletap", ".musicBrowserListenAgainProgramme", function (e) {
+        $.ajax({
+            url: "/Music/PlayListenAgain?pid=" + this.id,
+            success: function (data) {
+                UpdateQueue(DisplayBrowserHome);
+            },
+            error: function (data) {
+                UpdateQueue(DisplayBrowserHome);
+            },
+            cache: false
+        });
         return false;
     });
 
