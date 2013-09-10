@@ -18,7 +18,7 @@ $(function () {
     });
 
     $("#selectWeb").mousedown(function () {
-        LaunchProgramWithArgs("Web", "-k -nomerge http://beta.bbc.co.uk/iplayer/bigscreen/", "/Web/All");
+        LinkTo("/Web/All");
     });
 
 });

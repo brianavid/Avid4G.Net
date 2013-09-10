@@ -9,4 +9,16 @@
     @Html.Raw(Render.Script("web", Request))
 }
 
-<div class="webPad" id="webPad">&nbsp;</div>
+<div id="webPanes">
+    <div id ="webLeftPane">
+       <div id="webBrowserPane">
+           <div class="webBrowserItems" id="webBrowserItems">
+               @Html.Partial("BrowserPane")
+           </div>
+        </div>
+    </div>
+
+    <div id ="webRightPane">
+         <div class="webPad" id="webPad">&nbsp;</div>
+    </div>
+</div>

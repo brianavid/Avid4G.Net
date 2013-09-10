@@ -1,0 +1,84 @@
+﻿@{
+    switch (ViewBag.Mode as string)
+    {
+        default:
+            break;
+            
+        case "iPlayerSelect":
+            {
+                <div class="TwoColumnBrowse">
+                    <div class="TwoColumnLeft">
+                        <div class="webBrowserChannels">
+                            <div class="webBrowserChannel webBrowserItem" id="bbcone;hd">
+                                <div class="webBrowserTitle">BBC 1</div>
+                            </div>
+                            <div class="webBrowserChannel webBrowserItem" id="bbctwo;hd">
+                                <div class="webBrowserTitle">BBC 2</div>
+                            </div>
+                            <div class="webBrowserChannel webBrowserItem" id="bbcthree">
+                                <div class="webBrowserTitle">BBC 3</div>
+                            </div>
+                            <div class="webBrowserChannel webBrowserItem" id="bbcfour">
+                                <div class="webBrowserTitle">BBC 4</div>
+                            </div>
+                        </div>      
+                    </div>      
+                    <div class="TwoColumnRight">
+                        <div class="webBrowserDates">
+                            @for (int i = 0; i <= 7; i++)
+                            {
+                                DateTime date = DateTime.Today.AddDays(-i);
+                                string dayOfWeek = date.DayOfWeek.ToString();
+                                switch (i)
+                                {
+                                    case 0:
+                                        dayOfWeek += " (Today)";
+                                        break;
+                                    case 1:
+                                        dayOfWeek += " (Yesterday)";
+                                        break;
+                                    default:
+                                        dayOfWeek += String.Format(" ({0})", date.Day);
+                                        break;
+                                }
+                                <div class="webBrowserDate webBrowserItem" id='@(date.ToString("yyyy/MM/dd"))'>
+                                    <div class="webBrowserTitle">@dayOfWeek</div>
+                                </div>
+                            }
+                        </div>      
+                    </div>      
+                </div>      
+            }
+            break;
+
+        case "iPlayerProgrammes":
+            {
+                string date = ViewBag.Date;
+                string channel = ViewBag.Channel;
+                string channelSpecifier = null;
+
+                if (channel.Contains(";"))
+                {
+                    int semiColon = channel.IndexOf(';');
+                    channelSpecifier = channel.Substring(semiColon + 1);
+                    channel = channel.Substring(0, semiColon);
+                }
+
+                IEnumerable<BBC.Programme> schedule = BBC.GetSchedule(channel, date, channelSpecifier);
+                
+                foreach (BBC.Programme programme in schedule)
+                {
+                    <div class="webBrowserProgramme webBrowserItem" id="@programme.Pid">
+                        <div class="webBrowserProgrammeInfo" >
+                            <div>@(programme.StartTime.ToString("HH:mm")) [@JRMC.FormatDuration(programme.Duration.TotalMinutes.ToString())]</div>
+                        </div>
+
+                        <div class="webBrowserTitle"><span class="playButton">&gt;&nbsp;</span>@programme.Title</div>
+                        <div class="webBrowserProgrammeInfo webBrowserProgrammeDescription">@programme.Description</div>
+                    </div>
+                }
+            }
+            break;
+
+    }
+}
