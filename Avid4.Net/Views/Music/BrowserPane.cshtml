@@ -337,18 +337,15 @@
                 <div class="TwoColumnBrowse">
                     <div class="TwoColumnLeft">
                         <div class="musicBrowserListenAgainStations">
-                            <div class="musicBrowserListenAgainStation musicBrowserItem" id="radio2">
-                                <div class="musicBrowserTitle">Radio 2</div>
-                            </div>
-                            <div class="musicBrowserListenAgainStation musicBrowserItem" id="radio3">
-                                <div class="musicBrowserTitle">Radio 3</div>
-                            </div>
-                            <div class="musicBrowserListenAgainStation musicBrowserItem" id="radio4;fm">
-                                <div class="musicBrowserTitle">Radio 4</div>
-                            </div>
-                            <div class="musicBrowserListenAgainStation musicBrowserItem" id="radio4extra">
-                                <div class="musicBrowserTitle">Radio 4 Extra</div>
-                            </div>
+                            @{
+                                Dictionary<string,string> stations = Config.BBCRadioStations;
+                                foreach (string stationName in stations.Keys)
+                                {
+                                    <div class="musicBrowserListenAgainStation musicBrowserItem" id="@stations[stationName]">
+                                        <div class="musicBrowserTitle">@stationName</div>
+                                    </div>
+                                }
+                            }
                         </div>      
                     </div>      
                     <div class="TwoColumnRight">

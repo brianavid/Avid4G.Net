@@ -95,4 +95,22 @@ public static class Config
         }
     }
 
+    public static Dictionary<string, string> BBCTVChannels
+    {
+        get
+        {
+            XElement elBBC = Doc.Root.Element("BBC");
+            return elBBC.Elements("TV").ToDictionary(el => el.Value, el => el.Attribute("id").Value);
+        }
+    }
+
+    public static Dictionary<string, string> BBCRadioStations
+    {
+        get
+        {
+            XElement elBBC = Doc.Root.Element("BBC");
+            return elBBC.Elements("Radio").ToDictionary(el => el.Value, el => el.Attribute("id").Value);
+        }
+    }
+
 }

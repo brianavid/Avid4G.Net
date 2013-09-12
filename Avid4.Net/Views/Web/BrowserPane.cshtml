@@ -9,18 +9,15 @@
                 <div class="TwoColumnBrowse">
                     <div class="TwoColumnLeft">
                         <div class="webBrowserChannels">
-                            <div class="webBrowserChannel webBrowserItem" id="bbcone;hd">
-                                <div class="webBrowserTitle">BBC 1</div>
-                            </div>
-                            <div class="webBrowserChannel webBrowserItem" id="bbctwo;hd">
-                                <div class="webBrowserTitle">BBC 2</div>
-                            </div>
-                            <div class="webBrowserChannel webBrowserItem" id="bbcthree">
-                                <div class="webBrowserTitle">BBC 3</div>
-                            </div>
-                            <div class="webBrowserChannel webBrowserItem" id="bbcfour">
-                                <div class="webBrowserTitle">BBC 4</div>
-                            </div>
+                            @{
+                                Dictionary<string,string> channels = Config.BBCTVChannels;    
+                                foreach (string channelName in channels.Keys)
+                                {
+                                    <div class="webBrowserChannel webBrowserItem" id="@channels[channelName]">
+                                        <div class="webBrowserTitle">@channelName</div>
+                                    </div>
+                                }
+                            }
                         </div>      
                     </div>      
                     <div class="TwoColumnRight">
