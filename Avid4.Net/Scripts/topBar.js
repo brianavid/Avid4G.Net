@@ -77,6 +77,15 @@
         });
     });
 
+    $("#actionMenuVisualOn").click(function () {
+        $.ajax({
+            url: "/Action/VisualOn",
+            success: HideActionMenu,
+            error: HideActionMenu,
+            cache: false
+        });
+    });
+
     $("#actionMenuScreenOff").click(function () {
         $.ajax({
             url: "/Action/ScreenOff",

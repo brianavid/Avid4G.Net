@@ -164,6 +164,12 @@ namespace Avid4.Net.Controllers
             return Content("");
         }
 
+        public ActionResult VisualOn()
+        {
+            Screen.SetScreenDisplayMode(Running.RunningProgram=="Music" ? 2 : 1);
+            return Content("");
+        }
+
         public ActionResult SoundTV()
         {
             Receiver.SelectTVOutput(null);
