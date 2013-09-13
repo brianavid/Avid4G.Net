@@ -43,6 +43,8 @@ $(function () {
         }
     });
 
-    $("#selectEpg").css({ opacity: 0.5 });
+    $("#selectEpg").mousedown(function () {
+        LinkTo("/Guide/Browser?mode=GuideRoot");
+    });
 
 });

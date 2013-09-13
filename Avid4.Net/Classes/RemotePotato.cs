@@ -14,6 +14,33 @@ using System.Text;
 /// </summary>
 public static class RemotePotato
 {
+    public class Programme
+    {
+        public String Id { get; private set; }
+        public String Title { get; private set; }
+        public String Description { get; private set; }
+        public String Channel { get; private set; }
+        public DateTime StartTime { get; private set; }
+        public DateTime StopTime { get; private set; }
+        public TimeSpan Duration { get { return StopTime - StartTime; } }
+
+        public Programme(
+            String id,
+            String title,
+            String description,
+            String channel,
+            DateTime startTime,
+            DateTime stopTime)
+        {
+            Id = id;
+            Title = title;
+            Description = description;
+            Channel = channel;
+            StartTime = startTime;
+            StopTime = stopTime;
+        }
+    }
+
     public class Recording
     {
         public String Id { get; private set; }
@@ -73,16 +100,6 @@ public static class RemotePotato
     public static string Url
     {
         get { return Host + "xml/"; }
-    }
-
-    public static void OutputHost(System.Web.HttpResponse Response)
-    {
-        Response.Write(Host);
-    }
-
-    public static void OutputUrl(System.Web.HttpResponse Response)
-    {
-        Response.Write(Url);
     }
 
     public static bool EnsureServiceRunning(
@@ -199,48 +216,28 @@ public static class RemotePotato
         return GetAllChannels().Where(ch => Convert.ToInt32(ch.Element("MCChannelNumber").Value) >= 700);
     }
 
-    public static void GenerateTvChannelDropdown(
-        HttpResponse Response)
+    public static IEnumerable<string> AllTvChannelNames
     {
-        EnsureServiceRunning(false);
-
-        Response.Write("<table style='width: 100%'><tr><td><select id='TvSelect' onchange='return OnTvChannelSelected()'>\n");
-        Response.Write(String.Format("<option></option>\n"));
-        try
+        get
         {
-	        foreach (var channel in RemotePotato.GetAllTvChannels()
-	                .OrderBy(ch => ch.Element("Callsign").Value))
-	        {
-	            Response.Write(String.Format("<option>{0}</option>\n", channel.Element("Callsign").Value));
-	        }
+            return GetAllTvChannels().Select(c => c.Element("Callsign").Value);
         }
-        catch (System.Exception ex)
-        {
-        	
-        }
-        Response.Write("</select></td></tr></table>\n");
     }
 
-    public static void GenerateRadioChannelDropdown(
-        HttpResponse Response)
+    public static IEnumerable<string> AllRadioChannelNames
     {
-        EnsureServiceRunning(false);
+        get
+        {
+            return GetAllRadioChannels().Select(c => c.Element("Callsign").Value);
+        }
+    }
 
-        Response.Write("<table style='width: 100%'><tr><td><select id='RadioSelect' onchange='return OnRadioChannelSelected()'>\n");
-        Response.Write(String.Format("<option></option>\n"));
-        try
+    public static IEnumerable<string> AllFavouriteChannelNames
+    {
+        get
         {
-	        foreach (var channel in RemotePotato.GetAllRadioChannels()
-	                .OrderBy(ch => ch.Element("Callsign").Value))
-	        {
-	            Response.Write(String.Format("<option>{0}</option>\n", channel.Element("Callsign").Value));
-	        }
+            return GetAllFavouriteChannels().Select(c => c.Element("Callsign").Value);
         }
-        catch (System.Exception ex)
-        {
-        	
-        }
-        Response.Write("</select></td></tr></table>\n");
     }
 
     public static void SelectTvChannelName(
@@ -266,34 +263,7 @@ public static class RemotePotato
         GetXml(Url + "sendremotekey/Enter");
     }
 
-    public static void GenerateEpgChannelDropdown(
-        HttpResponse Response,
-        string selectedCallSign)
-    {
-        EnsureServiceRunning(false);
-
-        Response.Write("<table style='width: 100%'><tr><td><select id='EpgChannelSelect' onchange='return RefreshEpgProgrammes()'>\n");
-        Response.Write(String.Format("<option></option>\n"));
-        try
-        {
-	        foreach (var channel in RemotePotato.GetAllFavouriteChannels()
-	                .OrderBy(ch => ch.Element("Callsign").Value))
-	        {
-	            string callSign = channel.Element("Callsign").Value;
-	            Response.Write(String.Format("<option {1}>{0}</option>\n",
-	                callSign,
-	                callSign == selectedCallSign ? "selected='yes'" : ""));
-	        }
-        }
-        catch (System.Exception ex)
-        {
-        	
-        }
-        Response.Write("</select></td></tr></table>\n");
-    }
-
-    public static void GenerateProgrammeListing(
-        HttpResponse Response,
+    public static IEnumerable<Programme> GetEpgProgrammes(
         DateTime day,
         string channelName)
     {
@@ -309,88 +279,64 @@ public static class RemotePotato
         {
             try
             {
-	            XElement channel = GetAllChannels().Where(ch => ch.Element("Callsign").Value == channelName).First();
-	            XDocument requestDoc = new XDocument(
-	                new XElement("ArrayOfEPGRequest",
-	                    new XElement("EPGRequest",
-	                        new XElement("TVServiceID", channel.Element("UniqueId").Value),
-	                        new XElement("StartTime", day.Ticks),
-	                        new XElement("StopTime", nextDay.Ticks))));
-	
-	            XDocument programsDoc = GetXml(Url + "programmes/nodescription/byepgrequest", requestDoc);
-	
-	            if (programsDoc != null)
-	            {
-	                foreach (var programme in programsDoc.Element("ArrayOfTVProgramme").Elements("TVProgramme"))
-	                {
-	                    var startTime = new DateTime(Convert.ToInt64(programme.Element("StartTime").Value)).ToLocalTime();
-	                    var programmeId = programme.Element("Id").Value;
-	
-	                    Response.Write(String.Format(
-	                        "<div onclick=\"LinkTo('EPGProgramme.aspx?id={0}&start={1}&stop={2}&channel={3}&title={4}&series={5}')\" class='programtitle' " +
-	                                "style=\"width: 100%;border-width: thin; border-color: #3a5069; border-top-style: none; border-bottom-style: solid; {6}\">",
-	                        programmeId,
-	                        programme.Element("StartTime").Value,
-	                        programme.Element("StopTime").Value,
-	                        programme.Element("ServiceID").Value,
-	                        HttpUtility.UrlEncode(programme.Element("Title").Value),
-	                        programme.Element("IsSeries").Value != "0" ? programme.Element("SeriesID").Value : "0",
-	                        schedule.IsScheduled(programmeId) ? "background-color: #DDDDDD" : ""));
-	
-	                    Response.Write(String.Format("<div style=\"font-size: small;\">{0:HH:mm}</div>", startTime));
-	
-	                    Response.Write(String.Format("{0}", programme.Element("Title").Value));
-	
-	                    Response.Write("</div>");
-	                }
-	            }
+                XElement channel = GetAllChannels().Where(ch => ch.Element("Callsign").Value == channelName).First();
+                XDocument requestDoc = new XDocument(
+                    new XElement("ArrayOfEPGRequest",
+                        new XElement("EPGRequest",
+                            new XElement("TVServiceID", channel.Element("UniqueId").Value),
+                            new XElement("StartTime", day.Ticks),
+                            new XElement("StopTime", nextDay.Ticks))));
+
+                XDocument programsDoc = GetXml(Url + "programmes/nodescription/byepgrequest", requestDoc);
+
+                if (programsDoc != null)
+                {
+                    return programsDoc.Element("ArrayOfTVProgramme").Elements("TVProgramme").Select(
+                        p => new Programme(
+                            p.Element("Id").Value,
+                            p.Element("Title").Value,
+                            p.Element("Description").Value,
+                            channelName,
+                            new DateTime(Int64.Parse(p.Element("StartTime").Value)),
+                            new DateTime(Int64.Parse(p.Element("StopTime").Value))));
+                }
             }
             catch (System.Exception ex)
             {
-            	
             }
         }
+
+        return new List<Programme>();
     }
 
-    public static void GenerateScheduledListing(
-        HttpResponse Response)
+    public static IEnumerable<Programme> GetScheduledRecordings()
     {
         EnsureServiceRunning(false);
 
-        try
+        if (schedule == null)
         {
-	        if (schedule == null)
-	        {
-	            LoadSchedule();
-	        }
-	
-	        foreach (var recording in schedule.Recordings
-	            .OrderBy(rec => Convert.ToInt64(schedule.GetProgramme(rec).Element("StartTime").Value)))
-	        {
-	            var programme = schedule.GetProgramme(recording);
-	            var startTime = new DateTime(Convert.ToInt64(programme.Element("StartTime").Value)).ToLocalTime();
-	            XElement channel = GetAllChannels().Where(ch => ch.Element("UniqueId").Value == programme.Element("ServiceID").Value).First();
-	            Response.Write(String.Format(
-	                "<div onclick=\"LinkTo('EPGProgramme.aspx?id={0}&start={1}&stop={2}&channel={3}&title={4}&series={5}')\" class='programtitle' " +
-	                        "style=\"width: 100%;border-width: thin; border-color: #3a5069; border-top-style: none; border-bottom-style: solid;\">",
-	                programme.Element("Id").Value,
-	                programme.Element("StartTime").Value,
-	                programme.Element("StopTime").Value,
-	                programme.Element("ServiceID").Value,
-	                HttpUtility.UrlEncode(programme.Element("Title").Value),
-	                recording.Element("SeriesID").Value));
-	            Response.Write(String.Format("<div style=\"font-size: small;\"><table width='100%'><tr><td>{0:ddd dd HH:mm}</td><td align='right'>{1}</td></tr></table></div>",
-	                startTime, channel.Element("Callsign").Value));
-	
-	            Response.Write(String.Format("{0}", recording.Element("Title").Value));
-	
-	            Response.Write("</div>");
-	        }
+            LoadSchedule();
         }
-        catch (System.Exception ex)
-        {
-        	
+
+        List<Programme> result = new List<Programme>();
+
+	    foreach (var recording in schedule.Recordings
+	        .OrderBy(rec => Convert.ToInt64(schedule.GetProgramme(rec).Element("StartTime").Value)))
+	    {
+	        var p = schedule.GetProgramme(recording);
+	        var startTime = new DateTime(Convert.ToInt64(p.Element("StartTime").Value)).ToLocalTime();
+            XElement channel = GetAllChannels().Where(ch => ch.Element("UniqueId").Value == p.Element("ServiceID").Value).First();
+
+            result.Add (new Programme(
+                        p.Element("Id").Value,
+                        p.Element("Title").Value,
+                        p.Element("Description").Value,
+                        channel.Element("Callsign").Value,
+                        new DateTime(Int64.Parse(p.Element("StartTime").Value)),
+                        new DateTime(Int64.Parse(p.Element("StopTime").Value))));
         }
+
+        return result;
     }
 
     public static void LoadAllRecordings()
@@ -443,63 +389,6 @@ public static class RemotePotato
         }
     }
 
-    public static void GenerateRecordingsListing(
-        HttpResponse Response)
-    {
-        EnsureServiceRunning(false);
-
-        try
-        {
-	        recordedDescriptions = new Dictionary<string, string>();
-	        
-	        XDocument recordingsDoc = null;
-
-            for (int i = 0; i < 20; i++)
-            {
-                recordingsDoc = GetXml(Url + "recordedtv");
-                if (recordingsDoc != null)
-                {
-                    break;
-                }
-
-                System.Threading.Thread.Sleep(500);
-            }
-
-            if (recordingsDoc != null)
-            {
-                foreach (var recording in recordingsDoc.Element("ArrayOfTVProgramme").Elements("TVProgramme")
-                    .OrderBy(rec => -Convert.ToInt64(rec.Element("StartTime").Value)))
-                {
-                    var startTime = new DateTime(Convert.ToInt64(recording.Element("StartTime").Value)).ToLocalTime();
-                    Response.Write(String.Format(
-                        "<div onclick=\"LinkTo('EPGRecording.aspx?id={0}&start={1}&stop={2}&callsign={3}&title={4}&episode={5}&path={6}')\" class='programtitle' " +
-                                "style=\"width: 100%;border-width: thin; border-color: #3a5069; border-top-style: none; border-bottom-style: solid;\">\r\n",
-                        recording.Element("Id").Value,
-                        recording.Element("StartTime").Value,
-                        recording.Element("StopTime").Value,
-                        HttpUtility.UrlEncode(recording.Element("WTVCallsign").Value),
-                        HttpUtility.UrlEncode(recording.Element("Title").Value),
-                        HttpUtility.UrlEncode(recording.Element("EpisodeTitle").Value),
-                        HttpUtility.UrlEncode(recording.Element("Filename").Value)));
-                    Response.Write(String.Format("\t<div style=\"font-size: small;\"><table width='100%'><tr><td>{0:ddd dd MMM}</td><td align='right'>{1}</td></tr></table></div>\r\n",
-                        startTime, recording.Element("WTVCallsign").Value));
-
-                    Response.Write(String.Format("\t<div>{0}</div>\r\n", recording.Element("Title").Value));
-                    Response.Write(String.Format("\t<div style=\"font-size: small\"><table width='100%'><tr><td align='right'>{0}</td></tr></table></div>\r\n",
-                        recording.Element("EpisodeTitle").Value));
-
-                    Response.Write("</div>\r\n");
-
-                    recordedDescriptions[recording.Element("Id").Value] = recording.Element("Description").Value;
-                }
-            }
-        }
-        catch (System.Exception ex)
-        {
-        	
-        }
-    }
-
     public static string GetDescription(
         string id)
     {
@@ -519,7 +408,7 @@ public static class RemotePotato
     }
 
     public static string GetChannelNameById(
-    string channelId)
+        string channelId)
     {
         XElement channel = GetAllChannels().Where(ch => ch.Element("UniqueId").Value == channelId).First();
         return channel.Element("Callsign").Value;
@@ -533,12 +422,14 @@ public static class RemotePotato
         schedule = new ScheduledRecordings(scheduleDoc);
     }
 
-    public static bool IsScheduled(string programmeId)
+    public static bool IsScheduled(
+        string programmeId)
     {
         return schedule.IsScheduled(programmeId);
     }
 
-    public static bool IsSeries(string programmeId)
+    public static bool IsSeries(
+        string programmeId)
     {
         if (schedule != null)
         {
@@ -562,8 +453,8 @@ public static class RemotePotato
                 new XElement("TVProgrammeID", programmeId),
                 new XElement("RequestType", "OneTime"),
                 new XElement("KeepUntil", "NotSet"),
-                new XElement("Prepadding", "120"),
-                new XElement("Postpadding", "180")));
+                new XElement("Prepadding", "300"),
+                new XElement("Postpadding", "300")));
 
         XDocument recordDoc = GetXml(Url + "record/byrecordingrequest ", requestDoc);
         LoadSchedule();
@@ -617,7 +508,8 @@ public static class RemotePotato
 
     static Dictionary<string, string> recordedDescriptions;
 
-    public static void DeleteRecording(Recording recording)
+    public static void DeleteRecording(
+        Recording recording)
     {
         string path = recording.Filename;
         if (System.IO.File.Exists(path))

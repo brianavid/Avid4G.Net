@@ -159,13 +159,13 @@ textarea {
     margin-left:5%;
 }
 
-.musicPlaybackQueueItems, .musicBrowserItems, .webBrowserItems, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .photosImagesGrid, .photosBrowserItems, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoDvds {
+.musicPlaybackQueueItems, .musicBrowserItems, .webBrowserItems, .guideBrowserItems, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .photosImagesGrid, .photosBrowserItems, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoDvds {
     position: relative;
     overflow-y:hidden;
     -webkit-overflow-scrolling: touch;
 }
 
-.musicPlaybackQueueItem, .musicBrowserItem, .webBrowserItem, .spotifyPlaybackQueueItem, .spotifyBrowserItem, .photosBrowserItem, .skyChannel, .skyRecording, .skyRecordingGroup, .skyProgramme, .skyRecordingAction, .videoRecording, .videoDvd, .videoRecordingAction, .actionMenuItem {
+.musicPlaybackQueueItem, .musicBrowserItem, .webBrowserItem, .guideItem, .spotifyPlaybackQueueItem, .spotifyBrowserItem, .photosBrowserItem, .skyChannel, .skyRecording, .skyRecordingGroup, .skyProgramme, .skyRecordingAction, .videoRecording, .videoDvd, .videoRecordingAction, .actionMenuItem {
     width: 100%;
     border-width: thin; 
     border-color: #3a5069; 
@@ -182,11 +182,11 @@ textarea {
     clear: both;
 }
 
-.musicSelectedQueueItem, .spotifySelectedQueueItem, .webBrowserSelectedChannel, .webBrowserSelectedDate, .musicBrowserListenAgainSelectedStation, .musicBrowserListenAgainSelectedDate {
+.musicSelectedQueueItem, .spotifySelectedQueueItem, .webBrowserSelectedChannel, .webBrowserSelectedDate, .guideEpgSelectedChannel, .guideEpgSelectedDate, .musicBrowserListenAgainSelectedStation, .musicBrowserListenAgainSelectedDate {
     background-color:#DDD;
 }
 
-.musicPlaybackQueueTitle, .musicBrowserTitle, .webBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .skyRecordingAction, .actionMenuItem, .videoDvd, .videoRecordingAction {
+.musicPlaybackQueueTitle, .musicBrowserTitle, .webBrowserTitle, .guideTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .skyRecordingAction, .actionMenuItem, .videoDvd, .videoRecordingAction {
     padding-top:10px;
     padding-bottom:10px;}
 
@@ -211,11 +211,11 @@ textarea {
     -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
 }
 
-.musicProgrammeInfo, .webBrowserProgrammeInfo, .skyProgrammeInfo, .skyRecordingInfo, skyRecordingDescription, .videoRecordingInfo, .videoRecordingDescription, .videoTimelineInfo {
+.musicProgrammeInfo, .webBrowserProgrammeInfo, .guideProgrammeInfo, .skyProgrammeInfo, .skyRecordingInfo, skyRecordingDescription, .videoRecordingInfo, .videoRecordingDescription, .videoTimelineInfo {
     font-size: small; 
 }
 
-.musicProgrammeDescription, .webBrowserProgrammeDescription {
+.musicProgrammeDescription, .webBrowserProgrammeDescription, .guideEpgProgrammeDescription {
     font-style:italic;
 }
 
@@ -233,14 +233,14 @@ textarea {
     background-color: #c87070;
 }
 
-.skyRecordingWhen, .skyProgrammeWhen, .skyControlActionL, .videoRecordingWhen, .videoInfoLeft {
+.skyRecordingWhen, .skyProgrammeWhen, .skyControlActionL, .videoRecordingWhen, .videoInfoLeft, .guideProgrammeInfoL{
     white-space: nowrap;
     overflow: hidden;
     width:65%;
     float:left;
 }
 
-.skyRecordingChannel, .skyProgrammeChannel, .skyControlActionR, .videoRecordingChannel, .videoInfoRight {
+.skyRecordingChannel, .skyProgrammeChannel, .skyControlActionR, .videoRecordingChannel, .videoInfoRight, .guideProgrammeInfoR {
     white-space: nowrap;
     overflow: hidden;
     width:35%;
@@ -327,7 +327,7 @@ textarea {
     padding: 5px;
 }
 
-.webBrowserChannels, .webBrowserDates, .musicBrowserListenAgainStations, .musicBrowserListenAgainDates {
+.webBrowserChannels, .webBrowserDates, .guideChannels, .guideDates, .musicBrowserListenAgainStations, .musicBrowserListenAgainDates {
     padding: 5px;
 }
 
@@ -370,6 +370,10 @@ textarea {
     display:inline;
 }
 
+
+.guideEpgProgrammeRecord, .guideEpgProgrammeCancel {
+    float: right;
+}
 
 .noborder {
     border-style:none;
