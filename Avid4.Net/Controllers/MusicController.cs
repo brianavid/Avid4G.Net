@@ -95,15 +95,15 @@ namespace Avid4.Net.Controllers
         }
 
         public ContentResult SendMCWS(
-            string url,
-            string noStream)
+            string url)
         {
             if (url.StartsWith("Playback/PlayByKey?"))
             {
                 JRMC.ClearStreaming();
             }
 
-            if (!string.IsNullOrEmpty(noStream) && JRMC.IsStreaming())
+            //  Can't seek streamed radio
+            if (url.StartsWith("Playback/Position?") && JRMC.IsStreaming())
             {
                 return this.Content("");
             }
