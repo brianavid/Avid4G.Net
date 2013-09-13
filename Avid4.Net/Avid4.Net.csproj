@@ -514,6 +514,8 @@
     <Content Include="Views\Spotify\QueuePane.cshtml" />
     <Content Include="Views\Web\Browser.cshtml" />
     <Content Include="Views\Web\BrowserPane.cshtml" />
+    <Content Include="Views\Home\MouseEtc.cshtml" />
+    <Content Include="Views\Home\MouseEtcWide.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

@@ -35,5 +35,23 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
+        //
+        // GET: /Home/MouseEtc
+
+        public ActionResult MouseEtc()
+        {
+            ViewBag.LinkBack = true;
+            return View();
+        }
+
+        //
+        // GET: /Home/MouseEtcWide
+
+        public ActionResult MouseEtcWide()
+        {
+            ViewBag.LinkBack = true;
+            return View();
+        }
+
     }
 }

@@ -1,4 +1,69 @@
-﻿$(function () {
+﻿var mousePadHammer = null;
+
+function AddMousePadHammer() {
+    $(".mousePad").each(function () {
+        $(this).height($(window).height() - getTop(this))
+    });
+
+    if (!mousePadHammer) {
+        mousePadHammer = $(".mousePad").hammer();
+    }
+    EnableMouseBehaviour(mousePadHammer)
+}
+
+var mouseEtcButtonsHammer = null;
+
+function AddMouseEtcButtonsHammer() {
+    if (!mouseEtcButtonsHammer) {
+        mouseEtcButtonsHammer = $(".mouseEtcButtons").hammer();
+    }
+
+    mouseEtcButtonsHammer.on("tap", "#mouseEtcEscape", function (e) {
+        $.ajax({
+            url: "/Action/SendKeys?keys={ESC}",
+            cache: false
+        });
+        return false;
+    });
+
+    mouseEtcButtonsHammer.on("tap", "#mouseEtcLeft", function (e) {
+        $.ajax({
+            url: "/Action/SendKeys?keys={BS}",
+            cache: false
+        });
+        return false;
+    });
+
+    mouseEtcButtonsHammer.on("tap", "#mouseEtcEnter", function (e) {
+        $.ajax({
+            url: "/Action/SendKeys?keys=~",
+            cache: false
+        });
+        return false;
+    });
+
+    mouseEtcButtonsHammer.on("tap", "#mouseEtcEnterText", function (e) {
+        var text = document.getElementById("mouseEtcEnteredText").value
+        $.ajax({
+            url: "/Action/SendKeys?keys="+encodeURIComponent(text),
+            cache: false
+        });
+        return false;
+    });
+
+    mouseEtcButtonsHammer.on("tap", "#mouseEtcMenu", function (e) {
+        $.ajax({
+            url: "/Action/MouseClick?right=yes",
+            cache: false
+        });
+        return false;
+    });
+
+}
+
+$(function () {
+    AddMousePadHammer()
+    AddMouseEtcButtonsHammer()
 
     $(window).bind('orientationchange', function (event) {
         window.location.reload(true);
@@ -35,6 +100,10 @@
             cache: false
         });
         return false;
+    });
+
+    $("#goBack").click(function () {
+        history.go(-1);
     });
 
     $("#goHome").click(function () {
@@ -142,6 +211,10 @@
             error: HideActionMenu,
             cache: false
         });
+    });
+
+    $("#actionMenuMouseEtc").click(function () {
+        location.href = document.getElementById("isWide") != null ? '/Home/MouseEtcWide' : '/Home/MouseEtc';
     });
 
     $("#actionMenuRecycleApp").click(function () {

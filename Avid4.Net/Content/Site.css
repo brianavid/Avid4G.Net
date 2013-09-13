@@ -347,7 +347,7 @@ textarea {
     z-index: 1001;
 }
 
-.spotifyPad, .webPad {
+.spotifyPad, .webPad, .mousePad {
     background-color:#f8f8f8;
     height: 200px;
 }

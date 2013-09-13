@@ -1,0 +1,29 @@
+﻿
+@Html.Partial("TopBar")
+@section scripts {
+    @Html.Raw(Render.Script("topBar", Request))
+    @Html.Raw(Render.Script("home", Request))
+}
+
+
+<div class="mouseEtcButtons">
+    <form id="textEntryForm" runat="server">
+        <table class="buttonRow">
+	        <tr>
+                <td style='width: 75%'><input id='mouseEtcEnteredText' type='text' style='width: 100%' /></td>
+                <td class="centeredButton" style='width: 25%'>
+                    <img id="mouseEtcEnterText" src="/Content/Buttons/SmallRound/OK.png" />
+                </td>
+            </tr>
+        </table>
+    </form>
+    <table class="buttonRow" style="width: 100%">
+        <tr>
+            <td class="centeredButton"><img id="mouseEtcEscape" src="/Content/Buttons/SmallRound/Escape.png" /></td>
+            <td class="centeredButton"><img id="mouseEtcLeft" src="/Content/Buttons/SmallRound/Move.Left.png" /></td>
+            <td class="centeredButton"><img id="mouseEtcEnter" src="/Content/Buttons/SmallRound/Enter.png" /></td>
+            <td class="centeredButton"><img id="mouseEtcMenu" src="/Content/Buttons/SmallRound/Menu.png" /></td>
+        </tr>
+    </table>
+</div>
+<div class="mousePad" id="mousePad">&nbsp;</div>

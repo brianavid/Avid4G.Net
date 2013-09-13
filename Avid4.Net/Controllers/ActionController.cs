@@ -144,10 +144,16 @@ namespace Avid4.Net.Controllers
             return Content("");
         }
 
+        public ActionResult SendKeys(
+            string keys)
+        {
+            DesktopClient.SendKeys(keys);
+            return Content("");
+        }
+
         public ActionResult SendIR(
             string id)
         {
-            System.Diagnostics.Trace.WriteLine(id);
             DesktopClient.SendIR(IRCodes.Codes[id], id);
             return Content("");
         }
