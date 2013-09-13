@@ -302,6 +302,9 @@ function SwitchPanelAfterWake(isWide) {
                         case "Web":
                             window.location = isWide ? "/Web/All" : "/Web/Mouse";
                             break;
+                        case "Photo":
+                            window.location = isWide ? "/Photos/All" : "/Photos/Display";
+                            break;
                     }
                 }
                 lastWake = now;

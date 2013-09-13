@@ -21,4 +21,8 @@ $(function () {
         LinkTo("/Web/All");
     });
 
+    $("#selectPhotos").mousedown(function () {
+        LaunchNewProgram("Photo", "", "/Photos/All");
+    });
+
 });

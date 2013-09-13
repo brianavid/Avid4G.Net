@@ -31,6 +31,8 @@ public static class Running
                     return "topBarVideo";
                 case "Web":
                     return "topBarIplayer";
+                case "Photo":
+                    return "topBarPhotos";
             }
         }
     }

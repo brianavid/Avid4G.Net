@@ -1,0 +1,20 @@
+﻿@{
+    Dictionary<string, string>[] queue = JRMC.GetQueue();
+
+    if (queue != null)
+    {
+        for (int i = 0; i < queue.Length; i++)
+        {
+            var track = queue[i];
+            if (track.ContainsKey("Key"))
+            {
+                string key = track["Key"];
+                string imageUrl = JRMC.Url + "File/GetImage?ThumbnailSize=small&Width=80&Height=80&Pad=1&FillTransparency=FFFFFF&File=" + key;
+
+                <div id='@key' class='photoGridImage' >
+                    <img src="@imageUrl" />
+                </div>
+            }       
+        }
+    }
+}

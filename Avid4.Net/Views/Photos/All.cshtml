@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Photo";
+}
+
+@Html.Partial("TopBarWide")
+@section scripts {
+    @Html.Raw(Render.Script("topBar", Request))
+    @Html.Raw(Render.Script("homeWide", Request))
+    @Html.Raw(Render.Script("photos", Request))
+}
+
+<div id="photosPanes">
+    <div id ="photosLeftPane">
+       <div id="photosBrowserPane">
+            <div class="photosBrowserItems" id="photosBrowserItems">
+                @Html.Partial("BrowserPane")
+            </div>
+        </div>
+    </div>
+
+    <div id ="photosRightPane">
+         <div id="photosImagesPane">
+            <div class="photosImagesGrid" id="photosImagesGrid">
+                @Html.Partial("ImagesPane")
+            </div>
+        </div>
+
+        <div id="photosDisplayPane">
+            <div class="photosDisplay">
+                @Html.Partial("DisplayPane")
+            </div>        
+        </div>
+    </div>
+</div>
+

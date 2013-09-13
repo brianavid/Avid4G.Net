@@ -31,7 +31,18 @@ $(function () {
         LinkTo(lastRunningProgram == "Web" ? "/Web/Mouse" : "/Web/Browser?mode=iPlayerSelect");
     });
 
-    $("#selectPhotos").css({ opacity: 0.5 });
+    $("#selectPhotos").mousedown(function () {
+        var lastRunningProgram = $("#homeTitle").text();
+        if (lastRunningProgram == "Photo")
+        {
+            LinkTo("/Photos/Display");
+        }
+        else
+        {
+            LaunchNewProgram("Photo", "", "/Photos/Browse");
+        }
+    });
+
     $("#selectEpg").css({ opacity: 0.5 });
 
 });

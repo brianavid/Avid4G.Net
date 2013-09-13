@@ -92,6 +92,10 @@ textarea {
     background-color: #f54997;
 }
 
+.topBarPhotos {
+    background-color: #FCB825;
+}
+
 .buttonGrid {
     width:100%;
     border-spacing:25px;
@@ -155,13 +159,13 @@ textarea {
     margin-left:5%;
 }
 
-.musicPlaybackQueueItems, .musicBrowserItems, .webBrowserItems, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoDvds {
+.musicPlaybackQueueItems, .musicBrowserItems, .webBrowserItems, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .photosImagesGrid, .photosBrowserItems, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoDvds {
     position: relative;
     overflow-y:hidden;
     -webkit-overflow-scrolling: touch;
 }
 
-.musicPlaybackQueueItem, .musicBrowserItem, .webBrowserItem, .spotifyPlaybackQueueItem, .spotifyBrowserItem, .skyChannel, .skyRecording, .skyRecordingGroup, .skyProgramme, .skyRecordingAction, .videoRecording, .videoDvd, .videoRecordingAction, .actionMenuItem {
+.musicPlaybackQueueItem, .musicBrowserItem, .webBrowserItem, .spotifyPlaybackQueueItem, .spotifyBrowserItem, .photosBrowserItem, .skyChannel, .skyRecording, .skyRecordingGroup, .skyProgramme, .skyRecordingAction, .videoRecording, .videoDvd, .videoRecordingAction, .actionMenuItem {
     width: 100%;
     border-width: thin; 
     border-color: #3a5069; 
@@ -169,7 +173,7 @@ textarea {
     border-bottom-style: solid;
 }
 
-.musicPlaybackQueueTitle, .musicBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .skyChannelName, .skyProgrammeName, .skyRecordingName, .skyRecordingAction, .videoRecordingName, .videoRecordingAction, .actionMenuItem {
+.musicPlaybackQueueTitle, .musicBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .skyChannelName, .skyProgrammeName, .skyRecordingName, .skyRecordingAction, .videoRecordingName, .videoRecordingAction, .actionMenuItem {
     color: #3a5069;
     display: block;
     padding-right: 0px;
@@ -182,7 +186,7 @@ textarea {
     background-color:#DDD;
 }
 
-.musicPlaybackQueueTitle, .musicBrowserTitle, .webBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .skyRecordingAction, .actionMenuItem, .videoDvd, .videoRecordingAction {
+.musicPlaybackQueueTitle, .musicBrowserTitle, .webBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .skyRecordingAction, .actionMenuItem, .videoDvd, .videoRecordingAction {
     padding-top:10px;
     padding-bottom:10px;}
 
@@ -280,11 +284,11 @@ textarea {
 .musicBrowserTitle, .spotifyBrowserTitle {
 }
 
-#musicPanes, #webPanes, #spotifyPanes, #skyPanes, #videoPanes, .TwoColumn {
+#musicPanes, #webPanes, #spotifyPanes, #skyPanes, #videoPanes, #photosPanes, .TwoColumn {
     position: relative;
 }
 
-#musicLeftPane, #webLeftPane, #spotifyLeftPane, #skyLeftPane, #videoLeftPane, .TwoColumnLeft {
+#musicLeftPane, #webLeftPane, #spotifyLeftPane, #skyLeftPane, #videoLeftPane,  #photosLeftPane, .TwoColumnLeft {
     width: 50%;
     position:absolute;
     left:0px;
@@ -292,7 +296,7 @@ textarea {
     border-right:2px solid #3a5069;
 }
 
-#musicRightPane, #webRightPane, #spotifyRightPane, #skyRightPane, #videoRightPane, .TwoColumnRight {
+#musicRightPane, #webRightPane, #spotifyRightPane, #skyRightPane, #videoRightPane, #photosRightPane, .TwoColumnRight {
     width: 50%;
     left:50%;
     position:absolute;
@@ -306,13 +310,19 @@ textarea {
     background-color:#FFF;
 }
 
-#musicQueuePane, #spotifyQueuePane, #skyButtonsPane {
+#photosDisplayPane {
+    padding: 5px;
+    height: 50%;
+    background-color:#FFF;
+}
+
+#musicQueuePane, #spotifyQueuePane, #skyButtonsPane, #photosImagesPane {
     overflow: hidden;
     border-bottom :2px solid #3a5069;
     padding: 5px;
 }
 
-#musicBrowserPane, #webBrowserPane, #spotifyBrowserPane {
+#musicBrowserPane, #webBrowserPane, #spotifyBrowserPane, #photosBrowserPane {
     overflow: hidden;
     padding: 5px;
 }
@@ -354,6 +364,10 @@ textarea {
 
 #videoMenu {
     display: none;
+}
+
+.photoGridImage {
+    display:inline;
 }
 
 
