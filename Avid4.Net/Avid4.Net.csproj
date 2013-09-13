@@ -168,6 +168,7 @@
   <ItemGroup>
     <Content Include="Content\apple-touch-icon.png" />
     <Content Include="Content\BBC Radio.jpg" />
+    <Content Include="Content\Buttons\SmallRound\Exit.png" />
     <Content Include="Content\favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -173,7 +173,7 @@ textarea {
     border-bottom-style: solid;
 }
 
-.musicPlaybackQueueTitle, .musicBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .skyChannelName, .skyProgrammeName, .skyRecordingName, .skyRecordingAction, .videoRecordingName, .videoRecordingAction, .actionMenuItem {
+.musicPlaybackQueueTitle, .musicBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .skyChannelName, .skyProgrammeName, .skyRecordingName, .skyRecordingAction, .videoRecordingName, .videoRecordingAction, .webBrowserTitle, .guideTitle, .actionMenuItem {
     color: #3a5069;
     display: block;
     padding-right: 0px;
