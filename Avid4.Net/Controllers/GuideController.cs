@@ -19,6 +19,16 @@ namespace Avid4.Net.Controllers
         }
 
         //
+        // GET: /Guide/BrowserWide
+
+        public ActionResult BrowserWide(
+            string mode)
+        {
+            ViewBag.Mode = mode;
+            return View();
+        }
+
+        //
         // GET: /Guide/BrowserPane
 
         public ActionResult BrowserPane(

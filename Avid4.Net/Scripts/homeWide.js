@@ -25,4 +25,8 @@ $(function () {
         LaunchNewProgram("Photo", "", "/Photos/All");
     });
 
+    $("#selectEpg").mousedown(function () {
+        LinkTo("/Guide/BrowserWide?mode=GuideRoot");
+    });
+
 });

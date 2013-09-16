@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Guide";
+}
+
+
+@Html.Partial("TopBarWide")
+@section scripts {
+    @Html.Raw(Render.Script("topBar", Request))
+    @Html.Raw(Render.Script("guide", Request))
+}
+
+<div class="guideBrowserItems" id="guideBrowserItems">
+    @Html.Partial("BrowserPane")
+</div>

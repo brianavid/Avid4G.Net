@@ -531,6 +531,7 @@
     <Content Include="Views\Photos\ImagesPane.cshtml" />
     <Content Include="Views\Guide\Browser.cshtml" />
     <Content Include="Views\Guide\BrowserPane.cshtml" />
+    <Content Include="Views\Guide\BrowserWide.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
