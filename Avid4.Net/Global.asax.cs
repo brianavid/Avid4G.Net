@@ -29,7 +29,8 @@ namespace Avid4.Net
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             JRMC.LoadAndIndexAllAlbums(new string[] { "1", "2" }, false);
-            Receiver.SelectComputerInput();
+            Receiver.Initialize();
+            Running.Initialize();
             SkyData.Initialize(Config.IpAddress, Config.SkyFavourites);
             Spotify.Initialize();
 

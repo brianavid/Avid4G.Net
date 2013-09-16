@@ -60,6 +60,29 @@ public static class Receiver
     public static int SelectedOutputIndex { get; private set; }
     public static string VolumeDisplay { get { return !switchedOn ? "Off" : String.Format(volumeMute ? "({0}%)" : "{0}%", volumeLevel); } }
 
+    public static void Initialize()
+    {
+        XDocument state = GetXml(String.Format(
+            "<YAMAHA_AV cmd=\"GET\"><{0}><Basic_Status>GetParam</Basic_Status></{0}></YAMAHA_AV>",
+            "Main_Zone"));
+
+        var basicStatus = state.Element("YAMAHA_AV").Element("Main_Zone").Element("Basic_Status");
+        string powerString = basicStatus.Element("Power_Control").Element("Power").Value;
+
+        switchedOn = powerString == "On";
+
+        MainZoneInput = basicStatus.Element("Input").Element("Input_Sel").Value;
+
+        if (switchedOn && MainZoneInput == "HDMI3")
+        {
+            SelectSkyInput();
+        }
+        else
+        {
+            SelectComputerInput();
+        }
+    }
+
     public static void GetState()
     {
         if (switchedOn)

@@ -13,6 +13,14 @@ public static class Running
     static string runningArgs = "";
     public static String RunningProgram { get { return runningProgram; } }
 
+    public static void Initialize()
+    {
+        if (Receiver.SelectedInput == "Sky")
+        {
+            runningProgram = "Sky";
+        }
+    }
+
     public static string RunningProgramTopBarClass
     {
         get
