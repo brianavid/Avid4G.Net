@@ -26,7 +26,8 @@ namespace Avid.Desktop
         public DesktopProcess(
             string name,
             string path,
-            string args)
+            string args,
+            string mode)
         {
             Name = name;
             Path = path;
@@ -34,7 +35,7 @@ namespace Avid.Desktop
 
             p = new Process();
             p.StartInfo.FileName = path;
-            p.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
+            p.StartInfo.WindowStyle = mode == null || mode == "Maximize" ? ProcessWindowStyle.Maximized : ProcessWindowStyle.Normal;
         }
 
         public string Name { get; private set; }
@@ -156,7 +157,8 @@ namespace Avid.Desktop
                     string name = program.Attribute("name").Value;
                     string path = program.Attribute("path").Value;
                     string args = program.Attribute("args") == null ? "" : program.Attribute("args").Value;
-                    processes[name] = new DesktopProcess(name, path, args);
+                    string mode = program.Attribute("mode") == null ? null : program.Attribute("mode").Value;
+                    processes[name] = new DesktopProcess(name, path, args, mode);
                     Trace.WriteLine(String.Format("Service '{0}': {1}", name, System.IO.File.Exists(path) ? "OK" : "Not Found"));
                 }
             }

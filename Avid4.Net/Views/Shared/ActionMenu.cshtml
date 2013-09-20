@@ -2,7 +2,7 @@
 <div class="actionMenu" id="actionMenu">
     <div class="actionMenuItem" id="actionMenuScreenOff">Screen off</div>
     <div class="actionMenuItem" id="actionMenuScreenOn">Screen on</div>
-    @if (Running.RunningProgram == "Music")
+    @if (Running.RunningProgram == "Music" || Running.RunningProgram == "Spotify")
     {
         <div class="actionMenuItem" id="actionMenuVisualOn">Visual on</div>
     }
