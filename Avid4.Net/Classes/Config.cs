@@ -95,6 +95,24 @@ public static class Config
         }
     }
 
+    public static List<string> TvFavourites
+    {
+        get
+        {
+            XElement elTv = Doc.Root.Element("TV");
+            return elTv.Elements("Live").Select(el => el.Value).ToList();
+        }
+    }
+
+    public static bool useSkyLiveTV
+    {
+        get
+        {
+            XElement elLive = Doc.Root.Element("TV").Element("Live");
+            return elLive == null || elLive.Value == "Sky";
+        }
+    }
+
     public static Dictionary<string, string> BBCTVChannels
     {
         get

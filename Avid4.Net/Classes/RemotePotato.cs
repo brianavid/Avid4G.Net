@@ -208,7 +208,8 @@ public static class RemotePotato
 
     static IEnumerable<XElement> GetAllFavouriteChannels()
     {
-        return GetAllTvChannels().Where(ch => Convert.ToBoolean(ch.Element("IsFavorite").Value));
+        List<string> tvFavourites = Config.TvFavourites;
+        return GetAllTvChannels().Where(ch => tvFavourites.Contains(ch.Element("Callsign").Value));
     }
 
     static IEnumerable<XElement> GetAllRadioChannels()
