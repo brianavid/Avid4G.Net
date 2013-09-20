@@ -66,12 +66,15 @@ public static class Receiver
             "<YAMAHA_AV cmd=\"GET\"><{0}><Basic_Status>GetParam</Basic_Status></{0}></YAMAHA_AV>",
             "Main_Zone"));
 
-        var basicStatus = state.Element("YAMAHA_AV").Element("Main_Zone").Element("Basic_Status");
-        string powerString = basicStatus.Element("Power_Control").Element("Power").Value;
+        if (state != null)
+        {
+            var basicStatus = state.Element("YAMAHA_AV").Element("Main_Zone").Element("Basic_Status");
+            string powerString = basicStatus.Element("Power_Control").Element("Power").Value;
 
-        switchedOn = powerString == "On";
+            switchedOn = powerString == "On";
 
-        MainZoneInput = basicStatus.Element("Input").Element("Input_Sel").Value;
+            MainZoneInput = basicStatus.Element("Input").Element("Input_Sel").Value;
+        }
 
         if (switchedOn && MainZoneInput == "HDMI3")
         {

@@ -100,7 +100,7 @@ public static class Config
         get
         {
             XElement elTv = Doc.Root.Element("TV");
-            return elTv.Elements("Live").Select(el => el.Value).ToList();
+            return elTv.Elements("Favourite").Select(el => el.Value).ToList();
         }
     }
 

@@ -203,13 +203,13 @@ public static class RemotePotato
 
     static IEnumerable<XElement> GetAllTvChannels()
     {
-        return GetAllChannels().Where(ch => Convert.ToInt32(ch.Element("MCChannelNumber").Value) < 100);
+        return GetAllChannels().Where(ch => Convert.ToInt32(ch.Element("MCChannelNumber").Value) < 200);
     }
 
     static IEnumerable<XElement> GetAllFavouriteChannels()
     {
         List<string> tvFavourites = Config.TvFavourites;
-        return GetAllTvChannels().Where(ch => tvFavourites.Contains(ch.Element("Callsign").Value));
+        return GetAllTvChannels().Where(ch => tvFavourites.Contains(ch.Element("Callsign").Value, StringComparer.InvariantCultureIgnoreCase));
     }
 
     static IEnumerable<XElement> GetAllRadioChannels()
