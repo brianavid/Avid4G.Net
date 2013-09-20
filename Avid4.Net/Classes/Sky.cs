@@ -14,6 +14,8 @@ using Microsoft.Win32;
 
 public class SkyData
 {
+    static Logger logger = LogManager.GetCurrentClassLogger();
+
     internal class JsonFormat
     {
         internal class SkyChannelInfo
@@ -175,7 +177,7 @@ public class SkyData
 
     static string SkyBoxPlayServiceAddress = null;
     static string SkyBoxBrowseServiceAddress = null;
-    const int MaxNetworkAttempts = 10;
+    const int MaxNetworkAttempts = 5;
     const int NetworkAttemptInterval = 200;
 
     XNamespace nsRoot;
@@ -610,7 +612,7 @@ public class SkyData
 		            request.ContentLength = postBytes.Length;
 		            request.ContentType = "text/xml; charset=utf-8";
 		            request.Headers.Add("SOAPACTION", "\"" + soapAction + "\"");
-                    request.Timeout = timeout;
+                    request.Timeout = timeout * (i+1);
 		
 		            Stream dataStream = request.GetRequestStream();
 		            dataStream.Write(postBytes, 0, postBytes.Length);
@@ -629,13 +631,14 @@ public class SkyData
 		
 		            return i.ToString();
 	            }
-	            catch
+	            catch (Exception ex)
 	            {
 	                if (i < MaxNetworkAttempts-1)
 	                {
 	                    System.Threading.Thread.Sleep(NetworkAttemptInterval);
 	                    continue;
 	                }
+                    logger.WarnException("SkyPlay Exception for " + soapAction, ex);
 	                break;
 	            }
 	        }
@@ -671,13 +674,14 @@ public class SkyData
                     return XDocument.Load(responseStream).Root;
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 if (i < MaxNetworkAttempts-1)
                 {
                     System.Threading.Thread.Sleep(NetworkAttemptInterval);
                     continue;
                 }
+                logger.WarnException("SkyBrowse Exception for " + soapAction, ex);
                 break;
             }
         }
