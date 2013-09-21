@@ -14,6 +14,21 @@ function updateSlider() {
     }
 }
 
+function UpdatePositionDisplay() {
+    var secs = Math.floor(PositionMS / 1000);
+    var mins = Math.floor(secs / 60);
+    secs = secs % 60;
+    var posText = mins + ":" + (secs < 10 ? "0" : "") + secs;
+    secs = Math.floor(DurationMS / 1000);
+    mins = Math.floor(secs / 60);
+    secs = secs % 60;
+    var durText = mins + ":" + (secs < 10 ? "0" : "") + secs;
+    var posDisplay = document.getElementById("PlaybackInfo.PositionDisplay");
+    if (posDisplay != null) {
+        $(posDisplay).text(posText + " / " + durText);
+    }
+}
+
 function UpdateJrmcDisplayPlayingInformation() {
     var now = new Date();
     if (now.getTime() - lastDisplayUpdate.getTime() > 10 * 1000) {
@@ -143,39 +158,47 @@ function AddControlHammerActions() {
 
     EnableDragScroll(controlHammer)
 
-    controlHammer.on("tap", "#musicPrev", function () {
+    controlHammer.on("touch", "#musicPrev", function () {
         $.ajax({
             url: "/Music/SendMCWS?url=" + escape("Playback/Previous"),
             cache: false
         })
     });
 
-    controlHammer.on("tap", "#musicPlayPause", function () {
+    controlHammer.on("touch", "#musicPlayPause", function () {
         $.ajax({
             url: "/Music/SendMCWS?url=" + escape("Playback/PlayPause"),
             cache: false
         })
     });
 
-    controlHammer.on("tap", "#musicNext", function () {
+    controlHammer.on("touch", "#musicNext", function () {
         $.ajax({
             url: "/Music/SendMCWS?url=" + escape("Playback/Next"),
             cache: false
         })
     });
 
-    controlHammer.on("tap", "#musicMinus10", function (e) {
+    controlHammer.on("touch", "#musicMinus10", function (e) {
         e.preventDefault();
         $.ajax({
             url: "/Music/SendMCWS?url=" + escape("Playback/Position?Position=10000&Relative=-1"),
+            success: function (data) {
+                PositionMS -= 10000;
+                UpdatePositionDisplay();
+            },
             cache: false
         })
     });
 
-    controlHammer.on("tap", "#musicPlus10", function (e) {
+    controlHammer.on("touch", "#musicPlus10", function (e) {
         e.preventDefault();
         $.ajax({
             url: "/Music/SendMCWS?url=" + escape("Playback/Position?Position=10000&Relative=1"),
+            success: function (data) {
+                PositionMS += 10000;
+                UpdatePositionDisplay();
+            },
             cache: false
         })
     });
@@ -189,20 +212,7 @@ function AddControlHammerActions() {
             slidingTime = new Date();
             var pos = Math.floor($(this).val());
             PositionMS = pos * DurationMS / 200;
-            var secs = Math.floor(PositionMS / 1000);
-            var mins = Math.floor(secs / 60);
-            secs = secs % 60;
-            var posText = mins + ":" + (secs < 10 ? "0" : "") + secs;
-            secs = Math.floor(DurationMS / 1000);
-            mins = Math.floor(secs / 60);
-            secs = secs % 60;
-            var durText = mins + ":" + (secs < 10 ? "0" : "") + secs;
-            var posDisplay = document.getElementById("PlaybackInfo.PositionDisplay");
-            if (posDisplay != null)
-            {
-                $(posDisplay).text(posText + " / " + durText);
-            }
-
+            UpdatePositionDisplay();
             $.ajax({
                 url: "/Music/SendMCWS?url=" + escape("Playback/Position?Position=" + PositionMS),
                 cache: false

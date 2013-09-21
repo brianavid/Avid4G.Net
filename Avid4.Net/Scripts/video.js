@@ -101,51 +101,51 @@ function AddVideoControlsHammerActions() {
         videoControlHammer = $(".videoWatchPane").hammer();
     }
 
-    videoControlHammer.on("tap", "#videoBack60", function (e) {
+    videoControlHammer.on("touch", "#videoBack60", function (e) {
         sendZoom("exSeekBack,60")
     });
 
-    videoControlHammer.on("tap", "#videoBack10", function (e) {
+    videoControlHammer.on("touch", "#videoBack10", function (e) {
         sendZoom("exSeekBack,10")
     });
 
-    videoControlHammer.on("tap", "#videoForward10", function (e) {
+    videoControlHammer.on("touch", "#videoForward10", function (e) {
         sendZoom("exSeekAhead,10")
     });
 
-    videoControlHammer.on("tap", "#videoForward60", function (e) {
+    videoControlHammer.on("touch", "#videoForward60", function (e) {
         sendZoom("exSeekAhead,60")
     });
 
-    videoControlHammer.on("tap", "#videoPlayPause", function (e) {
+    videoControlHammer.on("touch", "#videoPlayPause", function (e) {
         sendZoom("fnPlay")
     });
 
-    videoControlHammer.on("tap", "#videoStop", function (e) {
+    videoControlHammer.on("touch", "#videoStop", function (e) {
         $.get("/Action/AllOff")
     });
 
-    videoControlHammer.on("tap", "#videoDvdMenu", function (e) {
+    videoControlHammer.on("touch", "#videoDvdMenu", function (e) {
         sendZoom("fnDVDRootMenu", UpdateZoomDisplayPlayingInformation)
     });
 
-    videoControlHammer.on("tap", "#videoMenuUp", function (e) {
+    videoControlHammer.on("touch", "#videoMenuUp", function (e) {
         sendZoom("fnDVDMenuUp")
     });
 
-    videoControlHammer.on("tap", "#videoMenuLeft", function (e) {
+    videoControlHammer.on("touch", "#videoMenuLeft", function (e) {
         sendZoom("fnDVDMenuLeft")
     });
 
-    videoControlHammer.on("tap", "#videoMenuSelect", function (e) {
+    videoControlHammer.on("touch", "#videoMenuSelect", function (e) {
         sendZoom("fnDVDMenuSelect")
     });
 
-    videoControlHammer.on("tap", "#videoMenuRight", function (e) {
+    videoControlHammer.on("touch", "#videoMenuRight", function (e) {
         sendZoom("fnDVDMenuRight")
     });
 
-    videoControlHammer.on("tap", "#videoMenuDown", function (e) {
+    videoControlHammer.on("touch", "#videoMenuDown", function (e) {
         sendZoom("fnDVDMenuDown")
     });
 

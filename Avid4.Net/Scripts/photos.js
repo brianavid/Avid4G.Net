@@ -65,27 +65,27 @@ function AddControlHammerActions() {
         return false;
     });
 
-    controlHammer.on("tap", "#btnPlus", function (e) {
+    controlHammer.on("touch", "#btnPlus", function (e) {
         DoJrmcAction("Control/MCC?Command=28000", true);
         return false;
     });
 
-    controlHammer.on("tap", "#btnMinus", function (e) {
+    controlHammer.on("touch", "#btnMinus", function (e) {
         DoJrmcAction("Control/MCC?Command=28001", true);
         return false;
     });
 
-    controlHammer.on("tap", "#btnPrev", function (e) {
+    controlHammer.on("touch", "#btnPrev", function (e) {
         DoJrmcAction("Playback/Previous", true);
         return false;
     });
 
-    controlHammer.on("tap", "#btnNext", function (e) {
+    controlHammer.on("touch", "#btnNext", function (e) {
         DoJrmcAction("Playback/Next", true);
         return false;
     });
 
-    controlHammer.on("tap", "#btnPlayPause", function (e) {
+    controlHammer.on("touch", "#btnPlayPause", function (e) {
         DoJrmcAction("Playback/PlayPause", true);
         return false;
     });

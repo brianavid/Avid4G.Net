@@ -152,7 +152,7 @@ function AddButtonsHammerActions(controlHeight) {
 
     EnableDragScroll(buttonsHammer)
 
-    buttonsHammer.on("tap", ".skySendIR", function (e) {
+    buttonsHammer.on("touch", ".skySendIR", function (e) {
         $.ajax({
             url: "/Action/SendIR?id=" + this.id,
             success: function (data) {

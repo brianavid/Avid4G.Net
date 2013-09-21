@@ -26,6 +26,21 @@ function updateSlider() {
     }
 }
 
+function UpdatePositionDisplay() {
+    var secs = Math.floor(PositionMS / 1000);
+    var mins = Math.floor(secs / 60);
+    secs = secs % 60;
+    var posText = mins + ":" + (secs < 10 ? "0" : "") + secs;
+    secs = Math.floor(DurationMS / 1000);
+    mins = Math.floor(secs / 60);
+    secs = secs % 60;
+    var durText = mins + ":" + (secs < 10 ? "0" : "") + secs;
+    var posDisplay = document.getElementById("SpotifyInfoPlayingNowPositionDisplay");
+    if (posDisplay != null) {
+        $(posDisplay).text(posText + "/" + durText);
+    }
+}
+
 function UpdateSpotifyDisplayPlayingInformation() {
     var now = new Date();
     if (now.getTime() - lastDisplayUpdate.getTime() > 10 * 1000) {
@@ -126,39 +141,47 @@ function AddControlHammerActions() {
 
     EnableDragScroll(controlHammer)
 
-    controlHammer.on("tap", "#spotifyPrev", function () {
+    controlHammer.on("touch", "#spotifyPrev", function () {
         $.ajax({
             url: "/Spotify/Back",
             cache: false
         })
     });
 
-    controlHammer.on("tap", "#spotifyPlayPause", function () {
+    controlHammer.on("touch", "#spotifyPlayPause", function () {
         $.ajax({
             url: "/Spotify/PlayPause",
             cache: false
         })
     });
 
-    controlHammer.on("tap", "#spotifyNext", function () {
+    controlHammer.on("touch", "#spotifyNext", function () {
         $.ajax({
             url: "/Spotify/Skip",
             cache: false
         })
     });
 
-    controlHammer.on("tap", "#spotifyMinus10", function (e) {
+    controlHammer.on("touch", "#spotifyMinus10", function (e) {
         e.preventDefault();
         $.ajax({
             url: "/Spotify/Minus10",
+            success: function (data) {
+                PositionMS -= 10000;
+                UpdatePositionDisplay();
+            },
             cache: false
         })
     });
 
-    controlHammer.on("tap", "#spotifyPlus10", function (e) {
+    controlHammer.on("touch", "#spotifyPlus10", function (e) {
         e.preventDefault();
         $.ajax({
             url: "/Spotify/Plus10",
+            success: function (data) {
+                PositionMS += 10000;
+                UpdatePositionDisplay();
+            },
             cache: false
         })
     });
@@ -172,19 +195,7 @@ function AddControlHammerActions() {
             slidingTime = new Date();
             var pos = Math.floor($(this).val());
             PositionMS = pos * DurationMS / 200;
-            var secs = Math.floor(PositionMS / 1000);
-            var mins = Math.floor(secs / 60);
-            secs = secs % 60;
-            var posText = mins + ":" + (secs < 10 ? "0" : "") + secs;
-            secs = Math.floor(DurationMS / 1000);
-            mins = Math.floor(secs / 60);
-            secs = secs % 60;
-            var durText = mins + ":" + (secs < 10 ? "0" : "") + secs;
-            var posDisplay = document.getElementById("SpotifyInfoPlayingNowPositionDisplay");
-            if (posDisplay != null) {
-                $(posDisplay).text(posText + "/" + durText);
-            }
-
+            UpdatePositionDisplay();
             $.ajax({
                 url: "/Spotify/SetPosition?pos=" + Math.floor(PositionMS/1000),
                 cache: false
