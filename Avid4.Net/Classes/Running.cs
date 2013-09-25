@@ -73,6 +73,7 @@ public static class Running
                 Spotify.Stop();
                 DesktopClient.ExitAllPrograms();
                 runningProgram = name;
+                Screen.SetScreenDisplayMode(0);
                 Receiver.SelectRoomsOutput();
             }
 
@@ -117,6 +118,7 @@ public static class Running
                 return true;
 
             case "Radio":
+                Screen.SetScreenDisplayMode(0);
                 Receiver.SelectRoomsOutput();
                 if (!DesktopClient.LaunchProgram("TV", args))
                 {
@@ -151,6 +153,7 @@ public static class Running
                 return true;
 
             case "Spotify":
+                Screen.SetScreenDisplayMode(0);
                 Receiver.SelectRoomsOutput();
                 return true;
         }

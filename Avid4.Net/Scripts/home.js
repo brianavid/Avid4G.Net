@@ -7,7 +7,7 @@ $(function () {
 
     $("#selectVideo").mousedown(function () {
         var lastRunningProgram = $("#homeTitle").text();
-        LinkTo(lastRunningProgram == "Video" ? "/Video/Watch" : "/Video/Recordings");
+        LaunchProgram( "Video", lastRunningProgram == "Video" ? "/Video/Watch" : "/Video/Recordings");
     });
 
     $("#selectTV").mousedown(function () {
@@ -28,7 +28,14 @@ $(function () {
 
     $("#selectWeb").mousedown(function () {
         var lastRunningProgram = $("#homeTitle").text();
-        LinkTo(lastRunningProgram == "Web" ? "/Web/Mouse" : "/Web/Browser?mode=iPlayerSelect");
+        if (lastRunningProgram == "Web")
+        {
+            LinkTo("/Web/Mouse");
+        }
+        else
+        {
+            AllOffJump("/Web/Browser?mode=iPlayerSelect");
+        }
     });
 
     $("#selectPhotos").mousedown(function () {

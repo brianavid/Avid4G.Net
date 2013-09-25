@@ -86,6 +86,10 @@ namespace Avid4.Net.Controllers
             {
                 Screen.EnsureScreenOn();
             }
+            else if (!isAlreadyRunningSky)
+            {
+                Screen.SetScreenDisplayMode(0);
+            }
 
             Running.StartSky();
 

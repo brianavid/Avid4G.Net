@@ -6,7 +6,7 @@ $(function () {
     });
 
     $("#selectVideo").mousedown(function () {
-        LinkTo("/Video/All");
+        LaunchProgram("Video", "/Video/All");
     });
 
     $("#selectSky").mousedown(function () {
@@ -18,7 +18,13 @@ $(function () {
     });
 
     $("#selectWeb").mousedown(function () {
-        LinkTo("/Web/All");
+        var lastRunningProgram = $("#homeTitle").text();
+        if (lastRunningProgram == "Web") {
+            LinkTo("/Web/All");
+        }
+        else {
+            AllOffJump("/Web/All");
+        }
     });
 
     $("#selectPhotos").mousedown(function () {
