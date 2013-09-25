@@ -162,9 +162,14 @@ function AddVideoRecordingsHammerActions() {
 
     EnableDragScroll(videoRecordingsListHammer)
 
+    videoRecordingsListHammer.on("swiperight swipeleft", function (e) {
+        PopStackedPane("videoRecordings", DisplayVideoRecordings)
+        return false;
+    })
+
     videoRecordingsListHammer.on("tap", ".videoRecording", function (e) {
         e.gesture.preventDefault()
-        ReplacePane("videoRecordings", "/Video/Recording?id=" + this.id, "clear")
+        ReplacePane("videoRecordings", "/Video/Recording?id=" + this.id, "push")
     });
 
     videoRecordingsListHammer.on("tap", "#videoRecordingPlayFromStart", function () {

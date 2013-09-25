@@ -230,6 +230,11 @@ function AddRecordingsHammerActions() {
 
     EnableDragScroll(recordingsHammer)
 
+    recordingsHammer.on("swiperight swipeleft", function (e) {
+        PopStackedPane("skyRecordings", function () { ReplacePane("skyRecordings", "/Sky/RecordingsPane", "clear") })
+        return false;
+    })
+
     recordingsHammer.on("hold", ".skyRecording", function (e) {
         e.gesture.preventDefault()
         var which = this;
@@ -244,12 +249,12 @@ function AddRecordingsHammerActions() {
 
     recordingsHammer.on("tap", ".skyRecording", function (e) {
         e.gesture.preventDefault()
-        ReplacePane("skyRecordings", "/Sky/Recording?id=" + this.id, "clear", SetupRecordingActions)
+        ReplacePane("skyRecordings", "/Sky/Recording?id=" + this.id, "push", SetupRecordingActions)
     });
 
     recordingsHammer.on("tap", ".skyRecordingGroup", function (e) {
         e.gesture.preventDefault()
-        ReplacePane("skyRecordings", "/Sky/RecordingsPane?title=" + escape(this.id), "clear")
+        ReplacePane("skyRecordings", "/Sky/RecordingsPane?title=" + escape(this.id), "push")
     });
 
 
