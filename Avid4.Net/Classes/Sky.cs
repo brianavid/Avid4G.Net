@@ -613,21 +613,27 @@ public class SkyData
 		            request.ContentType = "text/xml; charset=utf-8";
 		            request.Headers.Add("SOAPACTION", "\"" + soapAction + "\"");
                     request.Timeout = timeout * (i+1);
+                    if (i != 0)
+                    {
+                        ((HttpWebRequest)request).KeepAlive = false;
+                    }
 		
 		            Stream dataStream = request.GetRequestStream();
 		            dataStream.Write(postBytes, 0, postBytes.Length);
 		            dataStream.Close();
 		
-		            WebResponse response = request.GetResponse();
-	                using (Stream responseStream = response.GetResponseStream())
-	                {
-		                XElement responseData = XDocument.Load(response.GetResponseStream()).Root;
-	
-	                    if (resultValueReturned != null)
-	                    {
-	                        return responseData.Elements().First().Elements().First().Element(resultValueReturned).Value;
-	                    }
-	                }
+		            using (WebResponse response = request.GetResponse())
+                    {
+                        using (Stream responseStream = response.GetResponseStream())
+                        {
+                            XElement responseData = XDocument.Load(response.GetResponseStream()).Root;
+
+                            if (resultValueReturned != null)
+                            {
+                                return responseData.Elements().First().Elements().First().Element(resultValueReturned).Value;
+                            }
+                        }
+                    }
 		
 		            return i.ToString();
 	            }
@@ -663,15 +669,21 @@ public class SkyData
                 request.ContentLength = postBytes.Length;
                 request.ContentType = "text/xml; charset=utf-8";
                 request.Headers.Add("SOAPACTION", "\"" + soapAction + "\"");
+                if (i != 0)
+                {
+                    ((HttpWebRequest)request).KeepAlive = false;
+                }
 
                 Stream dataStream = request.GetRequestStream();
                 dataStream.Write(postBytes, 0, postBytes.Length);
                 dataStream.Close();
 
-                WebResponse response = request.GetResponse();
-                using (Stream responseStream = response.GetResponseStream())
+                using (WebResponse response = request.GetResponse())
                 {
-                    return XDocument.Load(responseStream).Root;
+                    using (Stream responseStream = response.GetResponseStream())
+                    {
+                        return XDocument.Load(responseStream).Root;
+                    }
                 }
             }
             catch (Exception ex)
