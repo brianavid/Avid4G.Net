@@ -190,8 +190,8 @@ function AddVideoRecordingsHammerActions() {
     });
 
     videoRecordingsListHammer.on("tap", "#videoRecordingDelete", function () {
-        var title = $(".videoRecordingName").text();
-        var when = $(".videoRecordingWhen").text();
+        var title = $("#videoRecordingName").text();
+        var when = $("#videoRecordingWhen").text();
         if (confirm("Delete '" + title + "' (" + when + ")")) {
             $("#videoRecordingDelete").text("Deleting ...")
             $.ajax({

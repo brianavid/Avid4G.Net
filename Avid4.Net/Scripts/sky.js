@@ -283,8 +283,8 @@ function AddRecordingsHammerActions() {
     });
 
     recordingsHammer.on("tap", "#skyRecordingDelete", function () {
-        var title = $(".skyRecordingName").text();
-        var when = $(".skyRecordingWhen").text();
+        var title = $("#skyRecordingName").text();
+        var when = $("#skyRecordingWhen").text();
         if (confirm("Delete '" + title + "' (" + when + ")")) {
             $("#skyRecordingDelete").text("Deleting ...")
             $.ajax({

@@ -4,10 +4,10 @@
 
     <div class="skyRecording" id="@recording.Id">
         <div class="skyRecordingInfo">
-            <div class="skyRecordingWhen">@String.Format("{0} [{1} mins]", recording.WhenRecorded.ToString("ddd dd MMM HH:mm"), Math.Round(recording.Duration.TotalMinutes))</div>
+            <div class="skyRecordingWhen" id="skyRecordingWhen">@String.Format("{0}", recording.WhenRecorded.ToString("ddd dd MMM HH:mm"))</div>
             <div class="skyRecordingChannel">&nbsp;@recording.ChannelName</div>
         </div>
-        <div class="skyRecordingName">@recording.Title</div>
+        <div class="skyRecordingName" id="skyRecordingName">@recording.Title</div>
         <div class="skyRecordingDescription">@recording.Description</div>
     </div>
     <div class="skyRecordingAction" id="skyRecordingPlayFromStart">Play from start: @(recording.PrePad.ToString("hh\\:mm").Substring(1))</div>
