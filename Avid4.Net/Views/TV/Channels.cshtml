@@ -1,0 +1,15 @@
+﻿@{
+    ViewBag.Title = "TV";
+    ViewBag.Mode = "Tv";
+}
+
+@Html.Partial("TopBar")
+@section scripts {
+    @Html.Raw(Render.Script("topBar", Request))
+    @Html.Raw(Render.Script("tv", Request))
+}
+
+@Html.Partial("PaneButtons")
+<div class="tvChannels">
+    @Html.Partial("ChannelsPane")
+</div>

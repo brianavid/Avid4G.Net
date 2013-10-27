@@ -198,7 +198,10 @@ namespace Avid4.Net.Controllers
 
         public ActionResult RebuildMediaDb()
         {
-            JRMC.LoadAndIndexAllAlbums(new string[] { "1", "2" }, true);
+            if (Running.RunningProgram != "Video")
+            {
+                JRMC.LoadAndIndexAllAlbums(new string[] { "1", "2" }, true);
+            }
             DesktopClient.EnsureRemotePotatoRunning(true);
             return Content("");
         }

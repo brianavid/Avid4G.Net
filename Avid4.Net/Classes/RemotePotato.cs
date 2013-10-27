@@ -74,6 +74,45 @@ public static class RemotePotato
         }
     }
 
+
+    public class Channel
+    {
+        public string Name { get; internal set; }
+        public int Id { get; internal set; }
+        public bool IsRadio { get; internal set; }
+        public bool IsFavourite { get; internal set; }
+
+        internal Channel(
+            string name,
+            int id,
+            bool isRadio,
+            bool isFavourite)
+        {
+            Name = name;
+            Id = id;
+            IsRadio = isRadio;
+            IsFavourite = isFavourite;
+        }
+
+        internal Channel(
+            XElement ch,
+            bool isRadio,
+            bool isFavourite) : this(
+                ch.Element("Callsign").Value,
+                Convert.ToInt32(ch.Element("MCChannelNumber").Value),
+                isRadio,
+                isFavourite)
+        {
+        }
+
+        public string Display
+        {
+            get
+            {
+                return String.Format("{0}", Name);
+            }
+        }
+    }
     static public Dictionary<String, Recording> AllRecordings { get; private set; }
 
     static string host = null;
@@ -190,6 +229,8 @@ public static class RemotePotato
             if (channelsXml == null)
             {
                 channelsXml = GetXml(Url + "channels/all");
+                CurrentlySelectedChannelName = "";
+                CurrentlySelectedChannelNumber = "";
             }
 
             return channelsXml;
@@ -208,8 +249,17 @@ public static class RemotePotato
 
     static IEnumerable<XElement> GetAllFavouriteChannels()
     {
-        List<string> tvFavourites = Config.TvFavourites;
-        return GetAllTvChannels().Where(ch => tvFavourites.Contains(ch.Element("Callsign").Value, StringComparer.InvariantCultureIgnoreCase));
+        Dictionary<string, XElement> tvChannels = new Dictionary<string,XElement>();
+        foreach (var ch in GetAllTvChannels())
+        {
+            string callsign = ch.Element("Callsign").Value.ToLower();
+            if (!tvChannels.ContainsKey(callsign))
+            {
+                tvChannels[callsign] = ch;
+            }
+        }
+
+        return (Config.TvFavourites).Select(fav => tvChannels[fav.ToLower()]);
     }
 
     static IEnumerable<XElement> GetAllRadioChannels()
@@ -241,9 +291,104 @@ public static class RemotePotato
         }
     }
 
+    public static IEnumerable<Channel> AllTvChannels
+    {
+        get
+        {
+            return GetAllTvChannels().Select(c => new Channel(c, false, false));
+        }
+    }
+
+    public static IEnumerable<Channel> AllRadioChannels
+    {
+        get
+        {
+            return GetAllRadioChannels().Select(c => new Channel(c, true, false));
+        }
+    }
+
+    public static IEnumerable<Channel> AllFavouriteChannels
+    {
+        get
+        {
+            return GetAllFavouriteChannels().Select(c => new Channel(c, false, true));
+        }
+    }
+
+    public static IEnumerable<Channel> AllTvChannelsFavouriteFirst
+    {
+        get
+        {
+            Dictionary<string, Channel> favourites = AllFavouriteChannels.ToDictionary(c => c.Name);
+            foreach (var c in favourites.Values)
+            {
+                yield return c;
+            }
+            foreach (var c in AllTvChannels)
+            {
+                if (!favourites.ContainsKey(c.Name))
+                {
+                    yield return c;
+                }
+            }
+        }
+    }
+
+    public static string CurrentlySelectedChannelName { get; private set; }
+    public static string CurrentlySelectedChannelNumber { get; private set; }
+
+    public static string CurrentProgrammeTitle { 
+        get 
+        {
+            if (CurrentlySelectedChannelName != null)
+            {
+                Programme[] nowAndNext = GetNowAndNext(CurrentlySelectedChannelName).ToArray();
+                if (nowAndNext.Length > 0)
+                {
+                    return nowAndNext[0].Title;
+                }
+            }
+            return "";
+        }
+    }
+
+    public static string NextProgrameTime
+    {
+        get
+        {
+            if (CurrentlySelectedChannelName != null)
+            {
+                Programme[] nowAndNext = GetNowAndNext(CurrentlySelectedChannelName).ToArray();
+                if (nowAndNext.Length > 1)
+                {
+                    return nowAndNext[1].StartTime.ToLocalTime().ToString("HH:mm");
+                }
+            }
+            return "";
+        }
+    }
+
+    public static string NextProgrameTitle
+    {
+        get
+        {
+            if (CurrentlySelectedChannelName != null)
+            {
+                Programme[] nowAndNext = GetNowAndNext(CurrentlySelectedChannelName).ToArray();
+                if (nowAndNext.Length > 1)
+                {
+                    return nowAndNext[1].Title;
+                }
+            }
+            return "";
+        }
+    }
+
     public static void SelectTvChannelName(
         string channelName)
     {
+        CurrentlySelectedChannelName = channelName;
+
         if (channelName == "BBC ONE HD")
         {
             SelectTvChannelNumber("101");   //  BBC ONE HD is faked up as it has no EPG
@@ -253,9 +398,11 @@ public static class RemotePotato
         SelectTvChannelNumber(channel.Element("MCChannelNumber").Value);
     }
 
-    public static void SelectTvChannelNumber(
+    static void SelectTvChannelNumber(
         string channelNumber)
     {
+        CurrentlySelectedChannelNumber = channelNumber;
+
         GetXml(Url + "sendremotekey/GotoLiveTV");
         foreach (var c in channelNumber)
         {
@@ -268,6 +415,23 @@ public static class RemotePotato
         DateTime day,
         string channelName)
     {
+        DateTime nextDay = day + new TimeSpan(1, 0, 0, 0);
+        return GetEpgProgrammesInRange(day, nextDay, channelName);
+    }
+
+    public static IEnumerable<Programme> GetNowAndNext(
+        string channelName)
+    {
+        DateTime startTine = DateTime.UtcNow - new TimeSpan(0, 6, 0, 0); ;
+        DateTime endTine = startTine + new TimeSpan(0, 24, 0, 0);
+        return GetEpgProgrammesInRange(startTine, endTine, channelName).Take(2);
+    }
+
+    public static IEnumerable<Programme> GetEpgProgrammesInRange(
+        DateTime startTime,
+        DateTime endTine,
+        string channelName)
+    {
         EnsureServiceRunning(false);
 
         if (schedule == null)
@@ -275,31 +439,40 @@ public static class RemotePotato
             LoadSchedule();
         }
 
-        DateTime nextDay = day + new TimeSpan(1, 0, 0, 0);
         if (!String.IsNullOrEmpty(channelName))
         {
+            if (channelName == "BBC ONE HD")
+            {
+                channelName = "BBC ONE";   //  BBC ONE HD is faked up as it has no EPG
+            }
+
+            channelName = channelName.ToLower();
+
             try
             {
-                XElement channel = GetAllChannels().Where(ch => ch.Element("Callsign").Value == channelName).First();
+                XElement channel = GetAllChannels().Where(ch => ch.Element("Callsign").Value.ToLower() == channelName).First();
                 XDocument requestDoc = new XDocument(
                     new XElement("ArrayOfEPGRequest",
                         new XElement("EPGRequest",
                             new XElement("TVServiceID", channel.Element("UniqueId").Value),
-                            new XElement("StartTime", day.Ticks),
-                            new XElement("StopTime", nextDay.Ticks))));
+                            new XElement("StartTime", startTime.Ticks),
+                            new XElement("StopTime", endTine.Ticks))));
 
                 XDocument programsDoc = GetXml(Url + "programmes/nodescription/byepgrequest", requestDoc);
 
                 if (programsDoc != null)
                 {
-                    return programsDoc.Element("ArrayOfTVProgramme").Elements("TVProgramme").Select(
-                        p => new Programme(
-                            p.Element("Id").Value,
-                            p.Element("Title").Value,
-                            p.Element("Description").Value,
-                            channelName,
-                            new DateTime(Int64.Parse(p.Element("StartTime").Value)),
-                            new DateTime(Int64.Parse(p.Element("StopTime").Value))));
+                    return programsDoc.Element("ArrayOfTVProgramme").Elements("TVProgramme")
+                        .Select(
+                            p => new Programme(
+                                p.Element("Id").Value,
+                                p.Element("Title").Value,
+                                p.Element("Description").Value,
+                                channelName,
+                                new DateTime(Int64.Parse(p.Element("StartTime").Value)),
+                                new DateTime(Int64.Parse(p.Element("StopTime").Value))))
+                        .Where(
+                                p => p.StopTime > DateTime.UtcNow);
                 }
             }
             catch (System.Exception ex)

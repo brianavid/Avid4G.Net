@@ -130,11 +130,11 @@ textarea {
     font-style: italic;
 }
 
-.musicInfoTrackName, .spotifyInfoTrackName {
+.musicInfoTrackName, .spotifyInfoTrackName, .tvCurrentChannelName {
     font-weight: bold;
 }
 
-.musicPlayingTrack, .spotifyPlayingTrack, .videoTitle {
+.musicPlayingTrack, .spotifyPlayingTrack, .videoTitle, .tvCurrentProgramme {
     font-size: 1.4em;
     font-weight: normal;
 }
@@ -159,13 +159,13 @@ textarea {
     margin-left:5%;
 }
 
-.musicPlaybackQueueItems, .musicBrowserItems, .webBrowserItems, .guideBrowserItems, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .photosImagesGrid, .photosBrowserItems, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoDvds {
+.musicPlaybackQueueItems, .musicBrowserItems, .webBrowserItems, .guideBrowserItems, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .photosImagesGrid, .photosBrowserItems, .tvButtons, .tvChannels, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoDvds {
     position: relative;
     overflow-y:hidden;
     -webkit-overflow-scrolling: touch;
 }
 
-.musicPlaybackQueueItem, .musicBrowserItem, .webBrowserItem, .guideItem, .spotifyPlaybackQueueItem, .spotifyBrowserItem, .photosBrowserItem, .skyChannel, .skyRecording, .skyRecordingGroup, .skyProgramme, .skyRecordingAction, .videoRecording, .videoDvd, .videoRecordingAction, .actionMenuItem {
+.musicPlaybackQueueItem, .musicBrowserItem, .webBrowserItem, .guideItem, .spotifyPlaybackQueueItem, .spotifyBrowserItem, .photosBrowserItem, .tvChannel, .skyChannel, .skyRecording, .skyRecordingGroup, .skyProgramme, .skyRecordingAction, .videoRecording, .videoDvd, .videoRecordingAction, .actionMenuItem {
     width: 100%;
     border-width: thin; 
     border-color: #3a5069; 
@@ -173,7 +173,7 @@ textarea {
     border-bottom-style: solid;
 }
 
-.musicPlaybackQueueTitle, .musicBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .skyChannelName, .skyProgrammeName, .skyRecordingName, .skyRecordingAction, .videoRecordingName, .videoRecordingAction, .webBrowserTitle, .guideTitle, .actionMenuItem {
+.musicPlaybackQueueTitle, .musicBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .tvChannelName, .skyChannelName, .skyProgrammeName, .skyRecordingName, .skyRecordingAction, .videoRecordingName, .videoRecordingAction, .webBrowserTitle, .guideTitle, .actionMenuItem {
     color: #3a5069;
     display: block;
     padding-right: 0px;
@@ -186,7 +186,7 @@ textarea {
     background-color:#DDD;
 }
 
-.musicPlaybackQueueTitle, .musicBrowserTitle, .webBrowserTitle, .guideTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .skyRecordingAction, .actionMenuItem, .videoDvd, .videoRecordingAction {
+.musicPlaybackQueueTitle, .musicBrowserTitle, .webBrowserTitle, .guideTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .skyRecordingAction, .actionMenuItem, .videoDvd, .videoRecordingAction, .tvPlayingInfo {
     padding-top:10px;
     padding-bottom:10px;}
 
@@ -211,7 +211,7 @@ textarea {
     -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
 }
 
-.musicProgrammeInfo, .webBrowserProgrammeInfo, .guideProgrammeInfo, .skyProgrammeInfo, .skyRecordingInfo, skyRecordingDescription, .videoRecordingInfo, .videoRecordingDescription, .videoTimelineInfo {
+.musicProgrammeInfo, .webBrowserProgrammeInfo, .guideProgrammeInfo, .ProgrammeInfo, .tvProgrammeInfo, .skyProgrammeInfo, .skyRecordingInfo, skyRecordingDescription, .videoRecordingInfo, .videoRecordingDescription, .videoTimelineInfo {
     font-size: small; 
 }
 
@@ -219,7 +219,7 @@ textarea {
     font-style:italic;
 }
 
-.skyControlActionLine {
+.tvControlActionLine, .skyControlActionLine {
     font-size: small; 
     position:absolute;
     bottom:0;
@@ -233,14 +233,14 @@ textarea {
     background-color: #c87070;
 }
 
-.skyRecordingWhen, .skyProgrammeWhen, .skyControlActionL, .videoRecordingWhen, .videoInfoLeft, .guideProgrammeInfoL{
+.tvProgrammeWhen, .tvControlActionL, .tvNextPrograme, .skyRecordingWhen, .skyProgrammeWhen, .skyControlActionL, .videoRecordingWhen, .videoInfoLeft, .guideProgrammeInfoL{
     white-space: nowrap;
     overflow: hidden;
     width:65%;
     float:left;
 }
 
-.skyRecordingChannel, .skyProgrammeChannel, .skyControlActionR, .videoRecordingChannel, .videoInfoRight, .guideProgrammeInfoR {
+.tvProgrammeChannel, .tvControlActionR, .tvCurrentChannelNumber, .skyRecordingChannel, .skyProgrammeChannel, .skyControlActionR, .videoRecordingChannel, .videoInfoRight, .guideProgrammeInfoR {
     white-space: nowrap;
     overflow: hidden;
     width:35%;
@@ -248,7 +248,7 @@ textarea {
     text-align: right;
 }
 
-.skyRecordingDescription, .skyProgrammeDescription, .videoRecordingDescription {
+.tvRecordingDescription, .skyRecordingDescription, .skyProgrammeDescription, .videoRecordingDescription {
     width:90%;
     margin-left:5%;
     font-style: italic;
@@ -276,7 +276,7 @@ textarea {
     font-style: italic;
 }
 
-.musicPlaybackQueueDuration, .spotifyPlaybackQueueDuration, .musicBrowserDuration, .spotifyBrowserDuration, .skyChannelNumber {
+.musicPlaybackQueueDuration, .spotifyPlaybackQueueDuration, .musicBrowserDuration, .spotifyBrowserDuration, .tvChannelNumber, .skyChannelNumber {
     font-size: small; 
     text-align: right; 
 }
@@ -284,11 +284,11 @@ textarea {
 .musicBrowserTitle, .spotifyBrowserTitle {
 }
 
-#musicPanes, #webPanes, #spotifyPanes, #skyPanes, #videoPanes, #photosPanes, .TwoColumn {
+#musicPanes, #webPanes, #spotifyPanes, #tvPanes, #skyPanes, #videoPanes, #photosPanes, .TwoColumn {
     position: relative;
 }
 
-#musicLeftPane, #webLeftPane, #spotifyLeftPane, #skyLeftPane, #videoLeftPane,  #photosLeftPane, .TwoColumnLeft {
+#musicLeftPane, #webLeftPane, #spotifyLeftPane, #tvLeftPane, #skyLeftPane, #videoLeftPane,  #photosLeftPane, .TwoColumnLeft {
     width: 50%;
     position:absolute;
     left:0px;
@@ -296,7 +296,7 @@ textarea {
     border-right:2px solid #3a5069;
 }
 
-#musicRightPane, #webRightPane, #spotifyRightPane, #skyRightPane, #videoRightPane, #photosRightPane, .TwoColumnRight {
+#musicRightPane, #webRightPane, #spotifyRightPane, #tvRightPane, #skyRightPane, #videoRightPane, #photosRightPane, .TwoColumnRight {
     width: 50%;
     left:50%;
     position:absolute;
@@ -316,7 +316,7 @@ textarea {
     background-color:#FFF;
 }
 
-#musicQueuePane, #spotifyQueuePane, #skyButtonsPane, #photosImagesPane {
+#musicQueuePane, #spotifyQueuePane, #tvButtonsPane, #skyButtonsPane, #photosImagesPane {
     overflow: hidden;
     border-bottom :2px solid #3a5069;
     padding: 5px;

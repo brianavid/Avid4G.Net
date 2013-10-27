@@ -11,11 +11,21 @@ $(function () {
     });
 
     $("#selectTV").mousedown(function () {
-        StartSky("TV", null, "live")
+        var tvService = $("#tvService").text();
+        if (tvService == "Sky") {
+            StartSky("Sky", null, "live")
+        } else {
+            LaunchProgram("TV", "/TV/Channels")
+        }
     });
 
     $("#selectRadio").mousedown(function () {
-        StartSky("Sky", null, "radio")
+        var tvService = $("#tvService").text();
+        if (tvService == "Sky") {
+            StartSky("Sky", null, "radio")
+        } else {
+            LaunchProgram("TV", "/TV/Radio")
+        }
     });
 
     $("#selectSky").mousedown(function () {

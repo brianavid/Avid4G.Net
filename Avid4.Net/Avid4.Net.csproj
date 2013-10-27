@@ -155,6 +155,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MusicController.cs" />
     <Compile Include="Controllers\PhotosController.cs" />
+    <Compile Include="Controllers\TvController.cs" />
     <Compile Include="Controllers\SkyController.cs" />
     <Compile Include="Controllers\SpotifyController.cs" />
     <Compile Include="Controllers\TestController.cs" />
@@ -427,6 +428,7 @@
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\guide.js" />
     <Content Include="Scripts\photos.js" />
+    <Content Include="Scripts\tv.js" />
     <Content Include="Scripts\video.js" />
     <Content Include="Scripts\Web.js" />
     <Content Include="Scripts\homeWide.js" />
@@ -532,6 +534,17 @@
     <Content Include="Views\Guide\Browser.cshtml" />
     <Content Include="Views\Guide\BrowserPane.cshtml" />
     <Content Include="Views\Guide\BrowserWide.cshtml" />
+    <Content Include="Views\TV\All.cshtml" />
+    <Content Include="Views\TV\Buttons.cshtml" />
+    <Content Include="Views\TV\ButtonsPane.cshtml" />
+    <Content Include="Views\TV\ChannelsPane.cshtml" />
+    <Content Include="Views\TV\ControlPane.cshtml" />
+    <Content Include="Views\TV\Channels.cshtml" />
+    <Content Include="Views\TV\NowAndNext.cshtml" />
+    <Content Include="Views\TV\PaneButtons.cshtml" />
+    <Content Include="Views\TV\Radio.cshtml" />
+    <Content Include="Views\TV\RadioPane.cshtml" />
+    <Content Include="Views\TV\Watch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
