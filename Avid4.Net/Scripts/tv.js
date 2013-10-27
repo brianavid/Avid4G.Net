@@ -38,7 +38,7 @@ function AddControlHammerActions(controlUnderButtons) {
     }
 
     if (!controlHammer) {
-        controlHammer = $(".tvControls").hammer();
+        controlHammer = $(".tvControlPane").hammer();
     }
 
     controlHammer.on("touch", ".tvAction", function (e) {
@@ -47,6 +47,7 @@ function AddControlHammerActions(controlUnderButtons) {
             success: function (data) {
                 DisplayRunningOnControlPad(false)
             },
+            async: false,
             cache: false
         });
     });
@@ -74,6 +75,7 @@ function AddButtonsHammerActions(controlHeight) {
             success: function (data) {
                 DisplayRunningOnControlPad(false)
             },
+            async: false,
             cache: false
         });
     });
