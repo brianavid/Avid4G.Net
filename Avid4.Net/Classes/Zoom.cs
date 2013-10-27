@@ -244,7 +244,18 @@ public class Zoom
         }
     }
 
-    public static string Title { get; set; }
+    public static string Title { 
+        get 
+        { 
+            return title; 
+        }
+        set
+        {
+            title = value;
+            state = "Playing";
+        }
+    }
+    static string title;
 
     static int positionMs = 0;
     static int durationMs = 0;
