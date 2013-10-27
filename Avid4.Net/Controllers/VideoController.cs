@@ -63,8 +63,13 @@ namespace Avid4.Net.Controllers
         //
         // GET: /Video/RecordingsPane
 
-        public ActionResult RecordingsPane()
+        public ActionResult RecordingsPane(
+            string title)
         {
+            if (title != null)
+            {
+                ViewBag.GroupTitle = title;
+            }
             return PartialView();
         }
 

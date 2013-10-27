@@ -115,6 +115,36 @@ public static class RemotePotato
     }
     static public Dictionary<String, Recording> AllRecordings { get; private set; }
 
+    static public IEnumerable<Recording> AllRecordingsInReverseTimeOrder
+    {
+        get { return AllRecordings.Values.OrderByDescending(r => r.StartTime); }
+    }
+
+    static public IEnumerable<Recording> AllRecordingsForTitle(
+        string title)
+    {
+        return AllRecordingsInReverseTimeOrder.Where(r => r.Title == title);
+    }
+
+    static public IEnumerable<List<Recording>> AllRecordingsGroupedByTitle
+    {
+        get
+        {
+            Dictionary<string, List<Recording>> recordingsForTitle = new Dictionary<string, List<Recording>>();
+
+            foreach (Recording r in AllRecordingsInReverseTimeOrder)
+            {
+                if (!recordingsForTitle.ContainsKey(r.Title))
+                {
+                    recordingsForTitle[r.Title] = new List<Recording>();
+                }
+                recordingsForTitle[r.Title].Add(r);
+            }
+
+            return recordingsForTitle.Values;
+        }
+    }
+
     static string host = null;
     public static string Host
     {

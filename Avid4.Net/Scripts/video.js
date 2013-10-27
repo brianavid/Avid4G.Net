@@ -172,6 +172,11 @@ function AddVideoRecordingsHammerActions() {
         ReplacePane("videoRecordings", "/Video/Recording?id=" + this.id, "push")
     });
 
+    videoRecordingsListHammer.on("tap", ".videoRecordingGroup", function (e) {
+        e.gesture.preventDefault()
+        ReplacePane("videoRecordings", "/Video/RecordingsPane?title=" + escape(this.id), "push")
+    });
+
     videoRecordingsListHammer.on("tap", "#videoRecordingPlayFromStart", function () {
         $("#videoRecordingPlayFromStart").text("Playing ...")
         var playUrl = "/Video/PlayRecording?id=" + $("#recordingId").text();
