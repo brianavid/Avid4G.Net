@@ -122,7 +122,7 @@ function AddVideoControlsHammerActions() {
     });
 
     videoControlHammer.on("touch", "#videoStop", function (e) {
-        $.get("/Action/AllOff")
+        sendZoom("fnStop")
     });
 
     videoControlHammer.on("touch", "#videoDvdMenu", function (e) {
@@ -358,6 +358,10 @@ $(function () {
     $("#displayVideoRecordings").click(DisplayVideoRecordings);
 
     $("#displayDVDs").click(DisplayDvds);
+
+    $("#actionMenuVideoScreenFix").click(function () {
+        sendZoom("fnFullscreen")
+    });
 
     // update information once now
     UpdateZoomDisplayPlayingInformation();
