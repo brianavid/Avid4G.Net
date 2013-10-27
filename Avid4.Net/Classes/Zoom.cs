@@ -251,5 +251,7 @@ public class Zoom
     static string state = "Unknown";
     static string mode = "Unknown";
 
+    public static bool IsCurrentlyPlaying { get { return state == "Playing" || state == "Paused"; } }
+
     public static bool IsDvdMode { get; set; }
 }

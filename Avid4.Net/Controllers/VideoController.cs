@@ -15,6 +15,11 @@ namespace Avid4.Net.Controllers
 
         public ActionResult Watch()
         {
+            if (!Zoom.IsCurrentlyPlaying)
+            {
+                return View("Recordings");
+            }
+
             return View();
         }
 
