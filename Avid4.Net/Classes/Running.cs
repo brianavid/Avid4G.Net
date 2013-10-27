@@ -31,6 +31,8 @@ public static class Running
                     return "topBarNone";
                 case "Music":
                     return "topBarMusic";
+                case "TV":
+                    return "topBarTv";
                 case "Sky":
                     return "topBarSky";
                 case "Spotify":
