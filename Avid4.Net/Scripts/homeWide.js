@@ -9,6 +9,15 @@ $(function () {
         LaunchProgram("Video", "/Video/All");
     });
 
+    $("#selectTV").mousedown(function () {
+        var tvService = $("#tvService").text();
+        if (tvService == "Sky") {
+            StartSky("Sky", "/Sky/All", "live")
+        } else {
+            LaunchProgram("TV", "/TV/All")
+        }
+    });
+
     $("#selectSky").mousedown(function () {
         StartSky("Sky", "/Sky/All", "planner")
     });
