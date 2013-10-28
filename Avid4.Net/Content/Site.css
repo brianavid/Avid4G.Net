@@ -308,7 +308,7 @@ textarea {
     border-left:2px solid #3a5069;
 }
 
-#musicControlPane, #spotifyControlPane, #skyControlPane {
+#musicControlPane, #spotifyControlPane, #tvControlPane, #skyControlPane {
     padding: 5px;
     height: 260px;
     background-color:#FFF;
@@ -326,7 +326,7 @@ textarea {
     padding: 5px;
 }
 
-#musicBrowserPane, #webBrowserPane, #spotifyBrowserPane, #photosBrowserPane {
+#musicBrowserPane, #webBrowserPane, #spotifyBrowserPane, #photosBrowserPane, #tvChannelsPane {
     overflow: hidden;
     padding: 5px;
 }

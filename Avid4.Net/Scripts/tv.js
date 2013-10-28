@@ -127,6 +127,22 @@ function AddChannelsHammerActions() {
     });
 }
 
+function ResizeButtons()
+{
+    var controlHeight = 0;
+
+    $("#tvControlPane").each(function () {
+        controlHeight = $(this).height();
+    })
+
+    $("#tvButtonsPane").each(function () {
+        var h = $(window).height() - 24
+        var t = $(this).offset().top
+        console.log("#tvButtonsPane h=" + h + "; t=" + t + "; c=" + controlHeight + " => " + (h - t - controlHeight))
+        $(this).height(h - t - controlHeight)
+    });
+}
+
 function DisplayRunningOnControlPad(jump) {
     var controlDisplay = document.getElementById("tvControlPane");
 
@@ -135,7 +151,7 @@ function DisplayRunningOnControlPad(jump) {
             url: "/Tv/Action?command=GotoLiveTV",
             success: function (data) {
                 if (controlDisplay != null) {
-                    ReplacePane("tvControlPane", "/Tv/ControlPane", "none");
+                    ReplacePane("tvControlPane", "/Tv/ControlPane", "none", ResizeButtons);
                 }
                 else {
                     LinkTo("/Tv/Watch");
