@@ -612,7 +612,7 @@ public class SkyData
 		            request.ContentLength = postBytes.Length;
 		            request.ContentType = "text/xml; charset=utf-8";
 		            request.Headers.Add("SOAPACTION", "\"" + soapAction + "\"");
-                    request.Timeout = timeout * (i+1);
+                    request.Timeout = timeout  + i*1000;
                     if (i != 0)
                     {
                         ((HttpWebRequest)request).KeepAlive = false;
