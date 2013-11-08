@@ -216,34 +216,43 @@ function AddVideoDvdsHammerActions() {
     EnableDragScroll(videoDvdsListHammer)
 
     videoDvdsListHammer.on("doubletap", ".videoDvdDrive", function () {
+        OverlayScreenForLaunch()
         var playUrl = "/Video/PlayDvdDisk?drive=" + this.id + "&title=" + escape($(".videoRecordingTitle", this).text());
         $.ajax({
             url: playUrl,
             success: function (data) {
+                RemoveScreenOverlay();
                 DisplayRunningOnWatchPane(true)
             },
-            cache: false
+            error: RemoveScreenOverlay,
+           cache: false
         });
     });
 
     videoDvdsListHammer.on("doubletap", ".videoBluRay", function () {
+        OverlayScreenForLaunch()
         var playUrl = "/Video/PlayBluRayFile?path=" + escape(this.id) + "&title=" + escape($(".videoRecordingTitle", this).text());
         $.ajax({
             url: playUrl,
             success: function (data) {
+                RemoveScreenOverlay();
                 DisplayRunningOnWatchPane(true)
             },
+            error: RemoveScreenOverlay,
             cache: false
         });
     });
 
     videoDvdsListHammer.on("doubletap", ".videoDvdDirectory", function () {
+        OverlayScreenForLaunch()
         var playUrl = "/Video/PlayDvdDirectory?path=" + escape(this.id) + "&title=" + escape($(".videoRecordingTitle", this).text());
         $.ajax({
             url: playUrl,
             success: function (data) {
+                RemoveScreenOverlay();
                 DisplayRunningOnWatchPane(true)
             },
+            error: RemoveScreenOverlay,
             cache: false
         });
     });
