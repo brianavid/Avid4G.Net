@@ -279,24 +279,24 @@
                     searchTracks = JRMC.SearchTracks(searchText);
                 }
                 
-                <form id="musicSearchForm" runat="server">
-                    <table class="buttonRow">
-	                    <tr>
-                            <td style='width: 75%'><input id='SearchText' type='text' style='width: 100%' value='@(searchText)' /></td>
-                            <td class="centeredButton" style='width: 25%'>
-                                <img id="goMusicSearch" src="/Content/Buttons/MiniRound/Search.png" />
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+                <table class="buttonRow">
+	                <tr>
+                        <td style='width: 75%'><input id='SearchText' type='text' style='width: 100%' value='@(searchText)' /></td>
+                        <td class="centeredButton" style='width: 25%'>
+                            <img id="goMusicSearch" src="/Content/Buttons/MiniRound/Search.png" />
+                        </td>
+                    </tr>
+                </table>
                     
                 if (searchTracks != null)
                 {
+                    bool anyFound = false;
                     string lastAlbum = string.Empty;
                     string lastArtist = string.Empty;
 
                     foreach (var track in searchTracks)
                     {
+                        anyFound = true;
                         string album = track.Info.ContainsKey("Album") ? track.Info["Album"] : string.Empty;
                         string artist = track.Info.ContainsKey("Artist") ? track.Info["Artist"] : string.Empty;
                         string duration = track.Info.ContainsKey("Duration") ? track.Info["Duration"] : string.Empty;
@@ -328,10 +328,16 @@
                             }
                         </div>
                     }
+                    if (!anyFound)
+                    {
+                        <div class="musicBrowserItem musicBrowserHeader">
+                            <div class="musicBrowserTitle">No track found: '@(searchText)'</div>
+                        </div>
+                    }
                 }
             }
             break;
-            
+
         case "ListenAgainSelect":
             {
                 <div class="TwoColumnBrowse">

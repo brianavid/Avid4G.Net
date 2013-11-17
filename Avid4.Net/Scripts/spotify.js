@@ -312,18 +312,21 @@ function AddBrowserHammerActions() {
 
     browserHammer.on("tap", "#goSpotifyArtistSearch", function (e) {
         var query = document.getElementById("ArtistSearchText").value
+        $("#spotifyBrowserPlaylistHeader").text("Searching ...")
         ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=SearchArtists&query=" + encodeURIComponent(query), "push", HandleSearchKeyPresses)
         return false;
     });
 
     browserHammer.on("tap", "#goSpotifyAlbumSearch", function (e) {
         var query = document.getElementById("AlbumSearchText").value
+        $("#spotifyBrowserPlaylistHeader").text("Searching ...")
         ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=SearchAlbums&query=" + encodeURIComponent(query), "push", HandleSearchKeyPresses)
         return false;
     });
 
     browserHammer.on("tap", "#goSpotifyTrackSearch", function (e) {
         var query = document.getElementById("TrackSearchText").value
+        $("#spotifyBrowserPlaylistHeader").text("Searching ...")
         ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=SearchTracks&query=" + encodeURIComponent(query), "push", HandleSearchKeyPresses)
         return false;
     });

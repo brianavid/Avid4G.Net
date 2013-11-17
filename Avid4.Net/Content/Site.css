@@ -335,7 +335,7 @@ textarea {
     padding: 5px;
 }
 
-.spotifyBrowserPlaylistHeader, .guideHeader {
+.spotifyBrowserPlaylistHeader, .musicBrowserHeader, .guideHeader {
     font-style:italic;
 }
 

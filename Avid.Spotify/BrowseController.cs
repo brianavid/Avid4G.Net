@@ -17,6 +17,7 @@ namespace Avid.Spotify
     {
         static Logger logger = LogManager.GetCurrentClassLogger();
 
+        [HttpGet]
         public IEnumerable<SpotifyData.Track> SearchTracks(
             string name)
         {
