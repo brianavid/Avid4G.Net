@@ -636,13 +636,20 @@ public class JRMC
                     FetchAllAlbums(childId, albumList, photoAlbumList);
                 }
             }
-            else if (childIds.ContainsKey("Artist"))
+            else
             {
-                FetchAllAlbums(childIds["Artist"], albumList, photoAlbumList);
-            }
-            else if (childIds.ContainsKey("Album"))
-            {
-                FetchAllAlbums(childIds["Album"], albumList, photoAlbumList);
+                if (childIds.ContainsKey("Artist"))
+                {
+                    FetchAllAlbums(childIds["Artist"], albumList, photoAlbumList);
+                }
+                if (childIds.ContainsKey("Album"))
+                {
+                    FetchAllAlbums(childIds["Album"], albumList, photoAlbumList);
+                }
+                if (childIds.ContainsKey("Composer"))
+                {
+                    FetchAllAlbums(childIds["Composer"], albumList, photoAlbumList);
+                }
             }
         }
         else
