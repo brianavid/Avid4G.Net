@@ -419,11 +419,6 @@ public static class RemotePotato
     {
         CurrentlySelectedChannelName = channelName;
 
-        if (channelName == "BBC ONE HD")
-        {
-            SelectTvChannelNumber("101");   //  BBC ONE HD is faked up as it has no EPG
-            return;
-        }
         XElement channel = GetAllChannels().Where(ch => ch.Element("Callsign").Value == channelName).First();
         SelectTvChannelNumber(channel.Element("MCChannelNumber").Value);
     }
@@ -471,11 +466,6 @@ public static class RemotePotato
 
         if (!String.IsNullOrEmpty(channelName))
         {
-            if (channelName == "BBC ONE HD")
-            {
-                channelName = "BBC ONE";   //  BBC ONE HD is faked up as it has no EPG
-            }
-
             channelName = channelName.ToLower();
 
             try
