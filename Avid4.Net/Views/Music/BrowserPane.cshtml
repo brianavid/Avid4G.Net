@@ -97,8 +97,8 @@
         case "AlbumsOfTrack":
         case "LuckyDip":
         case "RecentAlbums":
-            AlbumCollection albums = null;
-            IEnumerable<AlbumData> albumList = null;
+            JRMC.AlbumCollection albums = null;
+            IEnumerable<JRMC.AlbumData> albumList = null;
             switch (ViewBag.Mode as string)
             {
                 case "AlbumsOfInitial":
@@ -153,7 +153,7 @@
 
         case "Tracks":
         case "AllTracksOnAlbum":
-            TrackData[] tracks = null;
+            JRMC.TrackData[] tracks = null;
             switch (ViewBag.Mode as string)
             {
                 case "Tracks":
@@ -277,15 +277,15 @@
         case "Search":
             {
                 string searchText = "";
-                TrackData[] searchTracks = null;
+                JRMC.TrackData[] searchTracks = null;
                 string searchQuery = ViewBag.Query;
-                
+
                 if (!String.IsNullOrEmpty(searchQuery))
                 {
                     searchText = HttpUtility.UrlDecode(searchQuery);
                     searchTracks = JRMC.SearchTracks(searchText);
                 }
-                
+
                 <table class="buttonRow">
 	                <tr>
                         <td style='width: 75%'><input id='SearchText' type='text' style='width: 100%' value='@(searchText)' /></td>
