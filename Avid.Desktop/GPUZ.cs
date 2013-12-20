@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace GPUZ
 {
+    /// <summary>
+    /// Wrapper for the GPUZ shared memory interface to query the state (in particular temperature) of the GPU
+    /// </summary>
     class GPUZ
     {
         const String SHMEM_NAME="GPUZShMem";

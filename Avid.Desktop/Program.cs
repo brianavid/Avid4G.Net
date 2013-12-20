@@ -18,6 +18,8 @@ namespace Avid.Desktop
         [STAThread]
         static void Main()
         {
+            //  The Desktop tray app is also responsible for discovering the Sky STB service locations and recording them in the registry
+            //  This is simply a convenient place to do this
             SkyLocator.GetSkyServices(ConfigurationManager.AppSettings["IpAddress"]);
 
             //  if (!SingleInstance.Start()) { return; }
@@ -25,6 +27,7 @@ namespace Avid.Desktop
             Application.SetCompatibleTextRenderingDefault(false);
             try
             {
+                //  The desktop service is a self-hosted WCF service implementing IDesktopService
                 ServiceHost selfHost = new ServiceHost(typeof(DesktopService), baseAddress);
 
                 try
@@ -33,6 +36,7 @@ namespace Avid.Desktop
 
                     selfHost.Open();
 
+                    //  Now the IDesktopService implementation is running start a tray UI which can be used to exit 
                     var applicationContext = new CustomApplicationContext();
                     Application.Run(applicationContext);
 

@@ -6,8 +6,16 @@ using UsbUirt;
 
 namespace Avid.Desktop
 {
+    /// <summary>
+    /// A wrapper class for the USB UIRT device
+    /// </summary>
     public static class UsbService
     {
+        /// <summary>
+        /// The only method is to Send an IR code sequence
+        /// </summary>
+        /// <param name="irCode"></param>
+        /// <returns></returns>
         public static bool SendIR(
             string irCode)
         {
