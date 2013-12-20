@@ -318,6 +318,11 @@ function AddBrowserHammerActions() {
         return false;
     });
 
+    browserHammer.on("tap", "#musicBrowserLibraryRecentAlbums", function (e) {
+        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=RecentAlbums", "push")
+        return false;
+    });
+
     browserHammer.on("tap", "#musicBrowserLibrarySearch", function (e) {
         ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Search", "push")
         return false;

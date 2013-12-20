@@ -20,6 +20,9 @@
                 <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibraryLuckyDip">
                     <div class="musicBrowserTitle">Lucky Dip</div>
                 </div>
+                <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibraryRecentAlbums">
+                    <div class="musicBrowserTitle">Recent Albums</div>
+                </div>
                 <div class="musicBrowserLibrary musicBrowserItem" id="musicBrowserLibrarySearch">
                     <div class="musicBrowserTitle">Search</div>
                 </div>
@@ -93,6 +96,7 @@
         case "AlbumsOfComposer":
         case "AlbumsOfTrack":
         case "LuckyDip":
+        case "RecentAlbums":
             AlbumCollection albums = null;
             IEnumerable<AlbumData> albumList = null;
             switch (ViewBag.Mode as string)
@@ -111,6 +115,9 @@
                     break;
                 case "LuckyDip":
                     albumList = JRMC.GetLuckyDipAlbums();
+                    break;
+                case "RecentAlbums":
+                    albumList = JRMC.GetRecentAlbums();
                     break;
             }
             if (albums != null || albumList != null)

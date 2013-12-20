@@ -52,6 +52,13 @@ public class TrackData
         var track0 = album.Track0.Info;
         return track0.ContainsKey("Album") ? track0["Album"] : string.Empty;
     }
+
+    public static DateTime GetAlbumDateImported(AlbumData album)
+    {
+        var track0 = album.Track0.Info;
+        DateTime dateImported = track0.ContainsKey("Date Imported") ?  new DateTime( Convert.ToInt64(track0["Date Imported"])) : DateTime.MinValue;
+        return dateImported;
+    }
 };
 
 [Serializable]
@@ -99,6 +106,16 @@ public class AlbumCollection
         }
     }
 
+    public IEnumerable<AlbumData> MostRecentFirst
+    {
+        get
+        {
+            AlbumData[] sortedAlbums = albums.Values.ToArray();
+            Array.Sort(sortedAlbums, (a1, a2) => DateTime.Compare(TrackData.GetAlbumDateImported(a2), TrackData.GetAlbumDateImported(a1)));
+            return sortedAlbums;
+        }
+    }
+
     public AlbumData GetById(
         string albumId)
     {
@@ -125,7 +142,7 @@ public class AlbumCollection
 [Serializable]
 public class JRMC
 {
-    private const string RequiredTrackData = "Name,Track,Album,Artist,Genre,Composer,Duration,Album Artist,Filename";
+    private const string RequiredTrackData = "Name,Track,Album,Artist,Genre,Composer,Duration,Album Artist,Filename,Date Imported";
 
     static string host = null;
     public static string Host 
@@ -552,6 +569,12 @@ public class JRMC
         }
 
         return luckyDip;
+    }
+
+
+    public static IEnumerable<AlbumData> GetRecentAlbums()
+    {
+        return AlbumList.MostRecentFirst.Take(20);
     }
 
 
