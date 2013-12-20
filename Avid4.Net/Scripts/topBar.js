@@ -205,6 +205,7 @@ $(function () {
     });
 
     $("#actionMenuRebuildMediaDb").click(function () {
+        $(".actionMenu").hide()
         $.ajax({
             url: "/Action/RebuildMediaDb",
             success: HideActionMenu,
