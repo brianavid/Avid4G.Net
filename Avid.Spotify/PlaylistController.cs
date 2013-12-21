@@ -11,12 +11,22 @@ using NLog;
 
 namespace Avid.Spotify
 {
+    /// <summary>
+    /// Web API Controller, with public HttpGet web methods for managing Playlists stored in Spotify for the authenicated user
+    /// </summary>
     public class PlaylistController : ApiController
     {
         static Logger logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// The collection of named playlists
+        /// </summary>
         static Dictionary<string, Playlist> playlists = null;
 
+        /// <summary>
+        /// Build the collection of named playlists stored in Spotify
+        /// </summary>
+        /// <returns></returns>
         static async Task BuildPlayLists()
         {
             playlists = new Dictionary<string, Playlist>();
@@ -34,6 +44,9 @@ namespace Avid.Spotify
             }
         }
 
+        /// <summary>
+        /// The collection of named playlists, built if necessary
+        /// </summary>
         static Dictionary<string, Playlist> Playlists
         {
             get
@@ -46,6 +59,10 @@ namespace Avid.Spotify
             }
         }
 
+        /// <summary>
+        /// Get the collection of named playlists, rebuilding from data on Spotify
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<string> GetPlayLists()
         {
@@ -53,12 +70,11 @@ namespace Avid.Spotify
             return Playlists.Keys;
         }
 
-        async Task<IEnumerable<SpotifyData.Track>> GetPlayListTracksAsync(
-            string name)
-        {
-            return (await playlists[name]).Tracks.Select(t => MakeData.Track(t));
-        }
-
+        /// <summary>
+        /// Get the collection of tracks for a named playlist
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<SpotifyData.Track> GetPlayListTracks(
             string name)
@@ -79,23 +95,18 @@ namespace Avid.Spotify
             }
         }
 
-
-        async Task<IEnumerable<SpotifyData.Album>> GetPlayListAlbumsAsync(
+        async Task<IEnumerable<SpotifyData.Track>> GetPlayListTracksAsync(
             string name)
         {
-            HashSet<Album> albums = new HashSet<Album>();
-            foreach (Track track in (await playlists[name]).Tracks)
-            {
-                Album album = track.Album;
-                if (!albums.Contains(album))
-                {
-                    albums.Add(album);
-                }
-            }
-
-            return albums.Select(a => MakeData.Album(a));
+            return (await playlists[name]).Tracks.Select(t => MakeData.Track(t));
         }
 
+
+        /// <summary>
+        /// Get the collection of albums for a named playlist
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<SpotifyData.Album> GetPlayListAlbums(
             string name)
@@ -116,6 +127,26 @@ namespace Avid.Spotify
             }
         }
 
+        async Task<IEnumerable<SpotifyData.Album>> GetPlayListAlbumsAsync(
+            string name)
+        {
+            HashSet<Album> albums = new HashSet<Album>();
+            foreach (Track track in (await playlists[name]).Tracks)
+            {
+                Album album = track.Album;
+                if (!albums.Contains(album))
+                {
+                    albums.Add(album);
+                }
+            }
+
+            return albums.Select(a => MakeData.Album(a));
+        }
+
+        /// <summary>
+        /// Add a new (empty) named playlist
+        /// </summary>
+        /// <param name="name"></param>
         [HttpGet]
         public void AddPlayList(
             string name)
@@ -134,6 +165,10 @@ namespace Avid.Spotify
             await BuildPlayLists();
         }
 
+        /// <summary>
+        /// Delete a named playlist
+        /// </summary>
+        /// <param name="name"></param>
         [HttpGet]
         public void DeletePlayList(
             string name)
@@ -154,6 +189,11 @@ namespace Avid.Spotify
             await BuildPlayLists();
         }
 
+        /// <summary>
+        /// Rename a playlist
+        /// </summary>
+        /// <param name="oldName"></param>
+        /// <param name="newName"></param>
         [HttpGet]
         public void RenamePlayList(
             string oldName,
@@ -176,6 +216,12 @@ namespace Avid.Spotify
             await BuildPlayLists();
         }
 
+
+        /// <summary>
+        /// Add an identified track to a named playlist
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
         [HttpGet]
         public void AddTrackToPlayList(
             string name,
@@ -186,6 +232,7 @@ namespace Avid.Spotify
             {
                 return;
             }
+
             AddTrackToPlayListAsync(name, track).Wait();
         }
 
@@ -208,9 +255,15 @@ namespace Avid.Spotify
             {
                 playlist.Tracks.Add(track);
             }
+
             await BuildPlayLists();
         }
 
+        /// <summary>
+        /// Add all the tracks of an identified album to a named playlist
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
         [HttpGet]
         public void AddAlbumToPlayList(
             string name,
@@ -221,6 +274,7 @@ namespace Avid.Spotify
             {
                 return;
             }
+
             AddAlbumToPlayListAsync(name, album).Wait();
         }
 
@@ -246,9 +300,15 @@ namespace Avid.Spotify
                     playlist.Tracks.Add(track);
                 }
             }
+
             await BuildPlayLists();
         }
 
+        /// <summary>
+        /// Remove an identified track from a named playlist
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
         [HttpGet]
         public void RemoveTrackFromPlayList(
             string name,
@@ -258,11 +318,13 @@ namespace Avid.Spotify
             {
                 return;
             }
+
             Track track = Cache.Get(id) as Track;
             if (track == null)
             {
                 return;
             }
+
             RemoveTrackFromPlayListAsync(name, track).Wait();
         }
 
@@ -275,9 +337,15 @@ namespace Avid.Spotify
             {
                 playlist.Tracks.Remove(track);
             }
+
             await BuildPlayLists();
         }
 
+        /// <summary>
+        /// Remove all the tracks of an identified album from a named playlist
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="id"></param>
         [HttpGet]
         public void RemoveAlbumFromPlayList(
             string name,
@@ -287,11 +355,13 @@ namespace Avid.Spotify
             {
                 return;
             }
+
             Album album = Cache.Get(id) as Album;
             if (album == null)
             {
                 return;
             }
+
             RemoveAlbumFromPlayListAsync(name, album).Wait();
         }
 
@@ -310,6 +380,7 @@ namespace Avid.Spotify
                     playlist.Tracks.Remove(track);
                 }
             }
+
             await BuildPlayLists();
         }
 

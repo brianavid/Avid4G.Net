@@ -13,10 +13,18 @@ using NLog;
 
 namespace Avid.Spotify
 {
+    /// <summary>
+    /// Web API Controller, with public HttpGet web methods for browsing the Spotify catalog
+    /// </summary>
     public class BrowseController : ApiController
     {
         static Logger logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Search Spotify for up to 50 tracks matching the specified track name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<SpotifyData.Track> SearchTracks(
             string name)
@@ -31,22 +39,30 @@ namespace Avid.Spotify
             Search search = null;
             try
             {
+                //  Search for the tracks asynchronously
                 search = await SpotifySession.Session.SearchTracks(name, 0, 50);
             }
             catch (System.Exception ex)
             {
                 ;
             }
+
+            //  If we have any tracks, return the collection of track data
             if (search != null && search.Tracks.Count > 0)
             {
                 return search.Tracks.Where(t => t.IsAvailable).Select(t => MakeData.Track(t));
             }
 
+            //  None found. Return an empty array
             return new SpotifyData.Track[0];
         }
 
 
-
+        /// <summary>
+        /// Search Spotify for up to 50 albums matching the specified album name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<SpotifyData.Album> SearchAlbums(
             string name)
@@ -61,22 +77,30 @@ namespace Avid.Spotify
             Search search = null;
             try
             {
+                //  Search for the albums asynchronously
                 search = await SpotifySession.Session.SearchAlbums(name, 0, 50);
             }
             catch (System.Exception ex)
             {
                 ;
             }
+
+            //  If we have any albums, return the collection of album data
             if (search != null && search.Albums.Count > 0)
             {
                 return search.Albums.Where(a => a.IsAvailable).Select(a => MakeData.Album(a));
             }
 
+            //  None found. Return an empty array
             return new SpotifyData.Album[0];
         }
 
 
-
+        /// <summary>
+        /// Search Spotify for up to 50 artists matching the specified artist name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<SpotifyData.Artist> SearchArtists(
             string name)
@@ -91,21 +115,29 @@ namespace Avid.Spotify
             Search search = null;
             try
             {
+                //  Search for the artists asynchronously
                 search = await SpotifySession.Session.SearchArtists(name, 0, 50);
             }
             catch (System.Exception ex)
             {
                 ;
             }
+
+            //  If we have any artists, return the collection of artist data
             if (search != null && search.Artists.Count > 0)
             {
                 return search.Artists.Select(a => MakeData.Artist(a));
             }
 
+            //  None found. Return an empty array
             return new SpotifyData.Artist[0];
         }
 
-
+        /// <summary>
+        /// Return cached track data for a tracks identified by a non-persistent cache Id
+        /// </summary>
+        /// <param name="id">The non-persistent cache Id</param>
+        /// <returns></returns>
         [HttpGet]
         public SpotifyData.Track GetTrackById(
             int id)
@@ -114,6 +146,11 @@ namespace Avid.Spotify
             return MakeData.Track(track);
         }
 
+        /// <summary>
+        /// Return cached album data for a tracks identified by a non-persistent cache Id
+        /// </summary>
+        /// <param name="id">The non-persistent cache Id</param>
+        /// <returns></returns>
         [HttpGet]
         public SpotifyData.Album GetAlbumById(
             int id)
@@ -122,12 +159,18 @@ namespace Avid.Spotify
             return MakeData.Album(album);
         }
 
+        /// <summary>
+        /// Return cached artist data for a tracks identified by a non-persistent cache Id
+        /// </summary>
+        /// <param name="id">The non-persistent cache Id</param>
+        /// <returns></returns>
         [HttpGet]
         public SpotifyData.Artist GetArtistById(
             int id)
         {
             Artist artist = Cache.Get(id) as Artist;
-            return MakeData.Artist(artist, GetArtistBiography(artist).Result);
+            Task<string> artistBiography = GetArtistBiography(artist);
+            return MakeData.Artist(artist, artistBiography == null ? null : artistBiography.Result);
         }
 
         async Task<string> GetArtistBiography(
@@ -142,13 +185,11 @@ namespace Avid.Spotify
         }
 
 
-
-        async Task<IEnumerable<SpotifyData.Track>> GetTracksForAlbumAsync(
-            Album album)
-        {
-            return (await album.Browse()).Tracks.Select(t => MakeData.Track(t));
-        }
-
+        /// <summary>
+        /// Get the collection of tracks for an identified album
+        /// </summary>
+        /// <param name="id">The non-persistent cache Id</param>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<SpotifyData.Track> GetTracksForAlbum(
             int id)
@@ -165,12 +206,17 @@ namespace Avid.Spotify
             }
         }
 
-        async Task<IEnumerable<SpotifyData.Album>> GetAlbumsForArtistAsync(
-            Artist artist)
+        async Task<IEnumerable<SpotifyData.Track>> GetTracksForAlbumAsync(
+            Album album)
         {
-            return (await artist.Browse(ArtistBrowseType.NoTracks)).Albums.Where(a => a.IsAvailable).Select(a => MakeData.Album(a));
+            return (await album.Browse()).Tracks.Select(t => MakeData.Track(t));
         }
 
+        /// <summary>
+        /// Get the collection of albums for an identified artist
+        /// </summary>
+        /// <param name="id">The non-persistent cache Id</param>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<SpotifyData.Album> GetAlbumsForArtist(
             int id)
@@ -187,12 +233,18 @@ namespace Avid.Spotify
             }
         }
 
-        async Task<IEnumerable<SpotifyData.Artist>> GetSimilarArtistsForArtistAsync(
+        async Task<IEnumerable<SpotifyData.Album>> GetAlbumsForArtistAsync(
             Artist artist)
         {
-            return (await artist.Browse(ArtistBrowseType.NoTracks)).SimilarArtists.Select(a => MakeData.Artist(a));
+            return (await artist.Browse(ArtistBrowseType.NoTracks)).Albums.Where(a => a.IsAvailable).Select(a => MakeData.Album(a));
         }
 
+
+        /// <summary>
+        /// Get the collection of similar artists for an identified artist
+        /// </summary>
+        /// <param name="id">The non-persistent cache Id</param>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<SpotifyData.Artist> GetSimilarArtistsForArtist(
             int id)
@@ -209,29 +261,34 @@ namespace Avid.Spotify
             }
         }
 
-
-        async Task<System.Drawing.Image> GetAlbumImageAsync(
-            Album album)
+        async Task<IEnumerable<SpotifyData.Artist>> GetSimilarArtistsForArtistAsync(
+            Artist artist)
         {
-            var coverId = album.CoverId;
-            var image = await Image.FromId(SpotifySession.Session, coverId);
-            var imageData = image.GetImage();
-            return imageData;
+            return (await artist.Browse(ArtistBrowseType.NoTracks)).SimilarArtists.Select(a => MakeData.Artist(a));
         }
 
+
+        /// <summary>
+        /// Get a PNG image as streamed data for the image file for an identified album
+        /// </summary>
+        /// <param name="id">The non-persistent cache Id</param>
+        /// <returns>An HTTP response representing the content of the requested image file</returns>
         [HttpGet]
         public HttpResponseMessage GetAlbumImage(
             int id)
         {
             try
             {
+                //  Get the album and its image data
                 Album album = Cache.Get(id) as Album;
                 System.Drawing.Image imageData = GetAlbumImageAsync(album).Result;
 
+                //  Write the image data to a MemoryStream buffer as a PNG file
                 Stream stream = new System.IO.MemoryStream();
                 imageData.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
                 stream.Position = 0;
 
+                //  Write the MemoryStream buffer to an HTTP response with the correct ContentType
                 HttpResponseMessage response = new HttpResponseMessage();
                 response.Content = new StreamContent(stream);
                 response.Content.Headers.ContentType = new MediaTypeHeaderValue("image/png");
@@ -242,6 +299,15 @@ namespace Avid.Spotify
             {
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
+        }
+
+        async Task<System.Drawing.Image> GetAlbumImageAsync(
+            Album album)
+        {
+            var coverId = album.CoverId;
+            var image = await Image.FromId(SpotifySession.Session, coverId);
+            var imageData = image.GetImage();
+            return imageData;
         }
     }
 }

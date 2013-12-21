@@ -10,8 +10,17 @@ using System.IO;
 
 namespace Avid.Spotify
 {
+    /// <summary>
+    /// For Spotify objects (tracks, albums, artists) construct serializable objects 
+    /// replacing object references with cached non-persistent identifiers
+    /// </summary>
     static class MakeData
     {
+        /// <summary>
+        /// Construct a serializable representation of a Spotify Track
+        /// </summary>
+        /// <param name="track"></param>
+        /// <returns></returns>
         internal static SpotifyData.Track Track(
             Track track)
         {
@@ -23,14 +32,20 @@ namespace Avid.Spotify
                 AlbumName = track.Album.Name,
                 ArtistId = Cache.Key(track.Album.Artist),
                 AlbumArtistName = track.Album.Artist.Name,
-                TrackArtistNames = track.Artists.Aggregate("", ConstructTrackActistNames),
+                TrackArtistNames = track.Artists.Aggregate("", ConstructTrackArtistNames),
                 TrackFirstArtistId = Cache.Key(track.Artists.First()),
                 Index = track.Index,
                 Duration = (int)Math.Round(track.Duration.TotalSeconds)
             };
         }
 
-        static string ConstructTrackActistNames(
+        /// <summary>
+        /// Construct a formatted string for a (possibly multiple) artist names for a track
+        /// </summary>
+        /// <param name="names"></param>
+        /// <param name="artist"></param>
+        /// <returns></returns>
+        static string ConstructTrackArtistNames(
             string names,
             Artist artist)
         {
@@ -51,6 +66,11 @@ namespace Avid.Spotify
             return names + ", " + artist.Name;
         }
 
+        /// <summary>
+        /// Construct a serializable representation of a Spotify Album
+        /// </summary>
+        /// <param name="album"></param>
+        /// <returns></returns>
         internal static SpotifyData.Album Album(
             Album album)
         {
@@ -63,6 +83,12 @@ namespace Avid.Spotify
             };
         }
 
+        /// <summary>
+        /// Construct a serializable representation of a Spotify Artist
+        /// </summary>
+        /// <param name="artist"></param>
+        /// <param name="biography"></param>
+        /// <returns></returns>
         internal static SpotifyData.Artist Artist(
             Artist artist,
             string biography = null)

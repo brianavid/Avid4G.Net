@@ -332,7 +332,9 @@ function AddBrowserHammerActions() {
     });
 
     browserHammer.on("tap", ".spotifyBrowserPlaylist", function (e) {
-        ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=AlbumsOfPlayist&name=" + encodeURIComponent(this.id), "push")
+        //  Searching and selecting Playlists invalidates all cached ID values previously returned and hence those displayed in the queued tracks.
+        //  Consequently it is necessary to refresh the display of queued tracks.
+        ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=AlbumsOfPlayist&name=" + encodeURIComponent(this.id), "push", UpdateQueue)
         return false;
     });
 
@@ -590,6 +592,11 @@ function HandleSearchKeyPresses()
              return false;
          }
      })
+
+    //  Searching and selecting Playlists invalidates all cached ID values previously returned and hence those displayed in the queued tracks.
+    //  Consequently it is necessary to refresh the display of queued tracks.
+    //  This is a convenient place to do so for searching
+    UpdateQueue(false);
  }
 
 $(function () {

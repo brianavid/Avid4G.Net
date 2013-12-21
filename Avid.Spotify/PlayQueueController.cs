@@ -13,10 +13,19 @@ using NLog;
 
 namespace Avid.Spotify
 {
+    /// <summary>
+    /// Web API Controller, with public HttpGet web methods for managing the queu of playing tracks
+    /// </summary>
     public class PlayQueueController : ApiController
     {
         static Logger logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Play the identified track, either immediately or after the currently queued tracks
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="append"></param>
+        /// <returns></returns>
         [HttpGet]
         public SpotifyData.Track PlayTrack(
             int id,
@@ -47,6 +56,13 @@ namespace Avid.Spotify
             return MakeData.Album(album);
         }
 
+
+        /// <summary>
+        /// Play all tracks of the identified album, either immediately or after the currently queued tracks
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="append"></param>
+        /// <returns></returns>
         [HttpGet]
         public SpotifyData.Album PlayAlbum(
             int id,
@@ -69,7 +85,10 @@ namespace Avid.Spotify
             }
         }
 
-
+        /// <summary>
+        /// Get the currently playing track
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public SpotifyData.Track GetCurrentTrack()
         {
@@ -84,6 +103,10 @@ namespace Avid.Spotify
             }
         }
 
+        /// <summary>
+        /// Get the collection of all queued tracks
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<SpotifyData.Track> GetQueuedTracks()
         {
@@ -99,6 +122,10 @@ namespace Avid.Spotify
             }
         }
 
+
+        /// <summary>
+        /// Skip to a specified queued track
+        /// </summary>
         [HttpGet]
         public SpotifyData.Track SkipToQueuedTrack(
             int id)
@@ -120,6 +147,9 @@ namespace Avid.Spotify
         }
 
 
+        /// <summary>
+        /// Remove the specified queued track from the queue
+        /// </summary>
         [HttpGet]
         public SpotifyData.Track RemoveQueuedTrack(
             int id)

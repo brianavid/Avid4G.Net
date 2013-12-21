@@ -9,6 +9,7 @@ using System.Web.Http.SelfHost;
 using System.Windows.Forms;
 using NLog;
 using Microsoft.Win32;
+using System.IO;
 
 namespace Avid.Spotify
 {
@@ -24,6 +25,12 @@ namespace Avid.Spotify
             logger.Info("Spotify Player Started");
             try
             {
+                if (!File.Exists(SpotifySession.SpotifyAppKeyFileName))
+                {
+                    MessageBox.Show(
+                        string.Format("Spotify requires a key file named '{0}'", SpotifySession.SpotifyAppKeyFileName),
+                        "Spotify Player", MessageBoxButtons.OK);
+                }
                 var config = new HttpSelfHostConfiguration("http://localhost:8383");
 
                 config.Routes.MapHttpRoute(

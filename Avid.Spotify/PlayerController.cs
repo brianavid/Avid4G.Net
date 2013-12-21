@@ -11,10 +11,17 @@ using NLog;
 
 namespace Avid.Spotify
 {
+    /// <summary>
+    /// Web API Controller, with public HttpGet web methods for Controlling the NAudio player
+    /// </summary>
     public class PlayerController : ApiController
     {
         static Logger logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Start or continue playing the current track
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public int Play()
         {
@@ -30,6 +37,10 @@ namespace Avid.Spotify
             return 0;
         }
 
+        /// <summary>
+        /// Pause playing the current track
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public int Pause()
         {
@@ -45,6 +56,10 @@ namespace Avid.Spotify
             return 0;
         }
 
+        /// <summary>
+        /// Stop playing the current track
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public int Stop()
         {
@@ -60,6 +75,10 @@ namespace Avid.Spotify
             return 0;
         }
 
+        /// <summary>
+        /// Skip playing forwards to the next queued track
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public int Skip()
         {
@@ -75,6 +94,10 @@ namespace Avid.Spotify
             return 0;
         }
 
+        /// <summary>
+        /// Skip playing backwards to the previous queued track
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public int Back()
         {
@@ -90,6 +113,10 @@ namespace Avid.Spotify
             return 0;
         }
 
+        /// <summary>
+        /// Is the player playing a track?
+        /// </summary>
+        /// <returns>+ve: Playing; 0: Paused; -ve: Stolen by another session</returns>
         [HttpGet]
         public int GetPlaying()
         {
@@ -104,6 +131,10 @@ namespace Avid.Spotify
             }
         }
 
+        /// <summary>
+        /// Get the position at which the current track is playing
+        /// </summary>
+        /// <returns>Position in seconds</returns>
         [HttpGet]
         public int GetPosition()
         {
@@ -118,6 +149,11 @@ namespace Avid.Spotify
             }
         }
 
+        /// <summary>
+        /// Seek to a particular position within the currently playing track
+        /// </summary>
+        /// <param name="pos">Position in seconds</param>
+        /// <returns></returns>
         [HttpGet]
         public int SetPosition(
             int pos)
