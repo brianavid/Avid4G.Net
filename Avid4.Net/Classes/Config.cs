@@ -5,12 +5,15 @@ using System.Xml.Linq;
 using System.Web;
 
 /// <summary>
-/// Summary description for Config
+/// A class of configuration values helds in a manually edited XML file
 /// </summary>
 public static class Config
 {
     static XDocument doc = null;
 
+    /// <summary>
+    /// The XML document
+    /// </summary>
     static XDocument Doc
     {
         get
@@ -23,6 +26,9 @@ public static class Config
         }
     }
 
+    /// <summary>
+    /// The Media PC's fixed IP address
+    /// </summary>
     public static string IpAddress
     {
         get
@@ -32,42 +38,9 @@ public static class Config
         }
     }
 
-    public static string VideoPath
-    {
-        get
-        {
-            XElement elAddr = Doc.Root.Element("Video");
-            return elAddr == null ? null : elAddr.Value;
-        }
-    }
-
-    public static string DvdPath
-    {
-        get
-        {
-            XElement elAddr = Doc.Root.Element("DVD");
-            return elAddr == null ? null : elAddr.Value;
-        }
-    }
-
-    public static string BluRayPath
-    {
-        get
-        {
-            XElement elAddr = Doc.Root.Element("BluRay");
-            return elAddr == null ? null : elAddr.Value;
-        }
-    }
-
-    public static Dictionary<string, string> SkyChannels
-    {
-        get
-        {
-            XElement elSky = Doc.Root.Element("Sky");
-            return elSky.Elements("Channel").ToDictionary(el => el.Attribute("name").Value, el => el.Attribute("code").Value);
-        }
-    }
-
+    /// <summary>
+    /// The Receiver's IP address
+    /// </summary>
     public static string ReceiverAddress
     {
         get
@@ -77,15 +50,45 @@ public static class Config
         }
     }
 
-    public static string SkyAddress
+    /// <summary>
+    /// The path to the directory in which recoded TV programmes are stored
+    /// </summary>
+    public static string VideoPath
     {
         get
         {
-            XElement elAddr = Doc.Root.Element("SkyAddress");
+            XElement elAddr = Doc.Root.Element("Video");
             return elAddr == null ? null : elAddr.Value;
         }
     }
 
+    /// <summary>
+    /// The path to the directory in which ripped DVDs are stored
+    /// </summary>
+    public static string DvdPath
+    {
+        get
+        {
+            XElement elAddr = Doc.Root.Element("DVD");
+            return elAddr == null ? null : elAddr.Value;
+        }
+    }
+
+    /// <summary>
+    /// The path to the directory in which ripped BluRays are stored
+    /// </summary>
+    public static string BluRayPath
+    {
+        get
+        {
+            XElement elAddr = Doc.Root.Element("BluRay");
+            return elAddr == null ? null : elAddr.Value;
+        }
+    }
+
+    /// <summary>
+    /// A collection of favourite Sky channels to be displayed first in any lists
+    /// </summary>
     public static List<string> SkyFavourites
     {
         get
@@ -95,6 +98,9 @@ public static class Config
         }
     }
 
+    /// <summary>
+    /// A collection of favourite terrestrial TV channels to be displayed first in any lists
+    /// </summary>
     public static List<string> TvFavourites
     {
         get
@@ -104,6 +110,9 @@ public static class Config
         }
     }
 
+    /// <summary>
+    /// When true, indicates that Sky should be used for preference over the terrestrial tuners for live TV
+    /// </summary>
     public static bool useSkyLiveTV
     {
         get
@@ -113,6 +122,9 @@ public static class Config
         }
     }
 
+    /// <summary>
+    /// The collection of BBC TV channels to be made available for iPlayer
+    /// </summary>
     public static Dictionary<string, string> BBCTVChannels
     {
         get
@@ -122,6 +134,9 @@ public static class Config
         }
     }
 
+    /// <summary>
+    /// The collection of BBC radio stations to be made available for iPlayer
+    /// </summary>
     public static Dictionary<string, string> BBCRadioStations
     {
         get

@@ -60,7 +60,7 @@ namespace Avid4.Net.Controllers
                 DesktopClient.SendSpecialkey("ClearDesktop");
             }
 
-            Running.LaunchProgram("Web", "-k -nomerge http://www.bbc.co.uk/iplayer/bigscreen/tv/episode/" + pid);
+            Running.LaunchProgram("Web", "-k -nomerge " + BBC.GetTvPlayerUrl(pid));
 
             return Content("OK");
         }

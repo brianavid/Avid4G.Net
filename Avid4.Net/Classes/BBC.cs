@@ -4,8 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Xml.Linq;
 
+/// <summary>
+/// The BBC class can obtain the (future or historical) schedule of BBC Radio or TV programmes and
+/// iPlayer URLS from which radio can be streamed or TV can be watched.
+/// </summary>
 public class BBC
 {
+    /// <summary>
+    /// Class representing a single program in the BBC schedule of TV and radio programmes
+    /// </summary>
     public class Programme
     {
         public string Title { get; private set; }
@@ -24,6 +31,13 @@ public class BBC
         }
     }
 
+    /// <summary>
+    /// Get the schedule of all TV or radio programmes for a single day and a single TV channel or radio station.
+    /// </summary>
+    /// <param name="station"></param>
+    /// <param name="dateString"></param>
+    /// <param name="stationSpecifier"></param>
+    /// <returns></returns>
     public static IEnumerable<Programme> GetSchedule(
         string station,
         string dateString,
@@ -36,6 +50,17 @@ public class BBC
         return schedule.Descendants("broadcast").Select(broadcast => new Programme(broadcast));
     }
 
+    /// <summary>
+    /// Get the URL from which a (medium quality, non-seekable) WMA stream for a radio programme can be played in a media player
+    /// </summary>
+    /// <remarks>
+    /// Other (higher quality) media variants can only be played with in a browser
+    /// </remarks>
+    /// <param name="pid"></param>
+    /// <param name="name"></param>
+    /// <param name="station"></param>
+    /// <param name="startTime"></param>
+    /// <returns></returns>
     public static string GetStreamUrl(
         string pid,
         out string name,
@@ -56,5 +81,16 @@ public class BBC
         XNamespace ns2 = mediaSelection.GetDefaultNamespace();
 
         return mediaSelection.Elements(ns2+"media").Where(m => m.Attribute("encoding").Value == "wma9").First().Element(ns2+"connection").Attribute("href").Value;
+    }
+
+    /// <summary>
+    /// Get the URL from which a TV programme can be watched in iPlayer in a browser
+    /// </summary>
+    /// <param name="pid"></param>
+    /// <returns></returns>
+    public static string GetTvPlayerUrl(
+        string pid)
+    {
+        return "http://www.bbc.co.uk/iplayer/bigscreen/tv/episode/" + pid;
     }
 }
