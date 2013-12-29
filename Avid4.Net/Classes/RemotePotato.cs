@@ -10,10 +10,13 @@ using System.IO;
 using System.Text;
 
 /// <summary>
-/// Summary description for RemotePotato
+/// Control class for RemotePotato service that provides a web service interface to Windows Media Center for terrestrial TV and Radio, both live and recorded
 /// </summary>
 public static class RemotePotato
 {
+    /// <summary>
+    /// A terrestrial programme, either in the EPG or scheduled to be recorded
+    /// </summary>
     public class Programme
     {
         public String Id { get; private set; }
@@ -41,6 +44,9 @@ public static class RemotePotato
         }
     }
 
+    /// <summary>
+    /// A terrestrial recording
+    /// </summary>
     public class Recording
     {
         public String Id { get; private set; }
@@ -74,7 +80,9 @@ public static class RemotePotato
         }
     }
 
-
+    /// <summary>
+    /// A terrestrial TV or Radio channel
+    /// </summary>
     public class Channel
     {
         public string Name { get; internal set; }
@@ -94,6 +102,12 @@ public static class RemotePotato
             IsFavourite = isFavourite;
         }
 
+        /// <summary>
+        /// Constructor from XML representation
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <param name="isRadio"></param>
+        /// <param name="isFavourite"></param>
         internal Channel(
             XElement ch,
             bool isRadio,
@@ -105,6 +119,9 @@ public static class RemotePotato
         {
         }
 
+        /// <summary>
+        /// Format the channel for display
+        /// </summary>
         public string Display
         {
             get
@@ -113,19 +130,120 @@ public static class RemotePotato
             }
         }
     }
+
+    /// <summary>
+    /// A collection of scheduled and recorded recordings
+    /// </summary>
+    public class ScheduledRecordings
+    {
+        /// <summary>
+        /// Constructor from a RPRecordingsBlob XML element
+        /// </summary>
+        /// <param name="recordingsBlob"></param>
+        public ScheduledRecordings(
+            XDocument recordingsBlob)
+        {
+            requests = new Dictionary<string, XElement>();
+            recordings = new Dictionary<string, XElement>();
+            programmes = new Dictionary<string, XElement>();
+
+            foreach (var request in recordingsBlob.Element("RPRecordingsBlob").Element("RPRequests").Elements("RPRequest"))
+            {
+                string id = request.Element("ID").Value;
+                requests[id] = request;
+            }
+
+            foreach (var recording in recordingsBlob.Element("RPRecordingsBlob").Element("RPRecordings").Elements("RPRecording"))
+            {
+                string id = recording.Element("Id").Value;
+                recordings[id] = recording;
+            }
+
+            foreach (var programme in recordingsBlob.Element("RPRecordingsBlob").Element("TVProgrammes").Elements("TVProgramme"))
+            {
+                string id = programme.Element("Id").Value;
+                programmes[id] = programme;
+            }
+        }
+
+        /// <summary>
+        /// All recordings, whether scheduled or recorded, keyed by recording ID
+        /// </summary>
+        Dictionary<string, XElement> recordings;
+
+        /// <summary>
+        /// All scheduled recording requests
+        /// </summary>
+        Dictionary<string, XElement> requests;
+
+        /// <summary>
+        /// All recorded programmes
+        /// </summary>
+        Dictionary<string, XElement> programmes;
+
+        /// <summary>
+        /// All recordings, whether scheduled or recorded
+        /// </summary>
+        public IEnumerable<XElement> Recordings { get { return recordings.Values; } }
+
+        /// <summary>
+        /// Get the scheduled recording request for a particular recording 
+        /// </summary>
+        /// <param name="recording"></param>
+        /// <returns></returns>
+        public XElement GetRequest(XElement recording)
+        {
+            return requests[recording.Element("RPRequestID").Value];
+        }
+
+        /// <summary>
+        /// Get the programme for a particular recording
+        /// </summary>
+        /// <param name="recording"></param>
+        /// <returns></returns>
+        public XElement GetProgramme(XElement recording)
+        {
+            return programmes[recording.Element("TVProgrammeID").Value];
+        }
+
+        /// <summary>
+        /// Is there a scheduled recording request for a particular programme?
+        /// </summary>
+        /// <param name="programmeId"></param>
+        /// <returns></returns>
+        public bool IsScheduled(string programmeId)
+        {
+            return programmes.ContainsKey(programmeId);
+        }
+    }   
+    
+    /// <summary>
+    /// All recordings, keyed by Id
+    /// </summary>
     static public Dictionary<String, Recording> AllRecordings { get; private set; }
 
+    /// <summary>
+    /// All recordings, most recent first
+    /// </summary>
     static public IEnumerable<Recording> AllRecordingsInReverseTimeOrder
     {
         get { return AllRecordings.Values.OrderByDescending(r => r.StartTime); }
     }
 
+    /// <summary>
+    /// All recordings sharing the same title, most recent first
+    /// </summary>
+    /// <param name="title"></param>
+    /// <returns></returns>
     static public IEnumerable<Recording> AllRecordingsForTitle(
         string title)
     {
         return AllRecordingsInReverseTimeOrder.Where(r => r.Title == title);
     }
 
+    /// <summary>
+    /// All recordings as a collection of Lists, grouped with those sharing a title in the same List
+    /// </summary>
     static public IEnumerable<List<Recording>> AllRecordingsGroupedByTitle
     {
         get
@@ -145,7 +263,9 @@ public static class RemotePotato
         }
     }
 
-    static string host = null;
+    /// <summary>
+    /// The host address of the RemotePotato service, which is the "real" address of the localhost
+    /// </summary>
     public static string Host
     {
         get
@@ -157,7 +277,7 @@ public static class RemotePotato
                 {
                     if (addr.AddressFamily == AddressFamily.InterNetwork)
                     {
-                        host = "http://" + addr.ToString() + ":9080/";
+                        host = addr.ToString();
                         break;
                     }
                 }
@@ -165,18 +285,32 @@ public static class RemotePotato
             return host;
         }
     }
+    static string host = null;
 
+    /// <summary>
+    /// The HTTP Url of the RemotePotato service
+    /// </summary>
     public static string Url
     {
-        get { return Host + "xml/"; }
+        get { return "http://" + Host + ":9080/xml/"; }
     }
 
+    /// <summary>
+    /// Ensure that the RemotePotato service is running and has not died, starting the service if it is not running
+    /// </summary>
+    /// <param name="recycle">If true; unconditionally stops and restarts the service</param>
+    /// <returns>True if the service is now running</returns>
     public static bool EnsureServiceRunning(
         bool recycle)
     {
         return DesktopClient.EnsureRemotePotatoRunning(recycle);
     }
 
+    /// <summary>
+    /// Send an HTTP GET request to the RemotePotato service, expecting an XML response, which is returned
+    /// </summary>
+    /// <param name="url"></param>
+    /// <returns></returns>
     static XDocument GetXml(
         string url)
     {
@@ -201,6 +335,11 @@ public static class RemotePotato
         }
     }
 
+    /// <summary>
+    /// Send an HTTP GET request to the RemotePotato service, expecting an unformated string response, which is returned
+    /// </summary>
+    /// <param name="url"></param>
+    /// <returns></returns>
     static string GetText(
         string url)
     {
@@ -223,6 +362,12 @@ public static class RemotePotato
         }
     }
 
+    /// <summary>
+    /// Send an HTTP POST request to the RemotePotato service with an XML body, expecting an XML response, which is returned
+    /// </summary>
+    /// <param name="url"></param>
+    /// <param name="requestDoc"></param>
+    /// <returns></returns>
     static XDocument GetXml(
         string url,
         XDocument requestDoc)
@@ -250,8 +395,9 @@ public static class RemotePotato
         }
     }
 
-    static XDocument channelsXml = null;
-
+    /// <summary>
+    /// Get exactly once the collection of known TV and Radio channels
+    /// </summary>
     static XDocument ChannelsXml
     {
         get
@@ -266,19 +412,36 @@ public static class RemotePotato
             return channelsXml;
         }
     }
+    static XDocument channelsXml = null;
 
+    /// <summary>
+    /// Get all TV and Radio channels
+    /// </summary>
+    /// <returns>A collection of TVService XML elements</returns>
     static IEnumerable<XElement> GetAllChannels()
     {
         return ChannelsXml.Element("ArrayOfTVService").Elements("TVService");
     }
 
+    /// <summary>
+    /// Get all TV channels
+    /// </summary>
+    /// <remarks>
+    /// This expects the convention that TV channels have a channel number less than 200
+    /// </remarks>
+    /// <returns>A collection of TVService XML elements</returns>
     static IEnumerable<XElement> GetAllTvChannels()
     {
         return GetAllChannels().Where(ch => Convert.ToInt32(ch.Element("MCChannelNumber").Value) < 200);
     }
 
+    /// <summary>
+    /// Get all TV channels which are configured as favourite channel names
+    /// </summary>
+    /// <returns>A collection of TVService XML elements</returns>
     static IEnumerable<XElement> GetAllFavouriteChannels()
     {
+        //  Build a temporary Dctionary keyed by channel name (Callsign)
         Dictionary<string, XElement> tvChannels = new Dictionary<string,XElement>();
         foreach (var ch in GetAllTvChannels())
         {
@@ -289,14 +452,24 @@ public static class RemotePotato
             }
         }
 
+        //  Select the channels which are configured as favourite channel names
         return (Config.TvFavourites).Select(fav => tvChannels[fav.ToLower()]);
     }
 
+    /// <summary>
+    /// Get all Radio channels
+    /// </summary>
+    /// This expects the convention that Radio channels have a channel number no less than 700
+    /// </remarks>
+    /// <returns>A collection of TVService XML elements</returns>
     static IEnumerable<XElement> GetAllRadioChannels()
     {
         return GetAllChannels().Where(ch => Convert.ToInt32(ch.Element("MCChannelNumber").Value) >= 700);
     }
 
+    /// <summary>
+    /// A collection of all TV channel names
+    /// </summary>
     public static IEnumerable<string> AllTvChannelNames
     {
         get
@@ -305,6 +478,9 @@ public static class RemotePotato
         }
     }
 
+    /// <summary>
+    /// A collection of all Radio channel names
+    /// </summary>
     public static IEnumerable<string> AllRadioChannelNames
     {
         get
@@ -313,6 +489,9 @@ public static class RemotePotato
         }
     }
 
+    /// <summary>
+    /// A collection of all favourite TV channel names
+    /// </summary>
     public static IEnumerable<string> AllFavouriteChannelNames
     {
         get
@@ -321,6 +500,9 @@ public static class RemotePotato
         }
     }
 
+    /// <summary>
+    /// A collection of all TV channels
+    /// </summary>
     public static IEnumerable<Channel> AllTvChannels
     {
         get
@@ -329,6 +511,9 @@ public static class RemotePotato
         }
     }
 
+    /// <summary>
+    /// A collection of all Radio channels
+    /// </summary>
     public static IEnumerable<Channel> AllRadioChannels
     {
         get
@@ -337,6 +522,9 @@ public static class RemotePotato
         }
     }
 
+    /// <summary>
+    /// A collection of all favourite TV channels
+    /// </summary>
     public static IEnumerable<Channel> AllFavouriteChannels
     {
         get
@@ -345,6 +533,9 @@ public static class RemotePotato
         }
     }
 
+    /// <summary>
+    /// A collection of all TV channels, ordered with the favourites at the start
+    /// </summary>
     public static IEnumerable<Channel> AllTvChannelsFavouriteFirst
     {
         get
@@ -364,9 +555,19 @@ public static class RemotePotato
         }
     }
 
+    /// <summary>
+    /// The live channel name currently selected to watch
+    /// </summary>
     public static string CurrentlySelectedChannelName { get; private set; }
+
+    /// <summary>
+    /// The live channel number currently selected to watch
+    /// </summary>
     public static string CurrentlySelectedChannelNumber { get; private set; }
 
+    /// <summary>
+    /// The title of the programme currently being broadcast on the channel currently selected to watch
+    /// </summary>
     public static string CurrentProgrammeTitle { 
         get 
         {
@@ -382,6 +583,9 @@ public static class RemotePotato
         }
     }
 
+    /// <summary>
+    /// The formatted start time of the next programme to be broadcast on the channel currently selected to watch
+    /// </summary>
     public static string NextProgrameTime
     {
         get
@@ -398,6 +602,9 @@ public static class RemotePotato
         }
     }
 
+    /// <summary>
+    /// The title of the next programme to be broadcast on the channel currently selected to watch
+    /// </summary>
     public static string NextProgrameTitle
     {
         get
@@ -414,6 +621,10 @@ public static class RemotePotato
         }
     }
 
+    /// <summary>
+    /// Select to watch a  channel specified by channel name
+    /// </summary>
+    /// <param name="channelName"></param>
     public static void SelectTvChannelName(
         string channelName)
     {
@@ -423,6 +634,10 @@ public static class RemotePotato
         SelectTvChannelNumber(channel.Element("MCChannelNumber").Value);
     }
 
+    /// <summary>
+    /// Select to watch a  channel specified by channel number
+    /// </summary>
+    /// <param name="channelNumber"></param>
     static void SelectTvChannelNumber(
         string channelNumber)
     {
@@ -436,6 +651,12 @@ public static class RemotePotato
         GetXml(Url + "sendremotekey/Enter");
     }
 
+    /// <summary>
+    /// Get the collection of programmes from the EPG scheduled to be broadcast on a specified date for a specified channel name
+    /// </summary>
+    /// <param name="day"></param>
+    /// <param name="channelName"></param>
+    /// <returns></returns>
     public static IEnumerable<Programme> GetEpgProgrammes(
         DateTime day,
         string channelName)
@@ -444,17 +665,32 @@ public static class RemotePotato
         return GetEpgProgrammesInRange(day, nextDay, channelName);
     }
 
+    /// <summary>
+    /// Get the (at most two) "Now and Next" programmes for a specified channel name
+    /// </summary>
+    /// <param name="channelName"></param>
+    /// <returns></returns>
     public static IEnumerable<Programme> GetNowAndNext(
         string channelName)
     {
-        DateTime startTine = DateTime.UtcNow - new TimeSpan(0, 6, 0, 0); ;
-        DateTime endTine = startTine + new TimeSpan(0, 24, 0, 0);
-        return GetEpgProgrammesInRange(startTine, endTine, channelName).Take(2);
+        DateTime startTime = DateTime.UtcNow - new TimeSpan(0, 6, 0, 0); ;
+        DateTime endTime = startTime + new TimeSpan(0, 24, 0, 0);
+        return GetEpgProgrammesInRange(startTime, endTime, channelName).Take(2);
     }
 
+    /// <summary>
+    /// Get the collection of programmes from the EPG within a specified date range for the specified channel
+    /// </summary>
+    /// <remarks>
+    /// Only programmes that have not yet stopped will be returned
+    /// </remarks>
+    /// <param name="startTime"></param>
+    /// <param name="endTime"></param>
+    /// <param name="channelName"></param>
+    /// <returns></returns>
     public static IEnumerable<Programme> GetEpgProgrammesInRange(
         DateTime startTime,
-        DateTime endTine,
+        DateTime endTime,
         string channelName)
     {
         EnsureServiceRunning(false);
@@ -476,7 +712,7 @@ public static class RemotePotato
                         new XElement("EPGRequest",
                             new XElement("TVServiceID", channel.Element("UniqueId").Value),
                             new XElement("StartTime", startTime.Ticks),
-                            new XElement("StopTime", endTine.Ticks))));
+                            new XElement("StopTime", endTime.Ticks))));
 
                 XDocument programsDoc = GetXml(Url + "programmes/nodescription/byepgrequest", requestDoc);
 
@@ -503,6 +739,10 @@ public static class RemotePotato
         return new List<Programme>();
     }
 
+    /// <summary>
+    /// Get the collection of programmes scheduled to record
+    /// </summary>
+    /// <returns></returns>
     public static IEnumerable<Programme> GetScheduledRecordings()
     {
         EnsureServiceRunning(false);
@@ -533,6 +773,9 @@ public static class RemotePotato
         return result;
     }
 
+    /// <summary>
+    /// Load the collection of recordings from Windows Media Center
+    /// </summary>
     public static void LoadAllRecordings()
     {
         EnsureServiceRunning(false);
@@ -583,6 +826,11 @@ public static class RemotePotato
         }
     }
 
+    /// <summary>
+    /// Get the full description for an identified programme
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public static string GetDescription(
         string id)
     {
@@ -595,33 +843,54 @@ public static class RemotePotato
         return infoDoc == null ? "" : infoDoc.Element("TVProgrammeInfoBlob").Element("Description").Value;
     }
 
+    /// <summary>
+    /// DEscriptions (fetched only once) for identified programmes
+    /// </summary>
+    static Dictionary<string, string> recordedDescriptions;
+
+    /// <summary>
+    /// Send an emulated remote control command (by name) to the running Windows Media Center
+    /// </summary>
+    /// <param name="command"></param>
     public static void SendCommand(
         string command)
     {
         GetXml(Url + "sendremotekey/" + command);
     }
 
-    public static string GetChannelNameById(
-        string channelId)
-    {
-        XElement channel = GetAllChannels().Where(ch => ch.Element("UniqueId").Value == channelId).First();
-        return channel.Element("Callsign").Value;
-    }
-
+    /// <summary>
+    /// The schedule of recordings
+    /// </summary>
     static ScheduledRecordings schedule = null;
 
+    /// <summary>
+    /// Load the schedule of recordings from Windows Media Center
+    /// </summary>
     static void LoadSchedule()
     {
         XDocument scheduleDoc = GetXml(Url + "recordings ");
         schedule = new ScheduledRecordings(scheduleDoc);
     }
 
+    /// <summary>
+    /// Is the identified programme scheduled to record?
+    /// </summary>
+    /// <param name="programmeId"></param>
+    /// <returns></returns>
     public static bool IsScheduled(
         string programmeId)
     {
         return schedule.IsScheduled(programmeId);
     }
 
+    /// <summary>
+    /// Is the identified programme scheduled to record as part of a series?
+    /// </summary>
+    /// <remarks>
+    /// Not currently used as RemotePotato is unreliable for series recording
+    /// </remarks>
+    /// <param name="programmeId"></param>
+    /// <returns></returns>
     public static bool IsSeries(
         string programmeId)
     {
@@ -639,6 +908,11 @@ public static class RemotePotato
         return false;
     }
 
+    /// <summary>
+    /// Schedule a recording for an identified programme from the EPG
+    /// </summary>
+    /// <param name="programmeId"></param>
+    /// <returns></returns>
     public static string RecordShow(
         string programmeId)
     {
@@ -661,6 +935,14 @@ public static class RemotePotato
         return null;
     }
 
+    /// <summary>
+    /// Schedule a recording for the complete series for an identified programme from the EPG
+    /// </summary>
+    /// <remarks>
+    /// Not currently used as RemotePotato is unreliable for series recording
+    /// </remarks>
+    /// <param name="programmeId"></param>
+    /// <returns></returns>
     public static string RecordSeries(
         string programmeId)
     {
@@ -684,6 +966,11 @@ public static class RemotePotato
         return null;
     }
 
+    /// <summary>
+    /// Cancel the scheduled recording for an identified programme
+    /// </summary>
+    /// <param name="programmeId"></param>
+    /// <returns></returns>
     public static string CancelRecording(
         string programmeId)
     {
@@ -700,8 +987,11 @@ public static class RemotePotato
         return null;
     }
 
-    static Dictionary<string, string> recordedDescriptions;
-
+    /// <summary>
+    /// Delete the file containing an particular recording
+    /// </summary>
+    /// <param name="programmeId"></param>
+    /// <returns></returns>
     public static void DeleteRecording(
         Recording recording)
     {

@@ -140,7 +140,6 @@
     <Compile Include="Classes\Receiver.cs" />
     <Compile Include="Classes\RemotePotato.cs" />
     <Compile Include="Classes\Running.cs" />
-    <Compile Include="Classes\ScheduledRecordings.cs" />
     <Compile Include="Classes\Screen.cs" />
     <Compile Include="Classes\Sky.cs" />
     <Compile Include="Classes\Spotify.cs" />
