@@ -7,13 +7,16 @@ using System.ServiceModel;
 using Avid.Desktop;
 
 /// <summary>
-/// Summary description for Desktop
+/// Client access wrapper for the Avid.Desktop WCF service
 /// </summary>
 public static class DesktopClient
 {
     static IDesktopService desktopClientChannel = null;
     static ChannelFactory<IDesktopService> serviceFactory = null;
 
+    /// <summary>
+    /// Instantiate a singleton instance of IDesktop by opening a WCF communication channel.
+    /// </summary>
     static IDesktopService Desktop
     {
         get
@@ -37,7 +40,14 @@ public static class DesktopClient
         }
     }
 
-static public bool LaunchProgram(string name, string args)
+    /// <summary>
+    /// Launch the named application at the path defined in AvidConfig, 
+    /// either with provided arguments or those defined in AvidConfig
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="args"></param>
+    /// <returns></returns>
+    static public bool LaunchProgram(string name, string args)
     {
         try
         {
@@ -49,6 +59,12 @@ static public bool LaunchProgram(string name, string args)
         }
     }
 
+    /// <summary>
+    /// Launch a new instance of the named program with specified arguments
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="args"></param>
+    /// <returns></returns>
     static public bool LaunchNewProgram(string name, string args)
     {
         try
@@ -61,6 +77,11 @@ static public bool LaunchProgram(string name, string args)
         }
     }
 
+    /// <summary>
+    /// Exit a named program we have launched if it is still running
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
     static public bool ExitProgram(string name)
     {
         try
@@ -73,6 +94,11 @@ static public bool LaunchProgram(string name, string args)
         }
     }
 
+    /// <summary>
+    /// Bring the named program to the foreground if it is running
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
     static public bool ForegroundProgram(string name)
     {
         try
@@ -85,6 +111,10 @@ static public bool LaunchProgram(string name, string args)
         }
     }
 
+    /// <summary>
+    /// Exits all running programs we have launched
+    /// </summary>
+    /// <returns></returns>
     static public bool ExitAllPrograms()
     {
         try
@@ -97,6 +127,11 @@ static public bool LaunchProgram(string name, string args)
         }
     }
 
+    /// <summary>
+    /// Send an emulated keyboard sequence of key presses to the foreground application
+    /// </summary>
+    /// <param name="keys"></param>
+    /// <returns></returns>
     static public bool SendKeys(string keys)
     {
         try
@@ -109,6 +144,12 @@ static public bool LaunchProgram(string name, string args)
         }
     }
 
+    /// <summary>
+    /// Send an IR code through the USB IIRT transmitter
+    /// </summary>
+    /// <param name="irCode"></param>
+    /// <param name="description"></param>
+    /// <returns></returns>
     static public bool SendIR(string irCode, string description)
     {
         try
@@ -121,6 +162,12 @@ static public bool LaunchProgram(string name, string args)
         }
     }
 
+    /// <summary>
+    /// Move the mouse cursor on screen by a relative amount
+    /// </summary>
+    /// <param name="dx"></param>
+    /// <param name="dy"></param>
+    /// <returns></returns>
     static public bool MouseMoveRelative(int dx, int dy)
     {
         try
@@ -133,6 +180,11 @@ static public bool LaunchProgram(string name, string args)
         }
     }
 
+    /// <summary>
+    /// Send an emulated mouse click at the current cursor location
+    /// </summary>
+    /// <param name="rightButton">True if an emulated right mouse click; otherwise a left mouse click</param>
+    /// <returns></returns>
     static public bool MouseClick(bool rightButton)
     {
         try
@@ -145,6 +197,11 @@ static public bool LaunchProgram(string name, string args)
         }
     }
 
+    /// <summary>
+    /// Send special keys to the desktop
+    /// </summary>
+    /// <param name="keyName"></param>
+    /// <returns></returns>
     static public bool SendSpecialkey(string keyName)
     {
         try
@@ -157,6 +214,10 @@ static public bool LaunchProgram(string name, string args)
         }
     }
 
+    /// <summary>
+    /// Fetch CPU and GPU temperature and load statistics as XML
+    /// </summary>
+    /// <returns></returns>
     static public string FetchCoreTempInfoXml()
     {
         try
@@ -169,6 +230,11 @@ static public bool LaunchProgram(string name, string args)
         }
     }
 
+    /// <summary>
+    /// Ensure that the RemotePotato service is running and has not died, starting the service if it is not running
+    /// </summary>
+    /// <param name="recycle">If true; unconditionally stops and restarts the service</param>
+    /// <returns>True if the service is now running</returns>
     static public bool EnsureRemotePotatoRunning(
             bool recycle)
     {

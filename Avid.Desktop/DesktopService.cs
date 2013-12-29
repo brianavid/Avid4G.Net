@@ -50,7 +50,7 @@ namespace Avid.Desktop
         }
 
         /// <summary>
-        /// The Avis name of the process
+        /// The Avid name of the process
         /// </summary>
         public string Name { get; private set; }
 
@@ -452,7 +452,7 @@ namespace Avid.Desktop
         }
 
         /// <summary>
-        /// Send An IR code through the USB IIRT transmitter
+        /// Send an IR code through the USB IIRT transmitter
         /// </summary>
         /// <param name="irCode"></param>
         /// <param name="description"></param>
