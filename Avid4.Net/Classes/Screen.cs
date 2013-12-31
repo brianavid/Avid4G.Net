@@ -11,10 +11,11 @@ using Microsoft.Win32.SafeHandles;
 using System.Management; // requires adding System.Management reference to project
 
 /// <summary>
-/// Summary description for Screen
+/// Class to control the screen, using HDMI-CEC commands issued through an HDMI-CEC HTTP service
 /// </summary>
 public static class Screen
 {
+    #region Win32 Native methods
     [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
     static extern SafeFileHandle CreateFile(
         string lpFileName,
@@ -35,7 +36,13 @@ public static class Screen
         bool GetDevicePowerState(
             SafeFileHandle hDevice,
             out bool fOn);
+    #endregion
 
+    /// <summary>
+    /// Send an HDMI-CEC command string encoded in an HTTP URL to the control service tray application
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns>Success</returns>
     static bool SendHdmiCecCommand(
         string command)
     {
@@ -56,8 +63,13 @@ public static class Screen
         }
     }
 
-    static System.Threading.Timer tmrThreadingTimer = null;
-    static DateTime tmrStarted = DateTime.MinValue;
+    //  Some time after turning the screen on through HDMI-CEC, the TV screen and receiver may decide that the 
+    //  screen's own TV is to be displayed. This is not what we want.
+    //  So for some period (30 seconds) after turning the screen on, we poll the receiver with the intention of
+    //  triggering a side-effect of reseting its input to what we had set within Avid.
+    //  This background thread is only to reset the unwanted side-effect of the HDMI behaviour of the receiver
+    private static System.Threading.Timer tmrThreadingTimer = null;
+    private static DateTime tmrStarted = DateTime.MinValue;
     private static void tmrTick(Object stateInfo)
     {
         if ((DateTime.Now - tmrStarted).TotalSeconds > 30)
@@ -67,22 +79,35 @@ public static class Screen
         Receiver.GetState();
     }
 
+    /// <summary>
+    /// Turn the screen on by issuing the appropriate HDMI-CEC command to device 0 (which is always the TV screen).
+    /// Then catch any asynchronous unwanted consequential change of input on the receiver
+    /// </summary>
     static void TurnOn()
     {
         SendHdmiCecCommand("!x0 04");
         isOn = true;
 
-        tmrThreadingTimer = new System.Threading.Timer(tmrTick, null, 2000, 2000);
+        tmrThreadingTimer = new System.Threading.Timer(tmrTick, null, 1000, 1000);
         tmrStarted = DateTime.Now;
     }
 
+    /// <summary>
+    /// Is the screen really on (irrespective of our state)?
+    /// </summary>
+    /// <returns></returns>
     public static bool TestScreenOn()
     {
+        //  If we are watching Sky, it does not matter if the screen is on
         if (Running.RunningProgram == "Sky")
         {
             return isOn;
         }
 
+        //  The only reliable way I can determine if the screen is on is if the display is other than the "Generic PnP Monitor"
+        //  It appears that when there is no output screen switched on, the media PC's display reverts to "Generic PnP Monitor".
+        //  When the screen is on, it is something more specific.
+        //  We can get this information through ManagementObjectCollection
         ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM CIM_Display");
         ManagementObjectCollection collection = searcher.Get();
 
@@ -101,6 +126,10 @@ public static class Screen
         return fOn;
     }
 
+    /// <summary>
+    /// Wait for the screen to turn on before any further activity (such as starting a full-screen player
+    /// application that needs to know the screen size).
+    /// </summary>
     public static void WaitForScreenOn()
     {
         for (int i = 0; i < 30; i++)
@@ -114,6 +143,9 @@ public static class Screen
         }
     }
 
+    /// <summary>
+    /// Ensure that the screen is on - we do this by turning it on!
+    /// </summary>
     public static void EnsureScreenOn()
     {
         TurnOn();
@@ -125,14 +157,21 @@ public static class Screen
 
     }
 
+    /// <summary>
+    /// Turn the screen off by issuing the appropriate HDMI-CEC command to device 0 (which is always the TV screen).
+    /// </summary>
     static void TurnOff()
     {
         SendHdmiCecCommand("!x0 36");
         isOn = false;
     }
 
+    /// <summary>
+    /// Turn the screen on or off as requested. Also optionally turn on/off JRMC music visualization
+    /// </summary>
+    /// <param name="mode">0: Off; 1: On/Normal; 2: On/Visualize (JRMC only)</param>
     public static void SetScreenDisplayMode(
-        int mode) // 0: Off; 1: On/Normal; 2: On/Visualize
+        int mode)
     {
         if (mode == 0)
         {
@@ -160,30 +199,18 @@ public static class Screen
         currentMode = mode;
     }
 
-    public static int GetDisplayMode()
-    {
-        var displayMode = JRMC.GetDisplayMode();
-
-        if (currentMode != 0)
-        {
-            if (displayMode == 2 && Running.RunningProgram == "Music")
-            {
-                currentMode = 2;
-            }
-            else
-            {
-                currentMode = 1;
-            }
-        }
-
-        return displayMode;
-    }
-
-    static bool isOn = false;
+    /// <summary>
+    /// Is the screen currently believed to be on?
+    /// </summary>
     public static bool IsOn
     {
         get { return isOn; }
     }
-    static int currentMode;
+    static bool isOn = false;
+
+    /// <summary>
+    /// The current mode : 0: Off; 1: On/Normal; 2: On/Visualize (JRMC only)
+    /// </summary>
     public static int CurrentMode { get { return !isOn || currentMode == 0 ? 0 : Running.RunningProgram == "Music" ? currentMode : 1;  } }
+    static int currentMode;
 }

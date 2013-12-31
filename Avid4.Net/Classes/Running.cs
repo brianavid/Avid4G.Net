@@ -5,14 +5,29 @@ using System.Web;
 using System.Threading;
 
 /// <summary>
-/// Summary description for Programs
+/// Class to keep track of what player application is currently running
 /// </summary>
 public static class Running
 {
+    /// <summary>
+    /// Avid name for the currently running player application
+    /// </summary>
     static string runningProgram = "";
+
+    /// <summary>
+    /// Avid name for the currently running player application
+    /// Arguments to the 
+    /// </summary>
     static string runningArgs = "";
+
+    /// <summary>
+    /// Avid name for the currently running player application
+    /// </summary>
     public static String RunningProgram { get { return runningProgram; } }
 
+    /// <summary>
+    /// Initialize, detecting if Sky is running
+    /// </summary>
     public static void Initialize()
     {
         if (Receiver.SelectedInput == "Sky")
@@ -21,6 +36,9 @@ public static class Running
         }
     }
 
+    /// <summary>
+    /// Return a CSS class name which can be used to style (colour) the UI top bar based on the running player application 
+    /// </summary>
     public static string RunningProgramTopBarClass
     {
         get
@@ -47,11 +65,17 @@ public static class Running
         }
     }
 
+    /// <summary>
+    /// Launch a specified player application, closing any others as appropriate, and configuring
+    /// the screen and receiver to suit the preferred outputs fr that player
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="args"></param>
+    /// <returns></returns>
     public static bool LaunchProgram(
         string name,
         string args)
     {
-        SomethingRunning();
         runningArgs = args;
 
         if (name != "Sky")
@@ -161,11 +185,16 @@ public static class Running
         }
     }
 
+    /// <summary>
+    /// Launch the player applictaion (which will only be the Photo viewer) leaving any JRMC music still playing
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="args"></param>
+    /// <returns></returns>
     public static bool LaunchNewProgram(
         string name,
         string args)
     {
-        SomethingRunning();
         runningArgs = "";
 
         if (name == "Photo")
@@ -198,24 +227,11 @@ public static class Running
         return false;
     }
 
-    public static bool RedisplayRunningProgram()
-    {
-        if (Screen.IsOn)
-        {
-            if (string.IsNullOrEmpty(runningArgs))
-            {
-                Screen.WaitForScreenOn();
-                DesktopClient.ForegroundProgram(runningProgram);
-            }
-            else
-            {
-                LaunchProgram(runningProgram, runningArgs);
-            }
-        }
-
-        return true;
-    }
-
+    /// <summary>
+    /// Exit all running programmes
+    /// </summary>
+    /// <param name="keepScreen"></param>
+    /// <returns></returns>
     public static bool ExitAllPrograms(bool keepScreen = false)
     {
         Zoom.Stop();
@@ -249,6 +265,9 @@ public static class Running
         return DesktopClient.ExitAllPrograms();
     }
 
+    /// <summary>
+    /// Command the JRMC player to stop and and hide itself
+    /// </summary>
     private static void ExitJRMC()
     {
         if (runningProgram == "Photo")
@@ -261,6 +280,10 @@ public static class Running
         //JRMC.SendCommand("Control/Key?key=Alt;F4");                 // exit
     }
 
+    /// <summary>
+    /// Note that we are starting the Sky box, and so stop all media PC player applications
+    /// </summary>
+    /// <returns></returns>
     public static bool StartSky()
     {
         if (runningProgram != "Sky")
@@ -280,14 +303,13 @@ public static class Running
         return true;
     }
 
+    /// <summary>
+    /// Assert (and ensure) that nothing is running
+    /// </summary>
     static void NothingRunning()
     {
         Zoom.Stop();
         Spotify.Stop();
         runningProgram = "";
-    }
-
-    static void SomethingRunning()
-    {
     }
 }

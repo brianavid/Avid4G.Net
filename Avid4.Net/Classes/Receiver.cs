@@ -28,6 +28,8 @@ public static class Receiver
     {
         if (Url == null)
         {
+            //  If the ReceiverAddress is not configured, we do nothing.
+            //  This allows testing on a development machine on the same LAN as the media PC and Receiver
             if (Config.ReceiverAddress != null)
             {
                 Url = "http://" + Config.ReceiverAddress + "/YamahaRemoteControl/ctrl";
@@ -190,7 +192,8 @@ public static class Receiver
                 }
             }
 
-            //  Set the selected digital input
+            //  Set the selected digital input and musting state to what we think it should be, 
+            //  as it may have been changed under our feet by HDMI-CEC action from the screen through the receiver
             if (mainZone)
             {
                 if (string.IsNullOrEmpty(MainZoneInput))
