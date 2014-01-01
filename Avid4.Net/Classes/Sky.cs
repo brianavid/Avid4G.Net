@@ -12,12 +12,25 @@ using System.Threading;
 using NLog;
 using Microsoft.Win32;
 
+/// <summary>
+/// Class to control and access a Sky Set Top Box via its (undocumented) web service interfaces.
+/// The singleton static property Sky is used to access all members. 
+/// </summary>
+/// <remarks>
+/// Before accessing the Sky property, it is necessary to first call the Initialse() method
+/// </remarks>
 public class SkyData
 {
     static Logger logger = LogManager.GetCurrentClassLogger();
 
+    /// <summary>
+    /// Classes into which JSON formats from the web can be deserialized.
+    /// </summary>
     internal class JsonFormat
     {
+        /// <summary>
+        /// Sky channels listed via http://tv.sky.com/channel/index
+        /// </summary>
         internal class SkyChannelInfo
         {
             public SkyChannelInit init { get; set; }
@@ -35,6 +48,9 @@ public class SkyData
 
         }
 
+        /// <summary>
+        /// Now and Next listings for a channel via http://epgservices.sky.com/5.1.1/api/2.0/channel/json/{CHANNEL}/now/nn/4
+        /// </summary>
         internal class SkyProgrammeInfo
         {
             public Dictionary<string, SkyListing[]> listings { get; set; }
@@ -53,6 +69,9 @@ public class SkyData
         }
     }
 
+    /// <summary>
+    /// Representation of a Recording stored on the STB
+    /// </summary>
     public class Recording
     {
         public string Title { get; internal set; }
@@ -70,6 +89,22 @@ public class SkyData
         public Int64 Size { get; internal set; }
         public bool BeenWatched { get { return LastViewed.TotalMinutes * 5 > Duration.TotalMinutes * 4; } }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="id"></param>
+        /// <param name="resource"></param>
+        /// <param name="whenRecorded"></param>
+        /// <param name="duration"></param>
+        /// <param name="prePad"></param>
+        /// <param name="postPad"></param>
+        /// <param name="lastViewed"></param>
+        /// <param name="channelName"></param>
+        /// <param name="status"></param>
+        /// <param name="description"></param>
+        /// <param name="beingRecorded"></param>
+        /// <param name="size"></param>
         internal Recording(
             string title,
             string id,
@@ -101,6 +136,9 @@ public class SkyData
         }
     }
 
+    /// <summary>
+    /// Representation of a TV or Radio Channel
+    /// </summary>
     public class Channel
     {
         public string Title { get; internal set; }
@@ -110,6 +148,15 @@ public class SkyData
         public bool IsRadio { get; internal set; }
         public bool IsFavourite { get; internal set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="id"></param>
+        /// <param name="code"></param>
+        /// <param name="lcn"></param>
+        /// <param name="isRadio"></param>
+        /// <param name="isFavourite"></param>
         internal Channel(
             string title,
             int id,
@@ -126,6 +173,12 @@ public class SkyData
             IsFavourite = isFavourite;
         }
 
+        /// <summary>
+        /// Constructor from deserialized JSON format
+        /// </summary>
+        /// <param name="channel"></param>
+        /// <param name="isRadio"></param>
+        /// <param name="isFavourite"></param>
         internal Channel(
             JsonFormat.SkyChannelChannel channel,
             bool isRadio,
@@ -139,6 +192,9 @@ public class SkyData
         {
         }
 
+        /// <summary>
+        /// Preferred 
+        /// </summary>
         public string Display
         {
             get
@@ -149,6 +205,9 @@ public class SkyData
         }
     }
 
+    /// <summary>
+    /// Representation of a single Programme in the EPG or Now and Next
+    /// </summary>
     public class Programme
     {
         public string Title { get; internal set; }
@@ -166,34 +225,60 @@ public class SkyData
         }
     }
 
+    /// <summary>
+    /// THe Now and next pair of programmes for a channel
+    /// </summary>
     public class NowAndNext
     {
         public Programme Now { get; internal set; }
         public Programme Next { get; internal set; }
     }
 
+    //  All access to the Sky STB is through these two SOAP web service names.
+    //  The URLs for these services will have been discovered by SkyLocator and stored in the registry
     const string SkyBoxPlayServiceType = "urn:schemas-nds-com:service:SkyPlay:2";
     const string SkyBoxBrowseServiceType = "urn:schemas-nds-com:service:SkyBrowse:2";
 
+    /// <summary>
+    /// The URL for the SkyPlay service for the STB discovered on the LAN
+    /// </summary>
     static string SkyBoxPlayServiceAddress = null;
+
+    /// <summary>
+    /// The URL for the SkyBrowse service for the STB discovered on the LAN
+    /// </summary>
     static string SkyBoxBrowseServiceAddress = null;
+
+    //  When communicating with the Sky STB, retry a few times on failure
     const int MaxNetworkAttempts = 5;
     const int NetworkAttemptInterval = 200;
 
-    XNamespace nsRoot;
-    XNamespace nsDC;
-    XNamespace nsVX;
-    XNamespace nsUPNP;
-
+    /// <summary>
+    /// All recordings keyed by Id
+    /// </summary>
     public Dictionary<string, Recording> AllRecordings;
-    public Dictionary<string, Recording> AllRecordingsByResource;
+
+    /// <summary>
+    /// All recordings keyed by recording resource URL to find the currently playing recording
+    /// </summary>
+    private Dictionary<string, Recording> AllRecordingsByResource;
+
+    /// <summary>
+    /// The currently playing recording - null if watching live TV
+    /// </summary>
     public Recording CurrentRecording { get; private set; }
 
+    /// <summary>
+    /// All recordings in reverse time order
+    /// </summary>
     public IEnumerable<Recording> AllRecordingsInReverseTimeOrder
     {
         get { return AllRecordings.Values.OrderByDescending(r => r.WhenRecorded); }
     }
 
+    /// <summary>
+    /// The total size of all the recordings
+    /// </summary>
     public Int64 TotalSize
     {
         get
@@ -202,12 +287,20 @@ public class SkyData
         }
     }
 
+    /// <summary>
+    /// All recordings sharing the same title, most recent first
+    /// </summary>
+    /// <param name="title"></param>
+    /// <returns></returns>
     public IEnumerable<Recording> AllRecordingsForTitle(
         string title)
     {
         return AllRecordingsInReverseTimeOrder.Where(r => r.Title == title);
     }
 
+    /// <summary>
+    /// All recordings as a collection of Lists, grouped with those sharing a title in the same List
+    /// </summary>
     public IEnumerable<List<Recording>> AllRecordingsGroupedByTitle
     {
         get
@@ -227,18 +320,34 @@ public class SkyData
         }
     }
 
+    /// <summary>
+    /// A display string of the total size of the specified recording as a percentage of the total size 
+    /// </summary>
+    /// <param name="recording"></param>
+    /// <returns></returns>
     public string SizePercent(
         Recording recording)
     {
         return FormatPercentage(recording.Size, TotalSize);
     }
 
+    /// <summary>
+    /// A display string of the total size of the specified collection of recordings as a percentage of the total size
+    /// </summary>
+    /// <param name="recordings"></param>
+    /// <returns></returns>
     public string SizePercent(
         IEnumerable<Recording> recordings)
     {
         return FormatPercentage(recordings.Sum(r => r.Size), TotalSize);
     }
 
+    /// <summary>
+    /// Format a size as a percentage (to one decimal place) of the total
+    /// </summary>
+    /// <param name="thisSize"></param>
+    /// <param name="totalSize"></param>
+    /// <returns></returns>
     static string FormatPercentage(
         Int64 thisSize,
         Int64 totalSize)
@@ -247,22 +356,44 @@ public class SkyData
         return String.Format("{0:0.0}%", (double)thisSize * 100 / (double)totalSize);
     }
 
-    public string CurrentMode { get; set; }
-
-    //        SkyChannelInfo channels;
+    /// <summary>
+    /// A dictionary of transmitted Sky TV channels keyed by channel number
+    /// </summary>
     public Dictionary<int, Channel> AllChannels { get; private set; }
+
+    /// <summary>
+    /// A dictionary of transmitted Sky Radio channels keyed by channel number
+    /// </summary>
     public Dictionary<int, Channel> RadioChannels { get; private set; }
+
+    /// <summary>
+    /// The current Live TV or Radio channel - null if watching a Recording
+    /// </summary>
     public Channel CurrentChannel { get; private set; }
 
+    /// <summary>
+    /// The favourite channels, diplayed at the start of ant lists
+    /// </summary>
     static string[] FavoriteChannels = null;
     
+    /// <summary>
+    /// The singleton instance of the SkyData class
+    /// </summary>
     static SkyData skyData;
 
-    //  IMPORTANT : call this first before any use of the "Sky" property.
+    /// <summary>
+    /// Initialize the singleton singleton instance of the SkyData class
+    /// </summary>
+    /// <remarks>
+    /// IMPORTANT : call this first before any use of the "Sky" property.
+    /// </remarks>
+    /// <param name="localIpAddress"></param>
+    /// <param name="favoriteChannels"></param>
     public static void Initialize(
         string localIpAddress,
         IEnumerable<string> favoriteChannels = null)
     {
+        //  Get the discovered web service URLs
         Dictionary<string, string> services = new Dictionary<string, string>();
         using (RegistryKey key = Registry.LocalMachine.OpenSubKey("Software").OpenSubKey("Avid").OpenSubKey("Sky"))
         {
@@ -272,6 +403,7 @@ public class SkyData
             }
         }
 
+        //  We will use SkyBoxPlayServiceType and SkyBoxBrowseServiceType of the five that may have been discovered
         if (!services.ContainsKey(SkyBoxPlayServiceType) || !services.ContainsKey(SkyBoxBrowseServiceType))
         {
             throw new Exception("Sky services cannot be found");
@@ -279,15 +411,23 @@ public class SkyData
         SkyBoxPlayServiceAddress = services[SkyBoxPlayServiceType];
         SkyBoxBrowseServiceAddress = services[SkyBoxBrowseServiceType];
 
+        //  Store any provided favourite channels
         if (favoriteChannels != null)
         {
             FavoriteChannels = favoriteChannels.ToArray();
         }
     }
 
+    /// <summary>
+    /// The singleton instance property of the SkyData class
+    /// </summary>
     public static SkyData Sky { get { return LoadSky(); } }
 
-    public static SkyData LoadSky()
+    /// <summary>
+    /// Load or return the singleton instance of the SkyData class
+    /// </summary>
+    /// <returns></returns>
+    static SkyData LoadSky()
     {
         if (skyData == null)
         {
@@ -300,15 +440,22 @@ public class SkyData
 
         return skyData;
     }
-        
+     
+    /// <summary>
+    /// Constructor for the singleton instance, loading recordings from the STB and channels from thw web
+    /// </summary>
     SkyData()
     {
         LoadAllRecordings();
         LoadChannelMappings();
     }
 
+    /// <summary>
+    /// Load the collection of all recordings from the STB
+    /// </summary>
     public void LoadAllRecordings()
     {
+        //  If we are watching a recording, stop it playing
         if (CurrentRecording != null)
         {
             Stop();
@@ -317,12 +464,18 @@ public class SkyData
 
         List<XElement> recordingsList = new List<XElement>();
 
-        const int batchSize = 25;
-
         try
         {
-            for (int index = 0; ; index += 25)
+            XNamespace nsRoot = null;
+            XNamespace nsDC = null;
+            XNamespace nsVX = null;
+            XNamespace nsUPNP = null;
+
+            //  Load in batches of 25
+            const int batchSize = 25;
+            for (int index = 0; ; index += batchSize)
             {
+                //  Construct the (reverse engineered) SOAP XML to be posted to the SkyBrowse web service
                 string postData = String.Format(
 @"<?xml version='1.0' encoding='utf-8' standalone='yes'?>
 	<s:Envelope s:encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' xmlns:s='http://schemas.xmlsoap.org/soap/envelope/'>
@@ -332,12 +485,13 @@ public class SkyData
 	            <BrowseFlag>BrowseDirectChildren</BrowseFlag>
 	            <Filter>*</Filter>
 	            <StartingIndex>{0}</StartingIndex>
-	            <RequestedCount>25</RequestedCount>
+	            <RequestedCount>{1}</RequestedCount>
 	            <SortCriteria></SortCriteria>
 	        </u:Browse>
 	    </s:Body>
-	</s:Envelope>", index);
+	</s:Envelope>", index, batchSize);
 
+                //  Post the XML to the SkyBrowse web service. This returns the requested data
                 XElement responseData = SkyBrowse("urn:schemas-nds-com:service:SkyBrowse:2#Browse", postData);
                 if (responseData == null)
                 {
@@ -345,31 +499,36 @@ public class SkyData
                 }
                 responseData = responseData.Elements().First().Elements().First();
 
+                //  The Result is a complex XML using four different namespaces
                 XElement recordingsBatch = XDocument.Parse(responseData.Element("Result").Value).Root;
+
                 nsRoot = recordingsBatch.GetDefaultNamespace();
                 nsDC = recordingsBatch.GetNamespaceOfPrefix("dc");
                 nsVX = recordingsBatch.GetNamespaceOfPrefix("vx");
                 nsUPNP = recordingsBatch.GetNamespaceOfPrefix("upnp");
 
+                //  Get the XElement representation of the recordings
                 foreach (XElement item in recordingsBatch.Elements(nsRoot + "item"))
                 {
                     recordingsList.Add(item);
                 }
 
+                //  If we got less than we expected in the batch, this is the end of the collection
                 if (int.Parse(responseData.Element("NumberReturned").Value) != batchSize)
                 {
                     break;
                 }
             }
 
+            //  Process all the Recording XML elements to construct a Dictionary of Recording objects
             AllRecordings = new Dictionary<string,Recording>();
             foreach (XElement recording in recordingsList)
             {
                 try
                 {
 	                XElement recStatus = recording.Element(nsVX + "X_recStatus");
-	                if (recStatus != null && Convert.ToInt32(recStatus.Value) >= 3 &&
-	                    GetStringValue(recording, nsVX + "X_serviceType") != "5")
+	                if (recStatus != null && Convert.ToInt32(recStatus.Value) >= 3 &&   //  Empirically determined
+	                    GetStringValue(recording, nsVX + "X_serviceType") != "5")       //  I think "5" is scheduled recording
 	                {
                         XElement res = recording.Element(nsRoot + "res");
                         Int64 size = Convert.ToInt64(res.Attribute("size").Value);
@@ -415,6 +574,12 @@ public class SkyData
         }
     }
 
+    /// <summary>
+    /// Get the text value of a named sub-element of XML if it exists
+    /// </summary>
+    /// <param name="recording"></param>
+    /// <param name="name"></param>
+    /// <returns></returns>
     private string GetStringValue(
         XElement recording,
         XName name)
@@ -423,6 +588,13 @@ public class SkyData
         return (valueElement == null) ? null : valueElement.Value;
     }
 
+    /// <summary>
+    /// Get the integer value of a named sub-element of XML if it exists
+    /// </summary>
+    /// <param name="recording"></param>
+    /// <param name="name"></param>
+    /// <param name="defaultValue"></param>
+    /// <returns></returns>
     private Int64 GetInt64Value(
         XElement recording,
         XName name,
@@ -432,6 +604,13 @@ public class SkyData
         return (valueString == null) ? defaultValue : Int64.Parse(valueString);
     }
 
+    /// <summary>
+    /// Get the DateTime value of a named sub-element of XML if it exists
+    /// </summary>
+    /// <param name="recording"></param>
+    /// <param name="name"></param>
+    /// <param name="defaultValue"></param>
+    /// <returns></returns>
     private DateTime GetDateTimeValue(
         XElement recording,
         XName name,
@@ -441,6 +620,13 @@ public class SkyData
         return (valueString == null) ? defaultValue : DateTime.Parse(valueString);
     }
 
+    /// <summary>
+    /// Get the TimeSpan value of a named sub-element of XML if it exists
+    /// </summary>
+    /// <param name="recording"></param>
+    /// <param name="name"></param>
+    /// <param name="defaultValue"></param>
+    /// <returns></returns>
     private TimeSpan GetTimeSpanValue(
         XElement recording,
         XName name,
@@ -450,6 +636,12 @@ public class SkyData
         return (valueString == null || valueString.Length < 3) ? defaultValue : TimeSpan.Parse(valueString.Substring(3));
     }
 
+    /// <summary>
+    /// Add a radio channel to the collection
+    /// </summary>
+    /// <param name="title"></param>
+    /// <param name="id"></param>
+    /// <param name="code"></param>
     void AddRadioChannel(
             string title,
             int id,
@@ -458,22 +650,28 @@ public class SkyData
         RadioChannels[id] = new Channel(title, id, code, title, true, false);
     }
 
+    /// <summary>
+    /// Load the collection of TV channels from a Sky public web service
+    /// </summary>
     public void LoadChannelMappings()
     {
+        //  Load the channels as JSON and deserialize
         JavaScriptSerializer serializer = new JavaScriptSerializer();
         string json = new WebClient().DownloadString("http://tv.sky.com/channel/index");
         JsonFormat.SkyChannelInfo channels = serializer.Deserialize<JsonFormat.SkyChannelInfo>(json);
 
         List<JsonFormat.SkyChannelChannel> channelList = new List<JsonFormat.SkyChannelChannel>();
 
+        //  Add all the channels we are interested in
         foreach (JsonFormat.SkyChannelChannel channel in channels.init.channels)
         {
-            if (channel.c[2] <= 12 && channel.c[1] < 900)
+            if (channel.c[2] <= 12 && channel.c[1] < 900) //  Empirically determined
             {
                 channelList.Add(channel);
             }
         }
 
+        //  Build a list of cahnnels with favourites first
         AllChannels = new Dictionary<int,Channel>();
         var favoriteChannels = FavoriteChannels;
 
@@ -504,6 +702,8 @@ public class SkyData
             }
         }
 
+        //  I can find no web index of Radio channels
+        //  These are constructed manually, though this list should really come from the Config
         RadioChannels = new Dictionary<int,Channel>();
 
         AddRadioChannel("BBC Radio 2", 0x840, 102);
@@ -513,11 +713,17 @@ public class SkyData
         AddRadioChannel("Classic FM", 0xD8E, 106);
         AddRadioChannel("Planet Rock", 0xD93, 110);
 
+        //  What are we currently watching?
         GetCurrentChannelInfo();
     }
 
+    /// <summary>
+    /// What are we currently watching?
+    /// </summary>
     public void GetCurrentChannelInfo()
     {
+        //  Post the (reverse engineered) SOAP XML to the SkyPlay web service.
+        //  This will return a "recource URL"
         string currentUrl = SkyPlay("CurrentURI", "urn:schemas-nds-com:service:SkyPlay:2#GetMediaInfo",
 @"<s:Envelope s:encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' xmlns:s='http://schemas.xmlsoap.org/soap/envelope/'>
     <s:Body>
@@ -531,11 +737,13 @@ public class SkyData
         CurrentRecording = null;
         if (!String.IsNullOrEmpty(currentUrl))
         {
+            //  Is it a live channel? If so, which?
             if (currentUrl.StartsWith("xsi://"))
             {
                 int currentInternalChannelNumber = Convert.ToInt32(currentUrl.Remove(0, currentUrl.IndexOf("://") + 3), 16);
                 CurrentChannel = GetChannelByInternalNumber(currentInternalChannelNumber);
             }
+                //  Or is it a recording? If so, which?
             else if (currentUrl.StartsWith("file://pvr/"))
             {
                 if (AllRecordingsByResource.ContainsKey(currentUrl))
@@ -546,6 +754,11 @@ public class SkyData
         }
     }
 
+    /// <summary>
+    /// Given a (shy internal) channel number, get the Channel
+    /// </summary>
+    /// <param name="internalChannelNumber"></param>
+    /// <returns></returns>
     private Channel GetChannelByInternalNumber(
         int internalChannelNumber)
     {
@@ -562,12 +775,18 @@ public class SkyData
         return null;
     }
 
+    /// <summary>
+    /// Get the Now and Next information from the web for the specified channel
+    /// </summary>
+    /// <param name="channel"></param>
+    /// <returns></returns>
     public NowAndNext GetNowAndNext(
         Channel channel)
     {
         try
         {
-	        JavaScriptSerializer serializer = new JavaScriptSerializer();
+            //  Load the Now and Next information as JSON and deserialize
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
 	        string json = new WebClient().DownloadString(string.Format("http://epgservices.sky.com/5.1.1/api/2.0/channel/json/{0}/now/nn/4", channel.Id));
 	        JsonFormat.SkyProgrammeInfo programmes = serializer.Deserialize<JsonFormat.SkyProgrammeInfo>(json);
 	        var listings = programmes.listings[channel.Id.ToString()];
@@ -592,6 +811,15 @@ public class SkyData
         }
     }
 
+    /// <summary>
+    /// Post SOAP data to the SkyPlay service, returning the response data as a text value of 
+    /// the first sub-element of name specified as resultValueReturned (if provided)
+    /// </summary>
+    /// <param name="resultValueReturned"></param>
+    /// <param name="soapAction"></param>
+    /// <param name="postData"></param>
+    /// <param name="timeout"></param>
+    /// <returns></returns>
     private string SkyPlay(
         string resultValueReturned,
         string soapAction,
@@ -612,7 +840,7 @@ public class SkyData
 		            request.ContentLength = postBytes.Length;
 		            request.ContentType = "text/xml; charset=utf-8";
 		            request.Headers.Add("SOAPACTION", "\"" + soapAction + "\"");
-                    request.Timeout = timeout  + i*1000;
+                    request.Timeout = timeout  + i*1000;    //  Increase the timeout each retry
                     if (i != 0)
                     {
                         ((HttpWebRequest)request).KeepAlive = false;
@@ -653,6 +881,12 @@ public class SkyData
         return null;
     }
 
+    /// <summary>
+    /// Post SOAP data to the SkyBrowse service, returning the response data as XML
+    /// </summary>
+    /// <param name="soapAction"></param>
+    /// <param name="postData"></param>
+    /// <returns></returns>
     private XElement SkyBrowse(
         string soapAction,
         string postData)
@@ -701,7 +935,10 @@ public class SkyData
         return null;
     }
 
-
+    /// <summary>
+    /// Watch the live channel on the specified number
+    /// </summary>
+    /// <param name="internalNumber"></param>
     public void ChangeChannel(
         int internalNumber)
     {
@@ -710,6 +947,7 @@ public class SkyData
             internalNumber = AllChannels.First().Key;
         }
 
+        //  Post to SkyPlay
         string postData = String.Format(
 @"<?xml version='1.0' encoding='utf-8'?>
 <s:Envelope s:encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' xmlns:s='http://schemas.xmlsoap.org/soap/envelope/'>
@@ -732,8 +970,13 @@ public class SkyData
         }
     }
 
+    /// <summary>
+    /// Pause the current recording or live channel
+    /// </summary>
+    /// <returns></returns>
     public string Pause()
     {
+        //  Post to SkyPlay
         return SkyPlay(null, "urn:schemas-nds-com:service:SkyPlay:2#Pause",
 @"<?xml version='1.0' encoding='utf-8'?>
 <s:Envelope s:encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' xmlns:s='http://schemas.xmlsoap.org/soap/envelope/'>
@@ -745,8 +988,12 @@ public class SkyData
 </s:Envelope>", 50);
     }
 
+    /// <summary>
+    /// Stop the current recording
+    /// </summary>
     public void Stop()
     {
+        //  Post to SkyPlay
         SkyPlay(null, "urn:schemas-nds-com:service:SkyPlay:2#Stop",
 @"<?xml version='1.0' encoding='utf-8'?>
 <s:Envelope s:encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' xmlns:s='http://schemas.xmlsoap.org/soap/envelope/'>
@@ -763,9 +1010,15 @@ public class SkyData
         }
     }
 
+    /// <summary>
+    /// Play or resume the current recording. FF or Rewind is speed != 1
+    /// </summary>
+    /// <param name="speed">-30, -12, -6, -2, 1, 2, 6, 12, 30</param>
+    /// <returns></returns>
     public string PlayAtSpeed(
         int speed)
     {
+        //  Post to SkyPlay
         string postData = String.Format(
 @"<?xml version='1.0' encoding='utf-8'?>
 <s:Envelope s:encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' xmlns:s='http://schemas.xmlsoap.org/soap/envelope/'>
@@ -779,10 +1032,16 @@ public class SkyData
         return SkyPlay(null, "urn:schemas-nds-com:service:SkyPlay:2#Play", postData, 50);
     }
 
+    /// <summary>
+    /// Watch the specified recording, starting at the specified number of minutes from the start of the recording
+    /// </summary>
+    /// <param name="recording"></param>
+    /// <param name="startTimeMinutes"></param>
     public void PlayRecording(
         Recording recording,
         int startTimeMinutes)
     {
+        //  Post to SkyPlay
         string postData = String.Format(
 @"<?xml version='1.0' encoding='utf-8'?>
 <s:Envelope s:encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' xmlns:s='http://schemas.xmlsoap.org/soap/envelope/'>
@@ -800,9 +1059,14 @@ public class SkyData
         CurrentRecording = recording;
     }
 
+    /// <summary>
+    /// Delete the specified recording
+    /// </summary>
+    /// <param name="recording"></param>
     public void DeleteRecording(
         Recording recording)
     {
+        //  Post to SkyBrowse
         string postData = String.Format(
 @"<?xml version='1.0' encoding='utf-8'?>
 <s:Envelope s:encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' xmlns:s='http://schemas.xmlsoap.org/soap/envelope/'>
