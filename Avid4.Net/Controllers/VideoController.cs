@@ -170,7 +170,7 @@ namespace Avid4.Net.Controllers
         public ContentResult SendZoom(
             string cmd)
         {
-            Uri requestUri = new Uri(Zoom.Url + cmd);
+            Uri requestUri = new Uri(Zoom.FuncUrl + cmd);
 
             for (int i = 0; i < 5; i++)
             {

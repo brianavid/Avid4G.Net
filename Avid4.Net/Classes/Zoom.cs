@@ -11,26 +11,38 @@ using System.Threading;
 using System.Diagnostics;
 
 /// <summary>
-/// Summary description for Zoom
+/// Class to interface with the Zoom Player vis its TCP network or web service interfaces
 /// </summary>
 public class Zoom
 {
-    static string host = null;
-    public static string Host 
+    /// <summary>
+    /// The default address of the Zoom Player web service interface
+    /// </summary>
+    static string Host 
     {
-        get { return "http://localhost:4768/"; }
+        get { return "http://localhost:4768/"; }      //  The default port number for the web service interface
     }
 
-    public static string Url
+    /// <summary>
+    /// The URL (with a function code appended) to send a Zoom Player function command
+    /// </summary>
+    /// <remarks>
+    /// Functions are documented at http://www.inmatrix.com/zplayer/highlights/zpfunctions.shtml
+    /// </remarks>
+    public static string FuncUrl
     {
         get { return Host + "&zpfunc="; }
     }
 
+    //  Data to control the asynchronous background thread that reads data sent from Zoom Player over its TCP network interface
     static bool socketReading = true;
     static Thread reader = null;
     static TcpClient client = null;
     static NetworkStream networkStream = null;
 
+    /// <summary>
+    /// Background thread method to repeatedly read and process data send as lines of text from Zoom Player over its TCP network interface
+    /// </summary>
     static void ReadSynchronously()
     {
         client = new TcpClient();
@@ -39,10 +51,11 @@ public class Zoom
         {
             try
             {
-                client.Connect("localhost", 4769);
+                client.Connect("localhost", 4769);      //  The default port number for the TCP network interface
             }
             catch (System.Exception ex)
             {
+                //  Wait for Zoon Player to start running
                 Thread.Sleep(1000);
                 continue;
             }
@@ -53,6 +66,8 @@ public class Zoom
                 {
 	                using (NetworkStream ns = client.GetStream())
 	                {
+                        //  Store the network stream globally so that other threads can send commands while 
+                        //  data is still being received in the backgound
 	                    networkStream = ns;
 	                    using (StreamReader sr = new StreamReader(ns))
 	                    {
@@ -61,6 +76,7 @@ public class Zoom
 	                            string line = sr.ReadLine();
 	                            if (line == null)
 	                            {
+                                    //  Exit reading and reconnect when Zoonm Player next starts
 	                                break;
 	                            }
 	                            lock (typeof(Zoom))
@@ -83,6 +99,14 @@ public class Zoom
         }
     }
 
+    /// <summary>
+    /// Process the received line in the Zoom Player
+    /// </summary>
+    /// <remarks>
+    /// The event codes in the line are documented in http://forum.inmatrix.com/index.php?showtopic=7051
+    /// We are only currently interested in a very small subset of the available codes
+    /// </remarks>
+    /// <param name="line"></param>
     private static void ProcessReceivedLine(
         string line)
     {
@@ -166,6 +190,9 @@ public class Zoom
         }
     }
 
+    /// <summary>
+    /// Start receiving and processing asynchronous data from Zoom Player
+    /// </summary>
     public static void Start()
 	{
         if (reader != null && reader.IsAlive)
@@ -178,6 +205,9 @@ public class Zoom
         reader.Start();
 	}
 
+    /// <summary>
+    /// Stop receiving and processing asynchronous data from Zoom Player
+    /// </summary>
 	public static void Stop()
 	{
         socketReading = false;
@@ -198,7 +228,11 @@ public class Zoom
         reader = null;
     }
 
-    public static void SendRequest(
+    /// <summary>
+    /// Send a TCP network command to Zoom Player using the networkStream opened by the backgroundreading thread
+    /// </summary>
+    /// <param name="code"></param>
+    static void SendRequest(
         string code)
     {
         if (networkStream != null && networkStream.CanWrite)
@@ -215,6 +249,10 @@ public class Zoom
         }
     }
 
+    /// <summary>
+    /// Return the current state of the Zoom Player as an XML structure
+    /// </summary>
+    /// <returns></returns>
     public static XElement GetInfo()
     {
         lock (typeof(Zoom))
@@ -244,6 +282,9 @@ public class Zoom
         }
     }
 
+    /// <summary>
+    /// The title of the video or DVD that is currently playing
+    /// </summary>
     public static string Title { 
         get 
         { 
@@ -257,12 +298,21 @@ public class Zoom
     }
     static string title;
 
+    /// <summary>
+    /// The asynchronously maintain state of the video or DVD that is currently playing 
+    /// </summary>
     static int positionMs = 0;
     static int durationMs = 0;
     static string state = "Unknown";
     static string mode = "Unknown";
 
+    /// <summary>
+    /// Is Zoom Player currently playing (including if paused)?
+    /// </summary>
     public static bool IsCurrentlyPlaying { get { return state == "Playing" || state == "Paused"; } }
 
+    /// <summary>
+    /// Is Zoom Player currently in its "DVD" mode as opposed to its "Media" mode
+    /// </summary>
     public static bool IsDvdMode { get; set; }
 }
