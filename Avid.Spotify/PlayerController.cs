@@ -76,44 +76,6 @@ namespace Avid.Spotify
         }
 
         /// <summary>
-        /// Skip playing forwards to the next queued track
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public int Skip()
-        {
-            try
-            {
-	            SpotifySession.Skip();
-            }
-            catch (System.Exception ex)
-            {
-                logger.Warn(ex);
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
-            }
-            return 0;
-        }
-
-        /// <summary>
-        /// Skip playing backwards to the previous queued track
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public int Back()
-        {
-            try
-            {
-	            SpotifySession.Back();
-            }
-            catch (System.Exception ex)
-            {
-                logger.Warn(ex);
-                throw new HttpResponseException(HttpStatusCode.InternalServerError);
-            }
-            return 0;
-        }
-
-        /// <summary>
         /// Is the player playing a track?
         /// </summary>
         /// <returns>+ve: Playing; 0: Paused; -ve: Stolen by another session</returns>
