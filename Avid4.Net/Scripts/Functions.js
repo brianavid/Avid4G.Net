@@ -11,6 +11,8 @@ function UpdateVolumeDisplay(displayValue) {
     }
 }
 
+//  While a player application is still launching and before it has change the view to the 
+//  appropriate player view, we overlay a grey mask to indicate that the view is not yet usable
 var overlayVisibleForLaunch = false;
 
 function OverlayScreenForLaunch() {
@@ -30,6 +32,8 @@ function RemoveScreenOverlay() {
     }
 }
 
+//  Cause AVid to launch a player application and afterwards switch the view to the specfied URL
+//  During the launch, overlay the screen with a grey mask
 function LaunchProgram(application, url) {
     OverlayScreenForLaunch()
     $.ajax({
@@ -39,47 +43,14 @@ function LaunchProgram(application, url) {
         },
         error: function (xhr, ajaxOptions, thrownError) {
             RemoveScreenOverlay()
-            alert(xhr.status);
-            alert(thrownError);
         },
         cache: false
     });
 }
 
-function StartSky(application, url, mode) {
-    OverlayScreenForLaunch()
-    $.ajax({
-        url: "/Action/StartSky?mode=" + mode,
-        success: function (data) {
-            if (url == null)
-            {
-                url = data;
-            }
-            window.location = url;
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            RemoveScreenOverlay()
-            alert(xhr.status);
-            alert(thrownError);
-        },
-        cache: false
-    });
-}
-
-function LaunchProgramWithArgs(application, args, url) {
-    OverlayScreenForLaunch()
-    $.ajax({
-        url: "/Action/Launch?name=" + application + "&args=" + encodeURIComponent(args),
-        success: function (data) {
-            window.location = url;
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            RemoveScreenOverlay()
-        },
-        cache: false
-    });
-}
-
+//  Cause AVid to launch a new player application (leaving the existing music playing) with specified arguments 
+//  and afterwards switch the view to the specfied URL
+//  During the launch, overlay the screen with a grey mask
 function LaunchNewProgram(application, args, url) {
     OverlayScreenForLaunch()
     $.ajax({
@@ -94,11 +65,17 @@ function LaunchNewProgram(application, args, url) {
     });
 }
 
-function LaunchNewVideo(args, title, url) {
+//  Cause AVid to turn on (and switch to) the Sky box and afterwards switch the view to the specfied URL
+//  During the launch, overlay the screen with a grey mask
+function StartSky(application, url, mode) {
     OverlayScreenForLaunch()
     $.ajax({
-        url: "/Action/Launch?name=Video&title=" + encodeURIComponent(title) + "&args=" + encodeURIComponent(args),
+        url: "/Action/StartSky?mode=" + mode,
         success: function (data) {
+            if (url == null)
+            {
+                url = data;
+            }
             window.location = url;
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -108,30 +85,17 @@ function LaunchNewVideo(args, title, url) {
     });
 }
 
-function LaunchNewPhoto(url) {
-    OverlayScreenForLaunch()
-    $.ajax({
-        url: "/Action/Launch?&detach=yes&name=Photo",
-        success: function (data) {
-            window.location = url;
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            RemoveScreenOverlay()
-        },
-        cache: false
-    });
-}
-
+//  Switch the entire view to a new URL
 function LinkTo(url) {
     window.location = url;
 }
 
-function GoHome() {
-    location.href = '/Home/Home';
-}
-
+//  A stack of pane partial URLs which can be popped (by a side-swip) to return to an ealier pane view
 var stackedPaneUrls = [];
 
+//  Replace a pane (an identified <div> within the enire view) with the new partial pane contents of the specfied URL.
+//  The replacement can optionally push the URL on the stack to allow it to be popped. Alternatively the stack can be cleared
+//  The "onAfter" function can be executed once the view has been replaced
 function ReplacePane(paneId, url, stacking, onAfter)
 {
     switch (stacking)
@@ -165,6 +129,8 @@ function ReplacePane(paneId, url, stacking, onAfter)
     }
 }
 
+//  Pop back the contents of the identified pane to an earlier pushed URL
+//  The "onAfter" function can be executed once the view has been replaced
 function PopStackedPane(paneId, actionIfNothingToPop, onAfter) {
     if (stackedPaneUrls.length > 1)
     {
@@ -176,6 +142,7 @@ function PopStackedPane(paneId, actionIfNothingToPop, onAfter) {
     }
 }
 
+//  Turn off all player applications and wwitch the entire view to a new URL 
 function AllOffJump(url) {
     $.ajax({
         url: "/Action/AllOff",
@@ -187,10 +154,12 @@ function AllOffJump(url) {
     return false;
 }
 
+//  Get the top offset for the specified DOM object (a pane)
 function getTop(el) {
     return $(el).offset().top;
 }
 
+//  Get the left offset for the specified DOM object (a pane)
 function getLeft(el) {
     for (var lx = 0;
             el != null;
@@ -202,6 +171,8 @@ function getLeft(el) {
     return lx;
 }
 
+//  For a Hammer.js object attached to a pane (a <div>) interpret vertical 
+//  dragging and swiping as scrolling the contents of that pane with attractve "easing"
 function EnableDragScroll(h) {
     var lastY = 0;
 
@@ -277,6 +248,8 @@ function EnableDragScroll(h) {
     })
 }
 
+//  For a Hammer.js object attached to a pane (a <div>) interpret draging and tapping within the pane as though
+//  it were on a touch pad or laptop mouse pad, moving Avid's on-screen cursor and sending mouse click events.
 function EnableMouseBehaviour(h) {
     var lastX = 0;
     var lastY = 0;
