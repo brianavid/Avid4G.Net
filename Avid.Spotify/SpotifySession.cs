@@ -171,10 +171,17 @@ namespace Avid.Spotify
         /// <summary>
         /// Skip to the next queued track
         /// </summary>
-        static void SkipTrack()
+        static void SkipTrack(
+            bool StopCurrentImmediately =false)
         {
             lock (SessionLock)
             {
+                if (StopCurrentImmediately)
+                {
+	                //  Stop the current track playing immediately, discarding buffered music
+	                Player.Reset();
+                }
+
                 session.PlayerUnload();
                 numSamplesPlayed = 0;
                 currentTrackPos = 0;
@@ -183,7 +190,7 @@ namespace Avid.Spotify
                 //  If this is the last queued track, sleep till it has played to the end and then pause the player
                 //  If the player is not paused it loops playing the last buffer-full of samples repeatedly
                 var bufferedDuration = Player.GetBufferedDuration();
-                if (trackQueue.Count == 0 || trackQueue.Last == currentPlayingTrackNode)
+                if (!StopCurrentImmediately && (trackQueue.Count == 0 || trackQueue.Last == currentPlayingTrackNode))
                 {
                     System.Threading.Thread.Sleep(bufferedDuration);
                     Player.Pause();
@@ -303,7 +310,7 @@ namespace Avid.Spotify
         /// </summary>
         internal static void Skip()
         {
-            SkipTrack();
+            SkipTrack(StopCurrentImmediately: true);
         }
 
         /// <summary>
