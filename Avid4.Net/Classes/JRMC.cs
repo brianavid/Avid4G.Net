@@ -516,7 +516,7 @@ public class JRMC
     /// <summary>
     /// The collection of photo albums
     /// </summary>
-    static AlbumCollection PhotoAlbumList
+    public static AlbumCollection PhotoAlbumList
     {
         get { return theJRMC == null ? null : theJRMC.photoAlbumList; }
     }
