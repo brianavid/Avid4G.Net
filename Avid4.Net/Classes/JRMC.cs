@@ -11,7 +11,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 /// <summary>
 /// The JRMC class encapsulates all access to the J River Media Center player which is used for 
-/// cataloging and playing all stored music.
+/// cataloging and playing all stored music, music streamed from BBC iPlayer Radio and viewing photos.
 /// </summary>
 [Serializable]
 public class JRMC

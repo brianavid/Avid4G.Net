@@ -11,7 +11,7 @@ using System.Threading;
 using System.Diagnostics;
 
 /// <summary>
-/// Class to interface with the Zoom Player vis its TCP network or web service interfaces
+/// Class to interface with the Zoom Player via its TCP network or web service interfaces
 /// </summary>
 public class Zoom
 {
