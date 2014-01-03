@@ -10,34 +10,26 @@ namespace Avid4.Net.Controllers
     [NoCache]
     public class SkyController : Controller
     {
-        //
         // GET: /Sky/Watch
-
         public ActionResult Watch()
         {
             return View();
         }
 
-        //
         // GET: /Sky/ControlPane
-
         public ActionResult ControlPane()
         {
             return PartialView();
         }
 
-        //
         // GET: /Sky/Live
-
         public ActionResult Live()
         {
             SkyData.Sky.LoadChannelMappings();
             return View();
         }
 
-        //
         // GET: /Sky/ChannelsPane
-
         public ActionResult ChannelsPane()
         {
             SkyData.Sky.LoadChannelMappings();
@@ -45,25 +37,19 @@ namespace Avid4.Net.Controllers
         }
 
         // GET: /Sky/Radio
-
         public ActionResult Radio()
         {
             return View();
         }
 
-        //
         // GET: /Sky/RadioPane
-
         public ActionResult RadioPane()
         {
             SkyData.Sky.LoadChannelMappings();
             return PartialView();
         }
 
-        //
-        //
         // GET: /Sky/NowAndNext
-
         public ActionResult NowAndNext(
             string id)
         {
@@ -76,7 +62,6 @@ namespace Avid4.Net.Controllers
         }
 
         // GET: /Sky/Recordings
-
         public ActionResult Recordings(
             string refresh)
         {
@@ -88,7 +73,6 @@ namespace Avid4.Net.Controllers
         }
 
         // GET: /Sky/RecordingsPane
-
         public ActionResult RecordingsPane(
             string title,
             string refresh)
@@ -104,8 +88,7 @@ namespace Avid4.Net.Controllers
             return PartialView();
         }
 
-        // GET: /Sky/Recordings
-
+        // GET: /Sky/Recording
         public ActionResult Recording(
             string id)
         {
@@ -113,9 +96,7 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
-        //
-        // GET: /Sky/Recordings
-
+        // GET: /Sky/RecordingDescription
         public ContentResult RecordingDescription(
             string id)
         {
@@ -126,25 +107,19 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
-        //
         // GET: /Sky/Buttons
-
         public ActionResult Buttons()
         {
             return View();
         }
 
-        //
         // GET: /Sky/All
-
         public ActionResult All()
         {
             return View();
         }
 
-        //
         // GET: /Sky/ChangeChannel
-
         public ContentResult ChangeChannel(
             string id)
         {
@@ -155,9 +130,7 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
-        //
         // GET: /Sky/PlayRecording
-
         public ContentResult PlayRecording(
             string id,
             string start)
@@ -172,7 +145,6 @@ namespace Avid4.Net.Controllers
         }
 
         // GET: /Sky/DeleteRecording
-
         public ContentResult DeleteRecording(
             string id)
         {
@@ -184,9 +156,7 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
-        //
-        // GET: /Sky/play?speed=NNN
-
+        // GET: /Sky/Play?speed=NNN
         public ContentResult Play(
             string speed)
         {
@@ -197,9 +167,7 @@ namespace Avid4.Net.Controllers
             return this.Content(String.Format("Play {2} {0}..{1} == {3}", start.ToString("u"), finish.ToString("u"), speed, result));
         }
 
-        //
         // GET: /Sky/Pause
-
         public ContentResult Pause()
         {
             DateTime start = DateTime.UtcNow;
@@ -208,9 +176,7 @@ namespace Avid4.Net.Controllers
             return this.Content(String.Format("Pause {0}..{1} == {2}", start.ToString("u"), finish.ToString("u"), result));
         }
 
-        //
         // GET: /Sky/Stop
-
         public ContentResult Stop()
         {
             DateTime start = DateTime.UtcNow;

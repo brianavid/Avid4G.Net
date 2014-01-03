@@ -14,22 +14,19 @@ namespace Avid4.Net.Controllers
     {
         static bool isPaused = false;
 
-        //
         // GET: /Spotify/Mouse
-
         public ActionResult Mouse()
         {
             return View();
         }
 
-        //
         // GET: /Spotify/WideMouse
-
         public ActionResult WideMouse()
         {
             return View();
         }
 
+        // GET: /Spotify/All
         public ActionResult All()
         {
             ViewBag.Mode = "Library";
@@ -37,21 +34,25 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
+        // GET: /Spotify/Playing
         public ActionResult Playing()
         {
             return View();
         }
 
+        // GET: /Spotify/Queue
         public ActionResult Queue()
         {
             return View();
         }
 
+        // GET: /Spotify/QueuePane
         public ActionResult QueuePane()
         {
             return View();
         }
 
+        // GET: /Spotify/Browser
         public ActionResult Browser(
             string mode,
             string id,
@@ -75,6 +76,7 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
+        // GET: /Spotify/BrowserPane
         public ActionResult BrowserPane(
             string mode,
             string id,
@@ -118,6 +120,7 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
+        // GET: /Spotify/GetPlayingInfo
         public ContentResult GetPlayingInfo()
         {
             SpotifyData.Track currentTrack = Spotify.GetCurrentTrack();
@@ -170,6 +173,7 @@ namespace Avid4.Net.Controllers
             return this.Content(info.ToString(), @"text/xml", Encoding.UTF8);
         }
 
+        // GET: /Spotify/PlayAlbum
         public ContentResult PlayAlbum(
             int id,
             bool append = false)
@@ -179,6 +183,7 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
+        // GET: /Spotify/PlayTrack
         public ContentResult PlayTrack(
             int id,
             bool append = false)
@@ -188,6 +193,7 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
+        // GET: /Spotify/SkipToQueuedTrack
         public ContentResult SkipToQueuedTrack(
             int id)
         {
@@ -196,6 +202,7 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
+        // GET: /Spotify/RemoveQueuedTrack
         public ContentResult RemoveQueuedTrack(
             int id)
         {
@@ -203,6 +210,7 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
+        // GET: /Spotify/PlayPause
         public ContentResult PlayPause()
         {
             if (isPaused)
@@ -218,24 +226,28 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
+        // GET: /Spotify/Skip
         public ContentResult Skip()
         {
             Spotify.Skip();
             return this.Content("");
         }
 
+        // GET: /Spotify/Back
         public ContentResult Back()
         {
             Spotify.Back();
             return this.Content("");
         }
 
+        // GET: /Spotify/Plus10
         public ContentResult Plus10()
         {
             Spotify.SetPosition(Spotify.GetPosition() + 10);
             return this.Content("");
         }
 
+        // GET: /Spotify/Minus10
         public ContentResult Minus10()
         {
             int pos = Spotify.GetPosition();
@@ -243,6 +255,7 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
+        // GET: /Spotify/SetPosition
         public ContentResult SetPosition(
             int pos)
         {
@@ -250,12 +263,14 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
+        // GET: /Spotify/GetAlbumImage
         public ActionResult GetAlbumImage(
             int id)
         {
             return File(Spotify.GetAlbumImage(id), "image/png");
         }
 
+        // GET: /Spotify/AddTrackToPlayList
         public ContentResult AddTrackToPlaylist(
             int id,
             string name)
@@ -264,6 +279,7 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
+        // GET: /Spotify/AddAlbumToPlayList
         public ContentResult AddAlbumToPlayList(
             int id,
             string name)
@@ -273,6 +289,7 @@ namespace Avid4.Net.Controllers
         }
 
 
+        // GET: /Spotify/RemoveTrackFromPlayList
         public ContentResult RemoveTrackFromPlayList(
             int id,
             string name)
@@ -281,6 +298,7 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
+        // GET: /Spotify/RemoveAlbumFromPlayList
         public ContentResult RemoveAlbumFromPlayList(
             int id,
             string name)

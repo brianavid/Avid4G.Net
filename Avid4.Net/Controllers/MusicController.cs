@@ -11,9 +11,7 @@ namespace Avid4.Net.Controllers
 {
     public class MusicController : Controller
     {
-        //
-        // GET: /Music/
-
+        // GET: /Music/All
         public ActionResult All()
         {
             ViewBag.Mode = "Library";
@@ -21,21 +19,25 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
+        // GET: /Music/Playing
         public ActionResult Playing()
         {
             return View();
         }
 
+        // GET: /Music/Queue
         public ActionResult Queue()
         {
             return View();
         }
 
+        // GET: /Music/QueuePane
         public ActionResult QueuePane()
         {
             return View();
         }
 
+        // GET: /Music/Browser
         public ActionResult Browser(
             string mode,
             string id,
@@ -54,6 +56,7 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
+        // GET: /Music/BrowserPane
         public ActionResult BrowserPane(
             string mode,
             string id,
@@ -87,6 +90,7 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
+        // GET: /Music/GetPlayingInfo
         public ContentResult GetPlayingInfo()
         {
             StringWriter writer = new StringWriter();
@@ -94,6 +98,7 @@ namespace Avid4.Net.Controllers
             return this.Content(writer.ToString(), @"text/xml", writer.Encoding);
         }
 
+        // GET: /Music/SendMCWS
         public ContentResult SendMCWS(
             string url)
         {
@@ -112,6 +117,7 @@ namespace Avid4.Net.Controllers
             return this.Content(doc.ToString(), @"text/xml");
         }
 
+        // GET: /Music/RemoveQueuedTrack
         public ContentResult RemoveQueuedTrack(
             string id)
         {
@@ -119,6 +125,7 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
+        // GET: /Music/PlayListenAgain
         public ContentResult PlayListenAgain(
             string pid)
         {
@@ -132,6 +139,7 @@ namespace Avid4.Net.Controllers
         }
 
 
+        // GET: /Music/GetListenAgainIcon
         public ActionResult GetListenAgainIcon()
         {
             var dir = Server.MapPath("/Content");

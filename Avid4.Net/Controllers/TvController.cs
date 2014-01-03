@@ -10,9 +10,7 @@ namespace Avid4.Net.Controllers
     [NoCache]
     public class TvController : Controller
     {
-        //
         // GET: /Tv/Watch
-
         public ActionResult Watch()
         {
             if (String.IsNullOrEmpty(RemotePotato.CurrentlySelectedChannelName))
@@ -22,49 +20,37 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
-        //
         // GET: /Tv/ControlPane
-
         public ActionResult ControlPane()
         {
             return PartialView();
         }
 
-        //
         // GET: /Tv/Channels
-
         public ActionResult Channels()
         {
             return View();
         }
 
-        //
         // GET: /Tv/ChannelsPane
-
         public ActionResult ChannelsPane()
         {
             return PartialView();
         }
 
         // GET: /Tv/Radio
-
         public ActionResult Radio()
         {
             return View();
         }
 
-        //
         // GET: /Tv/RadioPane
-
         public ActionResult RadioPane()
         {
             return PartialView();
         }
 
-        //
-        //
         // GET: /Tv/NowAndNext
-
         public ActionResult NowAndNext(
             string channelName)
         {
@@ -72,10 +58,7 @@ namespace Avid4.Net.Controllers
             return PartialView();
         }
 
-        //
-        //
         // GET: /Tv/ChangeChannel
-
         public ContentResult ChangeChannel(
             string channelName)
         {
@@ -83,10 +66,7 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
-        //
-        //
         // GET: /Tv/Action
-
         public ContentResult Action(
             string command)
         {
@@ -94,17 +74,13 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
-        //
         // GET: /Tv/Buttons
-
         public ActionResult Buttons()
         {
             return View();
         }
 
-        //
         // GET: /Tv/All
-
         public ActionResult All()
         {
             return View();

@@ -8,17 +8,13 @@ namespace Avid4.Net.Controllers
 {
     public class WebController : Controller
     {
-        //
         // GET: /Web/Mouse
-
         public ActionResult Mouse()
         {
             return View();
         }
 
-        //
         // GET: /Web/All
-
         public ActionResult All()
         {
             ViewBag.Mode = "iPlayerSelect";
@@ -26,6 +22,7 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
+        // GET: /Web/Browser
         public ActionResult Browser(
             string mode)
         {
@@ -34,6 +31,7 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
+        // GET: /Web/BrowserPane
         public ActionResult BrowserPane(
             string mode,
             string date,
@@ -52,6 +50,7 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
+        // GET: /Web/PlayBBC
         public ContentResult PlayBBC(
             string pid)
         {

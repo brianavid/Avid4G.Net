@@ -8,9 +8,7 @@ namespace Avid4.Net.Controllers
 {
     public class GuideController : Controller
     {
-        //
         // GET: /Guide/Browser
-
         public ActionResult Browser(
             string mode)
         {
@@ -18,9 +16,7 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
-        //
         // GET: /Guide/BrowserWide
-
         public ActionResult BrowserWide(
             string mode)
         {
@@ -28,9 +24,7 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
-        //
         // GET: /Guide/BrowserPane
-
         public ActionResult BrowserPane(
             string mode,
             string id,
@@ -54,27 +48,21 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
-        //
         // GET: /Guide/Description
-
         public ContentResult Description(
             string id)
         {
             return this.Content(RemotePotato.GetDescription(id));
         }
 
-        //
         // GET: /Guide/Record
-
         public ContentResult Record(
             string id)
         {
             return this.Content(RemotePotato.RecordShow(id));
         }
 
-        //
         // GET: /Guide/Cancel
-
         public ContentResult Cancel(
             string id)
         {

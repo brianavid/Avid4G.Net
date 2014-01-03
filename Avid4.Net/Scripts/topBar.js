@@ -130,7 +130,7 @@ $(function () {
     function HideActionMenu()
     {
         $(".actionMenuOverlay").hide()
-        $(".actionMenu").hide()
+$(".actionMenu").hide()
     }
 
     $(".actionMenuOverlay").click(function () {
@@ -261,6 +261,11 @@ function OverlayScreen() {
     }
 }
 
+//  The top bar (and therefore every view) has this handler function (SwitchPanelAfterWake) that determines if 
+//  it is being viewed for the first time in over a minute. This case will occur when (for example) a new 
+//  controlling device is awoken from its sleeping state. When this case occurs, the view is automatically 
+//  switched to a suitable default view for the currently running player application, 
+//  as the view displayed when the device last update may no longer be appropriate.
 function SwitchPanelAfterWake(isWide) {
     var now = new Date();
     if (!navigator.onLine) {

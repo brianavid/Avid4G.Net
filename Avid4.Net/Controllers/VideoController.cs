@@ -10,9 +10,7 @@ namespace Avid4.Net.Controllers
 {
     public class VideoController : Controller
     {
-        //
         // GET: /Video/Watch
-
         public ActionResult Watch()
         {
             if (!Zoom.IsCurrentlyPlaying)
@@ -23,33 +21,25 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
-        //
         // GET: /Video/WatchPane
-
         public ActionResult WatchPane()
         {
             return PartialView();
         }
 
-        //
         // GET: /Video/All
-
         public ActionResult All()
         {
             return View();
         }
 
-        //
         // GET: /Video/Recordings
-
         public ActionResult Recordings()
         {
             return View();
         }
 
-        //
-        // GET: /Video/Recordings
-
+        // GET: /Video/Recording
         public ActionResult Recording(
             string id)
         {
@@ -57,17 +47,13 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
-        //
         // GET: /Video/DVDs
-
         public ActionResult DVDs()
         {
             return View();
         }
 
-        //
         // GET: /Video/RecordingsPane
-
         public ActionResult RecordingsPane(
             string title)
         {
@@ -78,16 +64,13 @@ namespace Avid4.Net.Controllers
             return PartialView();
         }
 
-        //
         // GET: /Video/DVDsPane
-
         public ActionResult DVDsPane()
         {
             return PartialView();
         }
 
-        // GET: /Sky/PlayRecording
-
+        // GET: /Video/PlayRecording
         public ContentResult PlayRecording(
             string id)
         {
@@ -101,8 +84,7 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
-        // GET: /Sky/DeleteRecording
-
+        // GET: /Video/DeleteRecording
         public ContentResult DeleteRecording(
             string id)
         {
@@ -114,8 +96,7 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
-        // GET: /Sky/PlayDvdDisk
-
+        // GET: /Video/PlayDvdDisk
         public ContentResult PlayDvdDisk(
             string drive,
             string title)
@@ -129,8 +110,7 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
-        // GET: /Sky/PlayDvdDirectory
-
+        // GET: /Video/PlayDvdDirectory
         public ContentResult PlayDvdDirectory(
             string path,
             string title)
@@ -144,8 +124,7 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
-        // GET: /Sky/PlayBluRayFile
-
+        // GET: /Video/PlayBluRayFile
         public ContentResult PlayBluRayFile(
             string path,
             string title)
@@ -159,6 +138,7 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
+        // GET: /Video/GetPlayingInfo
         public ContentResult GetPlayingInfo()
         {
             StringWriter writer = new StringWriter();
@@ -166,7 +146,7 @@ namespace Avid4.Net.Controllers
             return this.Content(writer.ToString(), @"text/xml", writer.Encoding);
         }
 
-
+        // GET: /Video/SendZoom
         public ContentResult SendZoom(
             string cmd)
         {

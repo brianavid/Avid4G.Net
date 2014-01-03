@@ -9,26 +9,27 @@ namespace Avid4.Net.Controllers
 {
     public class ActionController : Controller
     {
+        // GET: /Action/GetRunning
         public ContentResult GetRunning()
         {
             return this.Content(Running.RunningProgram);
         }
 
-        //
-        // GET: /Action/
-
+        // GET: /Action/VolumeUp
         public ActionResult VolumeUp()
         {
             Receiver.IncreaseVolume();
             return Content(Receiver.VolumeDisplay);
         }
 
+        // GET: /Action/VolumeDown
         public ActionResult VolumeDown()
         {
             Receiver.DecreaseVolume();
             return Content(Receiver.VolumeDisplay);
         }
 
+        // GET: /Action/VolumeMute
         public ActionResult VolumeMute()
         {
             if (Running.RunningProgram == "TV")
@@ -42,11 +43,13 @@ namespace Avid4.Net.Controllers
             return Content(Receiver.VolumeDisplay);
         }
 
+        // GET: /Action/VolumeGet
         public ActionResult VolumeGet()
         {
             return Content(Receiver.VolumeDisplay);
         }
 
+        // GET: /Action/Launch
         public ActionResult Launch(
             string name,
             string args,
@@ -77,6 +80,7 @@ namespace Avid4.Net.Controllers
             return Content("OK");
         }
 
+        // GET: /Action/StartSky
         public ActionResult StartSky(
             string mode)
         {
@@ -125,6 +129,7 @@ namespace Avid4.Net.Controllers
             return Content("/Sky/Watch");
         }
 
+        // GET: /Action/AllOff
         public ActionResult AllOff(
             string keep)
         {
@@ -133,6 +138,7 @@ namespace Avid4.Net.Controllers
             return Content(Receiver.VolumeDisplay);
         }
 
+        // GET: /Action/MouseMove
         public ActionResult MouseMove(
             string dx,
             string dy)
@@ -141,6 +147,7 @@ namespace Avid4.Net.Controllers
             return Content("");
         }
 
+        // GET: /Action/MouseClick
         public ActionResult MouseClick(
             string right)
         {
@@ -148,6 +155,7 @@ namespace Avid4.Net.Controllers
             return Content("");
         }
 
+        // GET: /Action/SendKeys
         public ActionResult SendKeys(
             string keys)
         {
@@ -155,6 +163,7 @@ namespace Avid4.Net.Controllers
             return Content("");
         }
 
+        // GET: /Action/SendIR
         public ActionResult SendIR(
             string id)
         {
@@ -162,18 +171,21 @@ namespace Avid4.Net.Controllers
             return Content("");
         }
 
+        // GET: /Action/ScreenOff
         public ActionResult ScreenOff()
         {
             Screen.SetScreenDisplayMode(0);
             return Content("");
         }
 
+        // GET: /Action/ScreenOn
         public ActionResult ScreenOn()
         {
             Screen.SetScreenDisplayMode(1);
             return Content("");
         }
 
+        // GET: /Action/VisualOn
         public ActionResult VisualOn()
         {
             Screen.SetScreenDisplayMode(Running.RunningProgram=="Music" ? 2 : 1);
@@ -184,18 +196,21 @@ namespace Avid4.Net.Controllers
             return Content("");
         }
 
+        // GET: /Action/SoundTV
         public ActionResult SoundTV()
         {
             Receiver.SelectTVOutput(null);
             return Content("");
         }
 
+        // GET: /Action/SoundRooms
         public ActionResult SoundRooms()
         {
             Receiver.SelectRoomsOutput();
             return Content("");
         }
 
+        // GET: /Action/RebuildMediaDb
         public ActionResult RebuildMediaDb()
         {
             if (Running.RunningProgram != "Video")
@@ -206,6 +221,7 @@ namespace Avid4.Net.Controllers
             return Content("");
         }
 
+        // GET: /Action/RecycleApp
         public ActionResult RecycleApp()
         {
             HttpRuntime.UnloadAppDomain();
