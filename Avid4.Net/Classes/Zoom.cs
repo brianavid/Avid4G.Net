@@ -53,7 +53,7 @@ public class Zoom
             {
                 client.Connect("localhost", 4769);      //  The default port number for the TCP network interface
             }
-            catch (System.Exception ex)
+            catch (Exception)
             {
                 //  Wait for Zoon Player to start running
                 Thread.Sleep(1000);
@@ -87,7 +87,7 @@ public class Zoom
 	                    }
 	                }
                 }
-                catch (System.Exception ex)
+                catch (Exception)
                 {
                 	
                 }
@@ -242,7 +242,7 @@ public class Zoom
             {
 	            networkStream.Write(myWriteBuffer, 0, myWriteBuffer.Length);
             }
-            catch (System.Exception ex)
+            catch (Exception)
             {
             	
             }

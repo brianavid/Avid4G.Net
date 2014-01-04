@@ -57,7 +57,7 @@ public static class Screen
 	        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 	        return response.StatusCode == HttpStatusCode.OK;
         }
-        catch (System.Exception ex)
+        catch (Exception)
         {
             return false;
         }

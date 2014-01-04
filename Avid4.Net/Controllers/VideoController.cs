@@ -163,7 +163,7 @@ namespace Avid4.Net.Controllers
                 {
                     return this.Content("");
                 }
-                catch (System.Exception ex)
+                catch (Exception)
                 {
                     System.Threading.Thread.Sleep(2000);
                 }

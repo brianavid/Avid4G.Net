@@ -107,7 +107,7 @@ namespace GPUZ
 	                }
 	                fileOpen = true;
                 }
-                catch (System.Exception ex)
+                catch (Exception)
                 {
                     return false;
                 }
@@ -125,9 +125,8 @@ namespace GPUZ
 	                UnmapViewOfFile(map);
 	                CloseHandle(handle);
                 }
-                catch (System.Exception ex)
+                catch (Exception)
                 {
-                	
                 }
             }
         }

@@ -567,7 +567,7 @@ public class SkyData
 
             AllRecordingsByResource = AllRecordings.Values.ToDictionary(r => r.Resource);
         }
-        catch (System.Exception ex)
+        catch (Exception)
         {
             AllRecordings = new Dictionary<string, Recording>();
             AllRecordingsByResource = new Dictionary<string, Recording>();
@@ -965,7 +965,7 @@ public class SkyData
             System.Threading.Thread.Sleep(1000);
             GetCurrentChannelInfo();
         }
-        catch (System.Exception ex)
+        catch (Exception)
         {
         }
     }

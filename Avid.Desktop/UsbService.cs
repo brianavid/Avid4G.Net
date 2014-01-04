@@ -32,7 +32,7 @@ namespace Avid.Desktop
                     mc.Transmit(irCode, CodeFormat.Pronto, 1, TimeSpan.Zero);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

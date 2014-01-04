@@ -731,7 +731,7 @@ public static class RemotePotato
                                 p => p.StopTime > DateTime.UtcNow);
                 }
             }
-            catch (System.Exception ex)
+            catch (Exception)
             {
             }
         }
@@ -820,7 +820,7 @@ public static class RemotePotato
                 }
             }
         }
-        catch (System.Exception ex)
+        catch (Exception)
         {
         	
         }

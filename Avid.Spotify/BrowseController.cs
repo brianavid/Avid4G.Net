@@ -42,7 +42,7 @@ namespace Avid.Spotify
                 //  Search for the tracks asynchronously
                 search = await SpotifySession.Session.SearchTracks(name, 0, 50);
             }
-            catch (System.Exception ex)
+            catch (Exception)
             {
                 ;
             }
@@ -80,7 +80,7 @@ namespace Avid.Spotify
                 //  Search for the albums asynchronously
                 search = await SpotifySession.Session.SearchAlbums(name, 0, 50);
             }
-            catch (System.Exception ex)
+            catch (Exception)
             {
                 ;
             }
@@ -118,7 +118,7 @@ namespace Avid.Spotify
                 //  Search for the artists asynchronously
                 search = await SpotifySession.Session.SearchArtists(name, 0, 50);
             }
-            catch (System.Exception ex)
+            catch (Exception)
             {
                 ;
             }

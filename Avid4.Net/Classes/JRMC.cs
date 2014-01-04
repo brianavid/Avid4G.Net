@@ -294,7 +294,7 @@ public class JRMC
 
                 return xDoc;
             }
-            catch (System.Exception ex)
+            catch (Exception)
             {
                 System.Threading.Thread.Sleep(2000);
             }
