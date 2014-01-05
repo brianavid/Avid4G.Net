@@ -99,6 +99,30 @@ public static class Config
     }
 
     /// <summary>
+    /// A collection of Sky Radio channels
+    /// </summary>
+    public static List<Tuple<string, int, int>> SkyRadio
+    {
+        get
+        {
+            XElement elSky = Doc.Root.Element("Sky");
+            return elSky.Elements("Radio").Select(el => new Tuple<string, int, int>(el.Value, int.Parse(el.Attribute("id").Value), int.Parse(el.Attribute("code").Value))).ToList();
+        }
+    }
+
+    /// <summary>
+    /// A collection of Sky Package codes
+    /// </summary>
+    public static List<int> SkyPackages
+    {
+        get
+        {
+            XElement elSky = Doc.Root.Element("Sky");
+            return elSky.Elements("Package").Select(el => int.Parse(el.Value)).ToList();
+        }
+    }
+
+    /// <summary>
     /// A collection of favourite terrestrial TV channels to be displayed first in any lists
     /// </summary>
     public static List<string> TvFavourites

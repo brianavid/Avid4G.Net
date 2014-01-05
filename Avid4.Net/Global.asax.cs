@@ -31,7 +31,7 @@ namespace Avid4.Net
             JRMC.LoadAndIndexAllAlbums(new string[] { "1", "2" }, false);
             Receiver.Initialize();
             Running.Initialize();
-            SkyData.Initialize(Config.IpAddress, Config.SkyFavourites);
+            SkyData.Initialize(Config.SkyFavourites, Config.SkyRadio, Config.SkyPackages);
             Spotify.Initialize();
 
             var sky = SkyData.Sky;

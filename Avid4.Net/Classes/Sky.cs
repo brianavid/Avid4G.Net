@@ -364,7 +364,7 @@ public class SkyData
     /// <summary>
     /// A dictionary of transmitted Sky Radio channels keyed by channel number
     /// </summary>
-    public Dictionary<int, Channel> RadioChannels { get; private set; }
+    public static Dictionary<int, Channel> RadioChannels { get; private set; }
 
     /// <summary>
     /// The current Live TV or Radio channel - null if watching a Recording
@@ -372,9 +372,19 @@ public class SkyData
     public Channel CurrentChannel { get; private set; }
 
     /// <summary>
-    /// The favourite channels, diplayed at the start of ant lists
+    /// The favourite channels, displayed at the start of ant lists
     /// </summary>
     static string[] FavoriteChannels = null;
+
+    /// <summary>
+    /// The collection of package codes to which we are subscribed
+    /// </summary>
+    static List<int> Packages { get; set; }
+
+    /// <summary>
+    /// The mode in which the Sky class is operating (Planner/Live/Radio)
+    /// </summary>
+    public string CurrentMode { get; set; }
     
     /// <summary>
     /// The singleton instance of the SkyData class
@@ -387,11 +397,13 @@ public class SkyData
     /// <remarks>
     /// IMPORTANT : call this first before any use of the "Sky" property.
     /// </remarks>
-    /// <param name="localIpAddress"></param>
-    /// <param name="favoriteChannels"></param>
+    /// <param name="favoriteChannels">Collection of favourite TV channel names</param>
+    /// <param name="radioChannels">Radio channels as tuples {title, id, code}</param>
+    /// <param name="packages">Collection of subscribed package codes</param>
     public static void Initialize(
-        string localIpAddress,
-        IEnumerable<string> favoriteChannels = null)
+        IEnumerable<string> favoriteChannels = null,
+        IEnumerable<Tuple<string, int, int>> radioChannels = null,
+        List<int> packages = null)
     {
         //  Get the discovered web service URLs
         Dictionary<string, string> services = new Dictionary<string, string>();
@@ -416,6 +428,18 @@ public class SkyData
         {
             FavoriteChannels = favoriteChannels.ToArray();
         }
+
+        //  Store any provided radio channels
+        RadioChannels = new Dictionary<int, Channel>();
+        if (radioChannels != null)
+        {
+            foreach (var channel in radioChannels)
+            {
+                RadioChannels[channel.Item2] = new Channel(channel.Item1, channel.Item2, channel.Item3, channel.Item1, true, false);
+            }
+        }
+
+        Packages = packages;
     }
 
     /// <summary>
@@ -637,20 +661,6 @@ public class SkyData
     }
 
     /// <summary>
-    /// Add a radio channel to the collection
-    /// </summary>
-    /// <param name="title"></param>
-    /// <param name="id"></param>
-    /// <param name="code"></param>
-    void AddRadioChannel(
-            string title,
-            int id,
-            int code)
-    {
-        RadioChannels[id] = new Channel(title, id, code, title, true, false);
-    }
-
-    /// <summary>
     /// Load the collection of TV channels from a Sky public web service
     /// </summary>
     public void LoadChannelMappings()
@@ -665,13 +675,30 @@ public class SkyData
         //  Add all the channels we are interested in
         foreach (JsonFormat.SkyChannelChannel channel in channels.init.channels)
         {
-            if (channel.c[2] <= 12 && channel.c[1] < 900) //  Empirically determined
+            //  Empirical determined values for C[2] encoding the subscription pack:
+            //      12 => Entertainment
+            //      13 => Lifestyle
+            //      14 => Movies
+            //      15 => Sport
+            //      16 => News
+            //      17 => Documentary
+            //      18 => Childrens
+            //      19 => Music
+            //      21 => Shopping
+            //      22 => Religious
+            //      23 => Asian
+            //      24 => Gambling & Sex
+            //      25 => Specialist
+            if ((Packages != null && Packages.Contains(channel.c[2]) ||      //  Included in configured packages
+                 channel.pt == null ||      //  Free to view
+                 channel.pt == "F" ) &&     //  Free to air
+                channel.c[1] < 900)         //  Empirically determined - c[1] >= 900 => Local regional
             {
                 channelList.Add(channel);
             }
         }
 
-        //  Build a list of cahnnels with favourites first
+        //  Build a list of channels with favourites first, then HD, then SD
         AllChannels = new Dictionary<int,Channel>();
         var favoriteChannels = FavoriteChannels;
 
@@ -688,7 +715,7 @@ public class SkyData
 
         foreach (var channel in channelList)
         {
-            if (!favoriteChannels.Contains(channel.t) && channel.c[3] != 0)
+            if (!favoriteChannels.Contains(channel.t) && channel.c[3] != 0) //  c[3] != 0 => HD
             {
                 AllChannels[channel.c[0]] = new Channel(channel, false, false);
             }
@@ -696,22 +723,11 @@ public class SkyData
 
         foreach (var channel in channelList)
         {
-            if (!favoriteChannels.Contains(channel.t) && channel.c[3] == 0)
+            if (!favoriteChannels.Contains(channel.t) && channel.c[3] == 0) //  c[3] == 0 => SD
             {
                 AllChannels[channel.c[0]] = new Channel(channel, false, false);
             }
         }
-
-        //  I can find no web index of Radio channels
-        //  These are constructed manually, though this list should really come from the Config
-        RadioChannels = new Dictionary<int,Channel>();
-
-        AddRadioChannel("BBC Radio 2", 0x840, 102);
-        AddRadioChannel("BBC Radio 3", 0x841, 103);
-        AddRadioChannel("BBC Radio 4", 0x842, 104);
-        AddRadioChannel("BBC Radio 4 Extra", 0x850, 131);
-        AddRadioChannel("Classic FM", 0xD8E, 106);
-        AddRadioChannel("Planet Rock", 0xD93, 110);
 
         //  What are we currently watching?
         GetCurrentChannelInfo();

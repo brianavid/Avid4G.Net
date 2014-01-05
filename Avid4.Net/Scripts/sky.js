@@ -190,7 +190,9 @@ function AddChannelsHammerActions() {
         $.ajax({
             url: "/Sky/NowAndNext?id=" + this.id,
             success: function (data) {
-                $(".skyChannelNowNext", which).html(data)
+                if (data) {
+                    $(".skyChannelNowNext", which).html(data)
+                }
             },
             cache: false
         });
