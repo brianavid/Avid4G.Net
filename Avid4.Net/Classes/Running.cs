@@ -103,7 +103,7 @@ public static class Running
                 Receiver.SelectRoomsOutput();
             }
 
-            JRMC.SendCommand("Control/MCC?Command=10027");          //Maximize 
+            JRMC.SetDisplay(JRMC.DisplayMode.Standard, maximize: true);
             return true;
         }
 
@@ -217,9 +217,7 @@ public static class Running
 
             if (DesktopClient.LaunchNewProgram(name, args))
             {
-                JRMC.SendCommand("Control/MCC?Command=10027");          //Maximize 
-                Thread.Sleep(200);
-                JRMC.SendCommand("Control/MCC?Command=22009&Parameter=2");  // Display screen
+                JRMC.SetDisplay(JRMC.DisplayMode.Display, maximize: true);
                 return true;
             }
         }
@@ -270,14 +268,7 @@ public static class Running
     /// </summary>
     private static void ExitJRMC()
     {
-        if (runningProgram == "Photo")
-        {
-            JRMC.SendCommand("Control/MCC?Command=10049&Parameter=0");  // Clear
-        }
-        JRMC.SendCommand("Playback/Stop"); 
-        JRMC.SendCommand("Control/MCC?Command=22000&Parameter=0");  // Normal screen
-        JRMC.SendCommand("Control/MCC?Command=10014");              // Minimize
-        //JRMC.SendCommand("Control/Key?key=Alt;F4");                 // exit
+        JRMC.ExitDisplay(runningProgram == "Photo");
     }
 
     /// <summary>

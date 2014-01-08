@@ -8,6 +8,7 @@ using System.Net.Sockets;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
 
 /// <summary>
 /// The JRMC class encapsulates all access to the J River Media Center player which is used for 
@@ -307,7 +308,7 @@ public class JRMC
     /// Send a JRMC web service command, not expecting and XML returned
     /// </summary>
     /// <param name="command"></param>
-    public static void SendCommand(
+    static void SendCommand(
         string command)
     {
         GetXml(Url + command);
@@ -1119,6 +1120,49 @@ public class JRMC
         }
 
         return result;
+    }
+
+    /// <summary>
+    /// Display modes for JRMC
+    /// </summary>
+    public enum DisplayMode { 
+        Standard = 0,   //  Standard listing/panel
+        Mini = 1,       //  Mini mode - very small
+        Display = 2,    //  Display mode for photos and visualization
+    }
+
+    /// <summary>
+    /// Command the JRMC player to display itself in a specific mode
+    /// </summary>
+    /// <param name="displayMode"></param>
+    /// <param name="maximize"></param>
+    public static void SetDisplay(
+        DisplayMode displayMode,
+        bool maximize = false)
+    {
+        if (maximize)
+        {
+            SendCommand("Control/MCC?Command=10027");          //Maximize 
+            Thread.Sleep(200);
+        }
+        SendCommand("Control/MCC?Command=22009&Parameter=" + ((int)displayMode).ToString());  // Display screen
+    }
+
+    /// <summary>
+    /// Command the JRMC player to stop and and hide itself
+    /// </summary>
+    /// <param name="clearPlayingNow"></param>
+    public static void ExitDisplay(
+        bool clearPlayingNow)
+    {
+        if (clearPlayingNow)
+        {
+            SendCommand("Control/MCC?Command=10049&Parameter=0");  // Clear
+        }
+        SendCommand("Playback/Stop");
+        SendCommand("Control/MCC?Command=22000&Parameter=0");  // Normal screen
+        SendCommand("Control/MCC?Command=10014");              // Minimize
+        //SendCommand("Control/Key?key=Alt;F4");               // exit
     }
 
     /// <summary>

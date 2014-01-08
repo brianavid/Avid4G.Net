@@ -179,7 +179,7 @@ public static class Screen
 
             if (Running.RunningProgram == "Music")
             {
-                JRMC.SendCommand("Control/MCC?Command=22009&Parameter=1");
+                JRMC.SetDisplay(JRMC.DisplayMode.Mini);
             }
         }
         else
@@ -192,7 +192,7 @@ public static class Screen
 
             if (Running.RunningProgram == "Music")
             {
-                JRMC.SendCommand("Control/MCC?Command=22009&Parameter=" + (mode == 2 ? "2" : "0"));
+                JRMC.SetDisplay(mode == 2 ? JRMC.DisplayMode.Display : JRMC.DisplayMode.Standard);
             }
         }
 
