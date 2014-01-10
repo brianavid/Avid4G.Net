@@ -181,6 +181,7 @@ public static class Running
             case "Spotify":
                 Screen.SetScreenDisplayMode(0);
                 Receiver.SelectRoomsOutput();
+                DesktopClient.ExitAllPrograms();
                 return true;
         }
     }
