@@ -6,7 +6,7 @@ using System.Web;
 /// <summary>
 /// Recorded IR codes for various devices
 /// </summary>
-/// <remarks>In Avid4, only Sky codes are used. No other device has any IR controll</remarks>
+/// <remarks>In Avid4, only Sky codes are used. No other device has any IR control</remarks>
 public class IRCodes
 {
     public static Dictionary<string, string> Codes = new Dictionary<string, string>()

@@ -137,7 +137,7 @@ public static class Config
     /// <summary>
     /// When true, indicates that Sky should be used for preference over the terrestrial tuners for live TV
     /// </summary>
-    public static bool useSkyLiveTV
+    public static bool UseSkyLiveTV
     {
         get
         {
