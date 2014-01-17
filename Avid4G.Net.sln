@@ -19,6 +19,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{70EB299F-2638-4071-BFEC-00721A395966}"
 	ProjectSection(SolutionItems) = preProject
 		Documentation\Avid4 Software Design.docx = Documentation\Avid4 Software Design.docx
+		Documentation\Topology.vsdx = Documentation\Topology.vsdx
 	EndProjectSection
 EndProject
 Global
