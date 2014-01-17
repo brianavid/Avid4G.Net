@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avid4.Net", "Avid4.Net\Avid4.Net.csproj", "{C14A239C-342F-4541-9D5A-E86F403A158A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{45443D32-3879-4C3B-A997-F424D7B2773B} = {45443D32-3879-4C3B-A997-F424D7B2773B}
@@ -13,6 +15,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avid.Spotify", "Avid.Spotify\Avid.Spotify.csproj", "{8C7AAC62-C852-4352-B867-4B1DAF75D219}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avid.Spotify.Data", "Avid.Spotify.Data\Avid.Spotify.Data.csproj", "{7A90B7FB-0C38-4641-89F8-400062AA89F7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{70EB299F-2638-4071-BFEC-00721A395966}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\Avid4 Software Design.docx = Documentation\Avid4 Software Design.docx
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
