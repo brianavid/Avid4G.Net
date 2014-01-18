@@ -50,6 +50,7 @@ public static class Running
                 case "Music":
                     return "topBarMusic";
                 case "TV":
+                case "Radio":
                     return "topBarTv";
                 case "Sky":
                     return "topBarSky";
