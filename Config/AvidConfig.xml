@@ -1,0 +1,74 @@
+<!--
+Configuration file to be located at C:\Avid\AvidConfig.xml
+-->
+<Config>
+	<!-- Paths (with optional arguments) for the player applications -->
+	<Programs>
+		<Program name="TV" path = "C:\Windows\ehome\ehshell.exe" args="/homepage:VideoFullscreen.xml /PushStartPage:True" />	<!-- Windows Media Center -->
+		<Program name="Web" path = "C:\Program Files\Internet Explorer\iexplore.exe" args = "-k -noframemerging" />				<!-- IE Browser for BBC iPlayer -->
+		<Program name="Video" path = "C:\Program Files (x86)\Zoom Player\zplayer.exe" />										<!-- Zoom Player -->	
+		<Program name="Photo" path = "C:\Windows\System32\MC19.exe" />															<!-- J River Media Center -->
+		<Program name="GForce" path = "C:\Program Files (x86)\SoundSpectrum\G-Force\G-Force Standalone.exe" mode="Normal" />	<!-- G-Force stand-alone -->
+	</Programs>
+	
+	<!-- Paths for stored media files -->
+	<Video>D:\Recorded TV</Video>
+	<DVD>D:\DVD</DVD>
+	<BluRay>D:\BluRay</BluRay>
+	
+	<!-- Fixed IP addresses - reserved by DHCP or outside DHCP range -->
+	<IpAddress>192.168.1.64</IpAddress>
+	<ReceiverAddress>192.168.1.11</ReceiverAddress>
+	
+	<!-- TV Favourites for watching live on Widows Media Center -->
+	<TV>
+		<Favourite>BBC ONE HD</Favourite>
+		<Favourite>BBC Two HD</Favourite>
+		<Favourite>ITV1 HD</Favourite>
+		<Favourite>Channel 4 HD</Favourite>
+		<Favourite>BBC FOUR</Favourite>
+		<Live>Freeview</Live>	<!-- Freeview (for WMC)) or Sky -->
+	</TV>
+	
+	<!-- Sky TV Favourites, Radio stations and subscribed packages -->
+	<Sky>
+		<Favourite>BBC One HD</Favourite>
+		<Favourite>BBC Two HD</Favourite>
+		<Favourite>ITV HD</Favourite>
+		<Favourite>Channel 4 HD</Favourite>
+		<Favourite>BBC Four</Favourite>
+		<Favourite>Sky Atlantic HD</Favourite>
+        <Radio code="102" id = "2112">BBC Radio 2</Radio>
+        <Radio code="103" id = "2113">BBC Radio 3</Radio>
+        <Radio code="104" id = "2114">BBC Radio 4</Radio>
+        <Radio code="131" id = "2128">BBC Radio 4 Extra</Radio>
+        <Radio code="106" id = "3470">Classic FM</Radio>
+        <Radio code="110" id = "3475">Planet Rock</Radio>
+		<!-- Uncomment subscribed Sky packages below -->
+        <Package>12</Package> <!-- Basic Entertainment -->
+        <!--Package>13</Package> < Lifestyle -->
+        <!--Package>14</Package> < Movies -->
+        <!--Package>15</Package> < Sport -->
+        <!--Package>16</Package> < News -->
+        <!--Package>17</Package> < Documentary -->
+        <!--Package>18</Package> < Childrens -->
+        <!--Package>19</Package> < Music -->
+        <!--Package>21</Package> < Shopping -->
+        <!--Package>22</Package> < Religious -->
+        <!--Package>23</Package> < Asian -->
+        <!--Package>24</Package> < Gambling + Sex -->
+        <!--Package>25</Package> < Specialist -->
+	</Sky>
+	
+	<!-- BBC TV and Radio channels for iPlayer -->
+	<BBC>
+		<Radio id="radio2">Radio 2</Radio>
+		<Radio id="radio3">Radio 3</Radio>
+		<Radio id="radio4;fm">Radio 4</Radio>
+		<Radio id="radio4extra">Radio 4X</Radio>
+		<TV id="bbcone;hd">BBC One</TV>
+		<TV id="bbctwo;hd">BBC Two</TV>
+		<TV id="bbcthree">BBC Three</TV>
+		<TV id="bbcfour">BBC Four</TV>
+	</BBC>
+</Config>
