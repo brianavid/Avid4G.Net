@@ -51,8 +51,8 @@
                 <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader"><div class="spotifyBrowserTitle">Search artists ...</div></div>
                 <table class="buttonRow">
 	                <tr>
-                        <td style='width: 75%'><input class='searchText' id='ArtistSearchText' type='text' style='width: 100%' value='@(searchText)' /></td>
-                        <td class="centeredButton" style='width: 25%'>
+                        <td class='width75'><input class='searchText width100' id='ArtistSearchText' type='text' value='@(searchText)' /></td>
+                        <td class="centeredButton width25">
                             <img id="goSpotifyArtistSearch" src="/Content/Buttons/MiniRound/Search.png" />
                         </td>
                     </tr>
@@ -93,8 +93,8 @@
                 <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader"><div class="spotifyBrowserTitle">Search albums ...</div></div>
                 <table class="buttonRow">
 	                <tr>
-                        <td style='width: 75%'><input class='searchText' id='AlbumSearchText' type='text' style='width: 100%' value='@(searchText)' /></td>
-                        <td class="centeredButton" style='width: 25%'>
+                        <td class='width75'><input class='searchText width100' id='AlbumSearchText' type='text' value='@(searchText)' /></td>
+                        <td class="centeredButton width25">
                             <img id="goSpotifyAlbumSearch" src="/Content/Buttons/MiniRound/Search.png" />
                         </td>
                     </tr>
@@ -144,8 +144,8 @@
                 <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader"><div class="spotifyBrowserTitle">Search tracks ...</div></div>
                 <table class="buttonRow">
 	                <tr>
-                        <td style='width: 75%'><input class='searchText' id='TrackSearchText' type='text' style='width: 100%' value='@(searchText)' /></td>
-                        <td class="centeredButton" style='width: 25%'>
+                        <td class='width75'><input class='searchText width100' id='TrackSearchText' type='text' value='@(searchText)' /></td>
+                        <td class="centeredButton width25">
                             <img id="goSpotifyTrackSearch" src="/Content/Buttons/MiniRound/Search.png" />
                         </td>
                     </tr>
@@ -230,7 +230,7 @@
             {
                 Avid.Spotify.SpotifyData.Album album = Spotify.GetAlbumById(id);
                 <div class="spotifyPlayingTrack">
-		            <img src="/Spotify/GetAlbumImage/@(album.Id)" class="spotifyInfoImage" alt="Playing Track Image" width="120" height="120" />
+		            <img src="/Spotify/GetAlbumImage/@(album.Id)" class="spotifyInfoImage" alt="Playing Track Image" />
 		            <div class="spotifyInfoArtist">@album.ArtistName</div>
 		            <div class="spotifyInfoAlbum">@album.Name</div>
 	            </div>
@@ -268,7 +268,7 @@
             {
                 Avid.Spotify.SpotifyData.Track track = Spotify.GetTrackById(id);
                 <div class="spotifyPlayingTrack">
-		            <img src="/Spotify/GetAlbumImage/@(track.AlbumId)" class="spotifyInfoImage" alt="Playing Track Image" width="120" height="120" />
+		            <img src="/Spotify/GetAlbumImage/@(track.AlbumId)" class="spotifyInfoImage" alt="Playing Track Image" />
             		<div class="spotifyInfoTrackName">@(track.Name)</div>
 		            <div class="spotifyInfoArtist">@(track.TrackArtistNames)</div>
 		            <div class="spotifyInfoAlbum">@(track.AlbumName)</div>
@@ -444,10 +444,10 @@
                 <div class="spotifyBrowserItem">
                     <table class="buttonRow">
 	                    <tr>
-                            <td class="centeredButton" style='width: 10%'>
+                            <td class="centeredButton width10">
                                 <img id="@(actionClass)New" src="/Content/Buttons/SmallRound/Plus.png" />
                             </td>
-                            <td style='width: 90%'><input class='spotifyBrowserPlaylistNewName' id='spotifyBrowserPlaylistNewName' type='text' style='width: 95%' /></td>
+                            <td class="width90"><input class='spotifyBrowserPlaylistNewName width95' id='spotifyBrowserPlaylistNewName' type='text' /></td>
                         </tr>
                     </table>
                 </div>

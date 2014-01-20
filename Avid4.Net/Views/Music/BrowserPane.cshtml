@@ -70,7 +70,7 @@
                         @for (int j = 0; j < 6 && i * 6 + j < initialsArray.Length;  j++)
                         {
                             string initial = initialsArray[i * 6 + j];
-                            <td class="centeredButton" style="width:16.7%">
+                            <td class="centeredButton width16">
                                 <div class="@(ViewBag.Mode == "ArtistInitials" ? "musicBrowserArtistsInitial" : "musicBrowserAlbumInitial")" id="@initial">
                                     <div class="musicBrowserTitle">@initial</div>
                                 </div>
@@ -214,7 +214,7 @@
                 string artist = track.Info.ContainsKey("Artist") ? track.Info["Artist"] : string.Empty;
                 string imageUrl = JRMC.Url + "File/GetImage?File=" + track.Info["Key"];
                 <div class="musicPlayingTrack">
-		            <img src="@imageUrl" class="musicInfoImage" alt="No Image" width="120" height="120" />
+		            <img src="@imageUrl" class="musicInfoImage" alt="No Image" />
 		            <div class="musicInfoArtist">@artist</div>
 		            <div class="musicInfoAlbum">@album</div>
 	            </div>
@@ -245,7 +245,7 @@
                 string artist = track.Info.ContainsKey("Artist") ? track.Info["Artist"] : string.Empty;
                 string imageUrl = JRMC.Url + "File/GetImage?File=" + track.Info["Key"];
                 <div class="musicPlayingTrack">
-		            <img src="@imageUrl" class="musicInfoImage" alt="No Image" width="120" height="120" />
+		            <img src="@imageUrl" class="musicInfoImage" alt="No Image" />
 		            <div>
                         @if (genre == "Classical" && composer != "" && !name.StartsWith(composer, StringComparison.InvariantCultureIgnoreCase))
                         {
@@ -288,8 +288,8 @@
 
                 <table class="buttonRow">
 	                <tr>
-                        <td style='width: 75%'><input id='SearchText' type='text' style='width: 100%' value='@(searchText)' /></td>
-                        <td class="centeredButton" style='width: 25%'>
+                        <td class='width75'><input id='SearchText' type='text' class='width100' value='@(searchText)' /></td>
+                        <td class="centeredButton width25">
                             <img id="goMusicSearch" src="/Content/Buttons/MiniRound/Search.png" />
                         </td>
                     </tr>

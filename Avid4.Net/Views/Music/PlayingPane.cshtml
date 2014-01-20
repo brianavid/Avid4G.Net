@@ -1,7 +1,7 @@
 ﻿<div id="playingnow">
     <div class="subtitle_empty"></div>
     <div class="musicPlayingTrack">
-		<img id="PlaybackInfo.ImageURL" src="" class="musicInfoImage" alt="No Image" width="120" height="120" />
+		<img id="PlaybackInfo.ImageURL" src="" class="musicInfoImage" alt="No Image" />
 		<div>
             <span id="PlaybackInfo.ClassicalComposer" class="musicInfoComposer"></span>
 		    <span id="PlaybackInfo.Name" class="musicInfoTrackName"></span>
@@ -12,7 +12,7 @@
 </div>
 
 <div class="musicPlaybackControls">
-	<table style="width: 100%">
+	<table class='width100'>
 		<tr>
 			<td class="centeredButton"><img id="musicPrev" src="~/Content/Buttons/Transport.Prev.png"></td>
 	        <td class="centeredButton"><img id="musicMinus10" src="~/Content/Buttons/Minus10.png" /></td>
@@ -22,11 +22,11 @@
 		</tr>
 	</table>
 			  
-	<table style="width: 100%">
+	<table class='width100'>
 		<tr>
-		    <td class="musicPlaybackStatus" id="PlaybackInfo.Status" style="width:30%">&nbsp;</td>
-            <td class="musicPlaybackStatus" id="PlaybackInfo.PositionDisplay" style="width:40%">&nbsp;</td>
-            <td class="musicPlaybackStatus" id="PlaybackInfo.PlayingNowPositionDisplay" style="width:30%">&nbsp;</td>
+		    <td class="musicPlaybackStatus width30" id="PlaybackInfo.Status">&nbsp;</td>
+            <td class="musicPlaybackStatus width40" id="PlaybackInfo.PositionDisplay">&nbsp;</td>
+            <td class="musicPlaybackStatus width30" id="PlaybackInfo.PlayingNowPositionDisplay">&nbsp;</td>
 		</tr>
 	</table>
 

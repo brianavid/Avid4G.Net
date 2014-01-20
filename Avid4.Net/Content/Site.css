@@ -124,6 +124,8 @@ textarea {
     position: relative;
     float: left;
     margin: 0em 1em 1em 0em;
+    width: 120px;
+    height: 120px;
 }
 
 .musicInfoAlbum, .spotifyInfoAlbum {
@@ -383,3 +385,42 @@ textarea {
     border-style:none;
 }
 
+.width100 {
+    width: 100%;
+}
+.width95 {
+    width: 95%;
+}
+.width90 {
+    width: 90%;
+}
+.width75 {
+    width: 75%;
+}
+.width60 {
+    width: 60%;
+}
+.width50 {
+    width: 50%;
+}
+.width40 {
+    width: 40%;
+}
+.width30 {
+    width: 30%;
+}
+.width25 {
+    width: 25%;
+}
+.width20 {
+    width: 20%;
+}
+.width16 {
+    width: 16.7%;
+}
+.width12 {
+    width: 12%;
+}
+.width10 {
+    width: 10%;
+}
