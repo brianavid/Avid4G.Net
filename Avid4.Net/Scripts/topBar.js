@@ -294,6 +294,7 @@ function SwitchPanelAfterWake(isWide) {
                             window.location = isWide ? "/Home/Wide" : "/Home/Home";
                             break;
                         case "TV":
+                        case "Radio":
                             window.location = isWide ? "/Tv/All" : "/Tv/Watch";
                             break;
                         case "Sky":
