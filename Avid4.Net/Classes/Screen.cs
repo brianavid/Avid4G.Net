@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 using System.Management; // requires adding System.Management reference to project
+using NLog;
 
 /// <summary>
 /// Class to control the screen, using HDMI-CEC commands issued through an HDMI-CEC HTTP service
@@ -37,6 +38,8 @@ public static class Screen
             SafeFileHandle hDevice,
             out bool fOn);
     #endregion
+
+    static Logger logger = LogManager.GetCurrentClassLogger();
 
     /// <summary>
     /// Send an HDMI-CEC command string encoded in an HTTP URL to the control service tray application
@@ -96,7 +99,7 @@ public static class Screen
     /// Is the screen really on (irrespective of our state)?
     /// </summary>
     /// <returns></returns>
-    public static bool TestScreenOn()
+    static bool TestScreenOn()
     {
         //  If we are watching Sky, it does not matter if the screen is on
         if (Running.RunningProgram == "Sky")
@@ -115,9 +118,12 @@ public static class Screen
         foreach (ManagementObject obj in collection)
         {
             string caption = (string)obj["Caption"];
-            if (caption != null && caption != "Generic PnP Monitor")
+            if (caption != null)
             {
-                fOn = true;
+                if (caption != "Generic PnP Monitor")
+                {
+                    fOn = true;
+                }
             }
         }
 
@@ -132,14 +138,40 @@ public static class Screen
     /// </summary>
     public static void WaitForScreenOn()
     {
+        logger.Info("WaitForScreenOn");
+
+        LogDisplayStatus();
+
         for (int i = 0; i < 30; i++)
         {
             if (TestScreenOn())
             {
-                return;
+                logger.Info("Screen i snow on");
+
+                break;
             }
 
             System.Threading.Thread.Sleep(500);
+        }
+
+        LogDisplayStatus();
+    }
+
+    /// <summary>
+    /// Log the screen state for diagnosis purposes
+    /// </summary>
+    [Conditional("LOG_SCREEN_STATE")]
+    private static void LogDisplayStatus()
+    {
+        ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM CIM_Display");
+        ManagementObjectCollection collection = searcher.Get();
+
+        foreach (ManagementObject obj in collection)
+        {
+            foreach (var prop in obj.Properties)
+            {
+                logger.Info("{0} -> {1}", prop.Name, prop.Value);
+            }
         }
     }
 

@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Threading;
+using NLog;
 
 /// <summary>
 /// Class to keep track of what player application is currently running
 /// </summary>
 public static class Running
 {
+    static Logger logger = LogManager.GetCurrentClassLogger();
+
     /// <summary>
     /// Avid name for the currently running player application
     /// </summary>
@@ -77,6 +80,8 @@ public static class Running
         string name,
         string args)
     {
+        logger.Info("LaunchProgram {0} -> {1}", runningProgram, name);
+
         runningArgs = args;
 
         if (name != "Sky")
@@ -197,6 +202,8 @@ public static class Running
         string name,
         string args)
     {
+        logger.Info("LaunchNewProgram {0} -> {1}", runningProgram, name);
+
         runningArgs = "";
 
         if (name == "Photo")
@@ -232,10 +239,10 @@ public static class Running
     /// </summary>
     /// <param name="keepScreen"></param>
     /// <returns></returns>
-    public static bool ExitAllPrograms(bool keepScreen = false)
+    public static bool ExitAllPrograms(
+        bool keepScreen = false)
     {
-        Zoom.Stop();
-        Spotify.Stop();
+        logger.Info("ExitAllPrograms");
 
         if (runningProgram == "Music" || runningProgram == "Photo")
         {
@@ -247,8 +254,6 @@ public static class Running
             DesktopClient.SendIR(IRCodes.Codes["Sky.PowerSTB"], "Sky.PowerSTB");
             Receiver.SelectComputerInput();
         }
-
-        NothingRunning();
 
         if (!keepScreen)
         {
@@ -262,7 +267,11 @@ public static class Running
             Screen.WaitForScreenOn();
         }
 
-        return DesktopClient.ExitAllPrograms();
+        bool ok = DesktopClient.ExitAllPrograms();
+
+        NothingRunning();
+
+        return ok;
     }
 
     /// <summary>
@@ -279,6 +288,8 @@ public static class Running
     /// <returns></returns>
     public static bool StartSky()
     {
+        logger.Info("StartSky");
+
         if (runningProgram != "Sky")
         {
             if (runningProgram == "Music" || runningProgram == "Photo")
@@ -286,10 +297,10 @@ public static class Running
                 ExitJRMC();
             }
 
-            Zoom.Stop();
-            Spotify.Stop();
             DesktopClient.ExitAllPrograms();
             DesktopClient.SendSpecialkey("ClearDesktop");
+            Zoom.Stop();
+            Spotify.Stop();
         }
 
         runningProgram = "Sky";
