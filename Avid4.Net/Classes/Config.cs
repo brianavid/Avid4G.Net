@@ -123,6 +123,18 @@ public static class Config
     }
 
     /// <summary>
+    /// The capacity of the Sky box for recordings (in GB)
+    /// </summary>
+    public static int SkyCapacityGB
+    {
+        get
+        {
+            XElement elCapacity = Doc.Root.Element("Sky").Element("CapacityGB");
+            return elCapacity == null ? 0 : Convert.ToInt32(elCapacity.Value);
+        }
+    }
+
+    /// <summary>
     /// A collection of favourite terrestrial TV channels to be displayed first in any lists
     /// </summary>
     public static List<string> TvFavourites

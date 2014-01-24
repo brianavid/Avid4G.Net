@@ -277,6 +277,11 @@ public class SkyData
     }
 
     /// <summary>
+    /// The capacity of the Sky box for recordings (in bytes)
+    /// </summary>
+    public static Int64 Capacity { get; private set; }
+
+    /// <summary>
     /// The total size of all the recordings
     /// </summary>
     public Int64 TotalSize
@@ -328,7 +333,7 @@ public class SkyData
     public string SizePercent(
         Recording recording)
     {
-        return FormatPercentage(recording.Size, TotalSize);
+        return FormatPercentage(recording.Size, Capacity != 0 ? Capacity : TotalSize);
     }
 
     /// <summary>
@@ -339,7 +344,7 @@ public class SkyData
     public string SizePercent(
         IEnumerable<Recording> recordings)
     {
-        return FormatPercentage(recordings.Sum(r => r.Size), TotalSize);
+        return FormatPercentage(recordings.Sum(r => r.Size), Capacity != 0 ? Capacity : TotalSize);
     }
 
     /// <summary>
@@ -400,10 +405,12 @@ public class SkyData
     /// <param name="favoriteChannels">Collection of favourite TV channel names</param>
     /// <param name="radioChannels">Radio channels as tuples {title, id, code}</param>
     /// <param name="packages">Collection of subscribed package codes</param>
+    /// <param name="capacityGB">The capacity of the Sky box for recordings (in GB)</param>
     public static void Initialize(
         IEnumerable<string> favoriteChannels = null,
         IEnumerable<Tuple<string, int, int>> radioChannels = null,
-        List<int> packages = null)
+        List<int> packages = null,
+        int capacityGB = 0)
     {
         //  Get the discovered web service URLs
         Dictionary<string, string> services = new Dictionary<string, string>();
@@ -440,6 +447,8 @@ public class SkyData
         }
 
         Packages = packages;
+
+        Capacity = (Int64)capacityGB * 1024 * 1024 * 1024;
     }
 
     /// <summary>
@@ -472,6 +481,11 @@ public class SkyData
     {
         LoadAllRecordings();
         LoadChannelMappings();
+        logger.Info("Found {0} recordings totalling {1}MB of {2}MB [{3}]",
+            AllRecordings.Count,
+            TotalSize / 1048576,
+            Capacity / 1048576,
+            FormatPercentage(TotalSize, Capacity));
     }
 
     /// <summary>

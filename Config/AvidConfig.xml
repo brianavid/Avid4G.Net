@@ -32,7 +32,8 @@ Configuration file to be located at C:\Avid\AvidConfig.xml
 	
 	<!-- Sky TV Favourites, Radio stations and subscribed packages -->
 	<Sky>
-		<Favourite>BBC One HD</Favourite>
+    <CapacityGB>300</CapacityGB>
+    <Favourite>BBC One HD</Favourite>
 		<Favourite>BBC Two HD</Favourite>
 		<Favourite>ITV HD</Favourite>
 		<Favourite>Channel 4 HD</Favourite>
