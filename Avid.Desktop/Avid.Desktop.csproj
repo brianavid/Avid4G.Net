@@ -38,11 +38,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GetCoreTempInfoNET">
-      <HintPath>C:\Avid.Net\GetCoreTempInfoNET.dll</HintPath>
+    <Reference Include="GetCoreTempInfoNET, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferencedDLLs\GetCoreTempInfoNET.dll</HintPath>
     </Reference>
-    <Reference Include="InputSimulator">
-      <HintPath>C:\Avid.Net\InputSimulator.dll</HintPath>
+    <Reference Include="InputSimulator, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ReferencedDLLs\InputSimulator.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />

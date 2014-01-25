@@ -27,6 +27,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Config", "Config", "{FA64BE
 		Config\AvidConfig.xml = Config\AvidConfig.xml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReferencedDLLs", "ReferencedDLLs", "{4FD3AEBD-1C40-45FB-91F9-3A1F511A5BBA}"
+	ProjectSection(SolutionItems) = preProject
+		ReferencedDLLs\GetCoreTempInfoNET.dll = ReferencedDLLs\GetCoreTempInfoNET.dll
+		ReferencedDLLs\InputSimulator.dll = ReferencedDLLs\InputSimulator.dll
+		ReferencedDLLs\libspotify.dll = ReferencedDLLs\libspotify.dll
+		ReferencedDLLs\SpotiFire.dll = ReferencedDLLs\SpotiFire.dll
+		ReferencedDLLs\SpotiFire.Native.dll = ReferencedDLLs\SpotiFire.Native.dll
+		ReferencedDLLs\UsbUirtManagedWrapper.dll = ReferencedDLLs\UsbUirtManagedWrapper.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

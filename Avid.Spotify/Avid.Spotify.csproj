@@ -75,11 +75,11 @@
     </Reference>
     <Reference Include="SpotiFire, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\GitHub\SpotiFire\SpotiFire.SpotifyLib\bin\Debug\SpotiFire.dll</HintPath>
+      <HintPath>..\ReferencedDLLs\SpotiFire.dll</HintPath>
     </Reference>
-    <Reference Include="SpotiFire.Native, Version=1.0.4970.32110, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="SpotiFire.Native, Version=1.0.5137.40395, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\GitHub\SpotiFire\SpotiFire.SpotifyLib\bin\Debug\SpotiFire.Native.dll</HintPath>
+      <HintPath>..\ReferencedDLLs\SpotiFire.Native.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
