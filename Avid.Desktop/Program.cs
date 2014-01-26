@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using System.ServiceModel;
 using System.Configuration;
+using NLog;
 
 namespace Avid.Desktop
 {
@@ -18,15 +19,20 @@ namespace Avid.Desktop
         [STAThread]
         static void Main()
         {
-            //  The Desktop tray app is also responsible for discovering the Sky STB service locations and recording them in the registry
-            //  This is simply a convenient place to do this
-            SkyLocator.GetSkyServices(ConfigurationManager.AppSettings["IpAddress"]);
+            Logger logger = LogManager.GetLogger("Desktop");
+            logger.Info("Avid Desktop Started");
 
-            //  if (!SingleInstance.Start()) { return; }
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
             try
             {
+                //  The Desktop tray app is also responsible for discovering the Sky STB service locations and recording them in the registry
+                //  This is simply a convenient place to do this
+                logger.Info("SkyLocator.GetSkyServices");
+                SkyLocator.GetSkyServices(ConfigurationManager.AppSettings["IpAddress"], logger);
+
+                //  if (!SingleInstance.Start()) { return; }
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+
                 //  The desktop service is a self-hosted WCF service implementing IDesktopService
                 ServiceHost selfHost = new ServiceHost(typeof(DesktopService), baseAddress);
 
@@ -34,13 +40,16 @@ namespace Avid.Desktop
                 {
                     selfHost.AddServiceEndpoint(typeof(IDesktopService), new WSHttpBinding(), "DesktopService");
 
+                    logger.Info("ServiceHost.Open");
                     selfHost.Open();
 
                     //  Now the IDesktopService implementation is running start a tray UI which can be used to exit 
+                    logger.Info("Running in tray");
                     var applicationContext = new CustomApplicationContext();
                     Application.Run(applicationContext);
 
                     // Close the ServiceHostBase to shutdown the service.
+                    logger.Info("ServiceHost.Close");
                     selfHost.Close();
                 }
                 catch (CommunicationException ce)
@@ -51,7 +60,7 @@ namespace Avid.Desktop
             }
             catch (Exception ex)
             {
-                Trace.WriteLine(String.Format("Exception : {0}", ex.ToString()));
+                logger.Fatal(ex);
             }
             //  SingleInstance.Stop();
         }

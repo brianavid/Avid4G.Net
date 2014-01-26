@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -43,9 +44,11 @@ namespace Avid.Desktop
         /// Discover a Sky STB on the local LAN and populate a registry key with string values for the services it reports
         /// </summary>
         /// <param name="localIpAddress"></param>
+        /// <param name="logger"></param>
         /// <returns></returns>
         public static Dictionary<string, string> GetSkyServices(
-            string localIpAddress)
+            string localIpAddress,
+            Logger logger)
         {
             //  Instantiate a SkyLocator and use it to determine the available Sky STB device service locations
             //  We expect to find two of these
@@ -91,6 +94,10 @@ namespace Avid.Desktop
                 foreach (string serviceType in services.Keys)
                 {
                     key.SetValue(serviceType, services[serviceType]);
+                    if (logger != null)
+                    {
+                        logger.Info("Sky Service '{0}' = '{1}'", serviceType, services[serviceType]);
+                    }
                 }
             }
             return services;
