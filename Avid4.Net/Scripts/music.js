@@ -115,7 +115,7 @@ $("#" + value + ".musicPlaybackQueueItem").each(function () {
                     }
                 }
             }
-        },
+        }
     });
 }
 
@@ -263,7 +263,7 @@ function AddQueueHammerActions(controlHeight) {
             cache: false,
             success: function (data) {
                 UpdateQueue(false);
-            },
+            }
         })
     });
 

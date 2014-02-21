@@ -99,7 +99,7 @@ function UpdateSpotifyDisplayPlayingInformation() {
                     }
                 }
             }
-        },
+        }
     });
 }
 
@@ -245,7 +245,7 @@ function AddQueueHammerActions(controlHeight) {
             cache: false,
             success: function (data) {
                 UpdateQueue(false);
-            },
+            }
         })
     });
 
