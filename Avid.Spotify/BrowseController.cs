@@ -209,7 +209,7 @@ namespace Avid.Spotify
         async Task<IEnumerable<SpotifyData.Track>> GetTracksForAlbumAsync(
             Album album)
         {
-            return (await album.Browse()).Tracks.Select(t => MakeData.Track(t));
+            return (await album.Browse()).Tracks.Where(t => t.IsAvailable).Select(t => MakeData.Track(t));
         }
 
         /// <summary>

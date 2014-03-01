@@ -98,7 +98,7 @@ namespace Avid.Spotify
         async Task<IEnumerable<SpotifyData.Track>> GetPlayListTracksAsync(
             string name)
         {
-            return (await playlists[name]).Tracks.Select(t => MakeData.Track(t));
+            return (await playlists[name]).Tracks.Where(t => t.IsAvailable).Select(t => MakeData.Track(t));
         }
 
 
@@ -131,7 +131,7 @@ namespace Avid.Spotify
             string name)
         {
             HashSet<Album> albums = new HashSet<Album>();
-            foreach (Track track in (await playlists[name]).Tracks)
+            foreach (Track track in (await playlists[name]).Tracks.Where(t => t.IsAvailable))
             {
                 Album album = track.Album;
                 if (!albums.Contains(album))
