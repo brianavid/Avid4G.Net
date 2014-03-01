@@ -44,7 +44,7 @@ $(function () {
         }
         else
         {
-            AllOffJump("/Web/Browser?mode=iPlayerSelect");
+            AllOffJump("/Web/Browser?mode=iPlayerSelect", true);
         }
     });
 

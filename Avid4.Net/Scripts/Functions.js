@@ -143,9 +143,9 @@ function PopStackedPane(paneId, actionIfNothingToPop, onAfter) {
 }
 
 //  Turn off all player applications and wwitch the entire view to a new URL 
-function AllOffJump(url) {
+function AllOffJump(url,turnScreenOn) {
     $.ajax({
-        url: "/Action/AllOff",
+        url: "/Action/AllOff" + (turnScreenOn ? "?keep=true" : ""),
         success: function (data) {
             window.location = url;
         },

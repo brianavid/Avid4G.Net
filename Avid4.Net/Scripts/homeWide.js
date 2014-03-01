@@ -32,7 +32,7 @@ $(function () {
             LinkTo("/Web/All");
         }
         else {
-            AllOffJump("/Web/All");
+            AllOffJump("/Web/All", true);
         }
     });
 
