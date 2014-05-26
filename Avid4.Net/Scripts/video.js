@@ -157,7 +157,7 @@ function AddVideoRecordingsHammerActions() {
     SetRecordingsHeight()
 
     if (!videoRecordingsListHammer) {
-        videoRecordingsListHammer = $(".videoRecordings").hammer();
+        videoRecordingsListHammer = $(".videoRecordings").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(videoRecordingsListHammer)
@@ -210,7 +210,7 @@ var videoDvdsListHammer = null;
 
 function AddVideoDvdsHammerActions() {
     if (!videoDvdsListHammer) {
-        videoDvdsListHammer = $(".videoDvds").hammer();
+        videoDvdsListHammer = $(".videoDvds").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(videoDvdsListHammer)

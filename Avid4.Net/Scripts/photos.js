@@ -140,7 +140,7 @@ function AddBrowserHammerActions() {
     });
 
     if (!browserHammer) {
-        browserHammer = $(".photosBrowserItems").hammer();
+        browserHammer = $(".photosBrowserItems").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(browserHammer)

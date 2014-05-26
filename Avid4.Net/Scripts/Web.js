@@ -6,7 +6,7 @@ function AddWebPadHammerActions() {
     });
 
     if (!webPadHammer) {
-        webPadHammer = $(".webPad").hammer();
+        webPadHammer = $(".webPad").hammer({ prevent_default: true });
     }
     EnableMouseBehaviour(webPadHammer)
 }
@@ -25,7 +25,7 @@ function AddBrowserHammerActions() {
     });
 
     if (!browserHammer) {
-        browserHammer = $(".webBrowserItems").hammer();
+        browserHammer = $(".webBrowserItems").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(browserHammer)

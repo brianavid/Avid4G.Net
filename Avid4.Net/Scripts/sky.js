@@ -179,7 +179,7 @@ function AddChannelsHammerActions() {
     SetChannelsHeight()
 
     if (!channelsHammer) {
-        channelsHammer = $(".skyChannels").hammer();
+        channelsHammer = $(".skyChannels").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(channelsHammer)
@@ -227,7 +227,7 @@ function AddRecordingsHammerActions() {
     SetRecordingsHeight()
 
     if (!recordingsHammer) {
-        recordingsHammer = $(".skyRecordings").hammer();
+        recordingsHammer = $(".skyRecordings").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(recordingsHammer)

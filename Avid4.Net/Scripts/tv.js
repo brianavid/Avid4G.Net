@@ -97,7 +97,7 @@ function AddChannelsHammerActions() {
     SetChannelsHeight()
 
     if (!channelsHammer) {
-        channelsHammer = $(".tvChannels").hammer();
+        channelsHammer = $(".tvChannels").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(channelsHammer)

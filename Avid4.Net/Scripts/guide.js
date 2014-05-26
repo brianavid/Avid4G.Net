@@ -12,7 +12,7 @@ function AddBrowserHammerActions() {
     });
 
     if (!browserHammer) {
-        browserHammer = $(".guideBrowserItems").hammer();
+        browserHammer = $(".guideBrowserItems").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(browserHammer)

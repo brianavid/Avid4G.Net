@@ -62,7 +62,7 @@ function UpdateJrmcDisplayPlayingInformation() {
 
                             // parse values
                             var name = items[i].getAttribute("Name");
-                            var value = items[i].childNodes[0].nodeValue;
+                            var value = items[i].childNodes.length == 0 ? "" : items[i].childNodes[0].nodeValue;
 
                             // get corresponding element
                             var element = document.getElementById("PlaybackInfo." + name);
@@ -89,7 +89,7 @@ function UpdateJrmcDisplayPlayingInformation() {
                             if (name == "FileKey") {
                                 if (last_track != value) {
                                     $(".musicSelectedQueueItem").removeClass("musicSelectedQueueItem")
-$("#" + value + ".musicPlaybackQueueItem").each(function () {
+                                    $("#" + value + ".musicPlaybackQueueItem").each(function () {
                                         $(this).addClass("musicSelectedQueueItem");
 
                                         //  Scroll it into view
@@ -153,7 +153,7 @@ var controlHammer = null;
 
 function AddControlHammerActions() {
     if (!controlHammer) {
-        controlHammer = $(".musicPlayback").hammer();
+        controlHammer = $(".musicPlayback").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(controlHammer)
@@ -233,7 +233,7 @@ function AddQueueHammerActions(controlHeight) {
     });
 
     if (!queueHammer) {
-        queueHammer = $(".musicPlaybackQueueItems").hammer();
+        queueHammer = $(".musicPlaybackQueueItems").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(queueHammer)
@@ -283,7 +283,7 @@ function AddBrowserHammerActions() {
     });
 
     if (!browserHammer) {
-        browserHammer = $(".musicBrowserItems").hammer();
+        browserHammer = $(".musicBrowserItems").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(browserHammer)

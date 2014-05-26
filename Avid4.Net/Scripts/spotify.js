@@ -216,7 +216,7 @@ function AddQueueHammerActions(controlHeight) {
     });
 
     if (!queueHammer) {
-        queueHammer = $(".spotifyPlaybackQueueItems").hammer();
+        queueHammer = $(".spotifyPlaybackQueueItems").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(queueHammer)
@@ -262,7 +262,7 @@ function AddBrowserHammerActions() {
     });
 
     if (!browserHammer) {
-        browserHammer = $(".spotifyBrowserItems").hammer();
+        browserHammer = $(".spotifyBrowserItems").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(browserHammer)
