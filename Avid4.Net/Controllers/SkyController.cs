@@ -150,6 +150,9 @@ namespace Avid4.Net.Controllers
         {
             if (SkyData.Sky.AllRecordings.ContainsKey(id))
             {
+                Receiver.SetMute(true);
+                SkyData.Sky.Stop();
+
                 SkyData.Recording recording = SkyData.Sky.AllRecordings[id];
                 SkyData.Sky.DeleteRecording(recording);
             }
