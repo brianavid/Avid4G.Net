@@ -432,17 +432,19 @@ public class JRMC
             var track = JRMC.GetTrackByTrackId(trackId);
             if (track != null)
             {
+                var composerDisplay = "";
                 //  Add an additional "ClassicalComposer" if that does not duplicate information in the track name
                 if (track.Info.ContainsKey("Composer") && track.Info.ContainsKey("Genre"))
                 {
                     var genre = track.Info["Genre"];
-                    var composer = track.Info["Composer"];
+                    var composerName = track.Info["Composer"];
                     var name = track.Info["Name"];
-                    if (genre == "Classical" && composer != "" && !name.StartsWith(composer, StringComparison.InvariantCultureIgnoreCase))
+                    if (genre == "Classical" && composerName != "" && !name.StartsWith(composerName, StringComparison.InvariantCultureIgnoreCase))
                     {
-                        x.Root.Add(new XElement("Item", new XAttribute("Name", "ClassicalComposer"), composer + ": "));
+                        composerDisplay = composerName + ": ";
                     }
                 }
+                x.Root.Add(new XElement("Item", new XAttribute("Name", "ClassicalComposer"), composerDisplay));
             }
 
             //  Fake up some data when plating a streamed URL
