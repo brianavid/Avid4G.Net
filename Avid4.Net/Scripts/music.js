@@ -425,10 +425,10 @@ function AddBrowserHammerActions() {
         $.ajax({
             url: "/Music/SendMCWS?url=" + escape("Playback/PlayByKey?Album=1&Location=End&Key=" + $("#TrackInfoId").text()),
             success: function (data) {
-                UpdateQueue(false);
+                UpdateQueue(DisplayBrowserHome);
             },
             error: function (data) {
-                UpdateQueue(false);
+                UpdateQueue(DisplayBrowserHome);
             },
             cache: false
         });
