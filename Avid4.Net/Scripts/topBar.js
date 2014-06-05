@@ -325,8 +325,5 @@ function SwitchPanelAfterWake(isWide) {
             }
         });
     }
-    else {
-        lastWake = now;
-    }
 }
 
