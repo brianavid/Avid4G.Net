@@ -166,8 +166,11 @@ function AddControlHammerActions() {
     });
 
     controlHammer.on("touch", "#musicPlayPause", function () {
+        var statusElement = document.getElementById("PlaybackInfo.Status");
+        var status = statusElement.innerText;
+        var playCommand = status == "Stopped" ? "Playback/PlayByIndex?Index=0" : "Playback/PlayPause";
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape("Playback/PlayPause"),
+            url: "/Music/SendMCWS?url=" + escape(playCommand),
             cache: false
         })
     });
