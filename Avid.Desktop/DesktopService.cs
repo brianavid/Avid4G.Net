@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.ServiceProcess;
 using WindowsInput;
 using GetCoreTempInfoNET;
+using NLog;
 
 namespace Avid.Desktop
 {
@@ -191,6 +192,8 @@ namespace Avid.Desktop
     [ServiceBehavior(IncludeExceptionDetailInFaults=true)]
     class DesktopService : IDesktopService
     {
+        static Logger logger = LogManager.GetCurrentClassLogger();
+
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         static extern void mouse_event(uint dwFlags, Int32 dx, Int32 dy, uint dwData,
           int dwExtraInfo);
@@ -251,11 +254,11 @@ namespace Avid.Desktop
             string args)
         {
             bool result;
-            Trace.WriteLine(String.Format("{0} LaunchProgram {1} '{2}'", DateTime.Now.ToLongTimeString(), name, args == null ? "" : args));
+            logger.Info("LaunchProgram {0} '{1}'", name, args == null ? "" : args);
 
             if (!processes.ContainsKey(name))
             {
-                Trace.WriteLine(String.Format("\tUnknown {0}", name));
+                logger.Info("\tUnknown {0}", name);
                 return false;
             }
 
@@ -268,12 +271,12 @@ namespace Avid.Desktop
                 if (!String.IsNullOrEmpty(args))
                 {
                     result = process.Exit();
-                    Trace.WriteLine(String.Format("\tExit {0} {1}", name, result ? "OK" : "Fail"));
+                    logger.Info("\tExit {0} {1}", name, result ? "OK" : "Fail");
                 }
                 else
                 {
                     result = process.Foreground();
-                    Trace.WriteLine(String.Format("\tForeground {0} {1}", name, result ? "OK" : "Fail"));
+                    logger.Info("\tForeground {0} {1}", name, result ? "OK" : "Fail");
                     return result;
                 }
             }
@@ -284,12 +287,12 @@ namespace Avid.Desktop
                 if (otherProcess.Name != name && otherProcess.Running)
                 {
                     result = otherProcess.Exit();
-                    Trace.WriteLine(String.Format("\tExit {0} {1}", otherProcess.Name, result ? "OK" : "Fail"));
+                    logger.Info("\tExit {0} {1}", otherProcess.Name, result ? "OK" : "Fail");
                 }
             }
 
             result = process.Start(args);
-            Trace.WriteLine(String.Format("\tStart {0} {1}", name, result ? "OK" : "Fail"));
+            logger.Info("\tStart {0} {1}", name, result ? "OK" : "Fail");
             return result;
         }
 
@@ -303,11 +306,11 @@ namespace Avid.Desktop
             string name, 
             string args)
         {
-            Trace.WriteLine(String.Format("{0} LaunchNewProgram {1} {2}", DateTime.Now.ToLongTimeString(), name, args));
+            logger.Info("LaunchNewProgram {0} '{1}'", name, args);
 
             if (!processes.ContainsKey(name))
             {
-                Trace.WriteLine(String.Format("\tUnknown {0}", name));
+                logger.Info("\tUnknown {0}", name);
                 return false;
             }
 
@@ -324,7 +327,7 @@ namespace Avid.Desktop
                 p.WaitForInputIdle();
             }
 
-            Trace.WriteLine(String.Format("\tStart {0} {1}", name, p != null ? "OK" : "Fail"));
+            logger.Info("\tStart {0} {1}", name, p != null ? "OK" : "Fail");
             return p != null;
         }
 
@@ -337,11 +340,11 @@ namespace Avid.Desktop
             string name)
         {
             bool result;
-            Trace.WriteLine(String.Format("{0} ExitProgram {1}", DateTime.Now.ToLongTimeString(), name));
+            logger.Info("ExitProgram {0}", name);
 
             if (!processes.ContainsKey(name))
             {
-                Trace.WriteLine(String.Format("\tUnknown {0}", name));
+                logger.Info("\tUnknown {0}", name);
                 return false;
             }
 
@@ -349,12 +352,12 @@ namespace Avid.Desktop
 
             if (!process.Running)
             {
-                Trace.WriteLine(String.Format("\tStopped {0}", name));
+                logger.Info("\tStopped {0}", name);
                 return true;
             }
 
             result = process.Exit();
-            Trace.WriteLine(String.Format("\tExit {0} {1}", name, result ? "OK" : "Fail"));
+            logger.Info("\tExit {0} {1}", name, result ? "OK" : "Fail");
             return result;
         }
 
@@ -365,14 +368,14 @@ namespace Avid.Desktop
         public bool ExitAllPrograms()
         {
             bool result;
-            Trace.WriteLine(String.Format("{0} ExitAllPrograms", DateTime.Now.ToLongTimeString()));
+            logger.Info("ExitAllPrograms");
 
             foreach (var process in processes.Values)
             {
                 if (process.Running)
                 {
                     result = process.Exit();
-                    Trace.WriteLine(String.Format("\tExit {0} {1}", process.Name, result ? "OK" : "Fail"));
+                    logger.Info("\tExit {0} {1}", process.Name, result ? "OK" : "Fail");
                 }
             }
 
@@ -388,11 +391,11 @@ namespace Avid.Desktop
             string name)
         {
             bool result;
-            Trace.WriteLine(String.Format("{0} ForegroundProgram {1}", DateTime.Now.ToLongTimeString(), name));
+            logger.Info("ForegroundProgram {0}", name);
 
             if (!processes.ContainsKey(name))
             {
-                Trace.WriteLine(String.Format("\tUnknown {0}", name));
+                logger.Info("\tUnknown {0}", name);
                 return false;
             }
 
@@ -400,12 +403,12 @@ namespace Avid.Desktop
 
             if (!process.Running)
             {
-                Trace.WriteLine(String.Format("\tStopped {0}", name));
+                logger.Info("\tStopped {0}", name);
                 return false;
             }
 
             result = process.Foreground();
-            Trace.WriteLine(String.Format("\tForeground {0} {1}", name, result ? "OK" : "Fail"));
+            logger.Info("\tForeground {0} {1}", name, result ? "OK" : "Fail");
             return result;
         }
 

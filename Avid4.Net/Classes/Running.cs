@@ -80,7 +80,7 @@ public static class Running
         string name,
         string args)
     {
-        logger.Info("LaunchProgram {0} -> {1}", runningProgram, name);
+        logger.Info("LaunchProgram {0} -> {1} {2}", runningProgram, name, args ?? "");
 
         runningArgs = args;
 
@@ -110,6 +110,7 @@ public static class Running
             }
 
             JRMC.SetDisplay(JRMC.DisplayMode.Standard, maximize: true);
+            logger.Info("LaunchProgram OK {0}", runningProgram);
             return true;
         }
 
@@ -123,6 +124,7 @@ public static class Running
                 NothingRunning();
                 return false;
             }
+            logger.Info("LaunchProgram OK {0}", runningProgram);
             return true;
         }
 
@@ -147,6 +149,7 @@ public static class Running
                     NothingRunning();
                     return false;
                 }
+                logger.Info("LaunchProgram OK {0}", runningProgram);
                 return true;
 
             case "Radio":
@@ -157,6 +160,7 @@ public static class Running
                     NothingRunning();
                     return false;
                 }
+                logger.Info("LaunchProgram OK {0}", runningProgram);
                 return true;
 
             case "Web":
@@ -168,26 +172,32 @@ public static class Running
                     NothingRunning();
                     return false;
                 }
+                logger.Info("LaunchProgram OK {0}", runningProgram);
                 return true;
 
             case "Video":
                 Screen.EnsureScreenOn();
                 Receiver.SelectTVOutput();
-                Screen.WaitForScreenOn();
+                //Screen.WaitForScreenOn();
 
-                if (!DesktopClient.LaunchProgram("Video", args))
+                if (args != null ? 
+                    !DesktopClient.LaunchNewProgram("Video", args) : 
+                    !DesktopClient.LaunchProgram("Video", args))
                 {
                     NothingRunning();
                     return false;
                 }
 
+                logger.Info("Zoom.Start");
                 Zoom.Start();
+                logger.Info("LaunchProgram OK {0}", runningProgram);
                 return true;
 
             case "Spotify":
                 Screen.SetScreenDisplayMode(0);
                 Receiver.SelectRoomsOutput();
                 DesktopClient.ExitAllPrograms();
+                logger.Info("LaunchProgram OK {0}", runningProgram);
                 return true;
         }
     }
@@ -227,6 +237,7 @@ public static class Running
             if (DesktopClient.LaunchNewProgram(name, args))
             {
                 JRMC.SetDisplay(JRMC.DisplayMode.Display, maximize: true);
+                logger.Info("LaunchProgram OK {0}", runningProgram);
                 return true;
             }
         }
@@ -315,5 +326,6 @@ public static class Running
         Zoom.Stop();
         Spotify.Stop();
         runningProgram = "";
+        logger.Info("NothingRunning");
     }
 }

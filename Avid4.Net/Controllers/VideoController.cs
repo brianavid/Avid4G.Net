@@ -152,20 +152,20 @@ namespace Avid4.Net.Controllers
         {
             Uri requestUri = new Uri(Zoom.FuncUrl + cmd);
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 1; i < 11; i++)
             {
-                HttpWebRequest request =
-                    (HttpWebRequest)HttpWebRequest.Create(requestUri);
-                request.Method = WebRequestMethods.Http.Get;
-
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 try
                 {
+                    HttpWebRequest request =
+                        (HttpWebRequest)HttpWebRequest.Create(requestUri);
+                    request.Method = WebRequestMethods.Http.Get;
+
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                     return this.Content("");
                 }
                 catch (Exception)
                 {
-                    System.Threading.Thread.Sleep(2000);
+                    System.Threading.Thread.Sleep(200 * i);
                 }
             }
 

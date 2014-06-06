@@ -146,7 +146,7 @@ public static class Screen
         {
             if (TestScreenOn())
             {
-                logger.Info("Screen i snow on");
+                logger.Info("Screen is now on");
 
                 break;
             }
