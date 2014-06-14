@@ -277,7 +277,7 @@ var browserHammer = null;
 var selectedDate = null;
 var selectedStation = null;
 
-function AddBrowserHammerActions() {
+function AddBrowserHammerActions(isAndroid) {
     $("#musicBrowserItems").each(function () {
         var h = $(window).height() - 24
         var t = $(this).offset().top
@@ -286,7 +286,7 @@ function AddBrowserHammerActions() {
     });
 
     if (!browserHammer) {
-        browserHammer = $(".musicBrowserItems").hammer({ prevent_default: true });
+        browserHammer = $(".musicBrowserItems").hammer(isAndroid ? ({ prevent_default: true }) : null);
     }
 
     EnableDragScroll(browserHammer)
@@ -540,10 +540,31 @@ function AddBrowserHammerActions() {
         return false;
     });
 
+    if (isAndroid)
+    {
+        //  Android devices do not respond correctly for scrolling unless the Hammer
+        //  object has property { prevent_default: true }.
+        //  But this prevents text input boxes from being selectable and editable.
+        //  So, when such a box is tapped, we pop-up a prompt to ask for the contents, 
+        //  and immediately act on it - i.e. search
+        browserHammer.on("tap", "#SearchText", function (e) {
+            var query = document.getElementById("SearchText").value
+            query = prompt("Search for tracks containing ...", query);
+
+            if (query != null) {
+                ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Search&query=" + encodeURIComponent(query), "push")
+                return false;
+            }
+        });
+    }
+
 }
 
 $(function () {
     var controlHeight = 0;
+
+    var ua = navigator.userAgent.toLowerCase();
+    var isAndroid = ua.indexOf("android") > -1;
 
     $("#musicControlPane").each(function () {
         controlHeight = $(this).height();
@@ -566,7 +587,7 @@ $(function () {
     });
 
     AddControlHammerActions()
-    AddBrowserHammerActions();
+    AddBrowserHammerActions(isAndroid);
     AddQueueHammerActions(controlHeight)
 
     // update information once now

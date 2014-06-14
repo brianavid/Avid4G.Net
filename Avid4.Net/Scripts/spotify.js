@@ -253,7 +253,7 @@ function AddQueueHammerActions(controlHeight) {
 
 var browserHammer = null;
 
-function AddBrowserHammerActions() {
+function AddBrowserHammerActions(isAndroid) {
     $("#spotifyBrowserItems").each(function () {
         var h = $(window).height() - 24
         var t = $(this).offset().top
@@ -262,7 +262,7 @@ function AddBrowserHammerActions() {
     });
 
     if (!browserHammer) {
-        browserHammer = $(".spotifyBrowserItems").hammer({ prevent_default: true });
+        browserHammer = $(".spotifyBrowserItems").hammer(isAndroid ? ({ prevent_default: true }) : null);
     }
 
     EnableDragScroll(browserHammer)
@@ -564,6 +564,44 @@ function AddBrowserHammerActions() {
         });
         return false;
     });
+
+    if (isAndroid) {
+        //  Android devices do not respond correctly for scrolling unless the Hammer
+        //  object has property { prevent_default: true }.
+        //  But this prevents text input boxes from being selectable and editable.
+        //  So, when such a box is tapped, we pop-up a prompt to ask for the contents, 
+        //  and immediately act on it - i.e. search
+        browserHammer.on("tap", "#ArtistSearchText", function (e) {
+            var query = document.getElementById("ArtistSearchText").value
+            query = prompt("Search for artists containing ...", query);
+
+            if (query != null) {
+                ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=SearchArtists&query=" + encodeURIComponent(query), "push")
+                return false;
+            }
+        });
+
+        browserHammer.on("tap", "#AlbumSearchText", function (e) {
+            var query = document.getElementById("AlbumSearchText").value
+            query = prompt("Search for albums containing ...", query);
+
+            if (query != null) {
+                ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=SearchAlbums&query=" + encodeURIComponent(query), "push")
+                return false;
+            }
+        });
+
+        browserHammer.on("tap", "#TrackSearchText", function (e) {
+            var query = document.getElementById("TrackSearchText").value
+            query = prompt("Search for tracks containing ...", query);
+
+            if (query != null) {
+                ReplacePane("spotifyBrowserItems", "/Spotify/BrowserPane?mode=SearchTracks&query=" + encodeURIComponent(query), "push")
+                return false;
+            }
+        });
+
+    }
 }
 
 function HandleSearchKeyPresses()
@@ -600,6 +638,9 @@ function HandleSearchKeyPresses()
  }
 
 $(function () {
+    var ua = navigator.userAgent.toLowerCase();
+    var isAndroid = ua.indexOf("android") > -1;
+
     var controlHeight = 0;
 
     $("#spotifyControlPane").each(function () {
@@ -625,7 +666,7 @@ $(function () {
     AddSpotifyHammerActions();
 
     AddControlHammerActions()
-    AddBrowserHammerActions();
+    AddBrowserHammerActions(isAndroid);
     AddQueueHammerActions(controlHeight)
 
     // update information once now
