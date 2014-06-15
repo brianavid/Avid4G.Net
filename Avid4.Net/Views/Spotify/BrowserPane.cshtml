@@ -48,33 +48,25 @@
                     searchedArtists = Spotify.SearchArtists(searchText);
                 }
                 
-                <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader"><div class="spotifyBrowserTitle">Search artists ...</div></div>
-                <table class="buttonRow">
-	                <tr>
-                        <td class='width75'><input class='searchText width100' id='ArtistSearchText' type='text' value='@(searchText)' /></td>
-                        <td class="centeredButton width25">
-                            <img id="goSpotifyArtistSearch" src="/Content/Buttons/MiniRound/Search.png" />
-                        </td>
-                    </tr>
-                </table>
-                    
-                if (searchedArtists != null)
-                {
-                    bool anyFound = false;
-                    foreach (var artist in searchedArtists)
+                <div id="spotifySearchArtistsResults">
+                    @if (searchedArtists != null)
                     {
-                        anyFound = true;
-                        <div class="spotifyBrowserArtist spotifyBrowserItem" id ="@artist.Id">
-                            <div class="spotifyBrowserTitle">@artist.Name</div>
-                        </div>
+                        bool anyFound = false;
+                        foreach (var artist in searchedArtists)
+                        {
+                            anyFound = true;
+                            <div class="spotifyBrowserArtist spotifyBrowserItem" id ="@artist.Id">
+                                <div class="spotifyBrowserTitle">@artist.Name</div>
+                            </div>
+                        }
+                        if (!anyFound)
+                        {
+                            <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader">
+                                <div class="spotifyBrowserTitle">No artist found: '@(searchText)'</div>
+                            </div>
+                        }
                     }
-                    if (!anyFound)
-                    {
-                        <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader">
-                            <div class="spotifyBrowserTitle">No artist found: '@(searchText)'</div>
-                        </div>
-                    }
-                }
+                </div>
             }
             break;
 
@@ -90,42 +82,35 @@
                     searchedAlbums = Spotify.SearchAlbums(searchText);
                 }
 
-                <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader"><div class="spotifyBrowserTitle">Search albums ...</div></div>
-                <table class="buttonRow">
-	                <tr>
-                        <td class='width75'><input class='searchText width100' id='AlbumSearchText' type='text' value='@(searchText)' /></td>
-                        <td class="centeredButton width25">
-                            <img id="goSpotifyAlbumSearch" src="/Content/Buttons/MiniRound/Search.png" />
-                        </td>
-                    </tr>
-                </table>
-                    
-                if (searchedAlbums != null)
-                {
-                    bool anyFound = false;
-                    string lastArtist = string.Empty;
+                   
+                <div id="spotifySearchAlbumsResults">
+                    @if (searchedAlbums != null)
+                    {
+                        bool anyFound = false;
+                        string lastArtist = string.Empty;
 
-                    foreach (var album in searchedAlbums)
-                    {
-                        anyFound = true;
-                        <div class="spotifyBrowserAlbum spotifyBrowserItem" id="@album.Id">
-                            <div class="spotifyBrowserDisplayContext" >
-                                @if (album.ArtistName != lastArtist)
-                                {
-                                    <div class="spotifyBrowserDisplayArtist">@album.ArtistName</div>
-                                    lastArtist = album.ArtistName;
-                                }
+                        foreach (var album in searchedAlbums)
+                        {
+                            anyFound = true;
+                            <div class="spotifyBrowserAlbum spotifyBrowserItem" id="@album.Id">
+                                <div class="spotifyBrowserDisplayContext" >
+                                    @if (album.ArtistName != lastArtist)
+                                    {
+                                        <div class="spotifyBrowserDisplayArtist">@album.ArtistName</div>
+                                        lastArtist = album.ArtistName;
+                                    }
+                                </div>
+                                <div class="spotifyBrowserTitle"><span class="playButton">&gt;&nbsp;</span>@album.Name</div>
                             </div>
-                            <div class="spotifyBrowserTitle"><span class="playButton">&gt;&nbsp;</span>@album.Name</div>
-                        </div>
+                        }
+                        if (!anyFound)
+                        {
+                            <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader">
+                                <div class="spotifyBrowserTitle">No album found: '@(searchText)'</div>
+                            </div>
+                        }
                     }
-                    if (!anyFound)
-                    {
-                        <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader">
-                            <div class="spotifyBrowserTitle">No album found: '@(searchText)'</div>
-                        </div>
-                    }
-                }
+                </div>
             }
             break;
 
@@ -140,64 +125,56 @@
                     searchText = HttpUtility.UrlDecode(searchQuery);
                     searchedTracks = Spotify.SearchTracks(searchText);
                 }
-
-                <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader"><div class="spotifyBrowserTitle">Search tracks ...</div></div>
-                <table class="buttonRow">
-	                <tr>
-                        <td class='width75'><input class='searchText width100' id='TrackSearchText' type='text' value='@(searchText)' /></td>
-                        <td class="centeredButton width25">
-                            <img id="goSpotifyTrackSearch" src="/Content/Buttons/MiniRound/Search.png" />
-                        </td>
-                    </tr>
-                </table>
-                    
-                if (searchedTracks != null)
-                {
-                    bool anyFound = false;
-                    string lastAlbum = string.Empty;
-                    string lastArtist = string.Empty;
-
-                    foreach (var track in searchedTracks)
+   
+                <div id="spotifySearchTracksResults">
+                    @if (searchedTracks != null)
                     {
-                        anyFound = true;
-                        string album = track.AlbumName;
-                        string artist = track.TrackArtistNames;
-                        string duration = Spotify.FormatDuration(track.Duration);
-                        var trackId = track.Id;
-                        var albumId = track.AlbumId;
+                        bool anyFound = false;
+                        string lastAlbum = string.Empty;
+                        string lastArtist = string.Empty;
 
-                        <div class="spotifyBrowserTrack spotifyBrowserSearchTrack musicBrowserItem" id="@trackId">
-                            @if (artist != lastArtist || album != lastAlbum)
-                            {
-                                <div class="spotifyBrowserDisplayContext" >
-                                    @if (artist != lastArtist)
-                                    {
-                                        <div class='spotifyBrowserDisplayArtist'>@artist</div>
-                                        lastArtist = artist;
-                                    }
+                        foreach (var track in searchedTracks)
+                        {
+                            anyFound = true;
+                            string album = track.AlbumName;
+                            string artist = track.TrackArtistNames;
+                            string duration = Spotify.FormatDuration(track.Duration);
+                            var trackId = track.Id;
+                            var albumId = track.AlbumId;
 
-                                    @if (album != lastAlbum)
-                                    {
-                                        <div class='spotifyBrowserDisplayAlbum'>@album</div>
-                                        lastAlbum = album;
-                                    }
-                                </div>
-                            }
+                            <div class="spotifyBrowserTrack spotifyBrowserSearchTrack musicBrowserItem" id="@trackId">
+                                @if (artist != lastArtist || album != lastAlbum)
+                                {
+                                    <div class="spotifyBrowserDisplayContext" >
+                                        @if (artist != lastArtist)
+                                        {
+                                            <div class='spotifyBrowserDisplayArtist'>@artist</div>
+                                            lastArtist = artist;
+                                        }
 
-                            <div class="spotifyBrowserTitle"><span class="playButton">&gt;&nbsp;</span>@track.Name</div>
-                            @if (!string.IsNullOrEmpty(duration))
-                            {
-                                <div class="spotifyBrowserDuration">@duration</div>
-                            }
-                        </div>
+                                        @if (album != lastAlbum)
+                                        {
+                                            <div class='spotifyBrowserDisplayAlbum'>@album</div>
+                                            lastAlbum = album;
+                                        }
+                                    </div>
+                                }
+
+                                <div class="spotifyBrowserTitle"><span class="playButton">&gt;&nbsp;</span>@track.Name</div>
+                                @if (!string.IsNullOrEmpty(duration))
+                                {
+                                    <div class="spotifyBrowserDuration">@duration</div>
+                                }
+                            </div>
+                        }
+                        if (!anyFound)
+                        {
+                            <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader">
+                                <div class="spotifyBrowserTitle">No track found: '@(searchText)'</div>
+                            </div>
+                        }
                     }
-                    if (!anyFound)
-                    {
-                        <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader">
-                            <div class="spotifyBrowserTitle">No track found: '@(searchText)'</div>
-                        </div>
-                    }
-                }
+                </div>
             }
             break;
 

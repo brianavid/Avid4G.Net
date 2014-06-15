@@ -1,0 +1,48 @@
+﻿<div class="spotifyBrowserSearchEntry">
+    @{
+
+        string searchText = "";
+        string searchQuery = ViewBag.Query;
+
+        if (!String.IsNullOrEmpty(searchQuery))
+        {
+            searchText = HttpUtility.UrlDecode(searchQuery);
+        }
+
+        <div class="spotifyBrowserSearchArtistsEntry">
+            <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader"><div class="spotifyBrowserTitle">Search artists ...</div></div>
+            <table class="buttonRow">
+	            <tr>
+                    <td class='width75'><input class='searchText width100' id='ArtistSearchText' type='text' value='@(searchText)' /></td>
+                    <td class="centeredButton width25">
+                        <img id="goSpotifyArtistSearch" src="/Content/Buttons/MiniRound/Search.png" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="spotifyBrowserSearchAlbumsEntry">
+            <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader"><div class="spotifyBrowserTitle">Search albums ...</div></div>
+            <table class="buttonRow">
+	            <tr>
+                    <td class='width75'><input class='searchText width100' id='AlbumSearchText' type='text' value='@(searchText)' /></td>
+                    <td class="centeredButton width25">
+                        <img id="goSpotifyAlbumSearch" src="/Content/Buttons/MiniRound/Search.png" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="spotifyBrowserSearchTracksEntry">
+            <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader"><div class="spotifyBrowserTitle">Search tracks ...</div></div>
+            <table class="buttonRow">
+	            <tr>
+                    <td class='width75'><input class='searchText width100' id='TrackSearchText' type='text' value='@(searchText)' /></td>
+                    <td class="centeredButton width25">
+                        <img id="goSpotifyTrackSearch" src="/Content/Buttons/MiniRound/Search.png" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    }
+</div>

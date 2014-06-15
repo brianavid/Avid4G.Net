@@ -136,12 +136,34 @@ function UpdateQueue(display, id)
     }
 }
 
+function UpdateSearchTextVisibility()
+{
+    var isSearch = false
+    $("#musicSearchResults").each(function () {
+        isSearch = true
+    });
+
+    if (isSearch)
+    {
+        $(".musicBrowserSearchEntry").show()
+    }
+    else
+    {
+        $(".musicBrowserSearchEntry").hide()
+    }
+}
+
+function ReplaceBrowserPane(url, stacking)
+{
+    ReplacePane("musicBrowserItems", url, stacking, UpdateSearchTextVisibility)
+}
+
 function DisplayBrowserAlbumTracksAppend(id) {
-    ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=AllTracksOnAlbum&append=true&id=" + id, "clear")
+    ReplaceBrowserPane("/Music/BrowserPane?mode=AllTracksOnAlbum&append=true&id=" + id, "clear")
 }
 
 function DisplayBrowserHome() {
-    ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Library", "clear")
+    ReplaceBrowserPane("/Music/BrowserPane?mode=Library", "clear")
 }
 
 function testDisplay(s) {
@@ -253,7 +275,7 @@ function AddQueueHammerActions(controlHeight) {
     queueHammer.on("hold", ".musicPlaybackQueueItem", function (e) {
         var browserDisplay = document.getElementById("musicBrowserItems");
         if (browserDisplay) {
-            ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=TrackInfo&id=" + this.id, "push")
+            ReplaceBrowserPane("/Music/BrowserPane?mode=TrackInfo&id=" + this.id, "push")
         }
         else {
             LinkTo("/Music/Browser?mode=TrackInfo&id=" + this.id);
@@ -277,7 +299,7 @@ var browserHammer = null;
 var selectedDate = null;
 var selectedStation = null;
 
-function AddBrowserHammerActions(isAndroid) {
+function AddBrowserHammerActions() {
     $("#musicBrowserItems").each(function () {
         var h = $(window).height() - 24
         var t = $(this).offset().top
@@ -286,59 +308,53 @@ function AddBrowserHammerActions(isAndroid) {
     });
 
     if (!browserHammer) {
-        browserHammer = $(".musicBrowserItems").hammer(isAndroid ? ({ prevent_default: true }) : null);
+        browserHammer = $(".musicBrowserItems").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(browserHammer)
 
     browserHammer.on("swiperight swipeleft", function (e) {
-        PopStackedPane("musicBrowserItems", function () { ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Library", "clear") })
+        PopStackedPane("musicBrowserItems", function () { ReplaceBrowserPane("/Music/BrowserPane?mode=Library", "clear") }, UpdateSearchTextVisibility)
         return false;
     })
 
     browserHammer.on("tap", "#musicBrowserLibraryArtists", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=ArtistInitials", "push")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=ArtistInitials", "push")
         return false;
     });
 
     browserHammer.on("tap", "#musicBrowserLibraryAlbums", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=AlbumInitials", "push")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=AlbumInitials", "push")
         return false;
     });
 
     browserHammer.on("tap", "#musicBrowserLibraryComposers", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Composers", "push")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=Composers", "push")
         return false;
     });
 
     browserHammer.on("tap", "#musicBrowserLibraryPlaylists", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Playlists", "push")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=Playlists", "push")
         return false;
     });
 
     browserHammer.on("tap", "#musicBrowserLibraryLuckyDip", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=LuckyDip", "push")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=LuckyDip", "push")
         return false;
     });
 
     browserHammer.on("tap", "#musicBrowserLibraryRecentAlbums", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=RecentAlbums", "push")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=RecentAlbums", "push")
         return false;
     });
 
     browserHammer.on("tap", "#musicBrowserLibrarySearch", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Search", "push")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=Search", "push")
         return false;
     });
 
     browserHammer.on("tap", "#musicBrowserLibraryListenAgain", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=ListenAgainSelect", "push")
-        return false;
-    });
-
-    browserHammer.on("tap", "#goMusicSearch", function (e) {
-        var query = document.getElementById("SearchText").value
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Search&query=" + encodeURIComponent(query), "push")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=ListenAgainSelect", "push")
         return false;
     });
 
@@ -357,35 +373,35 @@ function AddBrowserHammerActions(isAndroid) {
     });
 
     browserHammer.on("tap", ".musicBrowserComposer", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=AlbumsOfComposer&id=" + this.id, "push")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=AlbumsOfComposer&id=" + this.id, "push")
         return false;
     });
 
     browserHammer.on("tap", ".musicBrowserArtistsInitial", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=ArtistsOfInitial&id=" + this.id, "push")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=ArtistsOfInitial&id=" + this.id, "push")
         return false;
     });
 
     browserHammer.on("tap", ".musicBrowserAlbumInitial", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=AlbumsOfInitial&id=" + this.id, "push")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=AlbumsOfInitial&id=" + this.id, "push")
         return false;
     });
 
     browserHammer.on("tap", ".musicBrowserArtist", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=AlbumsOfArtist&id=" + this.id, "push")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=AlbumsOfArtist&id=" + this.id, "push")
         return false;
     });
 
     browserHammer.on("hold", ".musicBrowserAlbum", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=AlbumInfo&id=" + this.id, "push")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=AlbumInfo&id=" + this.id, "push")
     });
 
     browserHammer.on("hold", ".musicBrowserTrack", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=TrackInfo&id=" + this.id, "push")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=TrackInfo&id=" + this.id, "push")
     });
 
     browserHammer.on("tap", ".musicBrowserCancel", function (e) {
-        PopStackedPane("musicBrowserItems", function () { ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Library", "clear") })
+        PopStackedPane("musicBrowserItems", function () { ReplaceBrowserPane("/Music/BrowserPane?mode=Library", "clear") })
         return false;
     });
 
@@ -439,7 +455,7 @@ function AddBrowserHammerActions(isAndroid) {
     });
 
     browserHammer.on("tap", "#musicBrowserLibraryAlbumTracks", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Tracks&id=" + $("#TrackInfoId").text(), "clear")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=Tracks&id=" + $("#TrackInfoId").text(), "clear")
         return false;
     });
 
@@ -496,7 +512,7 @@ function AddBrowserHammerActions(isAndroid) {
     });
 
     browserHammer.on("tap", "#musicBrowserLibraryTrackAlbum", function (e) {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=AlbumInfo&id=" + $("#AlbumInfoId").text(), "clear")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=AlbumInfo&id=" + $("#AlbumInfoId").text(), "clear")
         return false;
     });
 
@@ -506,7 +522,7 @@ function AddBrowserHammerActions(isAndroid) {
         selectedStation = this.id;
 
         if (selectedDate != null) {
-            ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=ListenAgainProgrammes&date=" + selectedDate + "&station=" + selectedStation, "push")
+            ReplaceBrowserPane("/Music/BrowserPane?mode=ListenAgainProgrammes&date=" + selectedDate + "&station=" + selectedStation, "push")
             selectedDate = null;
             selectedStation = null;
         }
@@ -519,7 +535,7 @@ function AddBrowserHammerActions(isAndroid) {
         selectedDate = this.id;
 
         if (selectedStation != null) {
-            ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=ListenAgainProgrammes&date=" + selectedDate + "&station=" + selectedStation, "push")
+            ReplaceBrowserPane("/Music/BrowserPane?mode=ListenAgainProgrammes&date=" + selectedDate + "&station=" + selectedStation, "push")
             selectedDate = null;
             selectedStation = null;
         }
@@ -539,32 +555,24 @@ function AddBrowserHammerActions(isAndroid) {
         });
         return false;
     });
+}
 
-    if (isAndroid)
-    {
-        //  Android devices do not respond correctly for scrolling unless the Hammer
-        //  object has property { prevent_default: true }.
-        //  But this prevents text input boxes from being selectable and editable.
-        //  So, when such a box is tapped, we pop-up a prompt to ask for the contents, 
-        //  and immediately act on it - i.e. search
-        browserHammer.on("tap", "#SearchText", function (e) {
-            var query = document.getElementById("SearchText").value
-            query = prompt("Search for tracks containing ...", query);
+var searchHammer = null;
 
-            if (query != null) {
-                ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Search&query=" + encodeURIComponent(query), "push")
-                return false;
-            }
-        });
+function AddSearchHammerActions() {
+    if (!searchHammer) {
+        searchHammer = $(".musicBrowserSearchEntry").hammer();
     }
+    searchHammer.on("tap", "#goMusicSearch", function (e) {
+        var query = document.getElementById("SearchText").value
+        ReplaceBrowserPane("/Music/BrowserPane?mode=Search&query=" + encodeURIComponent(query), "push")
+        return false;
+    });
 
 }
 
 $(function () {
     var controlHeight = 0;
-
-    var ua = navigator.userAgent.toLowerCase();
-    var isAndroid = ua.indexOf("android") > -1;
 
     $("#musicControlPane").each(function () {
         controlHeight = $(this).height();
@@ -583,11 +591,12 @@ $(function () {
     });
 
     $("#goMusicLibraryPane").click(function () {
-        ReplacePane("musicBrowserItems", "/Music/BrowserPane?mode=Library", "clear")
+        ReplaceBrowserPane("/Music/BrowserPane?mode=Library", "clear")
     });
 
     AddControlHammerActions()
-    AddBrowserHammerActions(isAndroid);
+    AddBrowserHammerActions();
+    AddSearchHammerActions();
     AddQueueHammerActions(controlHeight)
 
     // update information once now

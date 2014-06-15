@@ -1,0 +1,21 @@
+﻿<div class="musicBrowserSearchEntry">
+    @{
+
+        string searchText = "";
+        string searchQuery = ViewBag.Query;
+
+        if (!String.IsNullOrEmpty(searchQuery))
+        {
+            searchText = HttpUtility.UrlDecode(searchQuery);
+        }
+
+        <table class="buttonRow">
+	        <tr>
+                <td class='width75'><input id='SearchText' type='text' class='searchText width100' value='@(searchText)' /></td>
+                <td class="centeredButton width25">
+                    <img id="goMusicSearch" src="/Content/Buttons/MiniRound/Search.png" />
+                </td>
+            </tr>
+        </table>
+    }
+</div>

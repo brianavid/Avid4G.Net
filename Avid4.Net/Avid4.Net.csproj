@@ -544,6 +544,8 @@
     <Content Include="Views\TV\Radio.cshtml" />
     <Content Include="Views\TV\RadioPane.cshtml" />
     <Content Include="Views\TV\Watch.cshtml" />
+    <Content Include="Views\Music\BrowserSearchPane.cshtml" />
+    <Content Include="Views\Spotify\BrowserSearchPane.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
