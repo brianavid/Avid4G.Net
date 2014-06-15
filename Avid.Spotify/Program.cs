@@ -32,6 +32,8 @@ namespace Avid.Spotify
                     MessageBox.Show(
                         string.Format("Spotify requires a key file named '{0}'", SpotifySession.SpotifyAppKeyFileName),
                         "Spotify Player", MessageBoxButtons.OK);
+                    logger.Fatal("Spotify Player has no AppKey");
+                    return;
                 }
                 var config = new HttpSelfHostConfiguration("http://localhost:8383");
 
