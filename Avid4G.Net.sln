@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avid4.Net", "Avid4.Net\Avid4.Net.csproj", "{C14A239C-342F-4541-9D5A-E86F403A158A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{45443D32-3879-4C3B-A997-F424D7B2773B} = {45443D32-3879-4C3B-A997-F424D7B2773B}
@@ -198,8 +196,8 @@ Global
 		{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}.CD_ROM|x86.Build.0 = CD_ROM
 		{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}.Debug|Any CPU.ActiveCfg = DVD-5
 		{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}.Debug|Any CPU.Build.0 = DVD-5
-		{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}.Debug|Mixed Platforms.ActiveCfg = DVD-5
-		{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}.Debug|Mixed Platforms.Build.0 = DVD-5
+		{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}.Debug|Mixed Platforms.ActiveCfg = SingleImage
+		{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}.Debug|Mixed Platforms.Build.0 = SingleImage
 		{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}.Debug|x86.ActiveCfg = DVD-5
 		{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}.Debug|x86.Build.0 = DVD-5
 		{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}.DVD-5|Any CPU.ActiveCfg = DVD-5

@@ -21,6 +21,8 @@ namespace Avid.Spotify
         [STAThread]
         static void Main()
         {
+            Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
             Logger logger = LogManager.GetLogger("SpotifyPlayer");
             logger.Info("Spotify Player Started");
             try

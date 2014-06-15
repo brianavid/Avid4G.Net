@@ -605,7 +605,7 @@
 		<row><td>InstallChangeFolder</td><td>Up</td><td>PushButton</td><td>310</td><td>66</td><td>19</td><td>19</td><td>3670019</td><td/><td/><td>NewFolder</td><td>##IDS__IsBrowseFolderDlg_UpOneLevel##</td><td>0</td><td/><td/><td>NewBinary3</td></row>
 		<row><td>InstallWelcome</td><td>Back</td><td>PushButton</td><td>164</td><td>243</td><td>66</td><td>17</td><td>1</td><td/><td>##IDS_BACK##</td><td>Copyright</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>InstallWelcome</td><td>Cancel</td><td>PushButton</td><td>301</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_CANCEL##</td><td>Back</td><td/><td>0</td><td/><td/><td/></row>
-		<row><td>InstallWelcome</td><td>Copyright</td><td>Text</td><td>135</td><td>144</td><td>228</td><td>73</td><td>65539</td><td/><td>##IDS__IsWelcomeDlg_WarningCopyright##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
+		<row><td>InstallWelcome</td><td>Copyright</td><td>Text</td><td>135</td><td>144</td><td>228</td><td>73</td><td>65538</td><td/><td>##IDS__IsWelcomeDlg_WarningCopyright##</td><td>Next</td><td/><td>0</td><td/><td/><td/></row>
 		<row><td>InstallWelcome</td><td>DlgLine</td><td>Line</td><td>0</td><td>234</td><td>374</td><td>0</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td/></row>
 		<row><td>InstallWelcome</td><td>Image</td><td>Bitmap</td><td>0</td><td>0</td><td>374</td><td>234</td><td>1</td><td/><td/><td/><td/><td>0</td><td/><td/><td>NewBinary5</td></row>
 		<row><td>InstallWelcome</td><td>Next</td><td>PushButton</td><td>230</td><td>243</td><td>66</td><td>17</td><td>3</td><td/><td>##IDS_NEXT##</td><td>Cancel</td><td/><td>0</td><td/><td/><td/></row>
@@ -2069,7 +2069,6 @@
 		<row><td>all.cshtml8</td><td>ISX_DEFAULTCOMPONENT74</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\All.cshtml</td><td>1</td><td/></row>
 		<row><td>all.cshtml9</td><td>ISX_DEFAULTCOMPONENT76</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\All.cshtml</td><td>1</td><td/></row>
 		<row><td>antlr3.runtime.dll</td><td>Antlr3.Runtime.dll</td><td>ANTLR3~1.DLL|Antlr3.Runtime.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\Antlr3.Runtime.dll</td><td>1</td><td/></row>
-		<row><td>app.config</td><td>ISX_DEFAULTCOMPONENT1</td><td>APP~1.CON|App.config</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop\bin\Debug\App.config</td><td>1</td><td/></row>
 		<row><td>apple_touch_icon.png</td><td>ISX_DEFAULTCOMPONENT9</td><td>APPLE-~1.PNG|apple-touch-icon.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\apple-touch-icon.png</td><td>1</td><td/></row>
 		<row><td>audio.mute.on.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>AUDIOM~1.PNG|Audio.Mute.On.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Audio.Mute.On.png</td><td>1</td><td/></row>
 		<row><td>audio.mute.on.png1</td><td>ISX_DEFAULTCOMPONENT14</td><td>AUDIOM~1.PNG|Audio.Mute.On.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Audio.Mute.On.png</td><td>1</td><td/></row>
@@ -2081,13 +2080,16 @@
 		<row><td>audio.volume.up.png2</td><td>ISX_DEFAULTCOMPONENT15</td><td>AUDIOV~1.PNG|Audio.Volume.Up.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\Audio.Volume.Up.png</td><td>1</td><td/></row>
 		<row><td>audiocontrol.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>AUDIOC~1.PNG|AudioControl.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\AudioControl.png</td><td>1</td><td/></row>
 		<row><td>avid.desktop.exe</td><td>Avid.Desktop.exe</td><td>AVIDDE~1.EXE|Avid.Desktop.exe</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop\bin\Debug\Avid.Desktop.exe</td><td>1</td><td/></row>
+		<row><td>avid.desktop.exe.config</td><td>ISX_DEFAULTCOMPONENT1</td><td>AVIDDE~1.CON|Avid.Desktop.exe.config</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop\bin\Debug\Avid.Desktop.exe.config</td><td>1</td><td/></row>
 		<row><td>avid.spotify.data.dll</td><td>Avid.Spotify.Data.dll</td><td>AVIDSP~1.DLL|Avid.Spotify.Data.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Spotify\bin\Debug\Avid.Spotify.Data.dll</td><td>1</td><td/></row>
 		<row><td>avid.spotify.data.dll1</td><td>Avid.Spotify.Data.dll1</td><td>AVIDSP~1.DLL|Avid.Spotify.Data.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\Avid.Spotify.Data.dll</td><td>1</td><td/></row>
 		<row><td>avid.spotify.exe</td><td>Avid.Spotify.exe</td><td>AVIDSP~1.EXE|Avid.Spotify.exe</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Spotify\bin\Debug\Avid.Spotify.exe</td><td>1</td><td/></row>
+		<row><td>avid.spotify.exe.config</td><td>ISX_DEFAULTCOMPONENT1</td><td>AVIDSP~1.CON|Avid.Spotify.exe.config</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Spotify\bin\Debug\Avid.Spotify.exe.config</td><td>1</td><td/></row>
 		<row><td>avid4.net.dll</td><td>Avid4.Net.dll</td><td>AVID4N~1.DLL|Avid4.Net.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\Avid4.Net.dll</td><td>1</td><td/></row>
 		<row><td>avid4blue64.ico</td><td>ISX_DEFAULTCOMPONENT1</td><td>AVID4B~1.ICO|Avid4Blue64.ico</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop\bin\Debug\Avid4Blue64.ico</td><td>1</td><td/></row>
 		<row><td>avid4green64.ico</td><td>ISX_DEFAULTCOMPONENT1</td><td>AVID4G~1.ICO|Avid4Green64.ico</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Spotify\bin\Debug\Avid4Green64.ico</td><td>1</td><td/></row>
 		<row><td>avid_icon64.png</td><td>ISX_DEFAULTCOMPONENT2</td><td>AVID-I~1.PNG|avid-icon64.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\avid-icon64.png</td><td>1</td><td/></row>
+		<row><td>avidconfig.xml</td><td>ISX_DEFAULTCOMPONENT1</td><td>AVIDCO~1.XML|AvidConfig.xml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Config\AvidConfig.xml</td><td>1</td><td/></row>
 		<row><td>back.png</td><td>ISX_DEFAULTCOMPONENT11</td><td>Back.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\BigRound\Back.png</td><td>1</td><td/></row>
 		<row><td>back.png1</td><td>ISX_DEFAULTCOMPONENT14</td><td>Back.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Back.png</td><td>1</td><td/></row>
 		<row><td>backtab.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>BackTab.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\BackTab.png</td><td>1</td><td/></row>
@@ -2109,6 +2111,8 @@
 		<row><td>browserpane.cshtml7</td><td>ISX_DEFAULTCOMPONENT74</td><td>BROWSE~1.CSH|BrowserPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\BrowserPane.cshtml</td><td>1</td><td/></row>
 		<row><td>browserpane.cshtml8</td><td>ISX_DEFAULTCOMPONENT77</td><td>BROWSE~1.CSH|BrowserPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\BrowserPane.cshtml</td><td>1</td><td/></row>
 		<row><td>browserpane.cshtml9</td><td>ISX_DEFAULTCOMPONENT81</td><td>BROWSE~1.CSH|BrowserPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Web\BrowserPane.cshtml</td><td>1</td><td/></row>
+		<row><td>browsersearchpane.cshtml</td><td>ISX_DEFAULTCOMPONENT73</td><td>BROWSE~1.CSH|BrowserSearchPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\BrowserSearchPane.cshtml</td><td>1</td><td/></row>
+		<row><td>browsersearchpane.cshtml1</td><td>ISX_DEFAULTCOMPONENT77</td><td>BROWSE~1.CSH|BrowserSearchPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\BrowserSearchPane.cshtml</td><td>1</td><td/></row>
 		<row><td>browserwide.cshtml1</td><td>ISX_DEFAULTCOMPONENT71</td><td>BROWSE~1.CSH|BrowserWide.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Guide\BrowserWide.cshtml</td><td>1</td><td/></row>
 		<row><td>buttons.cshtml2</td><td>ISX_DEFAULTCOMPONENT76</td><td>BUTTON~1.CSH|Buttons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\Buttons.cshtml</td><td>1</td><td/></row>
 		<row><td>buttons.cshtml3</td><td>ISX_DEFAULTCOMPONENT79</td><td>BUTTON~1.CSH|Buttons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\Buttons.cshtml</td><td>1</td><td/></row>
@@ -4639,8 +4643,8 @@
 		<col def="S0">Value</col>
 		<row><td>ActiveLanguage</td><td>1033</td></row>
 		<row><td>Comments</td><td/></row>
-		<row><td>CurrentMedia</td><td dt:dt="bin.base64" md5="de9f554a3bc05c12be9c31b998217995">
-UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
+		<row><td>CurrentMedia</td><td dt:dt="bin.base64" md5="6d78a46bf2c52ee27034bbcad20f7f95">
+QwBEAF8AUgBPAE0AAQBFAHgAcAByAGUAcwBzAA==
 			</td></row>
 		<row><td>DefaultProductConfiguration</td><td>Express</td></row>
 		<row><td>EnableSwidtag</td><td>0</td></row>
@@ -4657,7 +4661,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{50EBA0BD-ACFE-40D0-9BBA-07BCF0698C42}</td></row>
 		<row><td>ISUSSignature</td><td>{D74AF6FE-05CE-4498-876E-3C081CF39A8C}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewShortcuts,viewAppFiles,viewObjects,viewFeatureFiles,viewProject,viewRealSetupDesign,viewSetupTypes,viewUpgradePaths,viewUpdateService,viewRelease,viewSupportFiles,viewCustomActions,viewInstallScriptStd,viewSystemSearch,viewDependencies,viewSetupDesign,viewAppV,viewISToday,viewRegistry</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewShortcuts,viewAppFiles,viewObjects,viewFeatureFiles,viewProject,viewRealSetupDesign,viewSetupTypes,viewUpgradePaths,viewUpdateService,viewRelease,viewSupportFiles,viewCustomActions,viewInstallScriptStd,viewSystemSearch,viewDependencies,viewSetupDesign,viewAppV,viewISToday,viewRegistry,viewTextFiles,viewXMLConfig,viewFileExtensions,viewComponentServices,viewServices,viewUI,viewBillboards,viewTextMessages</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
@@ -5104,7 +5108,8 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>Registry1</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion</td><td/><td/><td>ISX_DEFAULTCOMPONENT3</td><td>1</td></row>
 		<row><td>Registry17</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>Avid.Desktop</td><td>"C:\Avid.Net\Avid.Desktop.exe"</td><td>ISX_DEFAULTCOMPONENT3</td><td>0</td></row>
 		<row><td>Registry18</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>Avid.Spotify</td><td>"C:\Avid.Net\Avid.Spotify.exe"</td><td>ISX_DEFAULTCOMPONENT3</td><td>0</td></row>
-		<row><td>Registry19</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td/><td/><td>ISX_DEFAULTCOMPONENT4</td><td>1</td></row>
+		<row><td>Registry19</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>Avid.Desktop</td><td>"C:\Avid.Net\Avid.Desktop.exe"</td><td>ISX_DEFAULTCOMPONENT4</td><td>0</td></row>
+		<row><td>Registry2</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>Avid.Spotify</td><td>"C:\Avid.Net\Avid.Spotify.exe"</td><td>ISX_DEFAULTCOMPONENT4</td><td>0</td></row>
 		<row><td>Registry20</td><td>2</td><td>SOFTWARE</td><td/><td/><td>ISX_DEFAULTCOMPONENT3</td><td>1</td></row>
 		<row><td>Registry21</td><td>2</td><td>SOFTWARE</td><td/><td/><td>ISX_DEFAULTCOMPONENT4</td><td>1</td></row>
 		<row><td>Registry22</td><td>2</td><td>SOFTWARE\Microsoft</td><td>Avid.Desktop</td><td>"C:\Avid.Net\Avid.Desktop.exe"</td><td>ISX_DEFAULTCOMPONENT3</td><td>0</td></row>

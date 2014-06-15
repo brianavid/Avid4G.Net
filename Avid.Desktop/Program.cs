@@ -19,6 +19,8 @@ namespace Avid.Desktop
         [STAThread]
         static void Main()
         {
+            Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
             Logger logger = LogManager.GetLogger("Desktop");
             logger.Info("Avid Desktop Started");
 
