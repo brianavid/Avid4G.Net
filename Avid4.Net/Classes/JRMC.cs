@@ -9,6 +9,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
+using NLog;
 
 /// <summary>
 /// The JRMC class encapsulates all access to the J River Media Center player which is used for 
@@ -17,6 +18,8 @@ using System.Threading;
 [Serializable]
 public class JRMC
 {
+    static Logger logger = LogManager.GetCurrentClassLogger();
+
     /// <summary>
     /// Represents a particular track as a Dictionary of name=value pairs for the supported subset of available track properties
     /// </summary>
@@ -282,15 +285,15 @@ public class JRMC
 
         for (int i = 0; i < 5; i++)
         {
-            HttpWebRequest request =
-                (HttpWebRequest)HttpWebRequest.Create(requestUri);
-            request.Method = WebRequestMethods.Http.Get;
-            request.ContentType = "text/xml";
-            XDocument xDoc = null;
-
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             try
             {
+                HttpWebRequest request =
+                    (HttpWebRequest)HttpWebRequest.Create(requestUri);
+                request.Method = WebRequestMethods.Http.Get;
+                request.ContentType = "text/xml";
+                XDocument xDoc = null;
+
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 xDoc = XDocument.Load(new StreamReader(response.GetResponseStream()));
 
                 return xDoc;
@@ -301,6 +304,7 @@ public class JRMC
             }
         }
 
+        logger.Fatal("No J River Media Center service");
         return null;
     }
 
@@ -382,6 +386,11 @@ public class JRMC
 
         var x = GetXml(Url + "Playback/Playlist");
 
+        if (x == null)
+        {
+            return new Dictionary<string, string>[0];
+        }
+
         return (from item in x.Root.Elements("Item") select GetFields(item)).ToArray();
     }
 
@@ -415,6 +424,12 @@ public class JRMC
     public static Dictionary<string, string>[] GetPlayLists()
     {
         var x = GetXml(Url + "Playlists/List");
+
+
+        if (x == null)
+        {
+            return new Dictionary<string, string>[0];
+        }
 
         return (from item in x.Root.Elements("Item") select GetFields(item)).ToArray();
     }
@@ -490,7 +505,12 @@ public class JRMC
     public static int GetDisplayMode()
     {
         var x = GetXml(Url + "UserInterface/Info");
-        return Convert.ToInt32(x.Root.Elements("Item").Where(item => item.Attribute("Name").Value == "Mode").First().Value)+1;
+
+        if (x == null)
+        {
+            return 0;
+        }
+        return Convert.ToInt32(x.Root.Elements("Item").Where(item => item.Attribute("Name").Value == "Mode").First().Value) + 1;
     }
 
     /// <summary>
@@ -685,6 +705,11 @@ public class JRMC
     {
         var x = GetXml(Url + "Browse/Children?ID=" + itemId);
 
+        if (x == null)
+        {
+            return new Dictionary<string, string>();
+        }
+
         var dict = GetNameValues(x.Root, "Item");
 
         //  If the first child is named with "All" and ending in ")", i is implicitly added by JRMC, but unwanted for Avid.
@@ -710,6 +735,12 @@ public class JRMC
         string itemId)
     {
         var x = GetXml(Url + "Browse/Files?Fields=" + RequiredTrackData + "&ID=" + itemId);
+
+
+        if (x == null)
+        {
+            return new TrackData[0];
+        }
 
         return (from item in x.Root.Elements("Item") select (new TrackData(GetFields(item)))).ToArray();
     }

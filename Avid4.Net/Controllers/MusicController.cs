@@ -94,7 +94,11 @@ namespace Avid4.Net.Controllers
         public ContentResult GetPlayingInfo()
         {
             StringWriter writer = new StringWriter();
-            JRMC.GetPlaybackInfo().Save(writer);
+            var info = JRMC.GetPlaybackInfo();
+            if (info != null)
+            {
+                info.Save(writer);
+            }
             return this.Content(writer.ToString(), @"text/xml", writer.Encoding);
         }
 

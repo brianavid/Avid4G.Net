@@ -414,8 +414,14 @@ public class SkyData
     {
         //  Get the discovered web service URLs
         Dictionary<string, string> services = new Dictionary<string, string>();
-        using (RegistryKey key = Registry.LocalMachine.OpenSubKey("Software").OpenSubKey("Avid").OpenSubKey("Sky"))
+        using (RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Avid\Sky"))
         {
+            if (key == null)
+            {
+                logger.Fatal("No Sky box located");
+                return;
+            }
+
             foreach (string serviceType in key.GetValueNames())
             {
                 services[serviceType] = key.GetValue(serviceType) as string;
@@ -466,7 +472,7 @@ public class SkyData
         {
             if (SkyBoxBrowseServiceAddress == null || SkyBoxPlayServiceAddress == null)
             {
-                throw new Exception("Sky class not initialized");
+                logger.Fatal("Sky services not initialized");
             }
             skyData = new SkyData();
         }
@@ -479,6 +485,10 @@ public class SkyData
     /// </summary>
     SkyData()
     {
+        if (SkyBoxBrowseServiceAddress == null || SkyBoxPlayServiceAddress == null)
+        {
+            return;
+        }
         LoadAllRecordings();
         LoadChannelMappings();
         logger.Info("Found {0} recordings totalling {1}MB of {2}MB [{3}]",
@@ -486,6 +496,15 @@ public class SkyData
             TotalSize / 1048576,
             Capacity / 1048576,
             FormatPercentage(TotalSize, Capacity));
+    }
+
+    /// <summary>
+    /// Returns true if a Sky box has been found
+    /// </summary>
+    /// <returns></returns>
+    public bool Exists()
+    {
+        return SkyBoxBrowseServiceAddress != null && SkyBoxPlayServiceAddress != null;
     }
 
     /// <summary>

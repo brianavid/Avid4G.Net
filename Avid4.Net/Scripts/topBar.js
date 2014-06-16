@@ -281,6 +281,7 @@ function SwitchPanelAfterWake(isWide) {
             timeout: 700,
             cache: false,
             success: function (newRunningProgram) {
+                lastWake = now;
                 //$("#homeTitle").text("OK");
                 if (overlayVisible) {
                     overlayVisible = false;
@@ -317,7 +318,6 @@ function SwitchPanelAfterWake(isWide) {
                             break;
                     }
                 }
-                lastWake = now;
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 //$("#homeTitle").text("Error");

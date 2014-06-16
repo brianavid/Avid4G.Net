@@ -2797,6 +2797,10 @@
 		<col key="yes" def="s38">Feature_</col>
 		<col key="yes" def="s255">ISMergeModule_</col>
 		<col key="yes" def="i2">Language_</col>
+		<row><td>AlwaysInstall</td><td>Microsoft_VC110_CRT_x64.C7F737EB_3325_3BEE_8D0D_DEF2DE62486A</td><td>0</td></row>
+		<row><td>AlwaysInstall</td><td>Microsoft_VC110_CRT_x86.D371D00B_69EC_3F8E_A622_74710A89ADC1</td><td>0</td></row>
+		<row><td>AlwaysInstall</td><td>Microsoft_VC110_DebugCRT_x64.C7F737EB_3325_3BEE_8D0D_DEF2DE62486A</td><td>0</td></row>
+		<row><td>AlwaysInstall</td><td>Microsoft_VC110_DebugCRT_x86.D371D00B_69EC_3F8E_A622_74710A89ADC1</td><td>0</td></row>
 	</table>
 
 	<table name="ISFeatureSetupPrerequisites">
@@ -2919,6 +2923,10 @@
 		<col def="s255">Name</col>
 		<col def="S255">Destination</col>
 		<col def="I4">ISAttributes</col>
+		<row><td>Microsoft_VC110_CRT_x64.C7F737EB_3325_3BEE_8D0D_DEF2DE62486A</td><td>0</td><td>Visual C++ 11.0 CRT (x64)</td><td/><td/></row>
+		<row><td>Microsoft_VC110_CRT_x86.D371D00B_69EC_3F8E_A622_74710A89ADC1</td><td>0</td><td>Visual C++ 11.0 CRT (x86)</td><td/><td/></row>
+		<row><td>Microsoft_VC110_DebugCRT_x64.C7F737EB_3325_3BEE_8D0D_DEF2DE62486A</td><td>0</td><td>Visual C++ 11.0 DebugCRT (x64)</td><td/><td/></row>
+		<row><td>Microsoft_VC110_DebugCRT_x86.D371D00B_69EC_3F8E_A622_74710A89ADC1</td><td>0</td><td>Visual C++ 11.0 DebugCRT (x86)</td><td/><td/></row>
 	</table>
 
 	<table name="ISMergeModuleCfgValues">
@@ -4643,8 +4651,8 @@
 		<col def="S0">Value</col>
 		<row><td>ActiveLanguage</td><td>1033</td></row>
 		<row><td>Comments</td><td/></row>
-		<row><td>CurrentMedia</td><td dt:dt="bin.base64" md5="6d78a46bf2c52ee27034bbcad20f7f95">
-QwBEAF8AUgBPAE0AAQBFAHgAcAByAGUAcwBzAA==
+		<row><td>CurrentMedia</td><td dt:dt="bin.base64" md5="de9f554a3bc05c12be9c31b998217995">
+UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 			</td></row>
 		<row><td>DefaultProductConfiguration</td><td>Express</td></row>
 		<row><td>EnableSwidtag</td><td>0</td></row>

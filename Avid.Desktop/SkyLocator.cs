@@ -89,14 +89,17 @@ namespace Avid.Desktop
 
             //  For all discovered services, add them to the registry to be used in another process context which is unable 
             //  to run this service discovery
-            using (RegistryKey key = Registry.LocalMachine.CreateSubKey("Software").CreateSubKey("Avid").CreateSubKey("Sky"))
+            using (RegistryKey baseKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
             {
-                foreach (string serviceType in services.Keys)
+                using ( RegistryKey key = baseKey.CreateSubKey(@"Software\Avid\Sky"))
                 {
-                    key.SetValue(serviceType, services[serviceType]);
-                    if (logger != null)
+                    foreach (string serviceType in services.Keys)
                     {
-                        logger.Info("Sky Service '{0}' = '{1}'", serviceType, services[serviceType]);
+                        key.SetValue(serviceType, services[serviceType]);
+                        if (logger != null)
+                        {
+                            logger.Info("Sky Service '{0}' = '{1}'", serviceType, services[serviceType]);
+                        }
                     }
                 }
             }
