@@ -529,6 +529,16 @@ function AddBrowserHammerActions() {
         return false;
     });
 
+    browserHammer.on("tap", "#spotifyBrowserPlaylistNewName", function (e) {
+        var playlistName = document.getElementById("spotifyBrowserPlaylistNewName").value
+        playlistName = prompt("Enter a new PlayList name", playlistName);
+
+        if (playlistName != null) {
+            document.getElementById("spotifyBrowserPlaylistNewName").value = playlistName
+            return false;
+        }
+    });
+
     browserHammer.on("tap", "#spotifyBrowserPlaylistAddTrackNew", function (e) {
         var query = document.getElementById("spotifyBrowserPlaylistNewName").value
         $.ajax({
