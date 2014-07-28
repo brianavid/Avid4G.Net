@@ -219,6 +219,7 @@ $(".actionMenu").hide()
     });
 
     $("#actionMenuRecycleApp").click(function () {
+        $(".actionMenu").hide()
         $.ajax({
             url: "/Action/RecycleApp",
             success: function (data) {
@@ -230,6 +231,7 @@ $(".actionMenu").hide()
     });
 
     $("#actionMenuRecycleAppWide").click(function () {
+        $(".actionMenu").hide()
         $.ajax({
             url: "/Action/RecycleApp",
             success: function (data) {
