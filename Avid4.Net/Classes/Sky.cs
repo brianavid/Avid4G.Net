@@ -583,8 +583,10 @@ public class SkyData
             {
                 try
                 {
-	                XElement recStatus = recording.Element(nsVX + "X_recStatus");
-	                if (recStatus != null && Convert.ToInt32(recStatus.Value) >= 3 &&   //  Empirically determined
+                    XElement pdlPlaybackAvailable = recording.Element(nsVX + "X_pdlPlaybackAvailable"); //  Include downloaded programmed in the recordings
+                    XElement recStatus = recording.Element(nsVX + "X_recStatus");
+                    if (pdlPlaybackAvailable != null && Convert.ToInt32(pdlPlaybackAvailable.Value) != 0 ||
+                        recStatus != null && Convert.ToInt32(recStatus.Value) >= 3 &&   //  Empirically determined
 	                    GetStringValue(recording, nsVX + "X_serviceType") != "5")       //  I think "5" is scheduled recording
 	                {
                         XElement res = recording.Element(nsRoot + "res");
