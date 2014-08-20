@@ -252,6 +252,16 @@ if (document.referrer == null || document.referrer == "")
 {
     lastWake = new Date(0);
 }
+else
+{
+    var viewedRunningProgram = $("#topBarTitle").text()
+    var currentRunningProgram = $("#homeTitle").text();
+
+    if (viewedRunningProgram != currentRunningProgram)
+    {
+        lastWake = new Date(0);
+    }
+}
 
 function OverlayScreen() {
     if (!overlayVisible) {
