@@ -61,12 +61,15 @@ function AddMouseEtcButtonsHammer() {
 
 }
 
+var panelSwitcher = null;
+
 $(function () {
     AddMousePadHammer()
     AddMouseEtcButtonsHammer()
 
     $(window).bind('orientationchange', function (event) {
-        window.location.reload(true);
+        if (panelSwitcher != null)
+            window.location.reload(true);
     });
 
     $("#volumeUp").mousedown(function () {
@@ -130,7 +133,7 @@ $(function () {
     function HideActionMenu()
     {
         $(".actionMenuOverlay").hide()
-$(".actionMenu").hide()
+        $(".actionMenu").hide()
     }
 
     $(".actionMenuOverlay").click(function () {
@@ -242,7 +245,7 @@ $(".actionMenu").hide()
         });
     });
 
-    setInterval('SwitchPanelAfterWake(' + (document.getElementById("isWide") != null) + ')', 1000);
+    panelSwitcher = setInterval('SwitchPanelAfterWake(' + (document.getElementById("isWide") != null) + ')', 1000);
 });
 
 
@@ -339,3 +342,10 @@ function SwitchPanelAfterWake(isWide) {
     }
 }
 
+function StopSwitching() {
+    if (panelSwitcher != null)
+    {
+        clearInterval(panelSwitcher)
+        panelSwitcher = null;
+    }
+}
