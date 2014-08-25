@@ -28,7 +28,7 @@ $(function () {
         if (tvService == "Sky") {
             StartSky("Sky", null, "radio")
         } else {
-            LaunchProgram("Radio", "/TV/Radio")
+            LaunchProgram("TV", "/TV/Radio", "Radio")
         }
     });
 

@@ -34,10 +34,10 @@ function RemoveScreenOverlay() {
 
 //  Cause AVid to launch a player application and afterwards switch the view to the specfied URL
 //  During the launch, overlay the screen with a grey mask
-function LaunchProgram(application, url) {
+function LaunchProgram(application, url, args) {
     OverlayScreenForLaunch()
     $.ajax({
-        url: "/Action/Launch?name=" + application,
+        url: "/Action/Launch?name=" + application + (args == null ? "" : "&args=" + encodeURIComponent(args)),
         success: function (data) {
             window.location = url;
         },

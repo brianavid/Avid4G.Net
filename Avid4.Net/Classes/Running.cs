@@ -141,20 +141,17 @@ public static class Running
                 return false;
 
             case "TV":
-                Screen.EnsureScreenOn();
-                Receiver.SelectTVOutput();
-                Screen.WaitForScreenOn();
-                if (!DesktopClient.LaunchProgram("TV", args))
+                if (args != null && args == "Radio")
                 {
-                    NothingRunning();
-                    return false;
+                    Screen.SetScreenDisplayMode(0);
+                    Receiver.SelectRoomsOutput();
                 }
-                logger.Info("LaunchProgram OK {0}", runningProgram);
-                return true;
-
-            case "Radio":
-                Screen.SetScreenDisplayMode(0);
-                Receiver.SelectRoomsOutput();
+                else
+                {
+                    Screen.EnsureScreenOn();
+                    Receiver.SelectTVOutput();
+                    Screen.WaitForScreenOn();
+                }
                 if (!DesktopClient.LaunchProgram("TV", args))
                 {
                     NothingRunning();
