@@ -589,21 +589,22 @@ public class SkyData
                         recStatus != null && Convert.ToInt32(recStatus.Value) >= 3 &&   //  Empirically determined
 	                    GetStringValue(recording, nsVX + "X_serviceType") != "5")       //  I think "5" is scheduled recording
 	                {
+                        string title = GetStringValue(recording, nsDC + "title");
                         XElement res = recording.Element(nsRoot + "res");
                         Int64 size = Convert.ToInt64(res.Attribute("size").Value);
 
 	                    DateTime whenRecorded = GetDateTimeValue(recording, nsUPNP + "scheduledStartTime", DateTime.MinValue);
 	                    DateTime recordedActualStart = GetDateTimeValue(recording, nsUPNP + "recordedStartDateTime", whenRecorded);
-	                    TimeSpan duration = GetTimeSpanValue(recording, nsUPNP + "scheduledDuration", new TimeSpan(0));
+                        TimeSpan duration = GetTimeSpanValue(recording, nsUPNP + "scheduledDuration", TimeSpan.Zero);
 	                    TimeSpan recordedActualDuration = GetTimeSpanValue(recording, nsUPNP + "recordedDuration", duration);
-	                    TimeSpan prePad = whenRecorded - recordedActualStart;
+                        TimeSpan prePad = whenRecorded == DateTime.MinValue ? TimeSpan.Zero : whenRecorded - recordedActualStart;
 	                    TimeSpan postPad = (recordedActualDuration - duration).Subtract(prePad);
 	                    TimeSpan lastViewed = new TimeSpan(GetInt64Value(recording, nsVX + "X_lastPlaybackPosition", 0) * 10000);
 	                    string channelName = GetStringValue(recording, nsUPNP + "channelName");
 	                    string recordingId = recording.Attribute("id").Value;
                         bool beingRecorded = recStatus.Attribute("recState").Value == "4";
 	                    AllRecordings[recordingId] = new Recording(
-	                        GetStringValue(recording, nsDC + "title"),
+	                        title,
 	                        recordingId,
 	                        GetStringValue(recording, nsRoot + "res"),
 	                        whenRecorded > recordedActualStart ? whenRecorded : recordedActualStart,
