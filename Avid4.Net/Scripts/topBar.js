@@ -260,7 +260,8 @@ else
     var viewedRunningProgram = $("#topBarTitle").text()
     var currentRunningProgram = $("#homeTitle").text();
 
-    if (viewedRunningProgram != currentRunningProgram)
+    if (viewedRunningProgram != "" &&
+        viewedRunningProgram != currentRunningProgram)
     {
         lastWake = new Date(0);
     }
