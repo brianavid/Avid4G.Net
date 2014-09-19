@@ -1,4 +1,4 @@
-﻿last_track = 9999;
+﻿last_track = -1;
 
 var PositionMS = 0;
 var DurationMS = 0;
@@ -86,22 +86,6 @@ function UpdateJrmcDisplayPlayingInformation() {
                                 }
                             }
 
-                            if (name == "FileKey") {
-                                if (last_track != value) {
-                                    $(".musicSelectedQueueItem").removeClass("musicSelectedQueueItem")
-                                    $("#" + value + ".musicPlaybackQueueItem").each(function () {
-                                        $(this).addClass("musicSelectedQueueItem");
-
-                                        //  Scroll it into view
-                                        var topOffset = $(this).offset().top - $(".musicPlaybackQueueItems").offset().top
-                                        $(".musicPlaybackQueueItems").animate({
-                                            scrollTop: topOffset - 50
-                                        })
-                                    })
-                                    last_track = value;
-                                }
-                            }
-
                             if (name == "PositionMS") {
                                 PositionMS = parseInt(value);
                                 updateSlider();
@@ -110,6 +94,30 @@ function UpdateJrmcDisplayPlayingInformation() {
                             if (name == "DurationMS") {
                                 DurationMS = parseInt(value);
                                 updateSlider();
+                            }
+
+                            if (name == "FileKey") {
+                                if (last_track != value) {
+                                    var trackFoundInQueue = false;
+
+                                    last_track = value;
+                                    $(".musicSelectedQueueItem").removeClass("musicSelectedQueueItem")
+                                    $("#" + value + ".musicPlaybackQueueItem").each(function () {
+                                        $(this).addClass("musicSelectedQueueItem");
+
+                                        trackFoundInQueue = true;
+
+                                        //  Scroll it into view
+                                        var topOffset = $(this).offset().top - $(".musicPlaybackQueueItems").offset().top
+                                        $(".musicPlaybackQueueItems").animate({
+                                            scrollTop: topOffset - 50
+                                        })
+                                    })
+
+                                    if (!trackFoundInQueue) {
+                                        UpdateQueue(false)
+                                    }
+                                }
                             }
                         }
                     }
@@ -121,7 +129,7 @@ function UpdateJrmcDisplayPlayingInformation() {
 
 function UpdateQueue(display, id)
 {
-    last_track = 9999;
+    last_track = -1;
     var queueDisplay = document.getElementById("musicPlaybackQueueItems");
     if (queueDisplay != null) {
         ReplacePane("musicPlaybackQueueItems", "/Music/QueuePane", "none",

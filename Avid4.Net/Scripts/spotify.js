@@ -75,18 +75,9 @@ function UpdateSpotifyDisplayPlayingInformation() {
                 var trackId = parseInt(track.getAttribute("id"))
                 if (trackId != lastTrackId)
                 {
+                    var trackFoundInQueue = false;
+
                     lastTrackId = trackId;
-
-                    $(".spotifySelectedQueueItem").removeClass("spotifySelectedQueueItem")
-                    $("#" + trackId + ".spotifyPlaybackQueueItem").each(function () {
-                        $(this).addClass("spotifySelectedQueueItem");
-
-                        //  Scroll it into view
-                        var topOffset = $(this).offset().top - $(".spotifyPlaybackQueueItems").offset().top
-                        $(".spotifyPlaybackQueueItems").animate({
-                            scrollTop: topOffset - 50
-                        })
-                    })
 
                     var albumId = parseInt(track.getAttribute("albumid"))
                     if (isNaN(albumId))
@@ -96,6 +87,23 @@ function UpdateSpotifyDisplayPlayingInformation() {
                     else
                     {
                         $("#SpotifyInfoImageURL").attr("src", "/Spotify/GetAlbumImage/" + albumId)
+                    }
+
+                    $(".spotifySelectedQueueItem").removeClass("spotifySelectedQueueItem")
+                    $("#" + trackId + ".spotifyPlaybackQueueItem").each(function () {
+                        $(this).addClass("spotifySelectedQueueItem");
+
+                        trackFoundInQueue = true;
+
+                        //  Scroll it into view
+                        var topOffset = $(this).offset().top - $(".spotifyPlaybackQueueItems").offset().top
+                        $(".spotifyPlaybackQueueItems").animate({
+                            scrollTop: topOffset - 50
+                        })
+                    })
+
+                    if (!trackFoundInQueue) {
+                        UpdateQueue(false)
                     }
                 }
             }
