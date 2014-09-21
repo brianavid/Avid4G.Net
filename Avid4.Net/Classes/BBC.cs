@@ -91,6 +91,6 @@ public class BBC
     public static string GetTvPlayerUrl(
         string pid)
     {
-        return "http://www.bbc.co.uk/iplayer/bigscreen/tv/episode/" + pid;
+        return "http://www.bbc.co.uk/iplayer/episode/" + pid;
     }
 }
