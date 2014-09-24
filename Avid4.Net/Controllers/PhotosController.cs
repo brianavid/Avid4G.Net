@@ -30,7 +30,7 @@ namespace Avid4.Net.Controllers
         // GET: /Photos/ImagesPane
         public ActionResult ImagesPane()
         {
-            return View();
+            return PartialView();
         }
 
         // GET: /Photos/All

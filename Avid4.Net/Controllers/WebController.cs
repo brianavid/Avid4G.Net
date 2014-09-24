@@ -47,7 +47,7 @@ namespace Avid4.Net.Controllers
                 ViewBag.Channel = channel;
             }
 
-            return View();
+            return PartialView();
         }
 
         // GET: /Web/PlayBBC

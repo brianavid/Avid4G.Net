@@ -34,7 +34,7 @@ namespace Avid4.Net.Controllers
         // GET: /Music/QueuePane
         public ActionResult QueuePane()
         {
-            return View();
+            return PartialView();
         }
 
         // GET: /Music/Browser
@@ -87,7 +87,7 @@ namespace Avid4.Net.Controllers
                 ViewBag.Station = station;
             }
 
-            return View();
+            return PartialView();
         }
 
         // GET: /Music/GetPlayingInfo

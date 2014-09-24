@@ -49,7 +49,7 @@ namespace Avid4.Net.Controllers
         // GET: /Spotify/QueuePane
         public ActionResult QueuePane()
         {
-            return View();
+            return PartialView();
         }
 
         // GET: /Spotify/Browser
@@ -117,7 +117,7 @@ namespace Avid4.Net.Controllers
                 ViewBag.Append = append;
             }
 
-            return View();
+            return PartialView();
         }
 
         // GET: /Spotify/GetPlayingInfo
