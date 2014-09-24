@@ -169,6 +169,7 @@
     <Content Include="Content\apple-touch-icon.png" />
     <Content Include="Content\BBC Radio.jpg" />
     <Content Include="Content\Buttons\SmallRound\Exit.png" />
+    <Content Include="Content\Buttons\SmallRound\Transport.Rec.Series.png" />
     <Content Include="Content\favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -293,13 +294,13 @@
     <Content Include="Content\Buttons\SmallRound\Page.Down.png" />
     <Content Include="Content\Buttons\SmallRound\Page.Up.png" />
     <Content Include="Content\Buttons\SmallRound\Planner.png" />
-    <Content Include="Content\Buttons\SmallRound\Plus.png" />
+    <Content Include="Content\Buttons\MiniRound\Plus.png" />
     <Content Include="Content\Buttons\SmallRound\Power.Off.png" />
     <Content Include="Content\Buttons\SmallRound\ScreenControl.png" />
     <Content Include="Content\Buttons\SmallRound\Search.png" />
     <Content Include="Content\Buttons\SmallRound\Spanner.png" />
     <Content Include="Content\Buttons\SmallRound\Transport.FastForward.png" />
-    <Content Include="Content\Buttons\SmallRound\Transport.Play.png" />
+    <Content Include="Content\Buttons\MiniRound\Transport.Play.png" />
     <Content Include="Content\Buttons\SmallRound\Transport.Rec.png" />
     <Content Include="Content\Buttons\SmallRound\Transport.Rewind.png" />
     <Content Include="Content\Buttons\SmallRound\TrashIcon.png" />
