@@ -77,7 +77,7 @@ namespace Avid4.Net.Controllers
             if (RemotePotato.AllRecordings.ContainsKey(id))
             {
                 var recording = RemotePotato.AllRecordings[id];
-                Running.LaunchProgram("Video", "/Media /F /Play \"" + recording.Filename + "\"");
+                Running.LaunchProgram("Video", "/Media /F /ExFunc:exSetVolume,100 /Play \"" + recording.Filename + "\"");
                 Zoom.IsDvdMode = false;
                 Zoom.Title = recording.Title;
             }
@@ -101,7 +101,7 @@ namespace Avid4.Net.Controllers
             string drive,
             string title)
         {
-            Running.LaunchProgram("Video", "/DVD /F /Opendrive:" + drive);
+            Running.LaunchProgram("Video", "/DVD /F /ExFunc:exSetVolume,100 /Opendrive:" + drive);
             Zoom.IsDvdMode = true;
             if (!string.IsNullOrEmpty(title))
             {
@@ -115,7 +115,7 @@ namespace Avid4.Net.Controllers
             string path,
             string title)
         {
-            Running.LaunchProgram("Video", "/DVD /F /Play \"" + path + "\\VIDEO_TS\\VIDEO_TS.IFO\"");
+            Running.LaunchProgram("Video", "/DVD /F /ExFunc:exSetVolume,100 /Play \"" + path + "\\VIDEO_TS\\VIDEO_TS.IFO\"");
             Zoom.IsDvdMode = true;
             if (!string.IsNullOrEmpty(title))
             {
@@ -129,7 +129,7 @@ namespace Avid4.Net.Controllers
             string path,
             string title)
         {
-            Running.LaunchProgram("Video", "/DVD /F /Play \"" + path + "\"");
+            Running.LaunchProgram("Video", "/DVD /F /ExFunc:exSetVolume,100 /Play \"" + path + "\"");
             Zoom.IsDvdMode = true;
             if (!string.IsNullOrEmpty(title))
             {

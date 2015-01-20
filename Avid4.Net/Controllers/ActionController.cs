@@ -188,11 +188,20 @@ namespace Avid4.Net.Controllers
         // GET: /Action/VisualOn
         public ActionResult VisualOn()
         {
-            Screen.SetScreenDisplayMode(Running.RunningProgram=="Music" ? 2 : 1);
+            Screen.SetScreenDisplayMode(Running.RunningProgram == "Music" ? 2 : 1);
             if (Running.RunningProgram == "Spotify")
             {
                 DesktopClient.LaunchProgram("GForce", "");
             }
+            return Content("");
+        }
+
+        // GET: /Action/LogFire
+        public ActionResult LogFire()
+        {
+            Screen.EnsureScreenOn();
+            Screen.WaitForScreenOn();
+            DesktopClient.LaunchProgram("LogFire", null);
             return Content("");
         }
 

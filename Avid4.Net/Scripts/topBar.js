@@ -158,6 +158,16 @@ $(function () {
         });
     });
 
+    $("#actionMenuLogFire").click(function () {
+        $(".actionMenu").hide()
+        $.ajax({
+            url: "/Action/LogFire",
+            success: HideActionMenu,
+            error: HideActionMenu,
+            cache: false
+        });
+    });
+
     $("#actionMenuScreenOff").click(function () {
         $.ajax({
             url: "/Action/ScreenOff",
