@@ -1129,8 +1129,15 @@ public class SkyData
     </s:Body>
 </s:Envelope>",
           recording.Id);
-        SkyBrowse("urn:schemas-nds-com:service:SkyBrowse:2#DestroyObject", postData);
+        try
+        {
+            SkyBrowse("urn:schemas-nds-com:service:SkyBrowse:2#DestroyObject", postData);
 
-        LoadAllRecordings();
+            LoadAllRecordings();
+        }
+        catch
+        {
+            ;
+        }
     }
 }

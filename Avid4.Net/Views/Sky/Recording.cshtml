@@ -18,7 +18,7 @@
         <br />
         <div class="skyRecordingPositionSlider noUiSlider" id="skyRecordingPositionSlider"></div>
     </div>
-    <div class="skyRecordingAction skyRecordingActionAlert" id="skyRecordingDelete">Delete Recording</div>
+    <div class="skyRecordingAction skyRecordingActionAlert" id="skyRecordingDelete"><span class="playButton">&gt;&nbsp;</span>Delete Recording</div>
     <span id="recordingId" style="display:none">@recording.Id</span>
     <span id="durationMinutes" style="display:none">@((recording.Duration.Add(recording.PrePad).Add(recording.PostPad)).TotalMinutes)</span>
     <span id="positionMinutes" style="display:none">@Math.Round((recording.LastViewed > recording.PrePad ? recording.LastViewed : recording.PrePad).TotalMinutes)</span>

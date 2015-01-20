@@ -189,10 +189,11 @@ function AddVideoRecordingsHammerActions() {
         });
     });
 
-    videoRecordingsListHammer.on("tap", "#videoRecordingDelete", function () {
+    videoRecordingsListHammer.on("doubletap", "#videoRecordingDelete", function () {
         var title = $("#videoRecordingName").text();
         var when = $("#videoRecordingWhen").text();
-        if (confirm("Delete '" + title + "' (" + when + ")")) {
+        var doDelete = true // confirm("Delete '" + title + "' (" + when + ")");
+        if (doDelete) {
             $("#videoRecordingDelete").text("Deleting ...")
             $.ajax({
                 url: "/Video/DeleteRecording?id=" + $("#recordingId").text(),

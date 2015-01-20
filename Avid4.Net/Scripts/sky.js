@@ -284,15 +284,17 @@ function AddRecordingsHammerActions() {
         });
     });
 
-    recordingsHammer.on("tap", "#skyRecordingDelete", function () {
+    recordingsHammer.on("doubletap", "#skyRecordingDelete", function () {
         var title = $("#skyRecordingName").text();
         var when = $("#skyRecordingWhen").text();
-        if (confirm("Delete '" + title + "' (" + when + ")")) {
+        var deleteUrl = "/Sky/DeleteRecording?id=" + $("#recordingId").text();
+        var doDelete = true // confirm("Delete '" + title + "' (" + when + ")");
+        if (doDelete) {
             $("#skyRecordingDelete").text("Deleting ...")
             $.ajax({
-                url: "/Sky/DeleteRecording?id=" + $("#recordingId").text(),
+                url: deleteUrl,
                 success: function (data) {
-                    DisplaySkyRecordings(true)
+                    DisplaySkyRecordings(true);
                 },
                 cache: false
             });
