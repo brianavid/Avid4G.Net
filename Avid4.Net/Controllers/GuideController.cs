@@ -45,7 +45,7 @@ namespace Avid4.Net.Controllers
                 ViewBag.Channel = channel;
             }
 
-            return View();
+            return PartialView();
         }
 
         // GET: /Guide/Description
@@ -60,6 +60,13 @@ namespace Avid4.Net.Controllers
             string id)
         {
             return this.Content(RemotePotato.RecordShow(id));
+        }
+
+        // GET: /Guide/RecordSeries
+        public ContentResult RecordSeries(
+            string id)
+        {
+            return this.Content(RemotePotato.RecordSeries(id));
         }
 
         // GET: /Guide/Cancel

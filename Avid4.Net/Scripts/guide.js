@@ -72,10 +72,28 @@ function AddBrowserHammerActions() {
         var programItem = this;
         $(".guideEpgProgrammeDescription").remove();
         $(".guideEpgProgrammeRecord").remove();
+        $(".guideEpgProgrammeRecordSeries").remove();
 
         $.ajax({
             url: "/Guide/Description?id=" + programItem.id,
             success: function (description) {
+                $(programItem).prepend('<img class="guideEpgProgrammeRecord" id="' + programItem.id + '" src="/Content/Buttons/SmallRound/Transport.Rec.png" />')
+                $(programItem).append('<div class="guideProgrammeInfo guideEpgProgrammeDescription">' + description + '</div>')
+                cache: false
+            }
+        })
+    });
+
+    browserHammer.on("tap", ".guideEpgProgrammeInSeries", function (e) {
+        var programItem = this;
+        $(".guideEpgProgrammeDescription").remove();
+        $(".guideEpgProgrammeRecord").remove();
+        $(".guideEpgProgrammeRecordSeries").remove();
+
+        $.ajax({
+            url: "/Guide/Description?id=" + programItem.id,
+            success: function (description) {
+                $(programItem).prepend('<img class="guideEpgProgrammeRecordSeries" id="' + programItem.id + '" src="/Content/Buttons/SmallRound/Transport.Rec.Series.png" />')
                 $(programItem).prepend('<img class="guideEpgProgrammeRecord" id="' + programItem.id + '" src="/Content/Buttons/SmallRound/Transport.Rec.png" />')
                 $(programItem).append('<div class="guideProgrammeInfo guideEpgProgrammeDescription">' + description + '</div>')
                 cache: false
@@ -88,6 +106,23 @@ function AddBrowserHammerActions() {
 
         $.ajax({
             url: "/Guide/Record?id=" + programItem.id,
+            success: function (error) {
+                if (error == "") {
+                    ReplacePane("guideBrowserItems", "/Guide/BrowserPane?mode=GuideSchedule", "clear")
+                }
+                else {
+                    alert(error)
+                }
+                cache: false
+            }
+        })
+    });
+
+    browserHammer.on("tap", ".guideEpgProgrammeRecordSeries", function (e) {
+        var programItem = this;
+
+        $.ajax({
+            url: "/Guide/RecordSeries?id=" + programItem.id,
             success: function (error) {
                 if (error == "") {
                     ReplacePane("guideBrowserItems", "/Guide/BrowserPane?mode=GuideSchedule", "clear")

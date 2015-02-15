@@ -381,7 +381,7 @@ textarea {
 }
 
 
-.guideEpgProgrammeRecord, .guideEpgProgrammeCancel {
+.guideEpgProgrammeRecord, .guideEpgProgrammeRecordSeries, .guideEpgProgrammeCancel {
     float: right;
 }
 

@@ -76,7 +76,8 @@
                 <div class="guideItem guideHeader"><div class="guideTitle">@channel @(date.ToString("ddd dd MMM"))</div></div>
                 foreach (RemotePotato.Programme programme in schedule)
                 {
-                    <div class="guideEpgProgramme guideItem" id="@programme.Id">
+                    var displayClass = (string.IsNullOrEmpty(programme.SeriesId) || programme.SeriesId == "0") ? "guideEpgProgramme" : "guideEpgProgrammeInSeries";
+                    <div class="@displayClass guideItem" id="@programme.Id">
                         <div class="guideProgrammeInfo" >
                             <div>@(programme.StartTime.ToLocalTime().ToString("HH:mm")) [@JRMC.FormatDuration(programme.Duration.TotalMinutes.ToString())]</div>
                         </div>
@@ -97,6 +98,8 @@
 
         case "GuideSchedule":
             {
+                RemotePotato.LoadSchedule();
+
                 IEnumerable<RemotePotato.Programme> programmes = RemotePotato.GetScheduledRecordings();
                 bool anyFound = false;
                 <div class="guideItem guideHeader"><div class="guideTitle">Scheduled Freview Recordings</div></div>

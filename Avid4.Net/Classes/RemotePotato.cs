@@ -8,12 +8,15 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 using System.Text;
+using NLog;
 
 /// <summary>
 /// Control class for RemotePotato service that provides a web service interface to Windows Media Center for terrestrial TV and Radio, both live and recorded
 /// </summary>
 public static class RemotePotato
 {
+    static Logger logger = LogManager.GetCurrentClassLogger();
+
     /// <summary>
     /// A terrestrial programme, either in the EPG or scheduled to be recorded
     /// </summary>
@@ -26,6 +29,7 @@ public static class RemotePotato
         public DateTime StartTime { get; private set; }
         public DateTime StopTime { get; private set; }
         public TimeSpan Duration { get { return StopTime - StartTime; } }
+        public String SeriesId { get; private set; }
 
         public Programme(
             String id,
@@ -33,7 +37,8 @@ public static class RemotePotato
             String description,
             String channel,
             DateTime startTime,
-            DateTime stopTime)
+            DateTime stopTime,
+            String seriesId)
         {
             Id = id;
             Title = title;
@@ -41,6 +46,7 @@ public static class RemotePotato
             Channel = channel;
             StartTime = startTime;
             StopTime = stopTime;
+            SeriesId = seriesId;
         }
     }
 
@@ -726,7 +732,8 @@ public static class RemotePotato
                                 p.Element("Description").Value,
                                 channelName,
                                 new DateTime(Int64.Parse(p.Element("StartTime").Value)),
-                                new DateTime(Int64.Parse(p.Element("StopTime").Value))))
+                                new DateTime(Int64.Parse(p.Element("StopTime").Value)),
+                                p.Element("SeriesID").Value))
                         .Where(
                                 p => p.StopTime > DateTime.UtcNow);
                 }
@@ -767,7 +774,8 @@ public static class RemotePotato
                         p.Element("Description").Value,
                         channel.Element("Callsign").Value,
                         new DateTime(Int64.Parse(p.Element("StartTime").Value)),
-                        new DateTime(Int64.Parse(p.Element("StopTime").Value))));
+                        new DateTime(Int64.Parse(p.Element("StopTime").Value)),
+                        p.Element("SeriesID").Value));
         }
 
         return result;
@@ -866,7 +874,7 @@ public static class RemotePotato
     /// <summary>
     /// Load the schedule of recordings from Windows Media Center
     /// </summary>
-    static void LoadSchedule()
+    public static void LoadSchedule()
     {
         XDocument scheduleDoc = GetXml(Url + "recordings ");
         schedule = new ScheduledRecordings(scheduleDoc);
@@ -886,9 +894,6 @@ public static class RemotePotato
     /// <summary>
     /// Is the identified programme scheduled to record as part of a series?
     /// </summary>
-    /// <remarks>
-    /// Not currently used as RemotePotato is unreliable for series recording
-    /// </remarks>
     /// <param name="programmeId"></param>
     /// <returns></returns>
     public static bool IsSeries(
@@ -938,9 +943,6 @@ public static class RemotePotato
     /// <summary>
     /// Schedule a recording for the complete series for an identified programme from the EPG
     /// </summary>
-    /// <remarks>
-    /// Not currently used as RemotePotato is unreliable for series recording
-    /// </remarks>
     /// <param name="programmeId"></param>
     /// <returns></returns>
     public static string RecordSeries(
