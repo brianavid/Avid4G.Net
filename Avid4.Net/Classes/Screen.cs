@@ -12,7 +12,7 @@ using System.Management; // requires adding System.Management reference to proje
 using NLog;
 
 /// <summary>
-/// Class to control the screen, using HDMI-CEC commands issued through an HDMI-CEC HTTP service
+/// Class to control the screen, using unofficially documented discrete power on/off IR Codes
 /// </summary>
 public static class Screen
 {
@@ -42,57 +42,13 @@ public static class Screen
     static Logger logger = LogManager.GetCurrentClassLogger();
 
     /// <summary>
-    /// Send an HDMI-CEC command string encoded in an HTTP URL to the control service tray application
-    /// </summary>
-    /// <param name="command"></param>
-    /// <returns>Success</returns>
-    static bool SendHdmiCecCommand(
-        string command)
-    {
-        try
-        {
-	        Uri requestUri = new Uri("http://localhost:12997/control/Send?RawCommand='" + command + "'");
-	
-	        HttpWebRequest request =
-	            (HttpWebRequest)HttpWebRequest.Create(requestUri);
-	        request.Method = WebRequestMethods.Http.Get;
-	
-	        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-	        return response.StatusCode == HttpStatusCode.OK;
-        }
-        catch (Exception)
-        {
-            return false;
-        }
-    }
-
-    //  Some time after turning the screen on through HDMI-CEC, the TV screen and receiver may decide that the 
-    //  screen's own TV is to be displayed. This is not what we want.
-    //  So for some period (30 seconds) after turning the screen on, we poll the receiver with the intention of
-    //  triggering a side-effect of reseting its input to what we had set within Avid.
-    //  This background thread is only to reset the unwanted side-effect of the HDMI behaviour of the receiver
-    private static System.Threading.Timer tmrThreadingTimer = null;
-    private static DateTime tmrStarted = DateTime.MinValue;
-    private static void tmrTick(Object stateInfo)
-    {
-        if ((DateTime.Now - tmrStarted).TotalSeconds > 30)
-        {
-            tmrThreadingTimer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
-        }
-        Receiver.GetState();
-    }
-
-    /// <summary>
-    /// Turn the screen on by issuing the appropriate HDMI-CEC command to device 0 (which is always the TV screen).
-    /// Then catch any asynchronous unwanted consequential change of input on the receiver
+    /// Turn the screen on by issuing the appropriate discrete power on IR Code
     /// </summary>
     static void TurnOn()
     {
-        SendHdmiCecCommand("!x0 04");
-        isOn = true;
+        DesktopClient.SendIR(IRCodes.Codes["TV.PowerOn"], "TV.PowerOn");
 
-        tmrThreadingTimer = new System.Threading.Timer(tmrTick, null, 1000, 1000);
-        tmrStarted = DateTime.Now;
+        isOn = true;
     }
 
     /// <summary>
@@ -190,11 +146,12 @@ public static class Screen
     }
 
     /// <summary>
-    /// Turn the screen off by issuing the appropriate HDMI-CEC command to device 0 (which is always the TV screen).
+    /// Turn the screen off by issuing the appropriate  discrete power off IR Code
     /// </summary>
     static void TurnOff()
     {
-        SendHdmiCecCommand("!x0 36");
+        DesktopClient.SendIR(IRCodes.Codes["TV.PowerOff"], "TV.PowerOff");
+
         isOn = false;
     }
 

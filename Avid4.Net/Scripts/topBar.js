@@ -314,7 +314,8 @@ function SwitchPanelAfterWake(isWide) {
                     document.body.removeChild(document.getElementById("overlay"));
                 }
                 var lastRunningProgram = $("#topBarTitle").text()
-                if (lastRunningProgram != newRunningProgram)
+                if (panelSwitcher != null && // in case the response arrives after the switcher has been cancelled
+                    lastRunningProgram != newRunningProgram)
                 {
                     switch (newRunningProgram) {
                         default:
