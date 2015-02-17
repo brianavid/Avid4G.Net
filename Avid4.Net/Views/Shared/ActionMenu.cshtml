@@ -1,19 +1,29 @@
 ﻿<div class="actionMenuOverlay" id="actionMenuOverlay"></div>
 <div class="actionMenu" id="actionMenu">
-    <div class="actionMenuItem" id="actionMenuScreenOff">Screen off</div>
-    <div class="actionMenuItem" id="actionMenuScreenOn">Screen on</div>
-    @if (Running.RunningProgram == "Music" || Running.RunningProgram == "Spotify")
-    {
-        <div class="actionMenuItem" id="actionMenuVisualOn">Visual on</div>
-    }
-    <div class="actionMenuItem" id="actionMenuLogFire">Log Fire</div>
-    @if (Running.RunningProgram == "Video")
-    {
-        <div class="actionMenuItem" id="actionMenuVideoScreenFix">Redraw screen</div>
-    }
-    <div class="actionMenuItem" id="actionMenuSoundTV">Sound on TV</div>
-    <div class="actionMenuItem" id="actionMenuSoundRooms">Sound in rooms</div>
-    <div class="actionMenuItem" id="actionMenuMouseEtc">Mouse etc</div>
-    <div class="actionMenuItem" id="actionMenuRebuildMediaDb">Load new media</div>
-    <div class="actionMenuItem" id="actionMenuRecycleApp@(ViewBag.Wide ?? "")">Restart Avid</div>
+    <div class="actionMenuWrapper">
+        <div class="actionMenuMain">
+            <div class="actionMenuItem" id="actionMenuScreenOff">Screen off</div>
+            <div class="actionMenuItem" id="actionMenuScreenOn">Screen on</div>
+            @if (Running.RunningProgram == "Music" || Running.RunningProgram == "Spotify")
+            {
+                <div class="actionMenuItem" id="actionMenuVisualOn">Visual on</div>
+            }
+            <div class="actionMenuItem" id="actionMenuLogFire">Log Fire</div>
+            @if (Running.RunningProgram == "Video")
+            {
+                <div class="actionMenuItem" id="actionMenuVideoScreenFix">Redraw screen</div>
+            }
+            <div class="actionMenuItem" id="actionMenuSoundTV">Sound on TV</div>
+            <div class="actionMenuItem" id="actionMenuSoundRooms">Sound in rooms</div>
+            <div class="actionMenuItem" id="actionMenuMouseEtc">Mouse etc</div>
+            <div class="actionMenuItem" id="actionMenuRebuildMediaDb">Load new media</div>
+            <div class="actionMenuItem" id="actionMenuRecycleApp@(ViewBag.Wide ?? "")">Restart Avid</div>
+        </div>
+        <div class="actionMenuSub">
+            @foreach (var outputMode in Receiver.AvailableOutputModes)
+            {
+                <div class="actionMenuItem actionMenuSoundModeItem">@outputMode</div>
+            }
+        </div>
+    </div>
 </div>

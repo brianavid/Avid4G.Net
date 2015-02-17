@@ -128,6 +128,7 @@ $(function () {
     $("#toggleSettings").click(function () {
         $(".actionMenuOverlay").show()
         $(".actionMenu").show()
+        $(".actionMenuSub").hide();
     });
 
     function HideActionMenu()
@@ -178,8 +179,13 @@ $(function () {
     });
 
     $("#actionMenuSoundTV").click(function () {
+        $(".actionMenuSub").show();
+    });
+
+    $(".actionMenuSoundModeItem").click(function () {
+        var mode = this.innerText
         $.ajax({
-            url: "/Action/SoundTV",
+            url: "/Action/SoundTV?mode=" + mode,
             success: HideActionMenu,
             error: HideActionMenu,
             cache: false

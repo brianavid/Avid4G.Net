@@ -206,9 +206,10 @@ namespace Avid4.Net.Controllers
         }
 
         // GET: /Action/SoundTV
-        public ActionResult SoundTV()
+        public ActionResult SoundTV(
+            string mode)
         {
-            Receiver.SelectTVOutput(null);
+            Receiver.SelectTVOutput(mode);
             return Content("");
         }
 

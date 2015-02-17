@@ -7,12 +7,15 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 using System.Text;
+using NLog;
 
 /// <summary>
 /// Class to control and query a Yamaha dual zone AV Receiver
 /// </summary>
 public static class Receiver
 {
+    static Logger logger = LogManager.GetCurrentClassLogger();
+
     /// <summary>
     /// The HTTP Url through which the receiver is accessed
     /// </summary>
@@ -99,10 +102,33 @@ public static class Receiver
     /// </summary>
     public static string SelectedOutput { get; private set; }
 
+    static string StraightOutputMode = "Straight";
+
+    public static readonly string[] AvailableOutputModes = new string[] {
+        StraightOutputMode,
+        "Surround Decoder",
+        "Standard",
+        "Drama",
+        "Mono Movie",
+//         "Adventure",
+//         "Sci-Fi",
+//         "Spectacle",
+//         "Cellar Club",
+//         "Chamber",
+//         "The Bottom Line",
+//         "The Roxy Theatre",
+//         "Hall in Munich",
+//         "Hall in Vienna",
+//         "2ch Stereo",
+        "7ch Stereo",
+    };
+
+    public static string DefaultOutputMode = "Surround Decoder";
+
     /// <summary>
-    /// Index into a set of preferred sound programs for the Yamaha output. Maintained, but not currently used
+    /// Selected mode from a set of preferred sound programs for the Yamaha output
     /// </summary>
-    public static int SelectedOutputIndex { get; private set; }
+    public static string SelectedOutputMode { get; private set; }
 
     /// <summary>
     /// A formatted string for displaying the current volume level
@@ -164,44 +190,34 @@ public static class Receiver
             volumeLevel = (Convert.ToInt32(volumeString) + 850) / 10;
             //volumeMute = basicStatus.Element("Volume").Element("Mute").Value == "On";
 
-            //  Set the audio program index - not currently used
+            //  Get the audio program program - note that "Straight" mode is encoded separately
             if (mainZone)
             {
                 var audioProgram = basicStatus.Element("Surround").Element("Program_Sel").Element("Current");
                 if (audioProgram.Element("Straight").Value == "On")
                 {
-                    SelectedOutputIndex = 1;
+                    SelectedOutputMode = StraightOutputMode;
                 }
                 else
                 {
-                    switch (audioProgram.Element("Sound_Program").Value)
-                    {
-                        case "2ch Stereo":
-                            SelectedOutputIndex = 2;
-                            break;
-                        case "7ch Stereo":
-                            SelectedOutputIndex = 3;
-                            break;
-                        case "Surround Decoder":
-                            SelectedOutputIndex = 4;
-                            break;
-                        case "Drama":
-                            SelectedOutputIndex = 5;
-                            break;
-                    }
+                    SelectedOutputMode = audioProgram.Element("Sound_Program").Value;
                 }
             }
 
-            //  Set the selected digital input and musting state to what we think it should be, 
+            //  Set the selected digital input and muting state to what we think it should be, 
             //  as it may have been changed under our feet by HDMI-CEC action from the screen through the receiver
+            //  This mechanism may now be unnecessary if HDMI-CEC is not enabled in the receiver
             if (mainZone)
             {
+                string currentlySelectedInput = basicStatus.Element("Input").Element("Input_Sel").Value;
                 if (string.IsNullOrEmpty(MainZoneInput))
                 {
-                    MainZoneInput = basicStatus.Element("Input").Element("Input_Sel").Value;
+                    MainZoneInput = currentlySelectedInput;
                 }
-                if (MainZoneInput != basicStatus.Element("Input").Element("Input_Sel").Value)
+                if (MainZoneInput != currentlySelectedInput)
                 {
+
+                    logger.Warn("GetState input is unexpectedly {0}", currentlySelectedInput);
                     if (SelectedInput == "Sky")
                     {
                         SelectSkyInput();
@@ -221,6 +237,7 @@ public static class Receiver
     /// </summary>
     public static void SelectComputerInput()
     {
+        logger.Info("SelectComputerInput");
         SelectedInput = "Computer";
         MainZoneInput = "HDMI2";
         GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Input><Input_Sel>HDMI2</Input_Sel></Input></Main_Zone></YAMAHA_AV>");
@@ -232,6 +249,7 @@ public static class Receiver
     /// </summary>
     public static void SelectSkyInput()
     {
+        logger.Info("SelectSkyInput");
         SelectedInput = "Sky";
         MainZoneInput = "HDMI3";
         GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Input><Input_Sel>HDMI3</Input_Sel></Input></Main_Zone></YAMAHA_AV>");
@@ -254,9 +272,10 @@ public static class Receiver
     /// </summary>
     /// <param name="menuIndex"></param>
     /// <param name="unmute"></param>
-    public static void SelectTVOutput(string menuIndex = null, bool unmute = true)
+    public static void SelectTVOutput(string selectedMode = null, bool unmute = true)
     {
-        if (!switchedOn || SelectedOutput != "TV")
+        logger.Info("SelectTVOutput {0}", selectedMode ?? DefaultOutputMode);
+       if (!switchedOn || SelectedOutput != "TV")
         {
             MainZoneOn();
             ReselectInput();
@@ -264,30 +283,18 @@ public static class Receiver
         }
 
         SelectedOutput = "TV";
-        SelectedOutputIndex = menuIndex == null ? 1 : Convert.ToInt32(menuIndex);
+        SelectedOutputMode = selectedMode ?? DefaultOutputMode;
         mainZone = true;
         switchedOn = true;
 
-        //  Set the Yamaha audio program - not currently used
-        switch (SelectedOutputIndex)
+        //  Set the Yamaha audio program - note that "Straight" mode is encoded separately
+        if (SelectedOutputMode == StraightOutputMode)
         {
-            default:
-                break;
-            case 1:
-                GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Surround><Program_Sel><Current><Straight>On</Straight></Current></Program_Sel></Surround></Main_Zone></YAMAHA_AV>");
-                break;
-            case 2:
-                GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Surround><Program_Sel><Current><Straight>Off</Straight><Sound_Program>2ch Stereo</Sound_Program></Current></Program_Sel></Surround></Main_Zone></YAMAHA_AV>");
-                break;
-            case 3:
-                GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Surround><Program_Sel><Current><Straight>Off</Straight><Sound_Program>7ch Stereo</Sound_Program></Current></Program_Sel></Surround></Main_Zone></YAMAHA_AV>");
-                break;
-            case 4:
-                GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Surround><Program_Sel><Current><Straight>Off</Straight><Sound_Program>Surround Decoder</Sound_Program></Current></Program_Sel></Surround></Main_Zone></YAMAHA_AV>");
-                break;
-            case 5:
-                GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Surround><Program_Sel><Current><Straight>Off</Straight><Sound_Program>Drama</Sound_Program></Current></Program_Sel></Surround></Main_Zone></YAMAHA_AV>");
-                break;
+            GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Surround><Program_Sel><Current><Straight>On</Straight></Current></Program_Sel></Surround></Main_Zone></YAMAHA_AV>");
+        }
+        else
+        {
+            GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Surround><Program_Sel><Current><Straight>Off</Straight><Sound_Program>" + SelectedOutputMode + "</Sound_Program></Current></Program_Sel></Surround></Main_Zone></YAMAHA_AV>");
         }
 
         //  Unmute if requested
@@ -305,6 +312,7 @@ public static class Receiver
     /// </summary>
     public static void SelectRoomsOutput()
     {
+        logger.Info("SelectRoomsOutput");
         if (!switchedOn || SelectedOutput != "Rooms")
         {
             Zone2On();
@@ -312,7 +320,7 @@ public static class Receiver
         }
 
         SelectedOutput = "Rooms";
-        SelectedOutputIndex = 0;
+        SelectedOutputMode = DefaultOutputMode;
         mainZone = false;
         switchedOn = true;
 
