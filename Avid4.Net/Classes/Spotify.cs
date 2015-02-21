@@ -3,14 +3,205 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Net.Http; 
+using System.Net.Http;
+using SpotifyAPI.SpotifyWebAPI;
+using SpotifyAPI.SpotifyWebAPI.Models;
+using NLog;
+using Microsoft.Win32;
+using System.Net;
+using System.Net.Cache;
+using System.IO;
+using Newtonsoft.Json;
 
 /// <summary>
 /// Class of static methods to access the Spotify player through its WebAPI interface
 /// </summary>
 public static class Spotify
 {
-    static HttpClient client = new HttpClient();
+    static Logger logger = LogManager.GetCurrentClassLogger();
+
+    static HttpClient trayAppClient = new HttpClient();
+    static SpotifyWebAPIClass webAppService = null;
+    static DateTime webApiExpiry = DateTime.Now;
+    static string webApiCurrentUserId = null;
+
+    static Dictionary<String, FullArtist> artistCache = new Dictionary<String, FullArtist>();
+    static Dictionary<String, FullAlbum> albumCache = new Dictionary<String, FullAlbum>();
+    static Dictionary<String, FullTrack> trackCache = new Dictionary<String, FullTrack>();
+
+    static IEnumerable<SpotifyData.Track> AllSavedTracks = null;
+    static SpotifyData.Album[] AllSavedAlbums;
+    static SpotifyData.Artist[] AllSavedArtists;
+
+    /// <summary>
+    /// Initialize and memoize the we API service using the authentication token stored in the registry
+    /// </summary>
+    static SpotifyWebAPIClass WebAppService
+    {
+        get
+        {
+            lock (logger)
+            {
+	            if (webAppService == null || webApiExpiry <= DateTime.Now)
+	            {
+	                RegistryKey key = Registry.CurrentUser.CreateSubKey("Avid");
+	
+	                string refreshToken = key.GetValue("SpotifyToken") as string;
+	
+	                if (!string.IsNullOrEmpty(refreshToken))
+	                {
+	                    HttpWebRequest request =
+	                        (HttpWebRequest)HttpWebRequest.Create("http://www.brianavid.co.uk/Avid4SpotifyAuth/Auth/Refresh?refresh_token=" + refreshToken);
+	                    request.Method = WebRequestMethods.Http.Get;
+	                    request.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+	
+	                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+	                    var tokenJsonString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+	                    if (!string.IsNullOrEmpty(tokenJsonString))
+	                    {
+	                        Token token = JsonConvert.DeserializeObject<Token>(tokenJsonString);
+	                        if (!string.IsNullOrEmpty(token.AccessToken) && !string.IsNullOrEmpty(token.TokenType))
+	                        {
+	                            webApiExpiry = DateTime.Now.AddSeconds(token.ExpiresIn * 4 / 5);    // Only use the token for 80% of its promised life
+	                            webAppService = new SpotifyWebAPIClass()
+	                            {
+	                                AccessToken = token.AccessToken,
+	                                TokenType = token.TokenType,
+	                                UseAuth = true
+	                            };
+	                            webApiCurrentUserId = webAppService.GetPrivateProfile().Id;
+	                        }
+	                    }
+	                }
+	            }
+	
+	            if (AllSavedTracks == null && webAppService != null)
+	            {
+	                LoadAndIndexAllSavedTracks();
+                }
+            }
+
+            return webAppService;
+        }
+    }
+
+    static FullTrack GetFullTrack(
+        string id)
+    {
+        if (!trackCache.ContainsKey(id))
+        {
+            trackCache[id] = WebAppService.GetTrack(id);
+        }
+        return trackCache[id];
+    }
+
+    static FullAlbum GetFullAlbum(
+        string id)
+    {
+        if (!albumCache.ContainsKey(id))
+        {
+            albumCache[id] = WebAppService.GetAlbum(id);
+        }
+        return albumCache[id];
+    }
+
+    static FullArtist GetFullArtist(
+        string id)
+    {
+        if (!artistCache.ContainsKey(id))
+        {
+            artistCache[id] = WebAppService.GetArtist(id);
+        }
+        return artistCache[id];
+    }
+
+    /// <summary>
+    /// Helper function to turn an unbounded IEnumerable collection into a collection of collections
+    /// where each inner collection is no larger than batchSize
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="collection"></param>
+    /// <param name="batchSize"></param>
+    /// <returns></returns>
+    static IEnumerable<IEnumerable<T>> Batch<T>(this IEnumerable<T> collection, int batchSize)
+    {
+        List<T> nextbatch = new List<T>(batchSize);
+        foreach (T item in collection)
+        {
+            nextbatch.Add(item);
+            if (nextbatch.Count == batchSize)
+            {
+                yield return nextbatch;
+                nextbatch = new List<T>();
+            }
+        }
+        if (nextbatch.Count > 0)
+            yield return nextbatch;
+    }
+
+    public static void LoadAndIndexAllSavedTracks()
+    {
+        AllSavedTracks = new List<SpotifyData.Track>(); // prevents reentrancy
+        if (WebAppService != null)
+        {
+            try
+            {
+                AllSavedTracks = MakeTracks(
+                    WebAppService.GetSavedTracks(),
+                    next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
+
+                HashSet<String> albumIds = new HashSet<String>();
+                foreach (var track in AllSavedTracks)
+                {
+                    if (!albumIds.Contains(track.AlbumId)) 
+                    {
+                        albumIds.Add(track.AlbumId);
+                    }
+                }
+
+                List<SpotifyData.Album> savedAlbumList = new List<SpotifyData.Album>();
+                foreach (var batch in albumIds.Batch(20))
+                {
+                    var batchOfIds = batch.Select(id => SimplifyId(id));
+                    var batchOfAlbums = WebAppService.GetSeveralAlbums(batchOfIds.ToList());
+                    foreach (var album in batchOfAlbums.Albums)
+                    {
+                        savedAlbumList.Add(MakeAlbum(album));
+                    }
+                }
+                AllSavedAlbums = savedAlbumList.ToArray();
+
+                HashSet<String> artistIds = new HashSet<String>();
+                foreach (var album in AllSavedAlbums)
+                {
+                    if (!artistIds.Contains(album.ArtistId))
+                    {
+                        artistIds.Add(album.ArtistId);
+                    }
+                }
+
+                List<SpotifyData.Artist> savedArtistList = new List<SpotifyData.Artist>();
+                foreach (var batch in artistIds.Batch(20))
+                {
+                    var batchOfIds = batch.Select(id => SimplifyId(id));
+                    var batchOfArtists = WebAppService.GetSeveralArtists(batchOfIds.ToList());
+                    foreach (var artist in batchOfArtists.Artists)
+                    {
+                        savedArtistList.Add(MakeArtist(artist));
+                    }
+                }
+
+                AllSavedArtists = savedArtistList.ToArray();
+
+                Array.Sort(AllSavedAlbums, (a1, a2) => a1.Name.CompareTo(a2.Name));
+                Array.Sort(AllSavedArtists, (a1, a2) => a1.Name.CompareTo(a2.Name));
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
+    }
 
     /// <summary>
     /// Format a track's duration for display
@@ -27,297 +218,582 @@ public static class Spotify
     /// </summary>
     public static void Initialize()
     {
-        client.BaseAddress = new Uri("http://localhost:8383");
-        client.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue();
-        client.DefaultRequestHeaders.CacheControl.NoCache = true;
-        client.DefaultRequestHeaders.CacheControl.MaxAge = new TimeSpan(0);
-
+        trayAppClient.BaseAddress = new Uri("http://localhost:8383");
+        trayAppClient.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue();
+        trayAppClient.DefaultRequestHeaders.CacheControl.NoCache = true;
+        trayAppClient.DefaultRequestHeaders.CacheControl.MaxAge = new TimeSpan(0);
     }
 
+    #region Browsing and Searching
     /// <summary>
-    /// Search Spotify for up to 50 tracks matching the specified track name
+    /// Search Spotify for tracks matching the specified track name
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
     public static IEnumerable<SpotifyData.Track> SearchTracks(
         string name)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/browse/SearchTracks?name={0}", name)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            logger.Info("SearchTracks {0}", name);
 
-        return resp.Content.ReadAsAsync<IEnumerable<SpotifyData.Track>>().Result;
+            try
+            {
+                return MakeTracks(
+                    WebAppService.SearchItems(HttpUtility.UrlEncode(name), SearchType.TRACK, limit: 50).Tracks,
+                    next => WebAppService.DownloadData<SearchItem>(next).Tracks);
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
+
+        return new List<SpotifyData.Track>();
     }
 
     /// <summary>
-    /// Search Spotify for up to 50 albums matching the specified album name
+    /// Search Spotify for albums matching the specified album name
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
     public static IEnumerable<SpotifyData.Album> SearchAlbums(
         string name)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/browse/SearchAlbums?name={0}", name)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                return MakeAlbums(
+                    WebAppService.SearchItems(HttpUtility.UrlEncode(name), SearchType.ALBUM).Albums,
+                    next => WebAppService.DownloadData<SearchItem>(next).Albums);
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
 
-        return resp.Content.ReadAsAsync<IEnumerable<SpotifyData.Album>>().Result;
+        return new List<SpotifyData.Album>();
     }
 
     /// <summary>
-    /// Search Spotify for up to 50 artists matching the specified artist name
+    /// Search Spotify for artists matching the specified artist name
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
     public static IEnumerable<SpotifyData.Artist> SearchArtists(
         string name)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/browse/SearchArtists?name={0}", name)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            logger.Info("SearchArtists {0}", name);
 
-        return resp.Content.ReadAsAsync<IEnumerable<SpotifyData.Artist>>().Result;
+            try
+            {
+                return MakeArtists(
+                    WebAppService.SearchItems(HttpUtility.UrlEncode(name), SearchType.ARTIST, limit: 50).Artists,
+                    next => WebAppService.DownloadData<SearchItem>(next).Artists);
+
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
+
+        return new List<SpotifyData.Artist>();
     }
 
     /// <summary>
-    /// Return cached track data for a tracks identified by a non-persistent cache Id
+    /// Return track data for a track
     /// </summary>
-    /// <param name="id">The non-persistent cache Id</param>
+    /// <param name="id">The Spotify Track URI</param>
     /// <returns></returns>
     public static SpotifyData.Track GetTrackById(
-        int id)
+        string id)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/browse/GetTrackById/{0}", id)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                return MakeTrack(GetFullTrack(SimplifyId(id)));
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
 
-        return resp.Content.ReadAsAsync<SpotifyData.Track>().Result;
+        return null;
     }
 
     /// <summary>
-    /// Return cached album data for a tracks identified by a non-persistent cache Id
+    /// Return album data for an identified album
     /// </summary>
-    /// <param name="id">The non-persistent cache Id</param>
+    /// <param name="id">The Spotify Album URI</param>
     /// <returns></returns>
     public static SpotifyData.Album GetAlbumById(
-        int id)
+        string id)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/browse/GetAlbumById/{0}", id)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                return MakeAlbum(GetFullAlbum(SimplifyId(id)));
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
 
-        return resp.Content.ReadAsAsync<SpotifyData.Album>().Result;
+        return null;
     }
 
     /// <summary>
-    /// Return cached artist data for a tracks identified by a non-persistent cache Id
+    /// Return artist data for an identified artist
     /// </summary>
-    /// <param name="id">The non-persistent cache Id</param>
+    /// <param name="id">The Spotify Artist URI</param>
     /// <returns></returns>
     public static SpotifyData.Artist GetArtistById(
-        int id)
+        string id)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/browse/GetArtistById/{0}", id)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                return MakeArtist(WebAppService.GetArtist(SimplifyId(id)));
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
 
-        return resp.Content.ReadAsAsync<SpotifyData.Artist>().Result;
+        return null;
     }
 
     /// <summary>
     /// Get the collection of albums for an identified artist
     /// </summary>
-    /// <param name="id">The non-persistent cache Id</param>
+    /// <param name="id">The Spotify Artist URI</param>
     /// <returns></returns>
     public static IEnumerable<SpotifyData.Album> GetAlbumsForArtist(
-        int id)
+        string id)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/browse/GetAlbumsForArtist/{0}", id)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                return MakeAlbums(
+                    WebAppService.GetArtistsAlbums(SimplifyId(id), AlbumType.ALBUM),
+                    next => WebAppService.DownloadData<Paging<SimpleAlbum>>(next));
 
-        return resp.Content.ReadAsAsync<IEnumerable<SpotifyData.Album>>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
+
+        return new List<SpotifyData.Album>();
     }
 
     /// <summary>
     /// Get the collection of similar artists for an identified artist
     /// </summary>
-    /// <param name="id">The non-persistent cache Id</param>
+    /// <param name="id">The Spotify Artist URI</param>
     /// <returns></returns>
     public static IEnumerable<SpotifyData.Artist> GetSimilarArtistsForArtist(
-        int id)
+        string id)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/browse/GetSimilarArtistsForArtist/{0}", id)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                return WebAppService.GetRelatedArtists(SimplifyId(id)).Artists.Select(a => MakeArtist(a));
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
 
-        return resp.Content.ReadAsAsync<IEnumerable<SpotifyData.Artist>>().Result;
+        return new List<SpotifyData.Artist>();
     }
 
     /// <summary>
     /// Get the collection of tracks for an identified album
     /// </summary>
-    /// <param name="id">The non-persistent cache Id</param>
+    /// <param name="id">The Spotify Album URI</param>
     /// <returns></returns>
     public static IEnumerable<SpotifyData.Track> GetTracksForAlbum(
-        int id)
+        string id)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/browse/GetTracksForAlbum/{0}", id)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                return MakeTracks(
+                    WebAppService.GetAlbumTracks(SimplifyId(id), "", limit: 50),
+                    GetFullAlbum(SimplifyId(id)),
+                    next => WebAppService.DownloadData<Paging<SimpleTrack>>(next));
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
 
-        return resp.Content.ReadAsAsync<IEnumerable<SpotifyData.Track>>().Result;
+        return new List<SpotifyData.Track>();
     }
 
     /// <summary>
-    /// Get a PNG image as streamed data for the image file for an identified album
+    /// Get the cover image Url for an identified album
     /// </summary>
-    /// <param name="id">The non-persistent cache Id</param>
-    /// <returns>An HTTP response representing the content of the requested image file</returns>
-    public static byte[] GetAlbumImage(
-       int id)
+    /// <param name="id">The Spotify Album URI</param>
+    /// <returns></returns>
+    public static String GetAlbumImageUrl(
+        string id)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/browse/GetAlbumImage/{0}", id)).Result;
+        if (WebAppService != null)
+        {
+            try
+            {
+                var a = GetFullAlbum(SimplifyId(id));
+                if (a != null && a.Images.Count != 0)
+                {
+                    return a.Images[0].Url;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
 
-        resp.EnsureSuccessStatusCode();
-        return resp.Content.ReadAsByteArrayAsync().Result;
+        return null;
     }
+
+    #endregion
+
+    #region Playlists and My Music
+    public static Dictionary<String, SpotifyData.Playlist> CurrentPlaylists { get; private set; }
 
     /// <summary>
     /// Get the collection of named playlists, rebuilding from data on Spotify
     /// </summary>
     /// <returns></returns>
-    public static IEnumerable<string> GetPlayLists()
+    public static IEnumerable<SpotifyData.Playlist> GetPlayLists()
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playlist/GetPlayLists")).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                var playlists = MakePlaylists(
+                    WebAppService.GetUserPlaylists(webApiCurrentUserId),
+                    next => WebAppService.DownloadData<Paging<SimplePlaylist>>(next));
+                CurrentPlaylists = playlists.ToDictionary(p => p.Name);
+                return playlists;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
 
-        return resp.Content.ReadAsAsync<IEnumerable<string>>().Result;
+        return new List<SpotifyData.Playlist>();
     }
 
     /// <summary>
-    /// Get the collection of tracks for a named playlist
+    /// Get the collection of tracks for an identified playlist
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
     public static IEnumerable<SpotifyData.Track> GetPlayListTracks(
-        string name)
+        string id)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playlist/GetPlayListTracks/{0}", name)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                return MakeTracks(
+                    WebAppService.GetPlaylistTracks(webApiCurrentUserId, SimplifyId(id)),
+                    next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
 
-        return resp.Content.ReadAsAsync<IEnumerable<SpotifyData.Track>>().Result;
+        return new List<SpotifyData.Track>();
     }
 
     /// <summary>
-    /// Get the collection of albums for a named playlist
+    /// Get the collection of albums for an identified playlist
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
     public static IEnumerable<SpotifyData.Album> GetPlayListAlbums(
-        string name)
+        string id)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playlist/GetPlayListAlbums?name={0}", HttpUtility.UrlEncode(name))).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                var tracks = MakeTracks(
+                    WebAppService.GetPlaylistTracks(webApiCurrentUserId, SimplifyId(id)),
+                    next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
 
-        return resp.Content.ReadAsAsync<IEnumerable<SpotifyData.Album>>().Result;
+                HashSet<String> albumIds = new HashSet<String>();
+                foreach (var track in tracks)
+                {
+                    if (!albumIds.Contains(track.AlbumId))
+                    {
+                        albumIds.Add(track.AlbumId);
+                    }
+                }
+
+                return albumIds.Select(a => MakeAlbum(GetFullAlbum(SimplifyId(a))));
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
+
+        return new List<SpotifyData.Album>();
     }
 
     /// <summary>
     /// Add a new (empty) named playlist
     /// </summary>
     /// <param name="name"></param>
-    public static void AddPlayList(
+    public static string AddPlayList(
         string name)
     {
-        //  THIS WILL FAIL AS IT USES UNIMPLEMENTED SPOTIFIRE METHODS
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playlist/AddPlayList?name={0}", name)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                return WebAppService.CreatePlaylist(webApiCurrentUserId, name).Uri;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
+
+        return null;
     }
 
     /// <summary>
-    /// Delete a named playlist
+    /// Delete an identified playlist (just unfollows - does not actually delete)
     /// </summary>
-    /// <param name="name"></param>
+    /// <param name="id"></param>
     public static void DeletePlayList(
-        string name)
+        string id)
     {
-        //  THIS WILL FAIL AS IT USES UNIMPLEMENTED SPOTIFIRE METHODS
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playlist/DeletePlayList?name={0}", name)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                WebAppService.UnfollowPlaylist(webApiCurrentUserId, SimplifyId(id));
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
     }
 
     /// <summary>
-    /// Rename a playlist
+    /// Rename an identified playlist
     /// </summary>
-    /// <param name="oldName"></param>
+    /// <param name="id"></param>
     /// <param name="newName"></param>
     public static void RenamePlayList(
-        string oldName,
+        string id,
         string newName)
     {
-        //  THIS WILL FAIL AS IT USES UNIMPLEMENTED SPOTIFIRE METHODS
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playlist/RenamePlayList?oldName={0}&newName={1}", oldName, newName)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                WebAppService.UpdatePlaylist(webApiCurrentUserId, SimplifyId(id), newName);
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
     }
 
     /// <summary>
-    /// Add an identified track to a named playlist
+    /// Add an identified track to an identified playlist
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="id"></param>
+    /// <param name="playlistId"></param>
+    /// <param name="trackId"></param>
     public static void AddTrackToPlayList(
-        string name,
-        int id)
+        string playlistId,
+        string trackId)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playlist/AddTrackToPlayList?name={0}&id={1}", name, id)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                WebAppService.AddTracks(webApiCurrentUserId, SimplifyId(playlistId), new List<String> { trackId });
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
     }
 
     /// <summary>
-    /// Add all the tracks of an identified album to a named playlist
+    /// Add all the tracks of an identified album to an identified playlist
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="id"></param>
+    /// <param name="playlistId"></param>
+    /// <param name="albumId"></param>
     public static void AddAlbumToPlayList(
-        string name,
-        int id)
+        string playlistId,
+        string albumId)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playlist/AddAlbumToPlayList?name={0}&id={1}", name, id)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                var tracks = WebAppService.GetAlbumTracks(SimplifyId(albumId), "");
+                for (; ;)
+                {
+                    WebAppService.AddTracks(webApiCurrentUserId, SimplifyId(playlistId), tracks.Items.Select(t => t.Uri).ToList());
+                    if (tracks.Next == null) break;
+                    tracks = WebAppService.DownloadData <Paging<SimpleTrack>>(tracks.Next);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
     }
 
     /// <summary>
-    /// Remove an identified track from a named playlist
+    /// Remove an identified track from an identified playlist
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="id"></param>
+    /// <param name="playlistId"></param>
+    /// <param name="trackId"></param>
     public static void RemoveTrackFromPlayList(
-        string name,
-        int id)
+        string playlistId,
+        string trackId)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playlist/RemoveTrackFromPlayList?name={0}&id={1}", name, id)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                WebAppService.DeletePlaylistTracks(webApiCurrentUserId, SimplifyId(playlistId), new List<DeleteTrackArg> { new DeleteTrackArg(trackId) });
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
     }
 
     /// <summary>
-    /// Remove all the tracks of an identified album from a named playlist
+    /// Remove all the tracks of an identified album from an identified playlist
     /// </summary>
-    /// <param name="name"></param>
-    /// <param name="id"></param>
+    /// <param name="playlistId"></param>
+    /// <param name="albumId"></param>
     public static void RemoveAlbumFromPlayList(
-        string name,
-        int id)
+        string playlistId,
+        string albumId)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playlist/RemoveAlbumFromPlayList?name={0}&id={1}", name, id)).Result;
-        resp.EnsureSuccessStatusCode();
+        if (WebAppService != null)
+        {
+            try
+            {
+                var tracks = WebAppService.GetAlbumTracks(SimplifyId(albumId), "");
+                for (; ; )
+                {
+                    WebAppService.DeletePlaylistTracks(webApiCurrentUserId, SimplifyId(playlistId), tracks.Items.Select(t => new DeleteTrackArg(t.Uri)).ToList());
+                    if (tracks.Next == null) break;
+                    tracks = WebAppService.DownloadData<Paging<SimpleTrack>>(tracks.Next);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
     }
+
+    /// <summary>
+    /// Get the collection of albums saved by the current user
+    /// </summary>
+    /// <returns></returns>
+    public static IEnumerable<SpotifyData.Album> GetSavedAlbums()
+    {
+        return WebAppService != null ? AllSavedAlbums : null;
+    }
+
+    /// <summary>
+    /// Get the collection of artists saved by the current user
+    /// </summary>
+    /// <returns></returns>
+    public static IEnumerable<SpotifyData.Artist> GetSavedArtists()
+    {
+        return WebAppService != null ? AllSavedArtists : null;
+    }
+
+    /// <summary>
+    /// Save all the tracks of an identified album as a saved album
+    /// </summary>
+    /// <param name="playlistId"></param>
+    /// <param name="albumId"></param>
+    public static void SaveAlbum(
+        string albumId)
+    {
+        if (WebAppService != null)
+        {
+            try
+            {
+                var tracks = WebAppService.GetAlbumTracks(SimplifyId(albumId), "");
+                for (; ; )
+                {
+                    WebAppService.SaveTracks(tracks.Items.Select(t => t.Id).ToList());
+                    if (tracks.Next == null) break;
+                    tracks = WebAppService.DownloadData<Paging<SimpleTrack>>(tracks.Next);
+                }
+                AllSavedTracks = null;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
+    }
+
+    #endregion
+
+    #region Player Queue Management
     /// <summary>
     /// Play the identified track, either immediately or after the currently queued tracks
     /// </summary>
     /// <param name="id"></param>
     /// <param name="append"></param>
     /// <returns></returns>
-
-    public static SpotifyData.Track PlayTrack(
-        int id,
+    public static Boolean PlayTrack(
+        string id,
         bool append = false)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playqueue/PlayTrack/{0}?append={1}", id, append)).Result;
+        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/PlayTrack?id={0}&append={1}", HttpUtility.UrlEncode(id), append)).Result;
         resp.EnsureSuccessStatusCode();
 
-        return resp.Content.ReadAsAsync<SpotifyData.Track>().Result;
+        return resp.Content.ReadAsAsync<Boolean>().Result;
     }
 
     /// <summary>
@@ -326,14 +802,14 @@ public static class Spotify
     /// <param name="id"></param>
     /// <param name="append"></param>
     /// <returns></returns>
-    public static SpotifyData.Album PlayAlbum(
-        int id,
+    public static Boolean PlayAlbum(
+        string id,
         bool append = false)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playqueue/PlayAlbum/{0}?append={1}", id, append)).Result;
+        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/PlayAlbum?id={0}&append={1}", HttpUtility.UrlEncode(id), append)).Result;
         resp.EnsureSuccessStatusCode();
 
-        return resp.Content.ReadAsAsync<SpotifyData.Album>().Result;
+        return resp.Content.ReadAsAsync<Boolean>().Result;
     }
 
     /// <summary>
@@ -342,10 +818,12 @@ public static class Spotify
     /// <returns></returns>
     public static SpotifyData.Track GetCurrentTrack()
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playqueue/GetCurrentTrack")).Result;
+        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/GetCurrentTrack")).Result;
         resp.EnsureSuccessStatusCode();
 
-        return resp.Content.ReadAsAsync<SpotifyData.Track>().Result;
+        var currentTrackId = resp.Content.ReadAsAsync<String>().Result;
+
+        return currentTrackId == null ? null : MakeTrack(GetFullTrack(SimplifyId(currentTrackId)));
     }
 
     /// <summary>
@@ -354,43 +832,57 @@ public static class Spotify
     /// <returns></returns>
     public static IEnumerable<SpotifyData.Track> GetQueuedTracks()
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playqueue/GetQueuedTracks")).Result;
+        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/GetQueuedTracks")).Result;
         resp.EnsureSuccessStatusCode();
 
-        return resp.Content.ReadAsAsync<IEnumerable<SpotifyData.Track>>().Result;
+        var queuedTracks = resp.Content.ReadAsAsync<IEnumerable<String>>().Result;
+
+        foreach (var batch in queuedTracks.Batch(50))
+        {
+            foreach (var track in WebAppService.GetSeveralTracks(batch.Select(id => SimplifyId(id)).ToList()).Tracks)
+            {
+                yield return MakeTrack(track);
+            }
+        }
     }
 
     /// <summary>
     /// Skip to a specified queued track
     /// </summary>
     public static SpotifyData.Track SkipToQueuedTrack(
-        int id)
+        string id)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playqueue/SkipToQueuedTrack/{0}", id)).Result;
+        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/SkipToQueuedTrack?id={0}", HttpUtility.UrlEncode(id))).Result;
         resp.EnsureSuccessStatusCode();
 
-        return resp.Content.ReadAsAsync<SpotifyData.Track>().Result;
+        var resultId = resp.Content.ReadAsAsync<String>().Result;
+
+        return MakeTrack(GetFullTrack(SimplifyId(resultId)));
     }
 
     /// <summary>
     /// Remove the specified queued track from the queue
     /// </summary>
     public static SpotifyData.Track RemoveQueuedTrack(
-        int id)
+        string id)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playqueue/RemoveQueuedTrack/{0}", id)).Result;
+        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/RemoveQueuedTrack?id={0}", HttpUtility.UrlEncode(id))).Result;
         resp.EnsureSuccessStatusCode();
 
-        return resp.Content.ReadAsAsync<SpotifyData.Track>().Result;
-    }
+        var resultId = resp.Content.ReadAsAsync<String>().Result;
 
+        return MakeTrack(GetFullTrack(SimplifyId(resultId)));
+    }
+    #endregion
+
+    #region Player currently playing track operations
     /// <summary>
     /// Skip playing forwards to the next queued track
     /// </summary>
     /// <returns></returns>
     public static int Skip()
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playqueue/Skip")).Result;
+        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/Skip")).Result;
         resp.EnsureSuccessStatusCode();
 
         return resp.Content.ReadAsAsync<int>().Result;
@@ -402,7 +894,7 @@ public static class Spotify
     /// <returns></returns>
     public static int Back()
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/playqueue/Back")).Result;
+        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/Back")).Result;
         resp.EnsureSuccessStatusCode();
 
         return resp.Content.ReadAsAsync<int>().Result;
@@ -414,7 +906,7 @@ public static class Spotify
     /// <returns></returns>
     public static int Play()
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/player/Play")).Result;
+        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/Play")).Result;
         resp.EnsureSuccessStatusCode();
 
         return resp.Content.ReadAsAsync<int>().Result;
@@ -426,7 +918,7 @@ public static class Spotify
     /// <returns></returns>
     public static int Pause()
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/player/Pause")).Result;
+        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/Pause")).Result;
         resp.EnsureSuccessStatusCode();
 
         return resp.Content.ReadAsAsync<int>().Result;
@@ -438,7 +930,7 @@ public static class Spotify
     /// <returns>+ve: Playing; 0: Paused; -ve: Stolen by another session</returns>
     public static int GetPlaying()
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/player/GetPlaying")).Result;
+        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/GetPlaying")).Result;
         resp.EnsureSuccessStatusCode();
 
         return resp.Content.ReadAsAsync<int>().Result;
@@ -450,7 +942,7 @@ public static class Spotify
     /// <returns></returns>
     public static int Stop()
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/player/Stop")).Result;
+        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/Stop")).Result;
         resp.EnsureSuccessStatusCode();
 
         return resp.Content.ReadAsAsync<int>().Result;
@@ -462,7 +954,7 @@ public static class Spotify
     /// <returns>Position in seconds</returns>
     public static int GetPosition()
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/player/GetPosition")).Result;
+        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/GetPosition")).Result;
         resp.EnsureSuccessStatusCode();
 
         return resp.Content.ReadAsAsync<int>().Result;
@@ -476,10 +968,319 @@ public static class Spotify
     public static int SetPosition(
         int pos)
     {
-        HttpResponseMessage resp = client.GetAsync(string.Format("api/player/SetPosition?pos={0}", pos)).Result;
+        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/SetPosition?pos={0}", pos)).Result;
         resp.EnsureSuccessStatusCode();
 
         return resp.Content.ReadAsAsync<int>().Result;
     }
+    #endregion
+
+    #region Constructors of SpotifyData from Web API model
+
+    /// <summary>
+    /// GIven a Spotify URI (an external ID), return the Spotify Id, which is its textually last component
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public static String SimplifyId(
+        string id)
+    {
+        var pos = id.LastIndexOf(':');
+        return (pos > 0) ? id.Substring(pos + 1) : id;
+
+    }
+
+    /// <summary>
+    /// Make an external Artist structure from that returned by the Web API
+    /// </summary>
+    /// <param name="artist"></param>
+    /// <returns></returns>
+    static SpotifyData.Artist MakeArtist(SimpleArtist artist)
+    {
+        return artist == null ? null : new SpotifyData.Artist
+        {
+            Id = artist.Uri,
+            Name = artist.Name
+        };
+    }
+
+    /// <summary>
+    /// Make an external Artist structure from that returned by the Web API
+    /// </summary>
+    /// <param name="artist"></param>
+    /// <param name="biog"></param>
+    /// <returns></returns>
+    static SpotifyData.Artist MakeArtist(FullArtist artist)
+    {
+        return artist == null ? null : new SpotifyData.Artist
+        {
+            Id = artist.Uri,
+            Name = artist.Name
+        };
+    }
+
+    /// <summary>
+    /// Make a collection of external Artist structures from Paging data returned by the Web API
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="ReadNext"></param>
+    /// <returns></returns>
+    static IEnumerable<SpotifyData.Artist> MakeArtists(
+        Paging<SimpleArtist> col,
+        Func<String, Paging<SimpleArtist>> ReadNext)
+    {
+        List<SpotifyData.Artist> result = new List<SpotifyData.Artist>();
+        int noFound = 0;
+
+        while (noFound < 200)
+        {
+            if (col.Items == null) break;
+            foreach (var a in col.Items)
+            {
+                result.Add(MakeArtist(a));
+                noFound++;
+            }
+
+            if (col.Next == null) break;
+            col = ReadNext(col.Next);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Make an external Album structure from that returned by the Web API
+    /// </summary>
+    /// <param name="album"></param>
+    /// <returns></returns>
+    static SpotifyData.Album MakeAlbum(FullAlbum album)
+    {
+        return album == null ? null : new SpotifyData.Album
+        {
+            Id = album.Uri,
+            Name = album.Name,
+            ArtistId = album.Artists[0].Uri,
+            ArtistName = album.Artists[0].Name
+        };
+    }
+
+    /// <summary>
+    /// Make a collection of external Album structures from Paging data returned by the Web API
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="ReadNext"></param>
+    /// <returns></returns>
+    static IEnumerable<SpotifyData.Album> MakeAlbums(
+        Paging<SimpleAlbum> col,
+        Func<String, Paging<SimpleAlbum>> ReadNext)
+    {
+        List<SpotifyData.Album> result = new List<SpotifyData.Album>();
+        int noFound = 0;
+
+        while (noFound < 200)
+        {
+            if (col.Items == null) break;
+            var albumIds = col.Items.Select(a => a.Id).ToList();
+            foreach (var a in WebAppService.GetSeveralAlbums(albumIds).Albums)
+            {
+                result.Add(MakeAlbum(a));
+                noFound++;
+            }
+
+            if (col.Next == null) break;
+            col = ReadNext(col.Next);
+        }
+
+        return result;
+    }
+
+    /// Make an external Track structure from that returned by the Web API
+    /// </summary>
+    /// <param name="track"></param>
+    /// <param name="album"></param>
+    /// <returns></returns>
+    /// <summary>
+    static SpotifyData.Track MakeTrack(FullTrack track, FullAlbum album = null)
+    {
+        if (album == null && track != null)
+        {
+            album = GetFullAlbum(track.Album.Id);
+        }
+        return track == null ? null : new SpotifyData.Track
+        {
+            Id = track.Uri,
+            Name = track.Name,
+            AlbumId = album.Uri,
+            AlbumName = album.Name,
+            ArtistId = album.Artists[0].Uri,
+            AlbumArtistName = album.Artists[0].Name,
+            TrackArtistNames = album.Artists.Aggregate("", ConstructTrackArtistNames),
+            TrackFirstArtistId = album.Artists[0].Uri,
+            Index = track.TrackNumber,
+            Duration = track.DurationMs / 1000
+        };
+    }
+
+    /// <summary>
+    /// Make a collection of external Track structures from Paging data returned by the Web API
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="ReadNext"></param>
+    /// <returns></returns>
+    static IEnumerable<SpotifyData.Track> MakeTracks(
+        Paging<FullTrack> col,
+        Func<String, Paging<FullTrack>> ReadNext)
+    {
+        List<SpotifyData.Track> result = new List<SpotifyData.Track>();
+        int noFound = 0;
+
+        while (noFound < 200)
+        {
+            if (col.Items == null) break;
+            foreach (var t in col.Items)
+            {
+                result.Add(MakeTrack(t));
+                noFound++;
+            }
+
+            if (col.Next == null) break;
+            col = ReadNext(col.Next);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Make a collection of external Track structures from Paging data returned by the Web API
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="album"></param>
+    /// <param name="ReadNext"></param>
+    /// <returns></returns>
+    static IEnumerable<SpotifyData.Track> MakeTracks(
+        Paging<SimpleTrack> col,
+        FullAlbum album,
+        Func<String, Paging<SimpleTrack>> ReadNext)
+    {
+        List<SpotifyData.Track> result = new List<SpotifyData.Track>();
+        int noFound = 0;
+
+        while (noFound < 200)
+        {
+            if (col.Items == null) break;
+            foreach (var t in col.Items)
+            {
+                result.Add(MakeTrack(GetFullTrack(t.Id), album));
+                noFound++;
+            }
+
+            if (col.Next == null) break;
+            col = ReadNext(col.Next);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Make a collection of external Track structures from Paging data returned by the Web API as a Playlist
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="ReadNext"></param>
+    /// <returns></returns>
+    static IEnumerable<SpotifyData.Track> MakeTracks(
+        Paging<PlaylistTrack> col,
+        Func<String, Paging<PlaylistTrack>> ReadNext)
+    {
+        List<SpotifyData.Track> result = new List<SpotifyData.Track>();
+        int noFound = 0;
+
+        for (; ; )  //  Unbounded within a playlist or saved tracks
+        {
+            if (col.Items == null) break;
+            foreach (var t in col.Items)
+            {
+                result.Add(MakeTrack(t.Track));
+                noFound++;
+            }
+
+            if (col.Next == null) break;
+            col = ReadNext(col.Next);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Make an external Playlist structure from that returned by the Web API
+    /// </summary>
+    /// <param name="playlist"></param>
+    /// <returns></returns>
+    static SpotifyData.Playlist MakePlaylist(SimplePlaylist playlist)
+    {
+        return playlist == null ? null : new SpotifyData.Playlist
+        {
+            Id = playlist.Uri,
+            Name = playlist.Name,
+        };
+    }
+
+    /// <summary>
+    /// Make a collection of external Playlist structures from Paging data returned by the Web API
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="ReadNext"></param>
+    /// <returns></returns>
+    static IEnumerable<SpotifyData.Playlist> MakePlaylists(
+        Paging<SimplePlaylist> col,
+        Func<String, Paging<SimplePlaylist>> ReadNext)
+    {
+        List<SpotifyData.Playlist> result = new List<SpotifyData.Playlist>();
+        int noFound = 0;
+
+        while (noFound < 200)
+        {
+            if (col.Items == null) break;
+            foreach (var p in col.Items)
+            {
+                result.Add(MakePlaylist(p));
+                noFound++;
+            }
+
+            if (col.Next == null) break;
+            col = ReadNext(col.Next);
+        }
+
+        return result;
+    }
+
+  
+    /// <summary>
+    /// Construct a formatted string for a (possibly multiple) artist names for a track
+    /// </summary>
+    /// <param name="names"></param>
+    /// <param name="artist"></param>
+    /// <returns></returns>
+    static string ConstructTrackArtistNames(
+        string names,
+        SimpleArtist artist)
+    {
+        const string ellipsis = ", ...";
+        if (string.IsNullOrEmpty(names))
+        {
+            return artist.Name;
+        }
+        if (names.EndsWith(ellipsis))
+        {
+            return names;
+        }
+        if (names.Count(c => c == ',') >= 2)
+        {
+            return names + ellipsis;
+        }
+
+        return names + ", " + artist.Name;
+    }
+    #endregion
+
 
 }

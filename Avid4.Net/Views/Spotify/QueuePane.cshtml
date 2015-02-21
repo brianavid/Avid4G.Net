@@ -13,7 +13,7 @@
             var trackId = track.Id;
             var albumId = track.AlbumId;
 
-            <div id='@trackId' class='spotifyPlaybackQueueItem' >
+            <div id='@(Spotify.SimplifyId(trackId))' class='spotifyPlaybackQueueItem' >
 
                 @if (artist != lastArtist || album != lastAlbum)
                 {

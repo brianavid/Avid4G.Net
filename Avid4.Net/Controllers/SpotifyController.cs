@@ -80,7 +80,8 @@ namespace Avid4.Net.Controllers
         public ActionResult BrowserPane(
             string mode,
             string id,
-            string name,
+            string playlistId,
+            string playlistName,
             string query,
             string trackInfoId,
             string albumInfoId,
@@ -92,9 +93,13 @@ namespace Avid4.Net.Controllers
             {
                 ViewBag.Id = id;
             }
-            if (name != null)
+            if (playlistId != null)
             {
-                ViewBag.Name = name;
+                ViewBag.PlaylistId = playlistId;
+            }
+            if (playlistName != null)
+            {
+                ViewBag.PlaylistName = playlistName;
             }
             if (query != null)
             {
@@ -175,7 +180,7 @@ namespace Avid4.Net.Controllers
 
         // GET: /Spotify/PlayAlbum
         public ContentResult PlayAlbum(
-            int id,
+            string id,
             bool append = false)
         {
             Spotify.PlayAlbum(id, append);
@@ -185,7 +190,7 @@ namespace Avid4.Net.Controllers
 
         // GET: /Spotify/PlayTrack
         public ContentResult PlayTrack(
-            int id,
+            string id,
             bool append = false)
         {
             Spotify.PlayTrack(id, append);
@@ -195,7 +200,7 @@ namespace Avid4.Net.Controllers
 
         // GET: /Spotify/SkipToQueuedTrack
         public ContentResult SkipToQueuedTrack(
-            int id)
+            string id)
         {
             Spotify.SkipToQueuedTrack(id);
             isPaused = false;
@@ -204,7 +209,7 @@ namespace Avid4.Net.Controllers
 
         // GET: /Spotify/RemoveQueuedTrack
         public ContentResult RemoveQueuedTrack(
-            int id)
+            string id)
         {
             Spotify.RemoveQueuedTrack(id);
             return this.Content("");
@@ -265,45 +270,71 @@ namespace Avid4.Net.Controllers
 
         // GET: /Spotify/GetAlbumImage
         public ActionResult GetAlbumImage(
-            int id)
+            string id)
         {
-            return File(Spotify.GetAlbumImage(id), "image/png");
+            return Redirect(Spotify.GetAlbumImageUrl(id));
         }
 
         // GET: /Spotify/AddTrackToPlayList
         public ContentResult AddTrackToPlaylist(
-            int id,
-            string name)
+            string id,
+            string playlistId,
+            string playlistName)
         {
-            Spotify.AddTrackToPlayList(name, id);
+            if (playlistId == null && Spotify.CurrentPlaylists.ContainsKey(playlistName))
+            {
+                playlistId = Spotify.CurrentPlaylists[playlistName].Id;
+            }
+            if (playlistId == null)
+            {
+                playlistId = Spotify.AddPlayList(playlistName);
+            }
+            Spotify.AddTrackToPlayList(playlistId, id);
             return this.Content("");
         }
 
         // GET: /Spotify/AddAlbumToPlayList
         public ContentResult AddAlbumToPlayList(
-            int id,
-            string name)
+            string id,
+            string playlistId,
+            string playlistName)
         {
-            Spotify.AddAlbumToPlayList(name, id);
+            if (playlistId == null && Spotify.CurrentPlaylists.ContainsKey(playlistName))
+            {
+                playlistId = Spotify.CurrentPlaylists[playlistName].Id;
+            }
+            if (playlistId == null)
+            {
+                playlistId = Spotify.AddPlayList(playlistName);
+            }
+            Spotify.AddAlbumToPlayList(playlistId, id);
             return this.Content("");
         }
 
 
         // GET: /Spotify/RemoveTrackFromPlayList
         public ContentResult RemoveTrackFromPlayList(
-            int id,
-            string name)
+            string id,
+            string playlistId)
         {
-            Spotify.RemoveTrackFromPlayList(name, id);
+            Spotify.RemoveTrackFromPlayList(playlistId, id);
             return this.Content("");
         }
 
         // GET: /Spotify/RemoveAlbumFromPlayList
         public ContentResult RemoveAlbumFromPlayList(
-            int id,
-            string name)
+            string id,
+            string playlistId)
         {
-            Spotify.RemoveAlbumFromPlayList(name, id);
+            Spotify.RemoveAlbumFromPlayList(playlistId, id);
+            return this.Content("");
+        }
+
+        // GET: /Spotify/SaveAlbum
+        public ContentResult SaveAlbum(
+            string id)
+        {
+            Spotify.SaveAlbum(id);
             return this.Content("");
         }
     }

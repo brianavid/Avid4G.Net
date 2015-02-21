@@ -14,8 +14,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avid.Desktop", "Avid.Deskto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avid.Spotify", "Avid.Spotify\Avid.Spotify.csproj", "{8C7AAC62-C852-4352-B867-4B1DAF75D219}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avid.Spotify.Data", "Avid.Spotify.Data\Avid.Spotify.Data.csproj", "{7A90B7FB-0C38-4641-89F8-400062AA89F7}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{70EB299F-2638-4071-BFEC-00721A395966}"
 	ProjectSection(SolutionItems) = preProject
 		Documentation\Avid4 Installation and Configuration.docx = Documentation\Avid4 Installation and Configuration.docx
@@ -169,31 +167,6 @@ Global
 		{8C7AAC62-C852-4352-B867-4B1DAF75D219}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8C7AAC62-C852-4352-B867-4B1DAF75D219}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
 		{8C7AAC62-C852-4352-B867-4B1DAF75D219}.SingleImage|x86.ActiveCfg = Release|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.CD_ROM|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.CD_ROM|Mixed Platforms.Build.0 = Release|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.CD_ROM|x86.ActiveCfg = Release|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.DVD-5|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.DVD-5|Mixed Platforms.Build.0 = Debug|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.DVD-5|x86.ActiveCfg = Debug|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.Release|x86.ActiveCfg = Release|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.SingleImage|Any CPU.Build.0 = Release|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
-		{7A90B7FB-0C38-4641-89F8-400062AA89F7}.SingleImage|x86.ActiveCfg = Release|Any CPU
 		{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}.CD_ROM|Any CPU.ActiveCfg = CD_ROM
 		{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}.CD_ROM|Any CPU.Build.0 = CD_ROM
 		{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}.CD_ROM|Mixed Platforms.ActiveCfg = CD_ROM

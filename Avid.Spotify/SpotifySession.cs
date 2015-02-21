@@ -505,5 +505,44 @@ namespace Avid.Spotify
                 SkipTrack();
             }
         }
+
+        internal static Artist GetArtist(
+            string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return null;
+            }
+
+            Link link = Session.GetLink(id);
+
+            return link == null ? null : link.AsArtist();
+        }
+
+        internal static Album GetAlbum(
+            string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return null;
+            }
+
+            Link link = Session.GetLink(id);
+
+            return link == null ? null : link.AsAlbum();
+        }
+
+        internal static Track GetTrack(
+            string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return null;
+            }
+
+            Link link = Session.GetLink(id);
+
+            return link == null ? null : link.AsTrack();
+        }
     }
 }

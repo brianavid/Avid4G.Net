@@ -9,6 +9,7 @@ using SpotiFire;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Web.Http.Filters;
 using NLog;
 
 namespace Avid.Spotify
@@ -20,6 +21,20 @@ namespace Avid.Spotify
     {
         static Logger logger = LogManager.GetCurrentClassLogger();
 
+        class LoggingExceptionFilterAttribute : ExceptionFilterAttribute
+        {
+            public override void OnException(HttpActionExecutedContext context)
+            {
+                var resp = new HttpResponseMessage(HttpStatusCode.BadRequest)
+                {
+                    Content = new StringContent(context.Exception.Message),
+                    ReasonPhrase = "ValidationException"
+                };
+                logger.Error(context.Exception);
+                throw new HttpResponseException(resp);
+            }
+        }
+
         /// <summary>
         /// Play the identified track, either immediately or after the currently queued tracks
         /// </summary>
@@ -27,11 +42,12 @@ namespace Avid.Spotify
         /// <param name="append"></param>
         /// <returns></returns>
         [HttpGet]
-        public SpotifyData.Track PlayTrack(
-            int id,
+        [LoggingExceptionFilter]
+        public Boolean PlayTrack(
+            string id,
             bool append = false)
         {
-            Track track = Cache.Get(id) as Track;
+            Track track = SpotifySession.GetTrack(id);
             if (track != null)
             {
                 try
@@ -45,15 +61,23 @@ namespace Avid.Spotify
                     throw new HttpResponseException(HttpStatusCode.InternalServerError);
                 }
             }
-            return MakeData.Track(track);
+            return true;
         }
 
-        async Task<SpotifyData.Album> PlayAlbumAsync(
+        async Task<Boolean> PlayAlbumAsync(
             Album album,
             bool append = false)
         {
-            SpotifySession.EnqueueTracks((await (await album).Browse()).Tracks, append);
-            return MakeData.Album(album);
+            try
+            {
+                SpotifySession.EnqueueTracks((await album.Browse()).Tracks, append);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.Warn(ex);
+                return false;
+            }
         }
 
 
@@ -64,24 +88,25 @@ namespace Avid.Spotify
         /// <param name="append"></param>
         /// <returns></returns>
         [HttpGet]
-        public SpotifyData.Album PlayAlbum(
-            int id,
+        [LoggingExceptionFilter]
+        public Boolean PlayAlbum(
+            string id,
             bool append = false)
         {
-            Album album = Cache.Get(id) as Album;
-            if (album == null)
-            {
-                return null;
-            }
             try
             {
+                Album album = SpotifySession.GetAlbum(id);
+                if (album == null)
+                {
+                    return false;
+                }
                 return PlayAlbumAsync(album, append).Result;
 
             }
             catch (Exception ex)
             {
                 logger.Warn(ex);
-                return null;
+                return false;
             }
         }
 
@@ -90,11 +115,13 @@ namespace Avid.Spotify
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public SpotifyData.Track GetCurrentTrack()
+        [LoggingExceptionFilter]
+        public String GetCurrentTrack()
         {
             try
             {
-                return MakeData.Track(SpotifySession.GetCurrentTrack());
+                var track = SpotifySession.GetCurrentTrack();
+                return track == null ? null : track.GetLink().ToString();
             }
             catch (Exception ex)
             {
@@ -108,12 +135,13 @@ namespace Avid.Spotify
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IEnumerable<SpotifyData.Track> GetQueuedTracks()
+        [LoggingExceptionFilter]
+        public IEnumerable<String> GetQueuedTracks()
         {
             try
             {
                 var tracks = SpotifySession.GetQueuedTracks();
-                return tracks == null ? new SpotifyData.Track[0] : tracks.Select(t => MakeData.Track(t));
+                return tracks == null ? new String[0] : tracks.Select(t => t.GetLink().ToString());
             }
             catch (Exception ex)
             {
@@ -127,17 +155,19 @@ namespace Avid.Spotify
         /// Skip to a specified queued track
         /// </summary>
         [HttpGet]
-        public SpotifyData.Track SkipToQueuedTrack(
-            int id)
+        [LoggingExceptionFilter]
+        public String SkipToQueuedTrack(
+            string id)
         {
             try
             {
-                Track track = Cache.Get(id) as Track;
+                Track track = SpotifySession.GetTrack(id);
                 if (track != null)
                 {
                     SpotifySession.SkipToQueuedTrack(track);
+                    return track.GetLink().ToString();
                 }
-                return MakeData.Track(SpotifySession.GetCurrentTrack());
+                return null;
             }
             catch (Exception ex)
             {
@@ -151,17 +181,19 @@ namespace Avid.Spotify
         /// Remove the specified queued track from the queue
         /// </summary>
         [HttpGet]
-        public SpotifyData.Track RemoveQueuedTrack(
-            int id)
+        [LoggingExceptionFilter]
+        public String RemoveQueuedTrack(
+            string id)
         {
             try
             {
-                Track track = Cache.Get(id) as Track;
+                Track track = SpotifySession.GetTrack(id);
                 if (track != null)
                 {
                     SpotifySession.RemoveQueuedTrack(track);
+                    return track.GetLink().ToString();
                 }
-                return MakeData.Track(track);
+                return null;
             }
             catch (Exception ex)
             {
@@ -175,6 +207,7 @@ namespace Avid.Spotify
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [LoggingExceptionFilter]
         public int Skip()
         {
             try
@@ -194,6 +227,7 @@ namespace Avid.Spotify
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [LoggingExceptionFilter]
         public int Back()
         {
             try

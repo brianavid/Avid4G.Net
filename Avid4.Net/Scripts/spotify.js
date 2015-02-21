@@ -16,7 +16,7 @@ var DurationMS = 0;
 var slidingTime = new Date(0);
 var posSlider = null;
 var lastDisplayUpdate = new Date();
-var lastTrackId = null;
+var lastTrackId = "";
 
 function updateSlider() {
     var now = new Date();
@@ -72,22 +72,18 @@ function UpdateSpotifyDisplayPlayingInformation() {
                 DurationMS = parseInt(track.getAttribute("duration")) * 1000
                 updateSlider();
 
-                var trackId = parseInt(track.getAttribute("id"))
-                if (trackId != lastTrackId)
+                var trackId = track.getAttribute("id")
+                if (trackId != lastTrackId && trackId != "")
                 {
                     var trackFoundInQueue = false;
 
                     lastTrackId = trackId;
 
-                    var albumId = parseInt(track.getAttribute("albumid"))
-                    if (isNaN(albumId))
-                    {
-                        $("#SpotifyInfoImageURL").attr("src", "/Content/Spotify.png")
-                    }
-                    else
-                    {
-                        $("#SpotifyInfoImageURL").attr("src", "/Spotify/GetAlbumImage/" + albumId)
-                    }
+                    var trackIdElements = trackId.split(":")
+                    trackId = trackIdElements[trackIdElements.length-1]
+
+                    var albumId = track.getAttribute("albumid")
+                    $("#SpotifyInfoImageURL").attr("src", "/Spotify/GetAlbumImage?id=" + escape(albumId))
 
                     $(".spotifySelectedQueueItem").removeClass("spotifySelectedQueueItem")
                     $("#" + trackId + ".spotifyPlaybackQueueItem").each(function () {
@@ -273,7 +269,7 @@ function AddQueueHammerActions(controlHeight) {
 
     queueHammer.on("tap", ".spotifyPlaybackQueueItem", function (e) {
         $.ajax({
-            url: "/Spotify/SkipToQueuedTrack/" + this.id,
+            url: "/Spotify/SkipToQueuedTrack?id=" + "spotify:track:" + this.id,
             cache: false
         })
         return false;
@@ -291,7 +287,7 @@ function AddQueueHammerActions(controlHeight) {
 
     queueHammer.on("swipeleft swiperight", ".spotifyPlaybackQueueItem", function (e) {
         $.ajax({
-            url: "/Spotify/RemoveQueuedTrack/" + this.id,
+            url: "/Spotify/RemoveQueuedTrack?id=" + this.id,
             cache: false,
             success: function (data) {
                 UpdateQueue(false);
@@ -330,7 +326,10 @@ function AddBrowserHammerActions() {
             state += "&trackInfoId=" + $(this).text()
         })
         $("#PlaylistName").each(function () {
-            state += "&name=" + encodeURIComponent($(this).text())
+            state += "&playlistName=" + encodeURIComponent($(this).text())
+        })
+        $("#PlaylistId").each(function () {
+            state += "&playlistId=" + encodeURIComponent($(this).text())
         })
         return state;
     }
@@ -355,15 +354,18 @@ function AddBrowserHammerActions() {
         return false;
     });
 
+    browserHammer.on("tap", "#spotifyBrowserLibrarySavedAlbums", function (e) {
+        ReplaceBrowserPane("/Spotify/BrowserPane?mode=SavedAlbums", "push")
+        return false;
+    });
+
     browserHammer.on("tap", "#spotifyBrowserLibraryPlaylists", function (e) {
         ReplaceBrowserPane("/Spotify/BrowserPane?mode=Playlists", "push")
         return false;
     });
 
     browserHammer.on("tap", ".spotifyBrowserPlaylist", function (e) {
-        //  Searching and selecting Playlists invalidates all cached ID values previously returned and hence those displayed in the queued tracks.
-        //  Consequently it is necessary to refresh the display of queued tracks.
-        ReplaceBrowserPane("/Spotify/BrowserPane?mode=AlbumsOfPlayist&name=" + encodeURIComponent(this.id), "push", UpdateQueue)
+        ReplaceBrowserPane("/Spotify/BrowserPane?mode=AlbumsOfPlayist&Id=" + this.id + "&playlistId=" + this.id + "&playlistName=" + encodeURIComponent(this.innerText), "push", UpdateQueue)
         return false;
     });
 
@@ -521,19 +523,19 @@ function AddBrowserHammerActions() {
         return false;
     });
 
-    browserHammer.on("tap", "#spotifyBrowserLibraryAddTrackToPlaylist", function (e) {
-        ReplaceBrowserPane("/Spotify/BrowserPane?mode=PlayListsAdd" + copyState(), "none")
-        return false;
-    });
-
-    browserHammer.on("tap", ".spotifyBrowserPlaylistAddTrack", function (e) {
+    browserHammer.on("tap", "#spotifyBrowserSaveAlbum", function (e) {
         $.ajax({
-            url: "/Spotify/AddTrackToPlaylist?id=" + $("#TrackInfoId").text() + "&name=" + this.id,
+            url: "/Spotify/SaveAlbum?id=" + $("#AlbumInfoId").text(),
             success: function (data) {
                 PopStackedPane("spotifyBrowserItems", function () { ReplaceBrowserPane("/Spotify/BrowserPane?mode=Library", "clear") })
             },
             cache: false
         });
+        return false;
+    });
+
+    browserHammer.on("tap", "#spotifyBrowserLibraryAddTrackToPlaylist", function (e) {
+        ReplaceBrowserPane("/Spotify/BrowserPane?mode=PlayListsAdd" + copyState(), "none")
         return false;
     });
 
@@ -547,10 +549,9 @@ function AddBrowserHammerActions() {
         }
     });
 
-    browserHammer.on("tap", "#spotifyBrowserPlaylistAddTrackNew", function (e) {
-        var query = document.getElementById("spotifyBrowserPlaylistNewName").value
+    browserHammer.on("tap", ".spotifyBrowserPlaylistAddTrack", function (e) {
         $.ajax({
-            url: "/Spotify/AddTrackToPlaylist?id=" + $("#TrackInfoId").text() + "&name=" + query,
+            url: "/Spotify/AddTrackToPlaylist?id=" + $("#TrackInfoId").text() + "&playlistId=" + escape(this.id),
             success: function (data) {
                 PopStackedPane("spotifyBrowserItems", function () { ReplaceBrowserPane("/Spotify/BrowserPane?mode=Library", "clear") })
             },
@@ -559,9 +560,9 @@ function AddBrowserHammerActions() {
         return false;
     });
 
-    browserHammer.on("tap", ".spotifyBrowserPlaylistRemoveTrack", function (e) {
+    browserHammer.on("tap", ".spotifyBrowserPlaylistAddTrackAsArtistName", function (e) {
         $.ajax({
-            url: "/Spotify/RemoveTrackFromPlayList?id=" + $("#TrackInfoId").text() + "&name=" + $("#PlaylistName").text(),
+            url: "/Spotify/AddTrackToPlaylist?id=" + $("#TrackInfoId").text() + "&playlistName=" + escape(this.id),
             success: function (data) {
                 PopStackedPane("spotifyBrowserItems", function () { ReplaceBrowserPane("/Spotify/BrowserPane?mode=Library", "clear") })
             },
@@ -572,7 +573,29 @@ function AddBrowserHammerActions() {
 
     browserHammer.on("tap", ".spotifyBrowserPlaylistAddAlbum", function (e) {
         $.ajax({
-            url: "/Spotify/AddAlbumToPlaylist?id=" + $("#AlbumInfoId").text() + "&name=" + this.id,
+            url: "/Spotify/AddAlbumToPlaylist?id=" + $("#AlbumInfoId").text() + "&playlistId=" + this.id,
+            success: function (data) {
+                PopStackedPane("spotifyBrowserItems", function () { ReplaceBrowserPane("/Spotify/BrowserPane?mode=Library", "clear") })
+            },
+            cache: false
+        });
+        return false;
+    });
+
+    browserHammer.on("tap", ".spotifyBrowserPlaylistAddAlbumAsArtistName", function (e) {
+        $.ajax({
+            url: "/Spotify/AddAlbumToPlaylist?id=" + $("#AlbumInfoId").text() + "&playlistName=" + escape(this.id),
+            success: function (data) {
+                PopStackedPane("spotifyBrowserItems", function () { ReplaceBrowserPane("/Spotify/BrowserPane?mode=Library", "clear") })
+            },
+            cache: false
+        });
+        return false;
+    });
+
+    browserHammer.on("tap", ".spotifyBrowserPlaylistRemoveTrack", function (e) {
+        $.ajax({
+            url: "/Spotify/RemoveTrackFromPlayList?id=" + $("#TrackInfoId").text() + "&playlistId=" + $("#PlaylistId").text(),
             success: function (data) {
                 PopStackedPane("spotifyBrowserItems", function () { ReplaceBrowserPane("/Spotify/BrowserPane?mode=Library", "clear") })
             },
@@ -583,19 +606,7 @@ function AddBrowserHammerActions() {
 
     browserHammer.on("tap", ".spotifyBrowserPlaylistRemoveAlbum", function (e) {
         $.ajax({
-            url: "/Spotify/RemoveAlbumFromPlayList?id=" + $("#AlbumInfoId").text() + "&name=" + $("#PlaylistName").text(),
-            success: function (data) {
-                PopStackedPane("spotifyBrowserItems", function () { ReplaceBrowserPane("/Spotify/BrowserPane?mode=Library", "clear") })
-            },
-            cache: false
-        });
-        return false;
-    });
-
-    browserHammer.on("tap", "#spotifyBrowserPlaylistAddAlbumNew", function (e) {
-        var query = document.getElementById("spotifyBrowserPlaylistNewName").value
-        $.ajax({
-            url: "/Spotify/AddAlbumToPlaylist?id=" + $("#AlbumInfoId").text() + "&name=" + query,
+            url: "/Spotify/RemoveAlbumFromPlayList?id=" + $("#AlbumInfoId").text() + "&playlistId=" + $("#PlaylistId").text(),
             success: function (data) {
                 PopStackedPane("spotifyBrowserItems", function () { ReplaceBrowserPane("/Spotify/BrowserPane?mode=Library", "clear") })
             },
