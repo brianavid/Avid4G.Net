@@ -36,6 +36,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReferencedDLLs", "Reference
 		ReferencedDLLs\ReadMe.txt = ReferencedDLLs\ReadMe.txt
 		ReferencedDLLs\SpotiFire.dll = ReferencedDLLs\SpotiFire.dll
 		ReferencedDLLs\SpotiFire.Native.dll = ReferencedDLLs\SpotiFire.Native.dll
+		ReferencedDLLs\SpotifyAPI.dll = ReferencedDLLs\SpotifyAPI.dll
 		ReferencedDLLs\UsbUirtManagedWrapper.dll = ReferencedDLLs\UsbUirtManagedWrapper.dll
 		ReferencedDLLs\uuirtdrv.dll = ReferencedDLLs\uuirtdrv.dll
 	EndProjectSection
@@ -46,6 +47,8 @@ Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "Installer", "Installer\Inst
 		{C14A239C-342F-4541-9D5A-E86F403A158A} = {C14A239C-342F-4541-9D5A-E86F403A158A}
 		{ED17EC9E-58BC-45A2-AFA5-95BBC4D1C6C9} = {ED17EC9E-58BC-45A2-AFA5-95BBC4D1C6C9}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avid4SpotifyAuth", "Avid4SpotifyAuth\Avid4SpotifyAuth.csproj", "{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -219,6 +222,31 @@ Global
 		{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}.SingleImage|Mixed Platforms.Build.0 = SingleImage
 		{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}.SingleImage|x86.ActiveCfg = SingleImage
 		{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}.SingleImage|x86.Build.0 = SingleImage
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.CD_ROM|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.CD_ROM|Mixed Platforms.Build.0 = Release|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.CD_ROM|x86.ActiveCfg = Release|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.DVD-5|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.DVD-5|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.DVD-5|x86.ActiveCfg = Debug|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.Release|x86.ActiveCfg = Release|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
+		{4BCC1C51-ED43-44D9-A77C-5D15549B17EF}.SingleImage|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
