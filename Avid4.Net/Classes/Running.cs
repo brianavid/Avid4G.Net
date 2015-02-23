@@ -272,7 +272,6 @@ public static class Running
         {
             Screen.EnsureScreenOn();
             Receiver.SelectTVOutput();
-            Screen.WaitForScreenOn();
         }
 
         bool ok = DesktopClient.ExitAllPrograms();

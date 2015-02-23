@@ -136,6 +136,7 @@ public static class Screen
     /// </summary>
     public static void EnsureScreenOn()
     {
+        logger.Info("EnsureScreenOn");
         TurnOn();
 
         if (currentMode == 0)
@@ -162,6 +163,8 @@ public static class Screen
     public static void SetScreenDisplayMode(
         int mode)
     {
+        logger.Info("SetScreenDisplayMode {0}", mode);
+
         if (mode == 0)
         {
             TurnOff();

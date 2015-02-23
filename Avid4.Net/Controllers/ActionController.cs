@@ -205,6 +205,15 @@ namespace Avid4.Net.Controllers
             return Content("");
         }
 
+        // GET: /Action/Chromecast
+        public ActionResult Chromecast()
+        {
+            Running.ExitAllPrograms(true);
+            Screen.EnsureScreenOn();
+            Receiver.SelectChromecastInput();
+            return Content("");
+        }
+
         // GET: /Action/SoundTV
         public ActionResult SoundTV(
             string mode)

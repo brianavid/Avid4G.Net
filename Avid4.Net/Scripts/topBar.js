@@ -169,6 +169,18 @@ $(function () {
         });
     });
 
+    $("#actionMenuChromecast").click(function () {
+        $(".actionMenu").hide()
+        $.ajax({
+            url: "/Action/Chromecast",
+            success: function () {
+                location.href = document.getElementById("isWide") != null ? '/Home/Wide' : '/Home/Home';
+            },
+            error: HideActionMenu,
+            cache: false
+        });
+    });
+
     $("#actionMenuScreenOff").click(function () {
         $.ajax({
             url: "/Action/ScreenOff",

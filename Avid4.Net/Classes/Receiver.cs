@@ -257,6 +257,18 @@ public static class Receiver
     }
 
     /// <summary>
+    /// Set the Receiver to take digital input from the Chromecast dongle (HDMI4)
+    /// </summary>
+    public static void SelectChromecastInput()
+    {
+        logger.Info("SelectChromecastInput");
+        SelectedInput = "Chromecast";
+        MainZoneInput = "HDMI4";
+        GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Input><Input_Sel>HDMI4</Input_Sel></Input></Main_Zone></YAMAHA_AV>");
+        GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Input><Input_Sel>AV6</Input_Sel></Input></Zone_2></YAMAHA_AV>");
+    }
+
+    /// <summary>
     /// Ensure the Receiver actually has the digital input we currently expect it to have
     /// </summary>
     public static void ReselectInput()
