@@ -331,10 +331,18 @@ namespace Avid4.Net.Controllers
         }
 
         // GET: /Spotify/SaveAlbum
-        public ContentResult SaveAlbum(
+        public ContentResult AddSavedAlbum(
             string id)
         {
-            Spotify.SaveAlbum(id);
+            Spotify.AddSavedAlbum(id);
+            return this.Content("");
+        }
+
+        // GET: /Spotify/RemoveSavedAlbum
+        public ContentResult RemoveSavedAlbum(
+            string id)
+        {
+            Spotify.RemoveSavedAlbum(id);
             return this.Content("");
         }
     }

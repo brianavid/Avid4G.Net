@@ -157,6 +157,26 @@ public static class Spotify
             yield return nextbatch;
     }
 
+
+    /// <summary>
+    /// Helper comparator function to compare albums, first by artist name and then 
+    /// (for the same artist) by the album name
+    /// </summary>
+    /// <param name="a1"></param>
+    /// <param name="a2"></param>
+    /// <returns></returns>
+    private static int CompareAlbumByArtist(
+        SpotifyData.Album a1,
+        SpotifyData.Album a2)
+    {
+        var result = a1.ArtistName.CompareTo(a2.ArtistName);
+        return result != 0 ? result : a1.Name.CompareTo(a2.Name);
+    }
+
+
+    /// <summary>
+    /// Load and index all saved track, to build arrays of saved albums and saved artists
+    /// </summary>
     public static void LoadAndIndexAllSavedTracks()
     {
         AllSavedTracks = new List<SpotifyData.Track>(); // prevents reentrancy
@@ -211,7 +231,7 @@ public static class Spotify
 
                 AllSavedArtists = savedArtistList.ToArray();
 
-                Array.Sort(AllSavedAlbums, (a1, a2) => a1.Name.CompareTo(a2.Name));
+                Array.Sort(AllSavedAlbums, CompareAlbumByArtist);
                 Array.Sort(AllSavedArtists, (a1, a2) => a1.Name.CompareTo(a2.Name));
             }
             catch (System.Exception ex)
@@ -755,7 +775,7 @@ public static class Spotify
     /// <returns></returns>
     public static IEnumerable<SpotifyData.Album> GetSavedAlbums()
     {
-        logger.Info("Get Saved Album");
+        logger.Info("Get Saved Albums");
 
         return WebAppService != null ? AllSavedAlbums : null;
     }
@@ -776,10 +796,10 @@ public static class Spotify
     /// </summary>
     /// <param name="playlistId"></param>
     /// <param name="albumId"></param>
-    public static void SaveAlbum(
+    public static void AddSavedAlbum(
         string albumId)
     {
-        logger.Info("Save Album");
+        logger.Info("Add Saved Album");
 
         if (WebAppService != null)
         {
@@ -799,6 +819,66 @@ public static class Spotify
                 logger.Error(ex);
             }
         }
+    }
+
+    /// <summary>
+    /// Remove all the tracks of an identified album as a saved album
+    /// </summary>
+    /// <param name="playlistId"></param>
+    /// <param name="albumId"></param>
+    public static void RemoveSavedAlbum(
+        string albumId)
+    {
+        logger.Info("Remove Saved Album");
+
+        if (WebAppService != null)
+        {
+            try
+            {
+                var tracks = WebAppService.GetAlbumTracks(SimplifyId(albumId), "");
+                for (; ; )
+                {
+                    WebAppService.RemoveSavedTracks(tracks.Items.Select(t => t.Id).ToList());
+                    if (tracks.Next == null) break;
+                    tracks = WebAppService.DownloadData<Paging<SimpleTrack>>(tracks.Next);
+                }
+                AllSavedTracks = null;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Determine if all the tracks of an identified album are saved
+    /// </summary>
+    /// <remarks>
+    /// The code only checks the first set of Paging results (20 tracks)
+    /// </remarks>
+    /// <param name="playlistId"></param>
+    /// <param name="albumId"></param>
+    public static Boolean IsSavedAlbum(
+        string albumId)
+    {
+        logger.Info("Is Saved Album?");
+
+        if (WebAppService != null)
+        {
+            try
+            {
+                var tracks = WebAppService.GetAlbumTracks(SimplifyId(albumId), "");
+                List<Boolean>saveIndications = WebAppService.CheckSavedTracks(tracks.Items.Select(t => t.Id).ToList()).List;
+                return saveIndications.All(v => v);
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
+
+        return false;
     }
 
     #endregion

@@ -226,9 +226,18 @@
                 <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibraryAlbumArtist">
                     <div class="spotifyBrowserTitle">Artist Info</div>
                 </div>
-                <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserSaveAlbum">
-                    <div class="spotifyBrowserTitle">Save Album</div>
-                </div>
+                if (Spotify.IsSavedAlbum(album.Id))
+                {
+                    <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserRemoveSavedAlbum">
+                        <div class="spotifyBrowserTitle">Remove Saved Album</div>
+                    </div>
+                }
+                else
+                {
+                    <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserAddSavedAlbum">
+                        <div class="spotifyBrowserTitle">Add Saved Album</div>
+                    </div>
+                }
                 <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibraryAddAlbumToPlaylist">
                     <div class="spotifyBrowserTitle">Add Album to Playlist</div>
                 </div>

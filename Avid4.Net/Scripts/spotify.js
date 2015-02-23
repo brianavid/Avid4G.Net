@@ -523,9 +523,20 @@ function AddBrowserHammerActions() {
         return false;
     });
 
-    browserHammer.on("tap", "#spotifyBrowserSaveAlbum", function (e) {
+    browserHammer.on("tap", "#spotifyBrowserAddSavedAlbum", function (e) {
         $.ajax({
-            url: "/Spotify/SaveAlbum?id=" + $("#AlbumInfoId").text(),
+            url: "/Spotify/AddSavedAlbum?id=" + $("#AlbumInfoId").text(),
+            success: function (data) {
+                PopStackedPane("spotifyBrowserItems", function () { ReplaceBrowserPane("/Spotify/BrowserPane?mode=Library", "clear") })
+            },
+            cache: false
+        });
+        return false;
+    });
+
+    browserHammer.on("tap", "#spotifyBrowserRemoveSavedAlbum", function (e) {
+        $.ajax({
+            url: "/Spotify/RemoveSavedAlbum?id=" + $("#AlbumInfoId").text(),
             success: function (data) {
                 PopStackedPane("spotifyBrowserItems", function () { ReplaceBrowserPane("/Spotify/BrowserPane?mode=Library", "clear") })
             },
