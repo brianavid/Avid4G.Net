@@ -44,14 +44,15 @@ public static class Spotify
             {
 	            if (webAppService == null || webApiExpiry <= DateTime.Now)
 	            {
-	                RegistryKey key = Registry.CurrentUser.CreateSubKey("Avid");
-	
-	                string refreshToken = key.GetValue("SpotifyToken") as string;
-	
-	                if (!string.IsNullOrEmpty(refreshToken))
+                    logger.Info("Connecting and authenticating to Spotify Web API");
+	                RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Avid");
+
+                    string refreshUrl = key.GetValue("SpotifyRefreshUrl") as string;
+
+                    if (!string.IsNullOrEmpty(refreshUrl))
 	                {
 	                    HttpWebRequest request =
-	                        (HttpWebRequest)HttpWebRequest.Create("http://www.brianavid.co.uk/Avid4SpotifyAuth/Auth/Refresh?refresh_token=" + refreshToken);
+	                        (HttpWebRequest)HttpWebRequest.Create(refreshUrl);
 	                    request.Method = WebRequestMethods.Http.Get;
 	                    request.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
 	
@@ -71,10 +72,27 @@ public static class Spotify
 	                            };
 	                            webApiCurrentUserId = webAppService.GetPrivateProfile().Id;
 	                        }
-	                    }
+                            else
+                            {
+                                logger.Error("Invalid response from authentication for Spotify Web API");
+                            }
+                        }
+                        else
+                        {
+                            logger.Error("No response from authentication for Spotify Web API");
+                        }
 	                }
+                    else
+                    {
+                        logger.Error("No saved authentication data for Spotify Web API");
+                    }
 	            }
-	
+
+                if (webAppService == null || webApiExpiry <= DateTime.Now)
+                {
+                    logger.Error("Failed to connect to Spotify Web API");
+                }
+
 	            if (AllSavedTracks == null && webAppService != null)
 	            {
 	                LoadAndIndexAllSavedTracks();
@@ -737,6 +755,8 @@ public static class Spotify
     /// <returns></returns>
     public static IEnumerable<SpotifyData.Album> GetSavedAlbums()
     {
+        logger.Info("Get Saved Album");
+
         return WebAppService != null ? AllSavedAlbums : null;
     }
 
@@ -746,6 +766,8 @@ public static class Spotify
     /// <returns></returns>
     public static IEnumerable<SpotifyData.Artist> GetSavedArtists()
     {
+        logger.Info("Get Saved Artists");
+
         return WebAppService != null ? AllSavedArtists : null;
     }
 
@@ -757,6 +779,8 @@ public static class Spotify
     public static void SaveAlbum(
         string albumId)
     {
+        logger.Info("Save Album");
+
         if (WebAppService != null)
         {
             try

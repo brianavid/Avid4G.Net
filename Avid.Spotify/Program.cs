@@ -62,23 +62,24 @@ namespace Avid.Spotify
 
                     key.SetValue("SpotifyUser", user);
                     key.SetValue("SpotifyPass", pass);
-
-                    key.DeleteValue("SpotifyAccessToken");
-                    key.DeleteValue("SpotifyTokenType");
                 }
 
                 SpotifySession.SpotifyUser = user;
                 SpotifySession.SpotifyPass = pass;
 
-                //  If we have no saved SpotifyAccessToken, get it via an HTTP handshake and
+                //  If we have no saved SpotifyRefreshUrl, get it via an HTTP handshake and
                 //  save it persistently in the registry).
                 //  This will use a browser to ask for credentials, but only the one time it is needed.
-                if (string.IsNullOrEmpty(key.GetValue("SpotifyToken") as string))
+                RegistryKey webKey = Registry.LocalMachine.OpenSubKey("Software",true).CreateSubKey("Avid");
+                const string SpotifyRefreshUrlRegistryValue = "SpotifyRefreshUrl";
+
+                if (string.IsNullOrEmpty(webKey.GetValue(SpotifyRefreshUrlRegistryValue) as string))
                 {
+                    const String RedirectUri = "http://www.brianavid.co.uk/Avid4SpotifyAuth/Auth/";
                     var auth = new AutorizationCodeAuth()
                     {
                         ClientId = "b2d4e764bb8c49f39f1211dfc6b71b34",
-                        RedirectUri = "http://www.brianavid.co.uk/Avid4SpotifyAuth/Auth/Authenticate",
+                        RedirectUri = RedirectUri + "Authenticate",
 
                         //How many permissions we need?
                         Scope = Scope.USER_READ_PRIVATE | Scope.USER_READ_EMAIL | Scope.PLAYLIST_READ_PRIVATE | Scope.USER_LIBRARAY_READ | Scope.USER_LIBRARY_MODIFY | Scope.USER_READ_PRIVATE
@@ -92,7 +93,7 @@ namespace Avid.Spotify
                     for (int i = 0; i < 120; i++)
                     {
                         HttpWebRequest request =
-                            (HttpWebRequest)HttpWebRequest.Create("http://www.brianavid.co.uk/Avid4SpotifyAuth/Auth/GetLastRefreshToken");
+                            (HttpWebRequest)HttpWebRequest.Create(RedirectUri + "GetLastRefreshToken");
                         request.Method = WebRequestMethods.Http.Get;
                         request.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
 
@@ -100,14 +101,16 @@ namespace Avid.Spotify
                         var lastRefreshToken = new StreamReader(response.GetResponseStream()).ReadToEnd();
                         if (!string.IsNullOrEmpty(lastRefreshToken))
                         {
-                            key.SetValue("SpotifyToken", lastRefreshToken);
+                            //  Save the required authentication refresh URL into the registry so that the main
+                            //  Avid4 web app can authenticate using the same credentials
+                            webKey.SetValue(SpotifyRefreshUrlRegistryValue, RedirectUri + "Refresh?refresh_token=" + lastRefreshToken);
                             break;
                         }
                         System.Threading.Thread.Sleep(1000);
                     }
                 }
 
-                if (string.IsNullOrEmpty(key.GetValue("SpotifyToken") as string))
+                if (string.IsNullOrEmpty(webKey.GetValue(SpotifyRefreshUrlRegistryValue) as string))
                 {
                     MessageBox.Show(
                         string.Format("Failed to authenticate to Spotify"),

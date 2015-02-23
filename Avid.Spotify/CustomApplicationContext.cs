@@ -86,7 +86,8 @@ namespace Avid.Spotify
                 RegistryKey key = Registry.CurrentUser.CreateSubKey("Avid");
                 key.DeleteValue("SpotifyUser");
                 key.DeleteValue("SpotifyPass");
-                key.DeleteValue("SpotifyToken");
+                RegistryKey webKey = Registry.LocalMachine.OpenSubKey("Software", true).CreateSubKey("Avid");
+                webKey.DeleteValue("SpotifyRefreshUrl");
 
                 ExitThread();
             }
