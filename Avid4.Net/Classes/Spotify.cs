@@ -45,46 +45,55 @@ public static class Spotify
 	            if (webAppService == null || webApiExpiry <= DateTime.Now)
 	            {
                     logger.Info("Connecting and authenticating to Spotify Web API");
-	                RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Avid");
-
-                    string refreshUrl = key.GetValue("SpotifyRefreshUrl") as string;
-
-                    if (!string.IsNullOrEmpty(refreshUrl))
+	                try
 	                {
-	                    HttpWebRequest request =
-	                        (HttpWebRequest)HttpWebRequest.Create(refreshUrl);
-	                    request.Method = WebRequestMethods.Http.Get;
-	                    request.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+		                RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Avid");
 	
-	                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-	                    var tokenJsonString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-	                    if (!string.IsNullOrEmpty(tokenJsonString))
-	                    {
-	                        Token token = JsonConvert.DeserializeObject<Token>(tokenJsonString);
-	                        if (!string.IsNullOrEmpty(token.AccessToken) && !string.IsNullOrEmpty(token.TokenType))
-	                        {
-	                            webApiExpiry = DateTime.Now.AddSeconds(token.ExpiresIn * 4 / 5);    // Only use the token for 80% of its promised life
-	                            webAppService = new SpotifyWebAPIClass()
+	                    string refreshUrl = key.GetValue("SpotifyRefreshUrl") as string;
+	
+	                    if (!string.IsNullOrEmpty(refreshUrl))
+		                {
+		                    HttpWebRequest request =
+		                        (HttpWebRequest)HttpWebRequest.Create(refreshUrl);
+		                    request.Method = WebRequestMethods.Http.Get;
+		                    request.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+		
+		                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+		                    var tokenJsonString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+		                    if (!string.IsNullOrEmpty(tokenJsonString))
+		                    {
+		                        Token token = JsonConvert.DeserializeObject<Token>(tokenJsonString);
+		                        if (!string.IsNullOrEmpty(token.AccessToken) && !string.IsNullOrEmpty(token.TokenType))
+		                        {
+		                            webApiExpiry = DateTime.Now.AddSeconds(token.ExpiresIn * 4 / 5);    // Only use the token for 80% of its promised life
+		                            webAppService = new SpotifyWebAPIClass()
+		                            {
+		                                AccessToken = token.AccessToken,
+		                                TokenType = token.TokenType,
+		                                UseAuth = true
+		                            };
+		                            webApiCurrentUserId = webAppService.GetPrivateProfile().Id;
+                                    logger.Info("Connected and authenticated to Spotify Web API (expires at {0})",
+                                        webApiExpiry.ToShortTimeString());
+                                }
+	                            else
 	                            {
-	                                AccessToken = token.AccessToken,
-	                                TokenType = token.TokenType,
-	                                UseAuth = true
-	                            };
-	                            webApiCurrentUserId = webAppService.GetPrivateProfile().Id;
+	                                logger.Error("Invalid response from authentication for Spotify Web API");
+	                            }
 	                        }
-                            else
-                            {
-                                logger.Error("Invalid response from authentication for Spotify Web API");
-                            }
-                        }
-                        else
-                        {
-                            logger.Error("No response from authentication for Spotify Web API");
-                        }
+	                        else
+	                        {
+	                            logger.Error("No response from authentication for Spotify Web API");
+	                        }
+		                }
+	                    else
+	                    {
+	                        logger.Error("No saved authentication data for Spotify Web API");
+	                    }
 	                }
-                    else
-                    {
-                        logger.Error("No saved authentication data for Spotify Web API");
+	                catch (System.Exception ex)
+	                {
+                        logger.Error("Failed to connect to Spotify Web API", ex);
                     }
 	            }
 
