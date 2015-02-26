@@ -70,7 +70,7 @@ public static class Receiver
     static bool volumeMute = false;
 
     /// <summary>
-    /// True if the currently selected xone is the "main" (digital) zone
+    /// True if the currently selected zone is the "main" (digital) zone
     /// </summary>
     static bool mainZone;
 
@@ -90,7 +90,9 @@ public static class Receiver
     /// <summary>
     /// What is the name for the current zone to be used communicating with the Yamaha Receiver
     /// </summary>
-    static string ZoneName { get { return mainZone ? "Main_Zone" : "Zone_2"; } }
+    static string MainZoneName = "Main_Zone";
+    static string Zone2ZoneName = "Zone_2";
+    static string ZoneName { get { return mainZone ? MainZoneName : Zone2ZoneName; } }
 
     /// <summary>
     /// The currently selected input: "Sky" or "Computer"
@@ -110,6 +112,7 @@ public static class Receiver
         "Standard",
         "Drama",
         "Mono Movie",
+        "Music Video",
 //         "Adventure",
 //         "Sci-Fi",
 //         "Spectacle",
@@ -241,7 +244,6 @@ public static class Receiver
         SelectedInput = "Computer";
         MainZoneInput = "HDMI2";
         GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Input><Input_Sel>HDMI2</Input_Sel></Input></Main_Zone></YAMAHA_AV>");
-        GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Input><Input_Sel>AV6</Input_Sel></Input></Zone_2></YAMAHA_AV>");
     }
 
     /// <summary>
@@ -253,7 +255,6 @@ public static class Receiver
         SelectedInput = "Sky";
         MainZoneInput = "HDMI3";
         GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Input><Input_Sel>HDMI3</Input_Sel></Input></Main_Zone></YAMAHA_AV>");
-        GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Input><Input_Sel>AV5</Input_Sel></Input></Zone_2></YAMAHA_AV>");
     }
 
     /// <summary>
@@ -265,7 +266,6 @@ public static class Receiver
         SelectedInput = "Chromecast";
         MainZoneInput = "HDMI4";
         GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Input><Input_Sel>HDMI4</Input_Sel></Input></Main_Zone></YAMAHA_AV>");
-        GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Input><Input_Sel>AV6</Input_Sel></Input></Zone_2></YAMAHA_AV>");
     }
 
     /// <summary>
@@ -287,11 +287,11 @@ public static class Receiver
     public static void SelectTVOutput(string selectedMode = null, bool unmute = true)
     {
         logger.Info("SelectTVOutput {0}", selectedMode ?? DefaultOutputMode);
-       if (!switchedOn || SelectedOutput != "TV")
+        if (!switchedOn || SelectedOutput != "TV")
         {
-            MainZoneOn();
-            ReselectInput();
-            Zone2Off();
+            TurnOn();
+            SetZoneMute(MainZoneName, false);
+            SetZoneMute(Zone2ZoneName, true);
         }
 
         SelectedOutput = "TV";
@@ -310,9 +310,9 @@ public static class Receiver
         }
 
         //  Unmute if requested
-        if (volumeMute && unmute)
+        if (unmute)
         {
-            ToggleMute();
+            SetMute(false);
         }
 
         //  Update the current state
@@ -327,8 +327,9 @@ public static class Receiver
         logger.Info("SelectRoomsOutput");
         if (!switchedOn || SelectedOutput != "Rooms")
         {
-            Zone2On();
-            MainZoneOff();
+            TurnOn();
+            SetZoneMute(Zone2ZoneName, false);
+            SetZoneMute(MainZoneName, true);
         }
 
         SelectedOutput = "Rooms";
@@ -337,13 +338,21 @@ public static class Receiver
         switchedOn = true;
 
         //  Unmute
-        if (volumeMute)
-        {
-            ToggleMute();
-        }
+        SetMute(false);
 
         //  Update the current state
         GetState();
+    }
+
+    /// <summary>
+    /// Turn on both zones
+    /// </summary>
+    public static void TurnOn()
+    {
+        GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Power_Control><Power>On</Power></Power_Control></Main_Zone></YAMAHA_AV>");
+        GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Power_Control><Power>On</Power></Power_Control></Zone_2></YAMAHA_AV>");
+
+        switchedOn = false;
     }
 
     /// <summary>
@@ -351,8 +360,8 @@ public static class Receiver
     /// </summary>
     public static void TurnOff()
     {
-        MainZoneOff();
-        Zone2Off();
+        GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Power_Control><Power>Standby</Power></Power_Control></Main_Zone></YAMAHA_AV>");
+        GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Power_Control><Power>Standby</Power></Power_Control></Zone_2></YAMAHA_AV>");
 
         switchedOn = false;
     }
@@ -405,43 +414,17 @@ public static class Receiver
     {
         ReselectInput();
         volumeMute = muted;
+        SetZoneMute( ZoneName, muted);
+    }
+
+    static void SetZoneMute(
+        string zone,
+        bool muted)
+    {
         GetXml(String.Format(
             "<YAMAHA_AV cmd=\"PUT\"><{0}><Volume><Mute>{1}</Mute></Volume></{0}></YAMAHA_AV>",
-            ZoneName,
-            volumeMute ? "On" : "Off"));
-    }
-
-    /// <summary>
-    /// Turn the main zone (digital) off
-    /// </summary>
-    static void MainZoneOff()
-    {
-        GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Power_Control><Power>Standby</Power></Power_Control></Main_Zone></YAMAHA_AV>");
-    }
-
-    /// <summary>
-    /// Turn the zone 2 (analog) off
-    /// </summary>
-    static void Zone2Off()
-    {
-        GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Power_Control><Power>Standby</Power></Power_Control></Zone_2></YAMAHA_AV>");
-    }
-
-    /// <summary>
-    /// Turn the main zone (digital) on
-    /// </summary>
-    static void MainZoneOn()
-    {
-        GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Power_Control><Power>On</Power></Power_Control></Main_Zone></YAMAHA_AV>");
-    }
-
-    /// <summary>
-    /// Turn the zone 2 (analog) on, setting the input to the appropriate "matched" analog input
-    /// </summary>
-    static void Zone2On()
-    {
-        GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Power_Control><Power>On</Power></Power_Control></Zone_2></YAMAHA_AV>");
-        GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Input><Input_Sel>" + ((SelectedInput == "Computer") ? "AV6" : "AV5") + "</Input_Sel></Input></Zone_2></YAMAHA_AV>");
+            zone,
+            muted ? "On" : "Off"));
     }
 
     /// <summary>
