@@ -34,7 +34,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReferencedDLLs", "Reference
 		ReferencedDLLs\ReadMe.txt = ReferencedDLLs\ReadMe.txt
 		ReferencedDLLs\SpotiFire.dll = ReferencedDLLs\SpotiFire.dll
 		ReferencedDLLs\SpotiFire.Native.dll = ReferencedDLLs\SpotiFire.Native.dll
-		ReferencedDLLs\SpotifyAPI.dll = ReferencedDLLs\SpotifyAPI.dll
 		ReferencedDLLs\UsbUirtManagedWrapper.dll = ReferencedDLLs\UsbUirtManagedWrapper.dll
 		ReferencedDLLs\uuirtdrv.dll = ReferencedDLLs\uuirtdrv.dll
 	EndProjectSection
