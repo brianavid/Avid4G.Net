@@ -79,7 +79,7 @@ namespace Avid.Spotify
 	            System.Diagnostics.Trace.WriteLine("CreateSession");
                 session = SpotiFire.Spotify.CreateSession(loadedKey, Cache, Settings, UserAgent).Result;
 	            System.Diagnostics.Trace.WriteLine("InitializeSession");
-	            session.MusicDelivered += session_MusicDeliver;
+                session.MusicDelivered += MusicDeliver;
 	
                 //  Nothing currently playing
 	            trackQueue = new LinkedList<Track>();
@@ -129,21 +129,28 @@ namespace Avid.Spotify
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        static void session_MusicDeliver(Session sender, MusicDeliveryEventArgs e)
+        static void MusicDeliver(Session sender, MusicDeliveryEventArgs e)
         {
-            if (e.Samples.Length > 0)
+            try
             {
-                //  Let the plkayer consume as many as it can
-                e.ConsumedFrames = Player.EnqueueSamples(e.Channels, e.Rate, e.Samples, Math.Min(e.Frames, e.Rate));
+	            if (e.Samples.Length > 0)
+	            {
+	                //  Let the plkayer consume as many as it can
+	                e.ConsumedFrames = Player.EnqueueSamples(e.Channels, e.Rate, e.Samples, Math.Min(e.Frames, e.Rate));
+	            }
+	            else
+	            {
+	                e.ConsumedFrames = 0;
+	            }
+	
+	            //  Where are we playing currently - used for position display
+	            numSamplesPlayed += e.ConsumedFrames;
+	            currentTrackPos = seekPosition + (int)(numSamplesPlayed / e.Rate) - (int)Player.GetBufferedDuration().TotalSeconds;
             }
-            else
+            catch (System.Exception ex)
             {
-                e.ConsumedFrames = 0;
+                logger.Error("Failure in MusicDeliver", ex);
             }
-
-            //  Where are we playing currently - used for position display
-            numSamplesPlayed += e.ConsumedFrames;
-            currentTrackPos = seekPosition + (int)(numSamplesPlayed / e.Rate) - (int)Player.GetBufferedDuration().TotalSeconds;
         }
 
         /// <summary>
@@ -171,48 +178,61 @@ namespace Avid.Spotify
         /// <summary>
         /// Skip to the next queued track
         /// </summary>
-        static void SkipTrack(
-            bool StopCurrentImmediately =false)
+        static bool SkipTrack(
+            bool StopCurrentImmediately = false)
         {
             lock (SessionLock)
             {
-                if (StopCurrentImmediately)
+                try
                 {
-	                //  Stop the current track playing immediately, discarding buffered music
-	                Player.Reset();
+	                if (StopCurrentImmediately)
+	                {
+		                //  Stop the current track playing immediately, discarding buffered music
+		                Player.Reset();
+	                }
+	
+	                session.PlayerUnload();
+	                numSamplesPlayed = 0;
+	                currentTrackPos = 0;
+	                seekPosition = 0;
+	
+	                //  If this is the last queued track, sleep till it has played to the end and then pause the player
+	                //  If the player is not paused it loops playing the last buffer-full of samples repeatedly
+	                var bufferedDuration = Player.GetBufferedDuration();
+	                if (!StopCurrentImmediately && (trackQueue.Count == 0 || trackQueue.Last == currentPlayingTrackNode))
+	                {
+	                    System.Threading.Thread.Sleep(bufferedDuration);
+	                    Player.Pause();
+	                    currentPlayingTrackNode = null;
+                        logger.Info("Nothing to play");
+	                }
+	                else
+	                {
+	                    //  Get the next track to play, which will be the first if nothing is currently playing
+	                    currentPlayingTrackNode = currentPlayingTrackNode != null ? currentPlayingTrackNode.Next : trackQueue.First;
+	
+	                    //  Load up the player
+	                    session.PlayerLoad(currentPlayingTrackNode.Value);
+	                    session.PlayerPlay();
+                        logger.Info("Playing '{0}'", currentPlayingTrackNode.Value.Name);
+	
+	                    //  If the player is not already playing, start playing
+	                    if (!Player.Playing())
+	                    {
+	                        playTokenStolen = false;
+	                        Player.Play();
+	                    }
+
+                        return true;
+	                }
                 }
-
-                session.PlayerUnload();
-                numSamplesPlayed = 0;
-                currentTrackPos = 0;
-                seekPosition = 0;
-
-                //  If this is the last queued track, sleep till it has played to the end and then pause the player
-                //  If the player is not paused it loops playing the last buffer-full of samples repeatedly
-                var bufferedDuration = Player.GetBufferedDuration();
-                if (!StopCurrentImmediately && (trackQueue.Count == 0 || trackQueue.Last == currentPlayingTrackNode))
+                catch (System.Exception ex)
                 {
-                    System.Threading.Thread.Sleep(bufferedDuration);
-                    Player.Pause();
-                    currentPlayingTrackNode = null;
-                }
-                else
-                {
-                    //  Get the next track to play, which will be the first if nothing is currently playing
-                    currentPlayingTrackNode = currentPlayingTrackNode != null ? currentPlayingTrackNode.Next : trackQueue.First;
-
-                    //  Load up the player
-                    session.PlayerLoad(currentPlayingTrackNode.Value);
-                    session.PlayerPlay();
-
-                    //  If the player is not already playing, start playing
-                    if (!Player.Playing())
-                    {
-                        playTokenStolen = false;
-                        Player.Play();
-                    }
+                    logger.Error("Failure in SkipTrack", ex);
                 }
             }
+
+            return false;
         }
 
         //  Skip to the previous queued track
@@ -242,6 +262,7 @@ namespace Avid.Spotify
                     //  Load up the player
                     session.PlayerLoad(currentPlayingTrackNode.Value);
                     session.PlayerPlay();
+                    logger.Info("Playing [SkipBack] '{0}'", currentPlayingTrackNode.Value.Name);
 
                     //  If the player is not already playing, start playing
                     if (!Player.Playing())
@@ -347,6 +368,7 @@ namespace Avid.Spotify
                     //  Load up the player
                     session.PlayerLoad(currentPlayingTrackNode.Value);
                     session.PlayerPlay();
+                    logger.Info("Playing [SkipTo] '{0}'", currentPlayingTrackNode.Value.Name);
 
                     //  If the player is not already playing, start playing
                     if (!Player.Playing())

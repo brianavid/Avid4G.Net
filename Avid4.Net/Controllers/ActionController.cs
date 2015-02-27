@@ -4,11 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Avid4.Net;
+using NLog;
 
 namespace Avid4.Net.Controllers
 {
     public class ActionController : Controller
     {
+        static Logger logger = LogManager.GetCurrentClassLogger();
+
         // GET: /Action/GetRunning
         public ContentResult GetRunning()
         {
@@ -133,9 +136,17 @@ namespace Avid4.Net.Controllers
         public ActionResult AllOff(
             string keep)
         {
-            Running.ExitAllPrograms(!string.IsNullOrEmpty(keep));
-            DesktopClient.SendSpecialkey("ClearDesktop");
-            return Content(Receiver.VolumeDisplay);
+            try
+            {
+	            Running.ExitAllPrograms(!string.IsNullOrEmpty(keep));
+	            DesktopClient.SendSpecialkey("ClearDesktop");
+	            return Content(Receiver.VolumeDisplay);
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error("Error in AllOff: {0}", ex);
+                return Content("Error");
+            }
         }
 
         // GET: /Action/MouseMove

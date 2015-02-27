@@ -13,11 +13,14 @@ using System.IO;
 using SpotifyAPI.SpotifyWebAPI;
 using SpotifyAPI.SpotifyWebAPI.Models;
 using System.Net.Cache;
+using System.Threading;
 
 namespace Avid.Spotify
 {
     static class Program
     {
+        static Logger logger = LogManager.GetLogger("SpotifyPlayer");
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -26,8 +29,11 @@ namespace Avid.Spotify
         {
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
-            Logger logger = LogManager.GetLogger("SpotifyPlayer");
             logger.Info("Spotify Player Started");
+
+            Application.ThreadException += new ThreadExceptionEventHandler(Application_ThreadException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+
             try
             {
                 if (!File.Exists(SpotifySession.SpotifyAppKeyFileName))
@@ -134,6 +140,16 @@ namespace Avid.Spotify
                 logger.Fatal(ex);
             }
             //  SingleInstance.Stop();
+        }
+
+        static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
+        {
+            logger.Fatal("Unhandled Thread Exception: {0}", e.Exception);
+        }
+
+        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            logger.Fatal("Unhandled UI Exception: {0}", e.ExceptionObject);
         }
     }
 }

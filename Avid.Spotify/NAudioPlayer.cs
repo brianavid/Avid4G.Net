@@ -108,6 +108,10 @@ namespace Avid.Spotify
             {
                 buffer.ClearBuffer();
             }
+
+            //  Force NAudio reset when we next play something.
+            buffer = null;
+            dso = null;
         }
 
         /// <summary>

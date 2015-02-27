@@ -48,7 +48,7 @@ namespace Avid.Spotify
             bool append = false)
         {
             Track track = SpotifySession.GetTrack(id);
-            if (track != null)
+            if (track != null && track.IsAvailable)
             {
                 try
                 {
@@ -70,7 +70,7 @@ namespace Avid.Spotify
         {
             try
             {
-                SpotifySession.EnqueueTracks((await album.Browse()).Tracks, append);
+                SpotifySession.EnqueueTracks((await album.Browse()).Tracks.Where(t => t.IsAvailable), append);
                 return true;
             }
             catch (Exception ex)
