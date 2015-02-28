@@ -125,7 +125,7 @@ namespace Avid.Spotify
         static int seekPosition = 0;
 
         /// <summary>
-        /// Deliver the Spotify track's music smaples to the player, allowing it to consume as many as it can buffer
+        /// Deliver the Spotify track's music samples to the player, allowing it to consume as many as it can buffer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -135,7 +135,7 @@ namespace Avid.Spotify
             {
 	            if (e.Samples.Length > 0)
 	            {
-	                //  Let the plkayer consume as many as it can
+	                //  Let the player consume as many as it can
 	                e.ConsumedFrames = Player.EnqueueSamples(e.Channels, e.Rate, e.Samples, Math.Min(e.Frames, e.Rate));
 	            }
 	            else
@@ -149,7 +149,7 @@ namespace Avid.Spotify
             }
             catch (System.Exception ex)
             {
-                logger.Error("Failure in MusicDeliver", ex);
+                logger.Error("Failure in MusicDeliver: {0}", ex);
             }
         }
 
@@ -228,7 +228,7 @@ namespace Avid.Spotify
                 }
                 catch (System.Exception ex)
                 {
-                    logger.Error("Failure in SkipTrack", ex);
+                    logger.Error("Failure in SkipTrack: {0}", ex);
                 }
             }
 

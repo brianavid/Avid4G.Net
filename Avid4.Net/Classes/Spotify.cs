@@ -971,17 +971,20 @@ public static class Spotify
         string id,
         bool append = false)
     {
-        try
+        lock (trayAppClient)
         {
-	        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/PlayTrack?id={0}&append={1}", HttpUtility.UrlEncode(id), append)).Result;
-	        resp.EnsureSuccessStatusCode();
-	
-	        return resp.Content.ReadAsAsync<Boolean>().Result;
-        }
-        catch (System.Exception ex)
-        {
-            logger.Error(ex);
-            return false;
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/PlayTrack?id={0}&append={1}", HttpUtility.UrlEncode(id), append)).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<Boolean>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
         }
     }
 
@@ -995,17 +998,20 @@ public static class Spotify
         string id,
         bool append = false)
     {
-        try
+        lock (trayAppClient)
         {
-	        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/PlayAlbum?id={0}&append={1}", HttpUtility.UrlEncode(id), append)).Result;
-	        resp.EnsureSuccessStatusCode();
-	
-	        return resp.Content.ReadAsAsync<Boolean>().Result;
-        }
-        catch (System.Exception ex)
-        {
-            logger.Error(ex);
-            return false;
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/PlayAlbum?id={0}&append={1}", HttpUtility.UrlEncode(id), append)).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<Boolean>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
         }
     }
 
@@ -1015,19 +1021,22 @@ public static class Spotify
     /// <returns></returns>
     public static SpotifyData.Track GetCurrentTrack()
     {
-        try
+        lock (trayAppClient)
         {
-	        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/GetCurrentTrack")).Result;
-	        resp.EnsureSuccessStatusCode();
-	
-	        var currentTrackId = resp.Content.ReadAsAsync<String>().Result;
-	
-	        return currentTrackId == null ? null : MakeTrack(GetFullTrack(SimplifyId(currentTrackId)));
-        }
-        catch (System.Exception ex)
-        {
-            logger.Error(ex);
-            return null;
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/GetCurrentTrack")).Result;
+                resp.EnsureSuccessStatusCode();
+
+                var currentTrackId = resp.Content.ReadAsAsync<String>().Result;
+
+                return currentTrackId == null ? null : MakeTrack(GetFullTrack(SimplifyId(currentTrackId)));
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return null;
+            }
         }
     }
 
@@ -1038,26 +1047,30 @@ public static class Spotify
     public static IEnumerable<SpotifyData.Track> GetQueuedTracks()
     {
         List<SpotifyData.Track> result = new List<SpotifyData.Track>();
-        try
-        {
-	        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/GetQueuedTracks")).Result;
-	        resp.EnsureSuccessStatusCode();
-	
-	        var queuedTracks = resp.Content.ReadAsAsync<IEnumerable<String>>().Result;
-	
-	        foreach (var batch in queuedTracks.Batch(50))
-	        {
-	            foreach (var track in WebAppService.GetSeveralTracks(batch.Select(id => SimplifyId(id)).ToList()).Tracks)
-	            {
-	                result.Add(MakeTrack(track));
-	            }
-	        }
-        }
-        catch (System.Exception ex)
-        {
-            logger.Error(ex);
-        }
 
+        lock (trayAppClient)
+        {
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/GetQueuedTracks")).Result;
+                resp.EnsureSuccessStatusCode();
+
+                var queuedTracks = resp.Content.ReadAsAsync<IEnumerable<String>>().Result;
+
+                foreach (var batch in queuedTracks.Batch(50))
+                {
+                    foreach (var track in WebAppService.GetSeveralTracks(batch.Select(id => SimplifyId(id)).ToList()).Tracks)
+                    {
+                        result.Add(MakeTrack(track));
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+
+        }
         return result;
     }
 
@@ -1067,19 +1080,22 @@ public static class Spotify
     public static SpotifyData.Track SkipToQueuedTrack(
         string id)
     {
-        try
+        lock (trayAppClient)
         {
-	        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/SkipToQueuedTrack?id={0}", HttpUtility.UrlEncode(id))).Result;
-	        resp.EnsureSuccessStatusCode();
-	
-	        var resultId = resp.Content.ReadAsAsync<String>().Result;
-	
-	        return MakeTrack(GetFullTrack(SimplifyId(resultId)));
-        }
-        catch (System.Exception ex)
-        {
-            logger.Error(ex);
-            return null;
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/SkipToQueuedTrack?id={0}", HttpUtility.UrlEncode(id))).Result;
+                resp.EnsureSuccessStatusCode();
+
+                var resultId = resp.Content.ReadAsAsync<String>().Result;
+
+                return MakeTrack(GetFullTrack(SimplifyId(resultId)));
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return null;
+            }
         }
     }
 
@@ -1089,19 +1105,22 @@ public static class Spotify
     public static SpotifyData.Track RemoveQueuedTrack(
         string id)
     {
-        try
+        lock (trayAppClient)
         {
-	        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/RemoveQueuedTrack?id={0}", HttpUtility.UrlEncode(id))).Result;
-	        resp.EnsureSuccessStatusCode();
-	
-	        var resultId = resp.Content.ReadAsAsync<String>().Result;
-	
-	        return MakeTrack(GetFullTrack(SimplifyId(resultId)));
-        }
-        catch (System.Exception ex)
-        {
-            logger.Error(ex);
-            return null;
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/RemoveQueuedTrack?id={0}", HttpUtility.UrlEncode(id))).Result;
+                resp.EnsureSuccessStatusCode();
+
+                var resultId = resp.Content.ReadAsAsync<String>().Result;
+
+                return MakeTrack(GetFullTrack(SimplifyId(resultId)));
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return null;
+            }
         }
     }
     #endregion
@@ -1113,17 +1132,20 @@ public static class Spotify
     /// <returns></returns>
     public static int Skip()
     {
-        try
+        lock (trayAppClient)
         {
-	        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/Skip")).Result;
-	        resp.EnsureSuccessStatusCode();
-	
-	        return resp.Content.ReadAsAsync<int>().Result;
-        }
-        catch (System.Exception ex)
-        {
-            logger.Error(ex);
-            return 0;
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/Skip")).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<int>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return 0;
+            }
         }
     }
 
@@ -1133,17 +1155,20 @@ public static class Spotify
     /// <returns></returns>
     public static int Back()
     {
-        try
+        lock (trayAppClient)
         {
-	        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/Back")).Result;
-	        resp.EnsureSuccessStatusCode();
-	
-	        return resp.Content.ReadAsAsync<int>().Result;
-        }
-        catch (System.Exception ex)
-        {
-            logger.Error(ex);
-            return 0;
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/Back")).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<int>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return 0;
+            }
         }
     }
 
@@ -1153,17 +1178,20 @@ public static class Spotify
     /// <returns></returns>
     public static int Play()
     {
-        try
+        lock (trayAppClient)
         {
-	        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/Play")).Result;
-	        resp.EnsureSuccessStatusCode();
-	
-	        return resp.Content.ReadAsAsync<int>().Result;
-        }
-        catch (System.Exception ex)
-        {
-            logger.Error(ex);
-            return 0;
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/Play")).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<int>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return 0;
+            }
         }
     }
 
@@ -1173,17 +1201,20 @@ public static class Spotify
     /// <returns></returns>
     public static int Pause()
     {
-        try
+        lock (trayAppClient)
         {
-	        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/Pause")).Result;
-	        resp.EnsureSuccessStatusCode();
-	
-	        return resp.Content.ReadAsAsync<int>().Result;
-        }
-        catch (System.Exception ex)
-        {
-            logger.Error(ex);
-            return 0;
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/Pause")).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<int>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return 0;
+            }
         }
     }
 
@@ -1193,17 +1224,20 @@ public static class Spotify
     /// <returns>+ve: Playing; 0: Paused; -ve: Stolen by another session</returns>
     public static int GetPlaying()
     {
-        try
+        lock (trayAppClient)
         {
-	        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/GetPlaying")).Result;
-	        resp.EnsureSuccessStatusCode();
-	
-	        return resp.Content.ReadAsAsync<int>().Result;
-        }
-        catch (System.Exception ex)
-        {
-            logger.Error(ex);
-            return -1;  //  We don't know
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/GetPlaying")).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<int>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return -1;  //  We don't know
+            }
         }
     }
 
@@ -1213,17 +1247,20 @@ public static class Spotify
     /// <returns></returns>
     public static int Stop()
     {
-        try
+        lock (trayAppClient)
         {
-	        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/Stop")).Result;
-	        resp.EnsureSuccessStatusCode();
-	
-	        return resp.Content.ReadAsAsync<int>().Result;
-        }
-        catch (System.Exception ex)
-        {
-            logger.Error(ex);
-            return 0;
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/Stop")).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<int>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return 0;
+            }
         }
     }
 
@@ -1233,17 +1270,20 @@ public static class Spotify
     /// <returns>Position in seconds</returns>
     public static int GetPosition()
     {
-        try
+        lock (trayAppClient)
         {
-	        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/GetPosition")).Result;
-	        resp.EnsureSuccessStatusCode();
-	
-	        return resp.Content.ReadAsAsync<int>().Result;
-        }
-        catch (System.Exception ex)
-        {
-            logger.Error(ex);
-            return 0;
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/GetPosition")).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<int>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return 0;
+            }
         }
     }
 
@@ -1255,17 +1295,20 @@ public static class Spotify
     public static int SetPosition(
         int pos)
     {
-        try
+        lock (trayAppClient)
         {
-	        HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/SetPosition?pos={0}", pos)).Result;
-	        resp.EnsureSuccessStatusCode();
-	
-	        return resp.Content.ReadAsAsync<int>().Result;
-        }
-        catch (System.Exception ex)
-        {
-            logger.Error(ex);
-            return 0;
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/SetPosition?pos={0}", pos)).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<int>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return 0;
+            }
         }
     }
     #endregion
