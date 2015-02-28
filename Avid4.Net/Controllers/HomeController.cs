@@ -53,5 +53,13 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
+        //
+        // GET: /Home/GoAway
+
+        public ActionResult GoAway()
+        {
+            return View();
+        }
+
     }
 }

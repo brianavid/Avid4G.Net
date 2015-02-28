@@ -1,4 +1,12 @@
-﻿<div id='TopBar'>
+﻿@*
+    Any external (non-LAN) accesses which display the top bar (i.e. not the Guide) should be rejected
+*@
+@if (!IpAddress.IsLanIP(Request.UserHostAddress))
+{
+    Response.Redirect("~/Home/GoAway");
+}
+
+<div id='TopBar'>
 
   <table class="topBar @(Running.RunningProgramTopBarClass)">
 	  <tr>

@@ -18,9 +18,14 @@ function AddBrowserHammerActions() {
     EnableDragScroll(browserHammer)
 
     browserHammer.on("swiperight swipeleft", function (e) {
-        PopStackedPane("guideBrowserItems", function () { ReplacePane("webBrowserItems", "/Guide/BrowserPane?mode=GuideRoot", "clear") })
+        PopStackedPane("guideBrowserItems", function () { ReplacePane("guideBrowserItems", "/Guide/BrowserPane?mode=GuideRoot", "clear") })
         return false;
     })
+
+    browserHammer.on("doubletap", ".guideTitle", function (e) {
+        ReplacePane("guideBrowserItems", "/Guide/BrowserPane?mode=GuideRoot", "clear")
+        return false;
+    });
 
     browserHammer.on("tap", "#guideFavouritesEpg", function (e) {
         ReplacePane("guideBrowserItems", "/Guide/BrowserPane?mode=GuideSelectFavouritesEpg", "push")

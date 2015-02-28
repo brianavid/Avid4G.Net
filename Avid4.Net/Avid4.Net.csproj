@@ -141,6 +141,7 @@
     <Compile Include="Classes\BBC.cs" />
     <Compile Include="Classes\Config.cs" />
     <Compile Include="Classes\Desktop.cs" />
+    <Compile Include="Classes\IpAddress.cs" />
     <Compile Include="Classes\IRCodes.cs" />
     <Compile Include="Classes\JRMC.cs" />
     <Compile Include="Classes\NoCacheAttribute.cs" />
@@ -555,6 +556,7 @@
     <Content Include="Views\TV\Watch.cshtml" />
     <Content Include="Views\Music\BrowserSearchPane.cshtml" />
     <Content Include="Views\Spotify\BrowserSearchPane.cshtml" />
+    <Content Include="Views\Home\GoAway.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

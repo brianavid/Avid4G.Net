@@ -3,7 +3,14 @@
 }
 
 
-@Html.Partial("TopBarWide")
+@*
+    Do not display the topbar for external (internet) requests, but do allow control of the EPG and recording
+*@
+@if (IpAddress.IsLanIP(Request.UserHostAddress))
+{
+    Html.Partial("TopBarWide");
+}
+
 @section scripts {
     @Html.Raw(Render.Script("topBar", Request))
     @Html.Raw(Render.Script("guide", Request))

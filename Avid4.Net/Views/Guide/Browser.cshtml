@@ -2,8 +2,20 @@
     ViewBag.Title = Running.RunningProgram;
 }
 
+@*
+    Do not display the topbar for external (internet) requests, but do allow control of the EPG and recording
+*@
+@if (IpAddress.IsLanIP(Request.UserHostAddress)) 
+{
+    @Html.Partial("TopBar");
+}
+else
+{
+    @*
+    <p>@(Request.UserHostAddress) is @(IpAddress.IsLanIP(Request.UserHostAddress) ? "" : "NOT ")local</p>
+    *@
+}
 
-@Html.Partial("TopBar")
 @section scripts {
     @Html.Raw(Render.Script("topBar", Request))
     @Html.Raw(Render.Script("guide", Request))
