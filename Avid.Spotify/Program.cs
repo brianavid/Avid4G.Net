@@ -14,6 +14,8 @@ using SpotifyAPI.SpotifyWebAPI;
 using SpotifyAPI.SpotifyWebAPI.Models;
 using System.Net.Cache;
 using System.Threading;
+using System.Security.Principal;
+using System.Security.AccessControl;
 
 namespace Avid.Spotify
 {
@@ -79,8 +81,33 @@ namespace Avid.Spotify
                 RegistryKey webKey = Registry.LocalMachine.OpenSubKey("Software",true).CreateSubKey("Avid");
                 const string SpotifyRefreshUrlRegistryValue = "SpotifyRefreshUrl";
 
+                try
+                {
+	                SecurityIdentifier sid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
+	                NTAccount account = sid.Translate(typeof(NTAccount)) as NTAccount;
+	
+	                // Get ACL from Windows
+	                RegistrySecurity rs = webKey.GetAccessControl();
+	
+	                // Creating registry access rule for 'Everyone' NT account
+	                RegistryAccessRule rar = new RegistryAccessRule(
+	                    account.ToString(),
+	                    RegistryRights.FullControl,
+	                    InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
+	                    PropagationFlags.None,
+	                    AccessControlType.Allow);
+	
+	                rs.AddAccessRule(rar);
+	                webKey.SetAccessControl(rs);
+                }
+                catch (System.Exception ex)
+                {
+                    logger.Error("Unable to grant write access to the Avid registry subkey");
+                }
+
                 if (string.IsNullOrEmpty(webKey.GetValue(SpotifyRefreshUrlRegistryValue) as string))
                 {
+                    logger.Info("Must authenticate to Spotify Web API");
                     const String RedirectUri = "http://www.brianavid.co.uk/Avid4SpotifyAuth/Auth/";
                     var auth = new AutorizationCodeAuth()
                     {
@@ -110,6 +137,7 @@ namespace Avid.Spotify
                             //  Save the required authentication refresh URL into the registry so that the main
                             //  Avid4 web app can authenticate using the same credentials
                             webKey.SetValue(SpotifyRefreshUrlRegistryValue, RedirectUri + "Refresh?refresh_token=" + lastRefreshToken);
+                            logger.Info("Authenticated to Spotify Web API");
                             break;
                         }
                         System.Threading.Thread.Sleep(1000);

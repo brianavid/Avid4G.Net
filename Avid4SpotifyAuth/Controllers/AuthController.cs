@@ -52,6 +52,7 @@ namespace Avid4SpotifyAuth.Controllers
         private const string RedirectUri = "http://www.brianavid.co.uk/Avid4SpotifyAuth/Auth/Authenticate";
 
         private static string lastRefreshToken = "";
+        private static DateTime refreshTokenFetchExpiry = DateTime.MinValue;
 
         //
         // GET: /Auth/
@@ -108,7 +109,9 @@ namespace Avid4SpotifyAuth.Controllers
                     }
                     var token = JsonConvert.DeserializeObject<Token>(response);
                     lastRefreshToken = token.RefreshToken;
+                    refreshTokenFetchExpiry = DateTime.UtcNow.AddSeconds(120);
                     logger.Info("Last Refresh Token {0}", lastRefreshToken);
+                    logger.Info("Fetch Refresh Token before {0}", refreshTokenFetchExpiry.ToShortTimeString());
                     logger.Info("New Token {0}", token.AccessToken);
                     return this.Content(response, "application/json");
                 }
@@ -131,6 +134,10 @@ namespace Avid4SpotifyAuth.Controllers
 
         public ContentResult GetLastRefreshToken()
         {
+            if (DateTime.UtcNow > refreshTokenFetchExpiry)
+            {
+                lastRefreshToken = "";
+            }
             logger.Info("GetLastRefreshToken {0}", lastRefreshToken);
             return this.Content(lastRefreshToken);
         }

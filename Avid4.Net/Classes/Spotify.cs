@@ -65,6 +65,27 @@ public static class Spotify
 		                        Token token = JsonConvert.DeserializeObject<Token>(tokenJsonString);
 		                        if (!string.IsNullOrEmpty(token.AccessToken) && !string.IsNullOrEmpty(token.TokenType))
 		                        {
+                                    if (!string.IsNullOrEmpty(token.RefreshToken))
+                                    {
+                                        var equalsPos = refreshUrl.LastIndexOf('=');
+                                        if (equalsPos > 0)
+                                        {
+                                            var newRefreshUrl = refreshUrl.Substring(0, equalsPos + 1) + token.RefreshToken;
+                                            if (newRefreshUrl != refreshUrl)
+                                            {
+                                                try
+                                                {
+	                                                RegistryKey updateKey = Registry.LocalMachine.OpenSubKey(@"Software\Avid", true);
+	                                                updateKey.SetValue("SpotifyRefreshUrl", newRefreshUrl);
+	                                                logger.Info("Updated saved authentication data for Spotify Web API");
+                                                }
+                                                catch (System.Exception ex)
+                                                {
+                                                    logger.Info("Unable to update saved authentication data for Spotify Web API");
+                                                }
+                                            }
+                                        }
+                                    }
 		                            webApiExpiry = DateTime.Now.AddSeconds(token.ExpiresIn * 4 / 5);    // Only use the token for 80% of its promised life
 		                            webAppService = new SpotifyWebAPIClass()
 		                            {
@@ -93,7 +114,7 @@ public static class Spotify
 	                }
 	                catch (System.Exception ex)
 	                {
-                        logger.Error("Failed to connect to Spotify Web API", ex);
+                        logger.Error("Failed to connect to Spotify Web API: {0}", ex);
                     }
 	            }
 
