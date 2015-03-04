@@ -134,6 +134,11 @@ public static class Receiver
     public static string SelectedOutputMode { get; private set; }
 
     /// <summary>
+    /// Is the volume muted
+    /// </summary>
+    public static Boolean VolumeMuted { get { return volumeMute ; } }
+
+    /// <summary>
     /// A formatted string for displaying the current volume level
     /// </summary>
     public static string VolumeDisplay { get { return !switchedOn ? "Off" : String.Format(volumeMute ? "({0}%)" : "{0}%", volumeLevel); } }

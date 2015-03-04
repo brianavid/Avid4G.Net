@@ -477,6 +477,29 @@ public class JRMC
     }
 
     /// <summary>
+    /// Is the underlying player actually playing anything - not stopped or paused?
+    /// </summary>
+    /// <returns></returns>
+    public static Boolean IsActivelyPlaying()
+    {
+        var x = GetXml(Url + "Playback/Info");
+        try
+        {
+            if (x != null)
+            {
+                var status = x.Root.DescendantsAndSelf("Item").Where(el => el.Attribute("Name").Value == "Status");
+                return status != null && status.Count() != 0 && status.First().Value == "Playing";
+            }
+
+            return true;
+        }
+        catch (System.Exception ex)
+        {
+            return true;
+        }
+    }
+
+    /// <summary>
     /// Add or replace a track property value in the XML to be returned
     /// </summary>
     /// <param name="root"></param>

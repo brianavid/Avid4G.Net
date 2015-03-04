@@ -29,6 +29,11 @@ public static class Running
     public static String RunningProgram { get { return runningProgram; } }
 
     /// <summary>
+    /// When was there last activity with the running program?
+    /// </summary>
+    static DateTime lastActive = DateTime.UtcNow;
+
+    /// <summary>
     /// Initialize, detecting if Sky is running
     /// </summary>
     public static void Initialize()
@@ -37,6 +42,11 @@ public static class Running
         {
             runningProgram = "Sky";
         }
+
+        //  Start a background thread to poll for an inactive screen-off player and so turn it off after
+        //  a short while
+        var activityChecker = new Thread(ActivityChecker);
+        activityChecker.Start();
     }
 
     /// <summary>
@@ -82,6 +92,8 @@ public static class Running
     {
         logger.Info("LaunchProgram {0} -> {1} {2}", runningProgram, name, args ?? "");
 
+        lastActive = DateTime.UtcNow; 
+        
         runningArgs = args;
 
         if (name != "Sky")
@@ -211,6 +223,8 @@ public static class Running
     {
         logger.Info("LaunchNewProgram {0} -> {1}", runningProgram, name);
 
+        lastActive = DateTime.UtcNow;
+
         runningArgs = "";
 
         if (name == "Photo")
@@ -251,6 +265,8 @@ public static class Running
         bool keepScreen = false)
     {
         logger.Info("ExitAllPrograms");
+
+        lastActive = DateTime.UtcNow;
 
         if (runningProgram == "Music" || runningProgram == "Photo")
         {
@@ -323,5 +339,63 @@ public static class Running
         Spotify.Stop();
         runningProgram = "";
         logger.Info("NothingRunning");
+    }
+
+
+    /// <summary>
+    /// Is the currently running player showing signs of activity?
+    /// </summary>
+    /// <returns></returns>
+    static Boolean IsActive()
+    {
+        //  If the screen is on, don't turn everything off
+        if (Screen.IsOn)
+        {
+            return true;
+        }
+
+        //  If the receiver is muted, it may have been forgotten
+        if (Receiver.VolumeMuted)
+        {
+            return false;
+        }
+
+        //  If a music player is stopped or paused, it may have been forgotten
+        switch (runningProgram)
+        {
+            default:
+                //  We assume that other running programs with the screen off are doing that for a reason
+                //  So leave them as active
+                return true;
+            case "Music":
+                return JRMC.IsActivelyPlaying();
+            case "Spotify":
+                return Spotify.GetPlaying() > 0;
+        }
+
+    }
+
+
+    /// <summary>
+    /// On a background thread, poll for a silent player and turn everything off after a short while.
+    /// </summary>
+    static void ActivityChecker()
+    {
+        for (;;)
+        {
+            Thread.Sleep(60 * 1000);   //  Every minute, check for activity
+            if (IsActive())
+            {
+                lastActive = DateTime.UtcNow;
+            }
+
+            //  If the receiver is on and there has been no activity for 10 minutes,
+            //  turn everything off
+            if (Receiver.IsOn() && lastActive.AddMinutes(10) < DateTime.UtcNow)
+            {
+                logger.Info("No activity from {0} since {1} - Exiting", runningProgram, lastActive.ToShortTimeString());
+                ExitAllPrograms(false);
+            }
+        }
     }
 }
