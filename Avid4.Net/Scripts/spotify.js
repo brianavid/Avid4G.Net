@@ -369,6 +369,42 @@ function AddBrowserHammerActions() {
         return false;
     });
 
+    browserHammer.on("hold", ".spotifyBrowserPlaylist", function (e) {
+        ReplaceBrowserPane("/Spotify/BrowserPane?mode=PlaylistInfo&Id=" + this.id + "&playlistId=" + this.id + "&playlistName=" + encodeURIComponent(this.innerText), "push", UpdateQueue)
+        return false;
+    });
+
+    browserHammer.on("doubletap", "#spotifyBrowserLibraryDeletePlaylist", function (e) {
+        $.ajax({
+            url: "/Spotify/DeletePlaylist?playlistId=" + $("#PlaylistId").text(),
+            success: function (data) {
+                ReplaceBrowserPane("/Spotify/BrowserPane?mode=Playlists", "none")
+            },
+            error: function (data) {
+                ReplaceBrowserPane("/Spotify/BrowserPane?mode=Playlists", "none")
+            },
+            cache: false
+        });
+        return false;
+    });
+
+    browserHammer.on("tap", "#goSpotifyRenamePlaylist", function (e) {
+        var newName = document.getElementById("spotifyBrowserPlaylistRenamedName").value
+        if (newName != '') {
+            $.ajax({
+                url: "/Spotify/RenamePlaylist?playlistId=" + $("#PlaylistId").text() + "&name=" + newName,
+                success: function (data) {
+                    ReplaceBrowserPane("/Spotify/BrowserPane?mode=Playlists", "none")
+                },
+                error: function (data) {
+                    ReplaceBrowserPane("/Spotify/BrowserPane?mode=Playlists", "none")
+                },
+                cache: false
+            });
+        }
+        return false;
+    });
+
     browserHammer.on("tap", ".spotifyBrowserArtist", function (e) {
         ReplaceBrowserPane("/Spotify/BrowserPane?mode=AlbumsOfArtist&id=" + this.id, "push")
         return false;

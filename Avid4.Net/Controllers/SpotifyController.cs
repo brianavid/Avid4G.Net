@@ -330,6 +330,23 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
+        // GET: /Spotify/DeletePlaylist
+        public ContentResult DeletePlaylist(
+            string playlistId)
+        {
+            Spotify.DeletePlayList(playlistId);
+            return this.Content("");
+        }
+
+        // GET: /Spotify/RenamePlaylist
+        public ContentResult RenamePlaylist(
+            string playlistId,
+            string name)
+        {
+            Spotify.RenamePlayList(playlistId, name);
+            return this.Content("");
+        }
+
         // GET: /Spotify/SaveAlbum
         public ContentResult AddSavedAlbum(
             string id)

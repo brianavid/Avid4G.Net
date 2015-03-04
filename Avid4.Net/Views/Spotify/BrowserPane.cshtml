@@ -181,12 +181,37 @@
             }
             break;
 
+        case "PlaylistInfo":
+            {
+                <div class="spotifyPlayingTrack">
+                    <div class="spotifyInfoPlayist">@ViewBag.PlaylistName</div>
+                </div>
+                <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibraryDeletePlaylist">
+                    <div class="spotifyBrowserTitle"><span class="playButton">&gt;&nbsp;</span>Delete Playlist</div>
+                </div>
+                <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibraryRenamePlaylist">
+                    <div class="spotifyBrowserTitle">
+                        Rename Playlist
+                        <table class="buttonRow">
+                            <tr>
+                                <td class='width75'><input class='spotifyBrowserPlaylistRenamedName width95' id='spotifyBrowserPlaylistRenamedName' type='text' /></td>
+                                <td class="centeredButton width25">
+                                    <img id="goSpotifyRenamePlaylist" src="/Content/Buttons/SmallRound/OK.png" />
+                                </td>
+                            </tr>
+                        </table>
+                   
+                    </div>
+                </div>
+            }
+            break;
+
         case "ArtistInfo":
             {
                 Avid.Spotify.SpotifyData.Artist artist = Spotify.GetArtistById(id);
                 <div class="spotifyPlayingTrack">
-		            <div class="spotifyInfoArtist">@artist.Name</div>
-	            </div>
+                    <div class="spotifyInfoArtist">@artist.Name</div>
+                </div>
                 <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibraryArtistAlbums">
                     <div class="spotifyBrowserTitle">List Albums</div>
                 </div>
