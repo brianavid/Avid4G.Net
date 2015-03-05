@@ -225,6 +225,15 @@ namespace Avid4.Net.Controllers
             return Content("");
         }
 
+        // GET: /Action/Roku
+        public ActionResult Roku()
+        {
+            Running.ExitAllPrograms(true);
+            Screen.EnsureScreenOn();
+            Receiver.SelectRokuInput();
+            return Content("");
+        }
+
         // GET: /Action/SoundTV
         public ActionResult SoundTV(
             string mode)

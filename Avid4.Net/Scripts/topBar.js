@@ -181,6 +181,18 @@ $(function () {
         });
     });
 
+    $("#actionMenuRoku").click(function () {
+        $(".actionMenu").hide()
+        $.ajax({
+            url: "/Action/Roku",
+            success: function () {
+                location.href = document.getElementById("isWide") != null ? '/Home/Wide' : '/Home/Home';
+            },
+            error: HideActionMenu,
+            cache: false
+        });
+    });
+
     $("#actionMenuScreenOff").click(function () {
         $.ajax({
             url: "/Action/ScreenOff",
