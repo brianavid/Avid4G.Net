@@ -322,6 +322,7 @@ namespace Avid.Spotify
             {
                 Player.Pause();
                 Player.Reset();
+                trackQueue.Clear();
                 currentPlayingTrackNode = null;
             }
         }
