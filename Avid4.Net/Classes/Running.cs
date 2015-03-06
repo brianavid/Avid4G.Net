@@ -43,6 +43,11 @@ public static class Running
             runningProgram = "Sky";
         }
 
+        if (Receiver.SelectedInput == "Roku")
+        {
+            runningProgram = "Roku";
+        }
+
         //  Start a background thread to poll for an inactive screen-off player and so turn it off after
         //  a short while
         var activityChecker = new Thread(ActivityChecker);
@@ -66,6 +71,7 @@ public static class Running
                 case "Radio":
                     return "topBarTv";
                 case "Sky":
+                case "Roku":
                     return "topBarSky";
                 case "Spotify":
                     return "topBarSpotify";
@@ -98,11 +104,7 @@ public static class Running
 
         if (name != "Sky")
         {
-            if (runningProgram == "Sky")
-            {
-                DesktopClient.SendIR(IRCodes.Codes["Sky.PowerSTB"], "Sky.PowerSTB");
-            }
-            Receiver.SelectComputerInput();
+            StopSky();
         }
 
         if (name == "Music")
@@ -327,6 +329,43 @@ public static class Running
         }
 
         runningProgram = "Sky";
+        return true;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private static void StopSky()
+    {
+        if (runningProgram == "Sky")
+        {
+            DesktopClient.SendIR(IRCodes.Codes["Sky.PowerSTB"], "Sky.PowerSTB");
+            Receiver.SelectComputerInput();
+        }
+    }
+
+    /// <summary>
+    /// Note that we are starting the Roku box, and so stop all media PC player applications
+    /// </summary>
+    /// <returns></returns>
+    public static bool StartRoku()
+    {
+        logger.Info("StartRoku");
+
+        if (runningProgram != "Roku")
+        {
+            if (runningProgram == "Music" || runningProgram == "Photo")
+            {
+                ExitJRMC();
+            }
+            StopSky();
+            DesktopClient.ExitAllPrograms();
+            DesktopClient.SendSpecialkey("ClearDesktop");
+            Zoom.Stop();
+            Spotify.Stop();
+        }
+
+        runningProgram = "Roku";
         return true;
     }
 

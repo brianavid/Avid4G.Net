@@ -163,6 +163,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MusicController.cs" />
     <Compile Include="Controllers\PhotosController.cs" />
+    <Compile Include="Controllers\RokuController.cs" />
     <Compile Include="Controllers\TvController.cs" />
     <Compile Include="Controllers\SkyController.cs" />
     <Compile Include="Controllers\SpotifyController.cs" />
@@ -557,6 +558,9 @@
     <Content Include="Views\Music\BrowserSearchPane.cshtml" />
     <Content Include="Views\Spotify\BrowserSearchPane.cshtml" />
     <Content Include="Views\Home\GoAway.cshtml" />
+    <Content Include="Views\Roku\Show.cshtml" />
+    <Content Include="Views\Roku\ShowWide.cshtml" />
+    <Content Include="Views\Roku\RokuPane.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

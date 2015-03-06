@@ -228,8 +228,8 @@ namespace Avid4.Net.Controllers
         // GET: /Action/Roku
         public ActionResult Roku()
         {
-            Running.ExitAllPrograms(true);
             Screen.EnsureScreenOn();
+            Running.StartRoku();
             Receiver.SelectRokuInput();
             return Content("");
         }

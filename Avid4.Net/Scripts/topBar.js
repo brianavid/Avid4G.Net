@@ -186,7 +186,7 @@ $(function () {
         $.ajax({
             url: "/Action/Roku",
             success: function () {
-                location.href = document.getElementById("isWide") != null ? '/Home/Wide' : '/Home/Home';
+                location.href = document.getElementById("isWide") != null ? '/Roku/ShowWide' : '/Roku/Show';
             },
             error: HideActionMenu,
             cache: false
@@ -357,6 +357,9 @@ function SwitchPanelAfterWake(isWide) {
                             break;
                         case "Sky":
                             window.location = isWide ? "/Sky/All" : "/Sky/Watch";
+                            break;
+                        case "Roku":
+                            window.location = isWide ? "/Roku/ShowWide" : "/Roku/Show";
                             break;
                         case "Music":
                             window.location = isWide ? "/Music/All" : "/Music/Playing";
