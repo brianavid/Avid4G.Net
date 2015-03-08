@@ -106,6 +106,7 @@ public static class Running
         {
             StopSky();
         }
+        Receiver.SelectComputerInput();
 
         if (name == "Music")
         {
@@ -341,7 +342,6 @@ public static class Running
         if (runningProgram == "Sky")
         {
             DesktopClient.SendIR(IRCodes.Codes["Sky.PowerSTB"], "Sky.PowerSTB");
-            Receiver.SelectComputerInput();
         }
     }
 

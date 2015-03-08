@@ -144,7 +144,7 @@ public static class DesktopClient
         {
             try
             {
-                logger.Info("ForegroundProgram");
+                logger.Info("ExitAllPrograms");
                 HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/ExitAllPrograms")).Result;
                 resp.EnsureSuccessStatusCode();
 

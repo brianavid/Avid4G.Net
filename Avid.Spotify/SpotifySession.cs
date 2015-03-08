@@ -320,10 +320,13 @@ namespace Avid.Spotify
         {
             lock (SessionLock)
             {
-                Player.Pause();
-                Player.Reset();
-                trackQueue.Clear();
-                currentPlayingTrackNode = null;
+                if (currentPlayingTrackNode != null)
+                {
+                    Player.Pause();
+                    Player.Reset();
+                    trackQueue.Clear();
+                    currentPlayingTrackNode = null;
+                }
             }
         }
 
