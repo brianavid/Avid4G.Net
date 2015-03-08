@@ -34,5 +34,7 @@ namespace Avid.Desktop
         string FetchCoreTempInfoXml();
         [OperationContract]
         bool EnsureRemotePotatoRunning(bool recycle);
+        [OperationContract]
+        bool EnsureSpotifyRunning();
     }
 }

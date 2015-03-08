@@ -247,4 +247,20 @@ public static class DesktopClient
             return Desktop.EnsureRemotePotatoRunning(recycle);
         }
     }
+
+    /// <summary>
+    /// Ensure that the Spotify Player is running and has not died
+    /// </summary>
+    /// <returns>True if the player is now running</returns>
+    static public bool EnsureSpotifyRunning()
+    {
+        try
+        {
+            return Desktop.EnsureSpotifyRunning();
+        }
+        catch
+        {
+            return Desktop.EnsureSpotifyRunning();
+        }
+    }
 }

@@ -208,6 +208,7 @@ public static class Running
                 Screen.SetScreenDisplayMode(0);
                 Receiver.SelectRoomsOutput();
                 DesktopClient.ExitAllPrograms();
+                DesktopClient.EnsureSpotifyRunning();
                 logger.Info("LaunchProgram OK {0}", runningProgram);
                 return true;
         }

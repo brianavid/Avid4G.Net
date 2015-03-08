@@ -597,5 +597,30 @@ namespace Avid.Desktop
             }
         }
 
+        /// <summary>
+        /// Ensure that the Spotify Player is running and has not died
+        /// </summary>
+        /// <returns>True if the player is now running</returns>
+        public bool EnsureSpotifyRunning()
+        {
+            try
+            {
+                logger.Info("EnsureSpotifyRunning");
+
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+	            startInfo.FileName = @"C:\Avid.Net\Avid.Spotify.exe";
+	            startInfo.Arguments = "";
+	            startInfo.WindowStyle = ProcessWindowStyle.Minimized;
+	
+	            Process p = Process.Start(startInfo);
+	
+	            return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
     }
 }

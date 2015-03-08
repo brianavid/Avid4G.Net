@@ -167,7 +167,10 @@ namespace Avid.Spotify
             {
                 logger.Fatal(ex);
             }
-            //  SingleInstance.Stop();
+            catch
+            {
+                logger.Fatal("Non-.Net Exception");
+            }
         }
 
         static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
