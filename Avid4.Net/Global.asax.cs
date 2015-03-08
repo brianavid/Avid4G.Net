@@ -29,6 +29,7 @@ namespace Avid4.Net
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             JRMC.LoadAndIndexAllAlbums(new string[] { "1", "2" }, false);
+            DesktopClient.Initialize();
             Receiver.Initialize();
             Running.Initialize();
             SkyData.Initialize(Config.SkyFavourites, Config.SkyRadio, Config.SkyPackages, Config.SkyCapacityGB);

@@ -2,42 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.ServiceModel;
-
-using Avid.Desktop;
+using System.Net.Http;
+using NLog;
 
 /// <summary>
 /// Client access wrapper for the Avid.Desktop WCF service
 /// </summary>
 public static class DesktopClient
 {
-    static IDesktopService desktopClientChannel = null;
-    static ChannelFactory<IDesktopService> serviceFactory = null;
+    static Logger logger = LogManager.GetCurrentClassLogger();
+
+    static HttpClient trayAppClient = new HttpClient();
 
     /// <summary>
-    /// Instantiate a singleton instance of IDesktop by opening a WCF communication channel.
+    /// Initialize the WebAPI HTTP client, setting cache control to prevent caching
     /// </summary>
-    static IDesktopService Desktop
+    public static void Initialize()
     {
-        get
-        {
-            if (serviceFactory == null)
-            {
-                serviceFactory = new ChannelFactory<IDesktopService>("WSHttpBinding_IDesktopService");
-            }
+        trayAppClient.BaseAddress = new Uri("http://localhost:89");
+        trayAppClient.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue();
+        trayAppClient.DefaultRequestHeaders.CacheControl.NoCache = true;
+        trayAppClient.DefaultRequestHeaders.CacheControl.MaxAge = new TimeSpan(0);
 
-            ICommunicationObject conn = desktopClientChannel as ICommunicationObject;
-            if (conn != null && conn.State != CommunicationState.Opened)
-            {
-                conn.Abort();
-                desktopClientChannel = null;
-            }
-            if (desktopClientChannel == null)
-            {
-                desktopClientChannel = serviceFactory.CreateChannel();
-            }
-            return desktopClientChannel;
-        }
+        EnsureSpotifyRunning();
     }
 
     /// <summary>
@@ -49,13 +36,22 @@ public static class DesktopClient
     /// <returns></returns>
     static public bool LaunchProgram(string name, string args)
     {
-        try
+        lock (trayAppClient)
         {
-            return Desktop.LaunchProgram(name, args);
-        }
-        catch
-        {
-            return Desktop.LaunchProgram(name, args);
+            try
+            {
+                logger.Info("LaunchProgram '{0}' '{1}'", name, args ?? "");
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/LaunchProgram?name={0}&args={1}",
+                    name, HttpUtility.UrlEncode(args ?? ""))).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<bool>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
         }
     }
 
@@ -67,13 +63,22 @@ public static class DesktopClient
     /// <returns></returns>
     static public bool LaunchNewProgram(string name, string args)
     {
-        try
+        lock (trayAppClient)
         {
-            return Desktop.LaunchNewProgram(name, args);
-        }
-        catch
-        {
-            return Desktop.LaunchNewProgram(name, args);
+            try
+            {
+                logger.Info("LaunchNewProgram '{0}' '{1}'", name, args ?? "");
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/LaunchNewProgram?name={0}&args={1}",
+                    name, HttpUtility.UrlEncode(args ?? ""))).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<bool>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
         }
     }
 
@@ -84,13 +89,22 @@ public static class DesktopClient
     /// <returns></returns>
     static public bool ExitProgram(string name)
     {
-        try
+        lock (trayAppClient)
         {
-            return Desktop.ExitProgram(name);
-        }
-        catch
-        {
-            return Desktop.ExitProgram(name);
+            try
+            {
+                logger.Info("ExitProgram '{0}'", name);
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/ExitProgram?name={0}",
+                    name)).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<bool>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
         }
     }
 
@@ -101,13 +115,22 @@ public static class DesktopClient
     /// <returns></returns>
     static public bool ForegroundProgram(string name)
     {
-        try
+        lock (trayAppClient)
         {
-            return Desktop.ForegroundProgram(name);
-        }
-        catch
-        {
-            return Desktop.ForegroundProgram(name);
+            try
+            {
+                logger.Info("ForegroundProgram '{0}'", name);
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/ForegroundProgram?name={0}",
+                    name)).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<bool>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
         }
     }
 
@@ -117,13 +140,21 @@ public static class DesktopClient
     /// <returns></returns>
     static public bool ExitAllPrograms()
     {
-        try
+        lock (trayAppClient)
         {
-	        return Desktop.ExitAllPrograms();
-        }
-        catch
-        {
-            return Desktop.ExitAllPrograms();
+            try
+            {
+                logger.Info("ForegroundProgram");
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/ExitAllPrograms")).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<bool>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
         }
     }
 
@@ -134,13 +165,21 @@ public static class DesktopClient
     /// <returns></returns>
     static public bool SendKeys(string keys)
     {
-        try
+        lock (trayAppClient)
         {
-            return Desktop.SendKeys(keys);
-        }
-        catch
-        {
-            return Desktop.SendKeys(keys);
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/SendKeys?keys={0}",
+                    HttpUtility.UrlEncode(keys ?? ""))).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<bool>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
         }
     }
 
@@ -152,13 +191,21 @@ public static class DesktopClient
     /// <returns></returns>
     static public bool SendIR(string irCode, string description)
     {
-        try
+        lock (trayAppClient)
         {
-            return Desktop.SendIR(irCode, description);
-        }
-        catch
-        {
-            return Desktop.SendIR(irCode, description);
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/SendIR?irCode={0}&description={1}",
+                    irCode, HttpUtility.UrlEncode(description ?? ""))).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<bool>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
         }
     }
 
@@ -170,13 +217,21 @@ public static class DesktopClient
     /// <returns></returns>
     static public bool MouseMoveRelative(int dx, int dy)
     {
-        try
+        lock (trayAppClient)
         {
-            return Desktop.MouseMoveRelative(dx, dy);
-        }
-        catch
-        {
-            return Desktop.MouseMoveRelative(dx, dy);
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/MouseMoveRelative?dx={0}&dy={1}",
+                    dx, dy)).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<bool>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
         }
     }
 
@@ -187,13 +242,21 @@ public static class DesktopClient
     /// <returns></returns>
     static public bool MouseClick(bool rightButton)
     {
-        try
+        lock (trayAppClient)
         {
-            return Desktop.MouseClick(rightButton);
-        }
-        catch
-        {
-            return Desktop.MouseClick(rightButton);
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/MouseClick?rightButton={0}",
+                    rightButton)).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<bool>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
         }
     }
 
@@ -204,13 +267,21 @@ public static class DesktopClient
     /// <returns></returns>
     static public bool SendSpecialkey(string keyName)
     {
-        try
+        lock (trayAppClient)
         {
-            return Desktop.SendSpecialkey(keyName);
-        }
-        catch
-        {
-            return Desktop.SendSpecialkey(keyName);
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/SendSpecialkey?keyName={0}",
+                    keyName)).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<bool>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
         }
     }
 
@@ -220,13 +291,20 @@ public static class DesktopClient
     /// <returns></returns>
     static public string FetchCoreTempInfoXml()
     {
-        try
+        lock (trayAppClient)
         {
-            return Desktop.FetchCoreTempInfoXml();
-        }
-        catch
-        {
-            return Desktop.FetchCoreTempInfoXml();
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/FetchCoreTempInfoXml")).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<string>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return null;
+            }
         }
     }
 
@@ -238,13 +316,21 @@ public static class DesktopClient
     static public bool EnsureRemotePotatoRunning(
             bool recycle)
     {
-        try
+        lock (trayAppClient)
         {
-            return Desktop.EnsureRemotePotatoRunning(recycle);
-        }
-        catch
-        {
-            return Desktop.EnsureRemotePotatoRunning(recycle);
+            try
+            {
+                logger.Info("EnsureRemotePotatoRunning");
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/EnsureRemotePotatoRunning")).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<bool>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
         }
     }
 
@@ -254,13 +340,21 @@ public static class DesktopClient
     /// <returns>True if the player is now running</returns>
     static public bool EnsureSpotifyRunning()
     {
-        try
+        lock (trayAppClient)
         {
-            return Desktop.EnsureSpotifyRunning();
-        }
-        catch
-        {
-            return Desktop.EnsureSpotifyRunning();
+            try
+            {
+                logger.Info("EnsureSpotifyRunning");
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/EnsureSpotifyRunning")).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<bool>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
         }
     }
 }

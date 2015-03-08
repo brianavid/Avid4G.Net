@@ -1,0 +1,297 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SpotifyAPI</name>
+    </assembly>
+    <members>
+        <member name="T:SpotifyAPI.SpotifyLocalAPI.CFID">
+            <summary>
+            JSON Response, used internaly
+            </summary>
+        </member>
+        <member name="T:SpotifyAPI.SpotifyLocalAPI.Error">
+            <summary>
+            JSON Response, used internaly
+            </summary>
+        </member>
+        <member name="T:SpotifyAPI.SpotifyLocalAPI.AlbumArtSize">
+            <summary>
+            Enum for the AlbumArt
+            </summary>
+        </member>
+        <member name="T:SpotifyAPI.SpotifyLocalAPI.CFIDResponse">
+            <summary>
+            Not implemented yet
+            </summary>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyEventHandler.ListenForEvents(System.Boolean)">
+            <summary>
+            If Events should be triggered
+            </summary>
+            <param name="listen">True if you want to listen for events, false if not</param>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyEventHandler.SetSynchronizingObject(System.ComponentModel.ISynchronizeInvoke)">
+            <summary>
+            Sets a synchronizing object, so you don't need to Invoke
+            </summary>
+            <param name="obj">The SynchronizingObject e.g a Form</param>
+        </member>
+        <member name="T:SpotifyAPI.SpotifyLocalAPI.TrackChangeEventArgs">
+            <summary>
+            Event gets triggered, when the Track is changed
+            </summary>
+        </member>
+        <member name="T:SpotifyAPI.SpotifyLocalAPI.PlayStateEventArgs">
+            <summary>
+            Event gets triggered, when the Playin-state is changed (e.g Play --> Pause)
+            </summary>
+        </member>
+        <member name="T:SpotifyAPI.SpotifyLocalAPI.VolumeChangeEventArgs">
+            <summary>
+            Event gets triggered, when the volume changes
+            </summary>
+        </member>
+        <member name="T:SpotifyAPI.SpotifyLocalAPI.TrackTimeChangeEventArgs">
+            <summary>
+            Event gets triggered, when the tracktime changes
+            </summary>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyMusicHandler.PressKey(System.Byte)">
+            <summary>
+            Simulates a KeyPress
+            </summary>
+            <param name="keyCode">The keycode for the represented Key</param>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyMusicHandler.IsPlaying">
+            <summary>
+            Checks if a song is playing
+            </summary>
+            <returns>True if a song is playing, false if not</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyMusicHandler.GetVolume">
+            <summary>
+            Returns the current Volume
+            </summary>
+            <returns>A value between 0 and 1</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyMusicHandler.PlayURL(System.String)">
+            <summary>
+            Plays a Spotify URI
+            </summary>
+            <param name="uri">The Spotify URI. Can be checked with <seealso cref="M:SpotifyAPI.SpotifyLocalAPI.SpotifyLocalAPIClass.IsValidSpotifyURI(System.String)"/></param>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyMusicHandler.AddToQueue(System.String)">
+            <summary>
+            Adds a Spotify URI to the Queue
+            </summary>
+            <param name="uri">The Spotify URI. Can be checked with <seealso cref="M:SpotifyAPI.SpotifyLocalAPI.SpotifyLocalAPIClass.IsValidSpotifyURI(System.String)"/></param>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyMusicHandler.IsAdRunning">
+            <summary>
+            Checks if the current "Track" is an Advert
+            </summary>
+            <returns>True if it's an Advert, false if not</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyMusicHandler.GetCurrentTrack">
+            <summary>
+            Returns the current Track object
+            </summary>
+            <returns>Returns the current track object</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyMusicHandler.Skip">
+            <summary>
+            Skips the current song (Using keypress simulation)
+            </summary>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyMusicHandler.Previous">
+            <summary>
+            Emulates the "Previous" Key (Using keypress simulation)
+            </summary>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyMusicHandler.GetTrackPosition">
+            <summary>
+            Returns the current track postion
+            </summary>
+            <returns>A double between 0 and ∞</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyMusicHandler.Mute">
+            <summary>
+            Mutes Spotify (Requires nircmd.dll)
+            </summary>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyMusicHandler.UnMute">
+            <summary>
+            Unmutes Spotify (Requires nircmd.dll)
+            </summary>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyMusicHandler.Pause">
+            <summary>
+            Pause function
+            </summary>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyMusicHandler.Play">
+            <summary>
+            Play function
+            </summary>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyMusicHandler.GetStatusResponse">
+            <summary>
+            Returns all Informations gathered by the JSON Request
+            </summary>
+            <returns>A StatusResponse object</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyLocalAPIClass.Connect">
+            <summary>
+            Connects with Spotify. Needs to be called before all other SpotifyAPI functions
+            </summary>
+            <returns>Returns true, if it was successful, false if not</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyLocalAPIClass.GetMusicHandler">
+            <summary>
+            Returns the MusicHandler
+            </summary>
+            <returns>Returns the MusicHandler</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyLocalAPIClass.GetEventHandler">
+            <summary>
+            Returns the EventHanlder
+            </summary>
+            <returns>Returns the EventHanlder</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyLocalAPIClass.IsSpotifyRunning">
+            <summary>
+            Checks if Spotify is running
+            </summary>
+            <returns>True, if it's running, false if not</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyLocalAPIClass.IsSpotifyWebHelperRunning">
+            <summary>
+            Checks if Spotify's WebHelper is running (Needed for API Calls)
+            </summary>
+            <returns>True, if it's running, false if not</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyLocalAPIClass.RunSpotify">
+            <summary>
+            Runs Spotify
+            </summary>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyLocalAPIClass.RunSpotifyWebHelper">
+            <summary>
+            Runs Spotify's WebHelper
+            </summary>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyLocalAPIClass.IsValidSpotifyURI(System.String)">
+            <summary>
+            Checks for a valid SpotifyURL (Still not finished)
+            </summary>
+            <param name="url">The Spotify URI starting with "spotify:"</param>
+            <returns>True if the URI is valid, false if not</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.SpotifyLocalAPIClass.Update">
+            <summary>
+            Updates and Fetches all current information about the current track etc.
+            </summary>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.Track.GetTrackName">
+            <summary>
+            Returns the track name
+            </summary>
+            <returns>A String. which is the track name</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.Track.GetLength">
+            <summary>
+            Returns the track lenght
+            </summary>
+            <returns>A integer, which is the track length</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.Track.GetAlbumURI">
+            <summary>
+            Returns the URI for the album
+            </summary>
+            <returns>A String, which is the album URI</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.Track.GetTrackURI">
+            <summary>
+            Returns the URI for the track
+            </summary>
+            <returns>A String, which is the track URI</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.Track.GetArtistURI">
+            <summary>
+            Returns the URI for the artist
+            </summary>
+            <returns>A String, which is the artist URI</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.Track.GetAlbumName">
+            <summary>
+            Returns the albume name
+            </summary>
+            <returns>A String, which is the album name</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.Track.GetArtistName">
+            <summary>
+            Returns the artist name
+            </summary>
+            <returns>A String, which is the artist name</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.Track.GetAlbumArtURL(SpotifyAPI.SpotifyLocalAPI.AlbumArtSize)">
+            <summary>
+            Returns a URL to the album cover in the provided size
+            </summary>
+            <param name="size">AlbumArtSize (160,320,640)</param>
+            <returns>A String, which is the URL to the Albumart</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.Track.GetAlbumArtAsync(SpotifyAPI.SpotifyLocalAPI.AlbumArtSize)">
+            <summary>
+            Returns a Bitmap of the album cover in the provided size asynchronous
+            </summary>
+            <param name="size">AlbumArtSize (160,320,640)</param>
+            <returns>A Bitmap, which is the albumart</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyLocalAPI.Track.GetAlbumArt(SpotifyAPI.SpotifyLocalAPI.AlbumArtSize)">
+            <summary>
+            Returns a Bitmap of the album cover in the provided size
+            </summary>
+            <param name="size">AlbumArtSize (160,320,640)</param>
+            <returns>A Bitmap, which is the albumart</returns>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyWebAPI.AutorizationCodeAuth.RefreshToken(System.String,System.String)">
+            <summary>
+            Also don't use this, you would need to provide your clientSecretKey
+            </summary>
+            <param name="refreshToken"></param>
+            <param name="clientId"></param>
+            <param name="clientSecret"></param>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyWebAPI.AutorizationCodeAuth.ExchangeAuthCode(System.String,System.String)">
+            <summary>
+            Don't use this!!! Use a PHP-Script or sth...
+            </summary>
+        </member>
+        <member name="P:SpotifyAPI.SpotifyWebAPI.Models.FullTrack.Album">
+            <summary>
+            Simple-Album object of the track @<see cref="!:Paging"/>
+            </summary>
+        </member>
+        <member name="P:SpotifyAPI.SpotifyWebAPI.Models.FullTrack.IsPlayable">
+            <summary>
+            Only filled when the "market"-parameter was supplied!
+            </summary>
+        </member>
+        <member name="P:SpotifyAPI.SpotifyWebAPI.Models.FullTrack.LinkedFrom">
+            <summary>
+            Only filled when the "market"-parameter was supplied!
+            </summary>
+        </member>
+        <member name="M:SpotifyAPI.SpotifyWebAPI.SpotifyWebAPIClass.IsFollowing(SpotifyAPI.SpotifyWebAPI.FollowType,System.Collections.Generic.List{System.String})">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:SpotifyAPI.SpotifyWebAPI.SpotifyWebAPIClass.UseAuth">
+            <summary>
+            Set to false, if you want anonymous calls without auth
+            </summary>
+        </member>
+    </members>
+</doc>
