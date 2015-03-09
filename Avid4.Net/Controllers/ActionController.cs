@@ -222,6 +222,7 @@ namespace Avid4.Net.Controllers
             Running.ExitAllPrograms(true);
             Screen.EnsureScreenOn();
             Receiver.SelectChromecastInput();
+            Receiver.SelectTVOutput();
             return Content("");
         }
 
@@ -231,6 +232,7 @@ namespace Avid4.Net.Controllers
             Screen.EnsureScreenOn();
             Running.StartRoku();
             Receiver.SelectRokuInput();
+            Receiver.SelectTVOutput();
             return Content("");
         }
 
