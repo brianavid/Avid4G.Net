@@ -124,6 +124,7 @@ function UpdateQueue(display,id) {
 }
 
 function UpdateSearchTextVisibility() {
+    RemoveScreenOverlay()
     var isArtistsSearch = false
     $("#spotifySearchArtistsResults").each(function () {
         isArtistsSearch = true
@@ -355,11 +356,13 @@ function AddBrowserHammerActions() {
     });
 
     browserHammer.on("tap", "#spotifyBrowserLibrarySavedAlbums", function (e) {
+        OverlayScreenForLaunch()    //  listing saved albums can take a while first time
         ReplaceBrowserPane("/Spotify/BrowserPane?mode=SavedAlbums", "push")
         return false;
     });
 
     browserHammer.on("tap", "#spotifyBrowserLibraryPlaylists", function (e) {
+        OverlayScreenForLaunch()    //  listing playlists can take a while first time
         ReplaceBrowserPane("/Spotify/BrowserPane?mode=Playlists", "push")
         return false;
     });
