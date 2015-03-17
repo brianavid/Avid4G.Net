@@ -710,10 +710,32 @@ namespace Avid.Desktop
         /// </summary>
         /// <returns>True if the player is now running</returns>
         [HttpGet]
-        public bool EnsureSpotifyRunning()
+        public bool EnsureSpotifyRunning(
+          bool forceRestart = false)
         {
             try
             {
+                if (forceRestart)
+                {
+                    Process[] runningSpotifyPlayers = Process.GetProcessesByName("Avid.Spotify");
+
+                    foreach (var p in runningSpotifyPlayers)
+                    {
+                        //  Close the process's main windows and spin-wait for five seconds for the process to die
+                        p.CloseMainWindow();
+                        for (int i = 0; i < 50 && !p.HasExited; i++)
+                        {
+                            System.Threading.Thread.Sleep(100);
+                        }
+
+                        //  If is still not dead, peremptorily kill it
+                        if (!p.HasExited)
+                        {
+                            p.Kill();
+                        }
+                    }
+                }
+
                 if (spotifyProcess == null || spotifyProcess.HasExited)
                 {
                     logger.Info("EnsureSpotifyRunning");
