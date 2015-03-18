@@ -1332,6 +1332,16 @@ public static class Spotify
             }
         }
     }
+
+    public static void ExitPlayer()
+    {
+        lock (trayAppClient)
+        {
+            HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/ExitPlayer")).Result;
+            resp.EnsureSuccessStatusCode();
+        }
+
+    }
     #endregion
 
     #region Constructors of SpotifyData from Web API model

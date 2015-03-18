@@ -19,9 +19,11 @@ using System.Security.AccessControl;
 
 namespace Avid.Spotify
 {
-    static class Program
+    public static class Program
     {
         static Logger logger = LogManager.GetLogger("SpotifyPlayer");
+
+        public static CustomApplicationContext applicationContext;
 
         /// <summary>
         /// The main entry point for the application.
@@ -157,7 +159,7 @@ namespace Avid.Spotify
                 using (HttpSelfHostServer server = new HttpSelfHostServer(config))
                 {
                     server.OpenAsync().Wait();
-                    var applicationContext = new CustomApplicationContext();
+                    applicationContext = new CustomApplicationContext();
                     Application.Run(applicationContext);
                     logger.Info("Spotify Player Exit");
                     SpotifySession.CloseSession(false);

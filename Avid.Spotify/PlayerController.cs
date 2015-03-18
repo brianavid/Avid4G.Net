@@ -130,6 +130,15 @@ namespace Avid.Spotify
                 throw new HttpResponseException(HttpStatusCode.InternalServerError);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [HttpGet]
+        public void ExitPlayer()
+        {
+            Program.applicationContext.ExitThread();
+        }
     }
     
 }

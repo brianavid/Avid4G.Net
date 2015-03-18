@@ -265,6 +265,8 @@ namespace Avid4.Net.Controllers
         // GET: /Action/RecycleApp
         public ActionResult RecycleApp()
         {
+            Spotify.ExitPlayer();
+
             HttpRuntime.UnloadAppDomain();
             return Content("");
         }
