@@ -41,6 +41,7 @@ function SetRecordingsHeight() {
 function DisplayVideoRecordings() {
     var DvdsDisplay = document.getElementById("videoDvds");
     if (DvdsDisplay != null) {
+        ClearStackedPanes()
         $(".videoRecordings").hide()
         $(".videoDvds").hide()
         $.ajax({
@@ -61,6 +62,7 @@ function DisplayVideoRecordings() {
 function DisplayDvds() {
     var recordingsDisplay = document.getElementById("videoRecordings");
     if (recordingsDisplay != null) {
+        ClearStackedPanes()
         $(".videoRecordings").hide()
         $(".videoDvds").hide()
         $.ajax({

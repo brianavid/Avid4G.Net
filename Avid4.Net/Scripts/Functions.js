@@ -138,8 +138,14 @@ function PopStackedPane(paneId, actionIfNothingToPop, onAfter) {
         ReplacePane(paneId, stackedPaneUrls[stackedPaneUrls.length - 1], "none", onAfter)
     } else if (actionIfNothingToPop)
     {
+        stackedPaneUrls = [];
         actionIfNothingToPop()
     }
+}
+
+//  
+function ClearStackedPanes() {
+    stackedPaneUrls = [];
 }
 
 //  Turn off all player applications and wwitch the entire view to a new URL 
