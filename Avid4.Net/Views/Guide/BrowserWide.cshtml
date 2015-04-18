@@ -8,7 +8,14 @@
 *@
 @if (IpAddress.IsLanIP(Request.UserHostAddress))
 {
-    Html.Partial("TopBarWide");
+    @Html.Partial("TopBarWide");
+}
+else
+{
+    <div id="isWide" style="display:none">Yes</div>
+    <div id="topBarTitle" style="display:none">@ViewBag.Title</div>
+
+    ViewBag.Wide = "Wide";
 }
 
 @section scripts {

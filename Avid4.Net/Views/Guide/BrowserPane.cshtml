@@ -107,7 +107,7 @@
                     <div class="guideScheduledRecording guideItem" id="@programme.Id">
                         <img class="guideEpgProgrammeCancel" id="@programme.Id" src="/Content/Buttons/SmallRound/Exit.png" />
                         <div class="guideProgrammeInfo" >
-                            <span>@(programme.StartTime.ToLocalTime().ToString("ddd dd MMM")) [@JRMC.FormatDuration(programme.Duration.TotalMinutes.ToString())]</span>
+                            <span>@(programme.StartTime.ToLocalTime().ToString("ddd dd MMM HH:mm")) [@JRMC.FormatDuration(programme.Duration.TotalMinutes.ToString())]</span>
                             <span>@(programme.Channel)</span>
                         </div>
 

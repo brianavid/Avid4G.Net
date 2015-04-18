@@ -11,9 +11,7 @@
 }
 else
 {
-    @*
-    <p>@(Request.UserHostAddress) is @(IpAddress.IsLanIP(Request.UserHostAddress) ? "" : "NOT ")local</p>
-    *@
+    <div id="topBarTitle" style="display:none">@ViewBag.Title</div>
 }
 
 @section scripts {

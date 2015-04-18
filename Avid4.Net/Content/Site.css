@@ -185,6 +185,9 @@ textarea {
     padding-right: 0px;
     background-image: url('');
     font-size: 1.2em;
+}
+
+.musicPlaybackQueueTitle, .musicBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .tvChannelName, .skyChannelName, .skyProgrammeName, .skyRecordingName, .skyRecordingAction, .videoRecordingName, .videoRecordingAction, .webBrowserTitle, .actionMenuItem {
     clear: both;
 }
 
@@ -227,6 +230,7 @@ textarea {
 
 .musicProgrammeDescription, .webBrowserProgrammeDescription, .guideEpgProgrammeDescription {
     font-style:italic;
+    padding-bottom:10px;
 }
 
 .tvControlActionLine, .skyControlActionLine {
