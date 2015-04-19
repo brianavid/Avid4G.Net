@@ -321,7 +321,7 @@ public static class DesktopClient
             try
             {
                 logger.Info("EnsureRemotePotatoRunning");
-                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/EnsureRemotePotatoRunning")).Result;
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/EnsureRemotePotatoRunning?recycle={0}", recycle)).Result;
                 resp.EnsureSuccessStatusCode();
 
                 return resp.Content.ReadAsAsync<bool>().Result;
