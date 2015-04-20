@@ -157,6 +157,14 @@ function AddBrowserHammerActions() {
         })
     });
 
+    $("#remoteHome").click(function () {
+        ReplacePane("guideBrowserItems", "/Guide/BrowserPane?mode=GuideRoot", "clear")
+    });
+
+    $("#remoteExit").click(function () {
+        close()
+    });
+
 }
 
 $(function () {

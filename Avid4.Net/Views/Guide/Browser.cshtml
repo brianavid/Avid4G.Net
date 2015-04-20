@@ -11,11 +11,21 @@
 }
 else
 {
+    <table class="topBar">
+        <tr>
+            <td class="centeredButton"><img id="remoteHome" src='~/Content/Buttons/SmallRound/Home.png'></td>
+            <td class="width60">Avid Remote Record</td>
+            <td class="centeredButton"><img id="remoteExit" src='~/Content/Buttons/SmallRound/Exit.png'></td>
+        </tr>
+    </table>
     <div id="topBarTitle" style="display:none">@ViewBag.Title</div>
 }
 
 @section scripts {
-    @Html.Raw(Render.Script("topBar", Request))
+    @if (IpAddress.IsLanIP(Request.UserHostAddress))
+    {
+        @Html.Raw(Render.Script("topBar", Request))
+    }
     @Html.Raw(Render.Script("guide", Request))
 }
 

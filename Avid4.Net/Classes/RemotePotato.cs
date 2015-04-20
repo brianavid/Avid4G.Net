@@ -459,7 +459,10 @@ public static class RemotePotato
         }
 
         //  Select the channels which are configured as favourite channel names
-        return (Config.TvFavourites).Select(fav => tvChannels[fav.ToLower()]);
+        return (Config.TvFavourites)
+            .Select(fav => fav.ToLower())
+            .Where(fav => tvChannels.ContainsKey(fav))
+            .Select(fav => tvChannels[fav]);
     }
 
     /// <summary>
