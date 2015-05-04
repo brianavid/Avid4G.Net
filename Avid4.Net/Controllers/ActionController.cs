@@ -35,14 +35,7 @@ namespace Avid4.Net.Controllers
         // GET: /Action/VolumeMute
         public ActionResult VolumeMute()
         {
-            if (Running.RunningProgram == "TV")
-            {
-                RemotePotato.SendCommand("VolMute");
-            }
-            else
-            {
-                Receiver.ToggleMute();
-            }
+            Receiver.ToggleMute();
             return Content(Receiver.VolumeDisplay);
         }
 
