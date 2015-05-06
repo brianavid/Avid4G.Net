@@ -46,6 +46,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="INIFileParser">
+      <HintPath>..\packages\ini-parser.2.1.1\lib\INIFileParser.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="NLog, Version=2.0.1.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -146,6 +149,7 @@
     <Compile Include="Classes\JRMC.cs" />
     <Compile Include="Classes\NoCacheAttribute.cs" />
     <Compile Include="Classes\Receiver.cs" />
+    <Compile Include="Classes\Recordings.cs" />
     <Compile Include="Classes\RemotePotato.cs" />
     <Compile Include="Classes\Render.cs" />
     <Compile Include="Classes\Roku.cs" />
@@ -438,6 +442,7 @@
     <Content Include="Content\Fonts\guifx_v2_transports-webfont.eot" />
     <Content Include="Content\Fonts\guifx_v2_transports-webfont.ttf" />
     <Content Include="Content\Fonts\guifx_v2_transports-webfont.woff" />
+    <Content Include="LICENSE" />
     <None Include="Properties\PublishProfiles\Deploy to Avid.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\guide.js" />

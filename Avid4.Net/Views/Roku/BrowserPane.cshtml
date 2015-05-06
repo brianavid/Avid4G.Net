@@ -5,7 +5,7 @@
         foreach (var app in apps)
         {
             <div class="rokuBrowserApp rokuBrowserItem" id="@app.Key">
-                <div class="rokuBrowserTitle" id="@app.Key">@app.Value</div>
+                <div class="rokuBrowserTitle" id="@app.Key"><img src="@(Roku.AppImageUrl(app.Key))" class="rokuAppImage" />@app.Value</div>
             </div>
         }
     }

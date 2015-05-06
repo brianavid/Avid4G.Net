@@ -137,4 +137,10 @@ public static class Roku
         PostRequest("keypress/", "Enter");
     }
 
+    public static string AppImageUrl(
+        string id)
+    {
+        return Url + "query/icon/" + id;
+    }
+
 }

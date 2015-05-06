@@ -405,6 +405,12 @@ textarea {
     float: right;
 }
 
+.rokuAppImage {
+    margin-right: 1em;
+    width: 40px;
+    height: 30px;
+}
+
 .noborder {
     border-style:none;
 }
