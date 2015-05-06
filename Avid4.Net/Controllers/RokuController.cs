@@ -8,18 +8,57 @@ namespace Avid4.Net.Controllers
 {
     public class RokuController : Controller
     {
-        // GET: /Roku/Show
-        public ActionResult Show()
+        // GET: /Roku/Controls
+        public ActionResult Controls()
         {
-            ViewBag.LinkBack = true;
             return View();
         }
 
-        // GET: /Roku/ShowWide
-        public ActionResult ShowWide()
+        // GET: /Roku/Browser
+        public ActionResult Browser()
         {
-            ViewBag.LinkBack = true;
             return View();
+        }
+
+        // GET: /Roku/All
+        public ActionResult All()
+        {
+            return View();
+        }
+
+        public ContentResult Launch(
+            string id)
+        {
+            Roku.RunApp(id);
+            return this.Content("");
+        }
+
+        public ContentResult KeyDown(
+            string id)
+        {
+            Roku.KeyDown(id);
+            return this.Content("");
+        }
+
+        public ContentResult KeyUp(
+            string id)
+        {
+            Roku.KeyUp(id);
+            return this.Content("");
+        }
+
+        public ContentResult KeyPress(
+            string id)
+        {
+            Roku.KeyPress(id);
+            return this.Content("");
+        }
+
+        public ContentResult SendText(
+            string text)
+        {
+            Roku.SendText(text);
+            return this.Content("");
         }
 
     }

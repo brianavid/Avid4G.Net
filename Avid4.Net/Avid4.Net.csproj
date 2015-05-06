@@ -148,6 +148,7 @@
     <Compile Include="Classes\Receiver.cs" />
     <Compile Include="Classes\RemotePotato.cs" />
     <Compile Include="Classes\Render.cs" />
+    <Compile Include="Classes\Roku.cs" />
     <Compile Include="Classes\Running.cs" />
     <Compile Include="Classes\Screen.cs" />
     <Compile Include="Classes\Sky.cs" />
@@ -178,8 +179,11 @@
   <ItemGroup>
     <Content Include="Content\apple-touch-icon.png" />
     <Content Include="Content\BBC Radio.jpg" />
+    <Content Include="Content\Buttons\BigRound\Home.png" />
+    <Content Include="Content\Buttons\MiniRound\Enter.png" />
     <Content Include="Content\Buttons\SmallRound\Exit.png" />
     <Content Include="Content\Buttons\SmallRound\Transport.Rec.Series.png" />
+    <Content Include="Content\Buttons\Stream.png" />
     <Content Include="Content\favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -438,6 +442,7 @@
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\guide.js" />
     <Content Include="Scripts\photos.js" />
+    <Content Include="Scripts\roku.js" />
     <Content Include="Scripts\tv.js" />
     <Content Include="Scripts\video.js" />
     <Content Include="Scripts\Web.js" />
@@ -558,9 +563,12 @@
     <Content Include="Views\Music\BrowserSearchPane.cshtml" />
     <Content Include="Views\Spotify\BrowserSearchPane.cshtml" />
     <Content Include="Views\Home\GoAway.cshtml" />
-    <Content Include="Views\Roku\Show.cshtml" />
-    <Content Include="Views\Roku\ShowWide.cshtml" />
-    <Content Include="Views\Roku\RokuPane.cshtml" />
+    <Content Include="Views\Roku\Controls.cshtml" />
+    <Content Include="Views\Roku\All.cshtml" />
+    <Content Include="Views\Roku\ControlsPane.cshtml" />
+    <Content Include="Views\Roku\PaneButtons.cshtml" />
+    <Content Include="Views\Roku\BrowserPane.cshtml" />
+    <Content Include="Views\Roku\Browser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

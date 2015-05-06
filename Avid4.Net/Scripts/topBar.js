@@ -186,7 +186,7 @@ $(function () {
         $.ajax({
             url: "/Action/Roku",
             success: function () {
-                location.href = document.getElementById("isWide") != null ? '/Roku/ShowWide' : '/Roku/Show';
+                location.href = document.getElementById("isWide") != null ? '/Roku/All' : '/Roku/Controls';
             },
             error: HideActionMenu,
             cache: false

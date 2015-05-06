@@ -55,6 +55,17 @@ $(function () {
         }
     });
 
+    $("#selectRoku").mousedown(function () {
+        StopSwitching();
+        $.ajax({
+            url: "/Action/Roku",
+            success: function () {
+                LinkTo("/Roku/Controls");
+            },
+            cache: false
+        });
+    });
+
     $("#selectPhotos").mousedown(function () {
         StopSwitching();
         var lastRunningProgram = $("#homeTitle").text();

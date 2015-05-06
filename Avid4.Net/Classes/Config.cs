@@ -51,6 +51,18 @@ public static class Config
     }
 
     /// <summary>
+    /// The Roku box's IP address
+    /// </summary>
+    public static string RokuAddress
+    {
+        get
+        {
+            XElement elAddr = Doc.Root.Element("RokuAddress");
+            return elAddr == null ? null : elAddr.Value;
+        }
+    }
+
+    /// <summary>
     /// The path to the directory in which recoded TV programmes are stored
     /// </summary>
     public static string VideoPath

@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Roku";
+}
+
+
+@Html.Partial("TopBar")
+@section scripts {
+@Html.Raw(Render.Script("topBar", Request))
+@Html.Raw(Render.Script("home", Request))
+@Html.Raw(Render.Script("roku", Request))
+}
+
+@Html.Partial("PaneButtons")
+<div id="rokuControlsPane">
+    <div class="rokuControls">
+        @Html.Partial("ControlsPane")
+    </div>
+</div>
