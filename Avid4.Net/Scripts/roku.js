@@ -112,7 +112,9 @@ function AddBrowserHammerActions() {
         $.ajax({
             url: "/Roku/Launch/" + this.id,
             success: function (data) {
-                LinkTo("/Roku/Controls")
+                if (document.getElementById("isWide") == null) {
+                    LinkTo("/Roku/Controls")
+                }
             },
             cache: false
         });

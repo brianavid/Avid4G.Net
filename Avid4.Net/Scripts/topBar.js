@@ -359,7 +359,7 @@ function SwitchPanelAfterWake(isWide) {
                             window.location = isWide ? "/Sky/All" : "/Sky/Watch";
                             break;
                         case "Roku":
-                            window.location = isWide ? "/Roku/ShowWide" : "/Roku/Show";
+                            window.location = isWide ? "/Roku/All" : "/Roku/Controls";
                             break;
                         case "Music":
                             window.location = isWide ? "/Music/All" : "/Music/Playing";
