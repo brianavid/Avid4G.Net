@@ -14,7 +14,7 @@ namespace Avid4.Net.Controllers
         public ActionResult Index()
         {
             ViewBag.IsHome = true;
-            return View("Home");
+            return View("Wide");
         }
 
         //
