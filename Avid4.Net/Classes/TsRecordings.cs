@@ -4,8 +4,12 @@ using System.Linq;
 using System.Web;
 using IniParser;
 using System.Globalization;
+using System.IO;
 
-public class Recordings
+/// <summary>
+/// A class to represent the set of TS recorded TV files
+/// </summary>
+public class TsRecordings
 {
     public class Recording 
     {
@@ -22,7 +26,7 @@ public class Recordings
         public Recording(
             String contentFilename)
         {
-            var iniFileName = contentFilename.Replace(".ts", ".txt");
+            var iniFileName = Path.ChangeExtension(contentFilename, ".txt");
             var iniParser = new FileIniDataParser();
             var data = iniParser.ReadFile(iniFileName);
 
@@ -34,10 +38,7 @@ public class Recordings
                 data["0"]["Date"] + " " + data["0"]["Time"], 
                 new[] { "dd.MM.yyyy HH:mm:ss" }, 
                 CultureInfo.InvariantCulture, DateTimeStyles.None);
-            Duration = TimeSpan.ParseExact(
-                data["0"]["Duration"], 
-                new[] { "HH:mm:ss" }, 
-                CultureInfo.InvariantCulture);
+            Duration = TimeSpan.Parse( data["0"]["Duration"]);
             EpisodeTitle = null;
             Filename = contentFilename;
         }
@@ -111,6 +112,25 @@ public class Recordings
         catch (Exception)
         {
 
+        }
+    }
+
+    /// <summary>
+    /// Delete the file containing an particular recording
+    /// </summary>
+    /// <param name="programmeId"></param>
+    /// <returns></returns>
+    public static void DeleteRecording(
+        Recording recording)
+    {
+        string contentFilename = recording.Filename;
+        if (System.IO.File.Exists(contentFilename))
+        {
+            foreach (var file in System.IO.Directory.GetFiles(Config.VideoPath, Path.GetFileNameWithoutExtension(contentFilename) + ".*"))
+            {
+                System.IO.File.Delete(file);
+            }
+            LoadAllRecordings();
         }
     }
 }

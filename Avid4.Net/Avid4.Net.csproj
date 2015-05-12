@@ -149,7 +149,7 @@
     <Compile Include="Classes\JRMC.cs" />
     <Compile Include="Classes\NoCacheAttribute.cs" />
     <Compile Include="Classes\Receiver.cs" />
-    <Compile Include="Classes\Recordings.cs" />
+    <Compile Include="Classes\TsRecordings.cs" />
     <Compile Include="Classes\RemotePotato.cs" />
     <Compile Include="Classes\Render.cs" />
     <Compile Include="Classes\Roku.cs" />

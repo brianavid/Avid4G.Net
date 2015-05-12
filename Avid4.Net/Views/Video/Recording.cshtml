@@ -1,15 +1,37 @@
 ﻿@{
-    var recording = RemotePotato.AllRecordings[ViewBag.Id];
+    if (TsRecordings.AllRecordings.ContainsKey(ViewBag.Id))
+    {
+        var recording = TsRecordings.AllRecordings[ViewBag.Id];
 
-    <div class="videoRecording" id="@recording.Id">
-        <div class="videoRecordingInfo">
-            <div class="videoRecordingWhen" id="videoRecordingWhen">@String.Format("{0}", recording.StartTime.ToString("ddd dd MMM HH:mm"))</div>
-            <div class="videoRecordingChannel">&nbsp;@recording.Channel</div>
+        <div class="videoRecording" id="@recording.Id">
+            <div class="videoRecordingInfo">
+                <div class="videoRecordingWhen" id="videoRecordingWhen">@String.Format("{0}", recording.StartTime.ToString("ddd dd MMM HH:mm"))</div>
+                <div class="videoRecordingChannel">&nbsp;@recording.Channel</div>
+            </div>
+            <div class="videoRecordingName" id="videoRecordingName">@recording.Title</div>
+            <div class="videoRecordingDescription">@recording.Description</div>
         </div>
-        <div class="videoRecordingName" id="videoRecordingName">@recording.Title</div>
-        <div class="videoRecordingDescription">@recording.Description</div>
-    </div>
-    <div class="videoRecordingAction" id="videoRecordingPlayFromStart">Play recording</div>
-    <div class="videoRecordingAction videoRecordingActionAlert" id="videoRecordingDelete"><span class="playButton">&gt;&nbsp;</span>Delete recording</div>
-    <span id="recordingId" style="display:none">@recording.Id</span>
+        <div class="videoRecordingAction" id="videoRecordingPlayFromStart">Play recording</div>
+        <div class="videoRecordingAction videoRecordingActionAlert" id="videoRecordingDelete"><span class="playButton">&gt;&nbsp;</span>Delete recording</div>
+        <span id="recordingId" style="display:none">@recording.Id</span>
+    }
+}
+
+@{
+    if (RemotePotato.AllRecordings.ContainsKey(ViewBag.Id))
+    {
+        var recording = RemotePotato.AllRecordings[ViewBag.Id];
+
+        <div class="videoRecording" id="@recording.Id">
+            <div class="videoRecordingInfo">
+                <div class="videoRecordingWhen" id="videoRecordingWhen">@String.Format("{0}", recording.StartTime.ToString("ddd dd MMM HH:mm"))</div>
+                <div class="videoRecordingChannel">&nbsp;@recording.Channel</div>
+            </div>
+            <div class="videoRecordingName" id="videoRecordingName">@recording.Title</div>
+            <div class="videoRecordingDescription">@recording.Description</div>
+        </div>
+        <div class="videoRecordingAction" id="videoRecordingPlayFromStart">Play recording</div>
+        <div class="videoRecordingAction videoRecordingActionAlert" id="videoRecordingDelete"><span class="playButton">&gt;&nbsp;</span>Delete recording</div>
+        <span id="recordingId" style="display:none">@recording.Id</span>
+    }
 }
