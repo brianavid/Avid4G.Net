@@ -42,10 +42,10 @@ $(function () {
         }
     });
 
-    $("#selectRoku").mousedown(function () {
+    $("#selectStream").mousedown(function () {
         StopSwitching();
         $.ajax({
-            url: "/Action/Roku",
+            url: "/Action/StartStream",
             success: function () {
                 LinkTo("/Roku/All");
             },

@@ -63,6 +63,10 @@ textarea {
 /* Styles for ...
 -----------------------------------------------------------*/
 
+.startHidden  {
+    display: none;
+}
+
 .topBar {
     width: 100%;
     background-color: #ccc;
@@ -98,6 +102,21 @@ textarea {
 
 .topBarPhotos {
     background-color: #FCB825;
+}
+
+.topBarRoku {
+    background-color: #301645;
+    color: white;
+}
+
+.topBarChromecast {
+    background-color: #2d2d2d;
+    color: white;
+}
+
+.topBarLogFire {
+    background-color: #3d0c0f;
+    color: white;
 }
 
 .buttonGrid {

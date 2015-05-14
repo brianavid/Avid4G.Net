@@ -17,12 +17,42 @@ namespace Avid4.Net.Controllers
         // GET: /Roku/Browser
         public ActionResult Browser()
         {
+            switch (Running.RunningProgram)
+            {
+                case "Roku":
+                case "Chromecast":
+                case "LogFire":
+                    ViewBag.Title = Running.RunningProgram;
+                    break;
+                default:
+                    ViewBag.Title = "";
+                    break;
+            }
+            if (Running.RunningProgram != "Roku")
+            {
+                ViewBag.HideRokuClass = "startHidden";
+            }
             return View();
         }
 
         // GET: /Roku/All
         public ActionResult All()
         {
+            switch (Running.RunningProgram)
+            {
+                case "Roku":
+                case "Chromecast":
+                case "LogFire":
+                    ViewBag.Title = Running.RunningProgram;
+                    break;
+                default:
+                    ViewBag.Title = "";
+                    break;
+            }
+            if (Running.RunningProgram != "Roku")
+            {
+                ViewBag.HideRokuClass = "startHidden";
+            }
             return View();
         }
 

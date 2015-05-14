@@ -55,12 +55,13 @@ $(function () {
         }
     });
 
-    $("#selectRoku").mousedown(function () {
+    $("#selectStream").mousedown(function () {
         StopSwitching();
+        var lastRunningProgram = $("#homeTitle").text();
         $.ajax({
-            url: "/Action/Roku",
+            url: "/Action/StartStream",
             success: function () {
-                LinkTo("/Roku/Controls");
+                LinkTo(lastRunningProgram == "Roku" ? "/Roku/Controls" : "/Roku/Browser");
             },
             cache: false
         });

@@ -48,6 +48,11 @@ public static class Running
             runningProgram = "Roku";
         }
 
+        if (Receiver.SelectedInput == "Chromecast")
+        {
+            runningProgram = "Chromecast";
+        }
+
         //  Start a background thread to poll for an inactive screen-off player and so turn it off after
         //  a short while
         var activityChecker = new Thread(ActivityChecker);
@@ -71,8 +76,13 @@ public static class Running
                 case "Radio":
                     return "topBarTv";
                 case "Sky":
-                case "Roku":
                     return "topBarSky";
+                case "Roku":
+                    return "topBarRoku";
+                case "Chromecast":
+                    return "topBarChromecast";
+                case "LogFire":
+                    return "topBarLogFire";
                 case "Spotify":
                     return "topBarSpotify";
                 case "Video":
@@ -346,14 +356,15 @@ public static class Running
     }
 
     /// <summary>
-    /// Note that we are starting the Roku box, and so stop all media PC player applications
+    /// Note that we are starting streaming, and so stop all media PC player applications
     /// </summary>
     /// <returns></returns>
-    public static bool StartRoku()
+    public static bool StartStream(
+        string streamSource)
     {
-        logger.Info("StartRoku");
+        logger.Info("StartStream: " + streamSource);
 
-        if (runningProgram != "Roku")
+        if (runningProgram != streamSource)
         {
             if (runningProgram == "Music" || runningProgram == "Photo")
             {
@@ -362,11 +373,10 @@ public static class Running
             StopSky();
             DesktopClient.ExitAllPrograms();
             DesktopClient.SendSpecialkey("ClearDesktop");
-            Zoom.Stop();
-            Spotify.Stop();
+            NothingRunning();
         }
 
-        runningProgram = "Roku";
+        runningProgram = streamSource;
         return true;
     }
 

@@ -159,40 +159,6 @@ $(function () {
         });
     });
 
-    $("#actionMenuLogFire").click(function () {
-        $(".actionMenu").hide()
-        $.ajax({
-            url: "/Action/LogFire",
-            success: HideActionMenu,
-            error: HideActionMenu,
-            cache: false
-        });
-    });
-
-    $("#actionMenuChromecast").click(function () {
-        $(".actionMenu").hide()
-        $.ajax({
-            url: "/Action/Chromecast",
-            success: function () {
-                location.href = document.getElementById("isWide") != null ? '/Home/Wide' : '/Home/Home';
-            },
-            error: HideActionMenu,
-            cache: false
-        });
-    });
-
-    $("#actionMenuRoku").click(function () {
-        $(".actionMenu").hide()
-        $.ajax({
-            url: "/Action/Roku",
-            success: function () {
-                location.href = document.getElementById("isWide") != null ? '/Roku/All' : '/Roku/Controls';
-            },
-            error: HideActionMenu,
-            cache: false
-        });
-    });
-
     $("#actionMenuScreenOff").click(function () {
         $.ajax({
             url: "/Action/ScreenOff",
@@ -360,6 +326,12 @@ function SwitchPanelAfterWake(isWide) {
                             break;
                         case "Roku":
                             window.location = isWide ? "/Roku/All" : "/Roku/Controls";
+                            break;
+                        case "Chromecast":
+                            window.location = isWide ? "/Roku/All" : "/Roku/Browser";
+                            break;
+                        case "LogFire":
+                            window.location = isWide ? "/Roku/All" : "/Roku/Browser";
                             break;
                         case "Music":
                             window.location = isWide ? "/Music/All" : "/Music/Playing";

@@ -200,30 +200,57 @@ namespace Avid4.Net.Controllers
             return Content("");
         }
 
-        // GET: /Action/LogFire
-        public ActionResult LogFire()
+        // GET: /Action/StartStream
+        public ActionResult StartStream()
         {
             Screen.EnsureScreenOn();
-            Screen.WaitForScreenOn();
+            var streamProgram = "";
+            switch (Running.RunningProgram)
+            {
+                case "LogFire":
+                case "Chromecast":
+                case "Roku":
+                case "Music":
+                case "Spotify":
+                    streamProgram = Running.RunningProgram;
+                    break;
+            }
+            Running.StartStream(streamProgram);
+            return Content("");
+        }
+
+        // GET: /Action/GoLogFire
+        public ActionResult GoLogFire()
+        {
+            Screen.EnsureScreenOn();
+            if (Running.RunningProgram != "Music" && Running.RunningProgram != "Spotify")
+            {
+                Running.StartStream("LogFire");
+            }
+            Receiver.SelectComputerInput();
             DesktopClient.LaunchProgram("LogFire", null);
             return Content("");
         }
 
-        // GET: /Action/Chromecast
-        public ActionResult Chromecast()
+        // GET: /Action/GoChromecast
+        public ActionResult GoChromecast()
         {
-            Running.ExitAllPrograms(true);
             Screen.EnsureScreenOn();
+            Running.StartStream("Chromecast");
             Receiver.SelectChromecastInput();
             Receiver.SelectTVOutput();
             return Content("");
         }
 
-        // GET: /Action/Roku
-        public ActionResult Roku()
+        // GET: /Action/GoRoku
+        public ActionResult GoRoku()
         {
+            if (Running.RunningProgram == "Roku") 
+            {
+                Roku.KeyPress("Home");
+            }
             Screen.EnsureScreenOn();
-            Running.StartRoku();
+            Running.StartStream("Roku");
             Receiver.SelectRokuInput();
             Receiver.SelectTVOutput();
             return Content("");

@@ -102,6 +102,12 @@ function AddBrowserHammerActions() {
         $(this).height(h - t)
     });
 
+    $("#rokuLeftPane").each(function () {
+        var h = $(window).height() - 24
+        var t = $(this).offset().top
+        $(this).height(h - t)
+    });
+
     if (!browserHammer) {
         browserHammer = $(".rokuBrowserItems").hammer({ prevent_default: true });
     }
@@ -126,12 +132,31 @@ $(function () {
     AddControlHammerActions()
     AddBrowserHammerActions();
 
-    $("#goRokuControls").click(function () {
-        LinkTo("/Roku/Controls")
+    $("#goStreamSourceSelect").click(function () {
+        LinkTo("/Roku/Browser")
     });
 
     $("#goRokuSelect").click(function () {
-        LinkTo("/Roku/Browser")
+        if (document.getElementById("isWide") == null &&
+            $("#homeTitle").text() == "Roku") {
+            LinkTo("/Roku/Controls")
+        } else {
+            $.get("/Action/GoRoku", null, function () {
+                LinkTo(document.getElementById("isWide") != null ? "/Roku/All" : "/Roku/Browser")
+            })
+        }
+    });
+
+    $("#goChromecastSelect").click(function () {
+        $.get("/Action/GoChromecast", null, function () {
+            LinkTo(document.getElementById("isWide") != null ? "/Roku/All" : "/Roku/Browser")
+        })
+    });
+
+    $("#goLogFireSelect").click(function () {
+        $.get("/Action/GoLogFire", null, function () {
+            LinkTo(document.getElementById("isWide") != null ? "/Roku/All" : "/Roku/Browser")
+        })
     });
 
 })
