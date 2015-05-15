@@ -216,6 +216,7 @@ namespace Avid4.Net.Controllers
                     break;
             }
             Running.StartStream(streamProgram);
+            Receiver.TurnOn();
             return Content("");
         }
 
@@ -245,10 +246,7 @@ namespace Avid4.Net.Controllers
         // GET: /Action/GoRoku
         public ActionResult GoRoku()
         {
-            if (Running.RunningProgram == "Roku") 
-            {
-                Roku.KeyPress("Home");
-            }
+            Roku.KeyPress("Home");
             Screen.EnsureScreenOn();
             Running.StartStream("Roku");
             Receiver.SelectRokuInput();

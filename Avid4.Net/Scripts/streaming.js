@@ -6,88 +6,88 @@ function AddControlHammerActions() {
     }
 
     controlHammer.on("tap", "#btnHome", function (e) {
-        $.get("/Roku/KeyPress/Home")
+        $.get("/Streaming/KeyPress/Home")
         return false;
     });
 
     controlHammer.on("tap", "#btnBack", function (e) {
-        $.get("/Roku/KeyPress/Back")
+        $.get("/Streaming/KeyPress/Back")
         return false;
     });
 
     controlHammer.on("tap", "#btnOk", function (e) {
-        $.get("/Roku/KeyPress/Select")
+        $.get("/Streaming/KeyPress/Select")
         return false;
     });
 
     controlHammer.on("touch", "#btnUp", function (e) {
-        $.get("/Roku/KeyDown/Up")
+        $.get("/Streaming/KeyDown/Up")
         return false;
     });
 
     controlHammer.on("release", "#btnUp", function (e) {
-        $.get("/Roku/KeyUp/Up")
+        $.get("/Streaming/KeyUp/Up")
         return false;
     });
 
     controlHammer.on("touch", "#btnLeft", function (e) {
-        $.get("/Roku/KeyDown/Left")
+        $.get("/Streaming/KeyDown/Left")
         return false;
     });
 
     controlHammer.on("release", "#btnLeft", function (e) {
-        $.get("/Roku/KeyUp/Left")
+        $.get("/Streaming/KeyUp/Left")
         return false;
     });
 
     controlHammer.on("touch", "#btnRight", function (e) {
-        $.get("/Roku/KeyDown/Right")
+        $.get("/Streaming/KeyDown/Right")
         return false;
     });
 
     controlHammer.on("release", "#btnRight", function (e) {
-        $.get("/Roku/KeyUp/Right")
+        $.get("/Streaming/KeyUp/Right")
         return false;
     });
 
     controlHammer.on("touch", "#btnDown", function (e) {
-        $.get("/Roku/KeyDown/Down")
+        $.get("/Streaming/KeyDown/Down")
         return false;
     });
 
     controlHammer.on("release", "#btnDown", function (e) {
-        $.get("/Roku/KeyUp/Down")
+        $.get("/Streaming/KeyUp/Down")
         return false;
     });
 
     controlHammer.on("touch", "#btnPrev", function (e) {
-        $.get("/Roku/KeyDown/Rev")
+        $.get("/Streaming/KeyDown/Rev")
         return false;
     });
 
     controlHammer.on("release", "#btnPrev", function (e) {
-        $.get("/Roku/KeyUp/Rev")
+        $.get("/Streaming/KeyUp/Rev")
         return false;
     });
 
     controlHammer.on("touch", "#btnNext", function (e) {
-        $.get("/Roku/KeyDown/Fwd")
+        $.get("/Streaming/KeyDown/Fwd")
         return false;
     });
 
     controlHammer.on("release", "#btnNext", function (e) {
-        $.get("/Roku/KeyUp/Fwd")
+        $.get("/Streaming/KeyUp/Fwd")
         return false;
     });
 
     controlHammer.on("tap", "#btnPlayPause", function (e) {
-        $.get("/Roku/KeyPress/Play")
+        $.get("/Streaming/KeyPress/Play")
         return false;
     });
 
     controlHammer.on("tap", "#goRokuText", function (e) {
         var text = document.getElementById("rokuText").value
-        $.get("/Roku/SendText?text=" + encodeURIComponent(text))
+        $.get("/Streaming/SendText?text=" + encodeURIComponent(text))
         return false;
     });
 }
@@ -102,12 +102,6 @@ function AddBrowserHammerActions() {
         $(this).height(h - t)
     });
 
-    $("#rokuLeftPane").each(function () {
-        var h = $(window).height() - 24
-        var t = $(this).offset().top
-        $(this).height(h - t)
-    });
-
     if (!browserHammer) {
         browserHammer = $(".rokuBrowserItems").hammer({ prevent_default: true });
     }
@@ -116,10 +110,10 @@ function AddBrowserHammerActions() {
 
     browserHammer.on("tap", ".rokuBrowserApp", function (e) {
         $.ajax({
-            url: "/Roku/Launch/" + this.id,
+            url: "/Streaming/RokuLaunch/" + this.id,
             success: function (data) {
                 if (document.getElementById("isWide") == null) {
-                    LinkTo("/Roku/Controls")
+                    LinkTo("/Streaming/Controls")
                 }
             },
             cache: false
@@ -129,33 +123,39 @@ function AddBrowserHammerActions() {
 }
 
 $(function () {
+    $("#streamingLeftPane").each(function () {
+        var h = $(window).height() - 24
+        var t = $(this).offset().top
+        $(this).height(h - t)
+    });
+
     AddControlHammerActions()
     AddBrowserHammerActions();
 
     $("#goStreamSourceSelect").click(function () {
-        LinkTo("/Roku/Browser")
+        LinkTo("/Streaming/Browser")
     });
 
     $("#goRokuSelect").click(function () {
         if (document.getElementById("isWide") == null &&
             $("#homeTitle").text() == "Roku") {
-            LinkTo("/Roku/Controls")
+            LinkTo("/Streaming/Controls")
         } else {
             $.get("/Action/GoRoku", null, function () {
-                LinkTo(document.getElementById("isWide") != null ? "/Roku/All" : "/Roku/Browser")
+                LinkTo(document.getElementById("isWide") != null ? "/Streaming/All" : "/Streaming/Browser")
             })
         }
     });
 
     $("#goChromecastSelect").click(function () {
         $.get("/Action/GoChromecast", null, function () {
-            LinkTo(document.getElementById("isWide") != null ? "/Roku/All" : "/Roku/Browser")
+            LinkTo(document.getElementById("isWide") != null ? "/Streaming/All" : "/Streaming/Browser")
         })
     });
 
     $("#goLogFireSelect").click(function () {
         $.get("/Action/GoLogFire", null, function () {
-            LinkTo(document.getElementById("isWide") != null ? "/Roku/All" : "/Roku/Browser")
+            LinkTo(document.getElementById("isWide") != null ? "/Streaming/All" : "/Streaming/Browser")
         })
     });
 

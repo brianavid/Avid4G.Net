@@ -47,7 +47,7 @@ $(function () {
         $.ajax({
             url: "/Action/StartStream",
             success: function () {
-                LinkTo("/Roku/All");
+                LinkTo("/Streaming/All");
             },
             cache: false
         });

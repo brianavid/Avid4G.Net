@@ -325,13 +325,13 @@ function SwitchPanelAfterWake(isWide) {
                             window.location = isWide ? "/Sky/All" : "/Sky/Watch";
                             break;
                         case "Roku":
-                            window.location = isWide ? "/Roku/All" : "/Roku/Controls";
+                            window.location = isWide ? "/Streaming/All" : "/Streaming/Controls";
                             break;
                         case "Chromecast":
-                            window.location = isWide ? "/Roku/All" : "/Roku/Browser";
+                            window.location = isWide ? "/Streaming/All" : "/Streaming/Browser";
                             break;
                         case "LogFire":
-                            window.location = isWide ? "/Roku/All" : "/Roku/Browser";
+                            window.location = isWide ? "/Streaming/All" : "/Streaming/Browser";
                             break;
                         case "Music":
                             window.location = isWide ? "/Music/All" : "/Music/Playing";

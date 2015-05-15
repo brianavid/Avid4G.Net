@@ -1,0 +1,33 @@
+﻿@Html.Partial("TopBarWide")
+@section scripts {
+@Html.Raw(Render.Script("topBar", Request))
+@Html.Raw(Render.Script("homeWide", Request))
+@Html.Raw(Render.Script("streaming", Request))
+}
+
+
+<div id="streamingPanes">
+    <div id="streamingLeftPane">
+        <table class="buttonRow">
+            <tr>
+                <td class="centeredButton"><img id="goRokuSelect" src="/Content/Buttons/Roku.png" /></td>
+                <td class="centeredButton"><img id="goChromecastSelect" src="/Content/Buttons/Cast.png" /></td>
+                <td class="centeredButton"><img id="goLogFireSelect" src="/Content/Buttons/LogFire.png" /></td>
+            </tr>
+        </table>
+
+        <div id="rokuBrowserPane" class="rokuBrowserPane @(ViewBag.HideRokuClass ?? "")">
+            <div class="rokuBrowserItems" id="rokuBrowserItems">
+                @Html.Partial("BrowserPane")
+            </div>
+        </div>
+    </div>
+
+    <div id="streamingRightPane">
+        <div id="rokuControlsPane" class="rokuControlsPane @(ViewBag.HideRokuClass ?? "")">
+            <div class="rokuControls">
+                @Html.Partial("ControlsPane")
+            </div>
+        </div>
+    </div>
+</div>

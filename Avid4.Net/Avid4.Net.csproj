@@ -168,7 +168,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MusicController.cs" />
     <Compile Include="Controllers\PhotosController.cs" />
-    <Compile Include="Controllers\RokuController.cs" />
+    <Compile Include="Controllers\StreamingController.cs" />
     <Compile Include="Controllers\TvController.cs" />
     <Compile Include="Controllers\SkyController.cs" />
     <Compile Include="Controllers\SpotifyController.cs" />
@@ -450,7 +450,7 @@
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\guide.js" />
     <Content Include="Scripts\photos.js" />
-    <Content Include="Scripts\roku.js" />
+    <Content Include="Scripts\streaming.js" />
     <Content Include="Scripts\tv.js" />
     <Content Include="Scripts\video.js" />
     <Content Include="Scripts\Web.js" />
@@ -571,12 +571,12 @@
     <Content Include="Views\Music\BrowserSearchPane.cshtml" />
     <Content Include="Views\Spotify\BrowserSearchPane.cshtml" />
     <Content Include="Views\Home\GoAway.cshtml" />
-    <Content Include="Views\Roku\Controls.cshtml" />
-    <Content Include="Views\Roku\All.cshtml" />
-    <Content Include="Views\Roku\ControlsPane.cshtml" />
-    <Content Include="Views\Roku\PaneButtons.cshtml" />
-    <Content Include="Views\Roku\BrowserPane.cshtml" />
-    <Content Include="Views\Roku\Browser.cshtml" />
+    <Content Include="Views\Streaming\Controls.cshtml" />
+    <Content Include="Views\Streaming\All.cshtml" />
+    <Content Include="Views\Streaming\ControlsPane.cshtml" />
+    <Content Include="Views\Streaming\PaneButtons.cshtml" />
+    <Content Include="Views\Streaming\BrowserPane.cshtml" />
+    <Content Include="Views\Streaming\Browser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

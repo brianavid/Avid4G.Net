@@ -6,15 +6,15 @@ using System.Web.Mvc;
 
 namespace Avid4.Net.Controllers
 {
-    public class RokuController : Controller
+    public class StreamingController : Controller
     {
-        // GET: /Roku/Controls
+        // GET: /Streaming/Controls
         public ActionResult Controls()
         {
             return View();
         }
 
-        // GET: /Roku/Browser
+        // GET: /Streaming/Browser
         public ActionResult Browser()
         {
             switch (Running.RunningProgram)
@@ -35,7 +35,7 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
-        // GET: /Roku/All
+        // GET: /Streaming/All
         public ActionResult All()
         {
             switch (Running.RunningProgram)
@@ -56,7 +56,7 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
-        public ContentResult Launch(
+        public ContentResult RokuLaunch(
             string id)
         {
             Roku.RunApp(id);

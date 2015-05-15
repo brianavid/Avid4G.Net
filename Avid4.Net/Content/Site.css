@@ -105,7 +105,7 @@ textarea {
 }
 
 .topBarRoku {
-    background-color: #301645;
+    background-color: #592a80;
     color: white;
 }
 
@@ -115,7 +115,7 @@ textarea {
 }
 
 .topBarLogFire {
-    background-color: #3d0c0f;
+    background-color: #7e381d;
     color: white;
 }
 
@@ -317,11 +317,11 @@ textarea {
 .musicBrowserTitle, .spotifyBrowserTitle {
 }
 
-#musicPanes, #webPanes, #spotifyPanes, #tvPanes, #skyPanes, #videoPanes, #photosPanes, #rokuPanes, .TwoColumn {
+#musicPanes, #webPanes, #spotifyPanes, #tvPanes, #skyPanes, #videoPanes, #photosPanes, #streamingPanes, .TwoColumn {
     position: relative;
 }
 
-#musicLeftPane, #webLeftPane, #spotifyLeftPane, #tvLeftPane, #skyLeftPane, #videoLeftPane, #photosLeftPane, #rokuLeftPane, .TwoColumnLeft {
+#musicLeftPane, #webLeftPane, #spotifyLeftPane, #tvLeftPane, #skyLeftPane, #videoLeftPane, #photosLeftPane, #streamingLeftPane, .TwoColumnLeft {
     width: 50%;
     position:absolute;
     left:0px;
@@ -329,7 +329,7 @@ textarea {
     border-right:2px solid #3a5069;
 }
 
-#musicRightPane, #webRightPane, #spotifyRightPane, #tvRightPane, #skyRightPane, #videoRightPane, #photosRightPane, #rokuRightPane, .TwoColumnRight {
+#musicRightPane, #webRightPane, #spotifyRightPane, #tvRightPane, #skyRightPane, #videoRightPane, #photosRightPane, #streamingRightPane, .TwoColumnRight {
     width: 50%;
     left:50%;
     position:absolute;
