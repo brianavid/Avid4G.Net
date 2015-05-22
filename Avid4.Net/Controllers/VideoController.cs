@@ -76,6 +76,13 @@ namespace Avid4.Net.Controllers
                 Zoom.IsDvdMode = false;
                 Zoom.Title = recording.Title;
             }
+            else if (DvbViewer.AllRecordings.ContainsKey(id))
+            {
+                var recording = DvbViewer.AllRecordings[id];
+                Running.LaunchProgram("Video", "/Media /F /ExFunc:exSetVolume,100 /Play \"" + recording.Filename + "\"");
+                Zoom.IsDvdMode = false;
+                Zoom.Title = recording.Title;
+            }
             else if (TsRecordings.AllRecordings.ContainsKey(id))
             {
                 var recording = TsRecordings.AllRecordings[id];

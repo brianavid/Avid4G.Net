@@ -493,7 +493,7 @@ public class JRMC
 
             return true;
         }
-        catch (System.Exception ex)
+        catch
         {
             return true;
         }

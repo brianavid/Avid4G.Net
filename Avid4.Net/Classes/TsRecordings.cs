@@ -5,12 +5,15 @@ using System.Web;
 using IniParser;
 using System.Globalization;
 using System.IO;
+using NLog;
 
 /// <summary>
 /// A class to represent the set of TS recorded TV files
 /// </summary>
 public class TsRecordings
 {
+    static Logger logger = LogManager.GetCurrentClassLogger();
+
     public class Recording 
     {
         public String Id { get; private set; }
@@ -126,11 +129,12 @@ public class TsRecordings
         string contentFilename = recording.Filename;
         if (System.IO.File.Exists(contentFilename))
         {
+            logger.Info("Delete recording file: {0}", contentFilename);
             foreach (var file in System.IO.Directory.GetFiles(Config.VideoPath, Path.GetFileNameWithoutExtension(contentFilename) + ".*"))
             {
                 System.IO.File.Delete(file);
             }
-            LoadAllRecordings();
         }
+        LoadAllRecordings();
     }
 }

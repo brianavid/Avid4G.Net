@@ -262,8 +262,8 @@ textarea {
     width:100%;
 }
 
-.skyRecordingBeingRecorded {
-    background-color: #c87070;
+.skyRecordingBeingRecorded, .guideEpgProgrammeScheduled {
+    background-color: #ff8f8f;
 }
 
 .tvProgrammeWhen, .tvControlActionL, .tvNextPrograme, .skyRecordingWhen, .skyProgrammeWhen, .skyControlActionL, .videoRecordingWhen, .videoInfoLeft, .guideProgrammeInfoL{
@@ -420,7 +420,7 @@ textarea {
 }
 
 
-.guideEpgProgrammeRecord, .guideEpgProgrammeRecordSeries, .guideEpgProgrammeCancel {
+.guideEpgProgrammeRecord, .guideEpgProgrammeRecordSeries, .guideEpgProgrammeCancel, .guideEpgSeriesCancel {
     float: right;
 }
 

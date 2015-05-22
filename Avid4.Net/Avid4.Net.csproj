@@ -144,12 +144,12 @@
     <Compile Include="Classes\BBC.cs" />
     <Compile Include="Classes\Config.cs" />
     <Compile Include="Classes\Desktop.cs" />
+    <Compile Include="Classes\DvbViewer.cs" />
     <Compile Include="Classes\IpAddress.cs" />
     <Compile Include="Classes\IRCodes.cs" />
     <Compile Include="Classes\JRMC.cs" />
     <Compile Include="Classes\NoCacheAttribute.cs" />
     <Compile Include="Classes\Receiver.cs" />
-    <Compile Include="Classes\TsRecordings.cs" />
     <Compile Include="Classes\RemotePotato.cs" />
     <Compile Include="Classes\Render.cs" />
     <Compile Include="Classes\Roku.cs" />
@@ -158,6 +158,7 @@
     <Compile Include="Classes\Sky.cs" />
     <Compile Include="Classes\Spotify.cs" />
     <Compile Include="Classes\SpotifyData.cs" />
+    <Compile Include="Classes\TsRecordings.cs" />
     <Compile Include="Classes\Zoom.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -448,6 +449,7 @@
     <Content Include="LICENSE" />
     <None Include="Properties\PublishProfiles\Deploy to Avid.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Scripts\guide2.js" />
     <Content Include="Scripts\guide.js" />
     <Content Include="Scripts\photos.js" />
     <Content Include="Scripts\streaming.js" />
@@ -577,6 +579,9 @@
     <Content Include="Views\Streaming\PaneButtons.cshtml" />
     <Content Include="Views\Streaming\BrowserPane.cshtml" />
     <Content Include="Views\Streaming\Browser.cshtml" />
+    <Content Include="Views\Guide\Browser2.cshtml" />
+    <Content Include="Views\Guide\BrowserPane2.cshtml" />
+    <Content Include="Views\Guide\BrowserWide2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
@@ -587,6 +592,9 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

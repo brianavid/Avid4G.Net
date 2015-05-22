@@ -87,7 +87,12 @@ function StartSky(application, url, mode) {
 
 //  Switch the entire view to a new URL
 function LinkTo(url) {
-    window.location = url;
+    window.location = url
+}
+
+//  Return true if the DOM element has the named class
+function hasClass(element, cls) {
+    return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
 }
 
 //  A stack of pane partial URLs which can be popped (by a side-swip) to return to an ealier pane view

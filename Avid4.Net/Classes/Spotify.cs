@@ -81,7 +81,7 @@ public static class Spotify
                                                 }
                                                 catch (System.Exception ex)
                                                 {
-                                                    logger.Info("Unable to update saved authentication data for Spotify Web API");
+                                                    logger.Info("Unable to update saved authentication data for Spotify Web API", ex);
                                                 }
                                             }
                                         }
