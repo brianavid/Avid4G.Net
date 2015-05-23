@@ -21,6 +21,11 @@ $(function () {
         }
     });
 
+    $("#selectTV2").mousedown(function () {
+        StopSwitching();
+        LaunchProgram("TV", "/TV2/All")
+    });
+
     $("#selectSky").mousedown(function () {
         StopSwitching();
         StartSky("Sky", "/Sky/All", "planner")

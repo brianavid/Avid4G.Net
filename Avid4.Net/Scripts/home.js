@@ -22,6 +22,11 @@ $(function () {
         }
     });
 
+    $("#selectTV2").mousedown(function () {
+        StopSwitching();
+        LaunchProgram("TV", "/TV2/Channels")
+    });
+
     $("#selectRadio").mousedown(function () {
         StopSwitching();
         var tvService = $("#tvService").text();
@@ -30,6 +35,11 @@ $(function () {
         } else {
             LaunchProgram("TV", "/TV/Radio", "Radio")
         }
+    });
+
+    $("#selectRadio2").mousedown(function () {
+        StopSwitching();
+        LaunchProgram("TV", "/TV2/Radio", "Radio")
     });
 
     $("#selectSky").mousedown(function () {

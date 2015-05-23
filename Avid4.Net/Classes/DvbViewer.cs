@@ -524,6 +524,7 @@ public class DvbViewer
     /// The live channel name currently selected to watch
     /// </summary>
     public static Channel CurrentlySelectedChannel { get; private set; }
+    public static String CurrentlySelectedChannelName { get { return CurrentlySelectedChannel == null ? "" : CurrentlySelectedChannel.Name; } }
 
     /// <summary>
     /// Get once only and cache the current set of channels

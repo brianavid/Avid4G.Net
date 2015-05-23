@@ -1,0 +1,24 @@
+﻿@{
+    var channels = DvbViewer.AllTvChannelsFavouriteFirst;
+    foreach (var channel in channels)
+    {
+        <div class="tvChannel" id="@channel.Name">
+            <div class="tvChannelNumber">@channel.Number</div>
+            <div class="tvChannelName"><span class="playButton">&gt;&nbsp;</span>@channel.Display</div>
+            <div class="tvChannelNowNext">
+                @if (channel.IsFavourite)
+                {
+                    var nowAndNext = DvbViewer.GetNowAndNext(channel);
+                    foreach (var programme in nowAndNext)
+                    {
+                        <div class="tvProgrammeInfo">@(programme.StartTime.ToLocalTime().ToString("HH:mm")) @programme.Title</div>
+                    }
+                }
+                else
+                {
+                    <text>&nbsp;</text>
+                }
+            </div>
+        </div>
+    }
+}
