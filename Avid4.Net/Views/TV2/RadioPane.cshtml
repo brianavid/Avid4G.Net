@@ -4,7 +4,7 @@
     {
         <div class="tvChannel" id="@channel.Display">
             <div class="tvChannelNumber">@channel.Number</div>
-            <div class="tvChannelName"><span class="playButton">&gt;&nbsp;</span>@channel.Display</div>
+            <div class="tvChannelName"><img height="40" src="@(DvbViewer.GetChannelLogoUrl(channel))" /> @channel.Display</div>
             <div class="tvChannelNowNext">
                 @if (channel.IsFavourite)
                 {

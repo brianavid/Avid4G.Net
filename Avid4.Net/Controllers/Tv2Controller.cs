@@ -66,6 +66,16 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
+        // GET: /Tv2/GetChannelLogo
+        public ActionResult GetChannelLogo(
+            string channelName)
+        {
+            var logoUrl = DvbViewer.GetChannelLogoUrl(DvbViewer.NamedChannel(channelName));
+            if (logoUrl == null)
+                return this.Content("");
+            return Redirect(logoUrl);
+        }
+
         // GET: /Tv2/Action
         public ContentResult Action(
             string command)

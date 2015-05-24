@@ -32,6 +32,7 @@ public class DvbViewer
         public string Name { get; internal set; }
         public string Id { get; internal set; }
         public string EpgId { get; internal set; }
+        public string LogoUrl { get; internal set; }
         public bool IsRadio { get; internal set; }
         public bool IsHD { get; internal set; }
         public bool IsFavourite { get; internal set; }
@@ -50,6 +51,10 @@ public class DvbViewer
                 IsRadio = xChan.Attribute("flags").Value == "16";
                 IsHD = xChan.Attribute("flags").Value == "24" &&
                     Name.EndsWith(" HD");       //  Empirical
+                if (xChan.Element("logo") != null)
+                {
+                    LogoUrl = xChan.Element("logo").Value;
+                }
                 IsFavourite = isFavourite;
                 InError = false;
             }
@@ -535,7 +540,7 @@ public class DvbViewer
         {
             if (channelsXml == null)
             {
-                channelsXml = GetXml("getchannelsxml.html");
+                channelsXml = GetXml("getchannelsxml.html?logo=1");
                 CurrentlySelectedChannel = null;
             }
 
@@ -768,6 +773,12 @@ public class DvbViewer
             GetXml(String.Format("dvbcommand.html?target={0}&cmd=-c{1}", DvbTarget, channel.Number));
             CurrentlySelectedChannel = channel;
         }
+    }
+
+    public static string GetChannelLogoUrl(
+        Channel channel)
+    {
+        return channel.LogoUrl == null ? null : "http://" + Host + ":8089/" + channel.LogoUrl;
     }
 
     /// <summary>
