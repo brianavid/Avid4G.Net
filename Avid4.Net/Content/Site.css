@@ -184,7 +184,7 @@ textarea {
     margin-left:5%;
 }
 
-.musicPlaybackQueueItems, .musicBrowserItems, .webBrowserItems, .guideBrowserItems, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .photosImagesGrid, .photosBrowserItems, .rokuBrowserItems, .tvButtons, .tvChannels, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoDvds {
+.musicPlaybackQueueItems, .musicBrowserItems, .webBrowserItems, .guideBrowserItems, .guideSelectorItems, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .photosImagesGrid, .photosBrowserItems, .rokuBrowserItems, .tvButtons, .tvChannels, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoDvds {
     position: relative;
     overflow-y:hidden;
     -webkit-overflow-scrolling: touch;
@@ -317,11 +317,11 @@ textarea {
 .musicBrowserTitle, .spotifyBrowserTitle {
 }
 
-#musicPanes, #webPanes, #spotifyPanes, #tvPanes, #skyPanes, #videoPanes, #photosPanes, #streamingPanes, .TwoColumn {
+#musicPanes, #webPanes, #spotifyPanes, #tvPanes, #skyPanes, #videoPanes, #photosPanes, #streamingPanes, #guidePanes, .TwoColumn {
     position: relative;
 }
 
-#musicLeftPane, #webLeftPane, #spotifyLeftPane, #tvLeftPane, #skyLeftPane, #videoLeftPane, #photosLeftPane, #streamingLeftPane, .TwoColumnLeft {
+#musicLeftPane, #webLeftPane, #spotifyLeftPane, #tvLeftPane, #skyLeftPane, #videoLeftPane, #photosLeftPane, #streamingLeftPane, #guideLeftPane, .TwoColumnLeft {
     width: 50%;
     position:absolute;
     left:0px;
@@ -329,12 +329,20 @@ textarea {
     border-right:2px solid #3a5069;
 }
 
-#musicRightPane, #webRightPane, #spotifyRightPane, #tvRightPane, #skyRightPane, #videoRightPane, #photosRightPane, #streamingRightPane, .TwoColumnRight {
-    width: 50%;
+#musicRightPane, #webRightPane, #spotifyRightPane, #tvRightPane, #skyRightPane, #videoRightPane, #photosRightPane, #streamingRightPane, #guideRightPane, .TwoColumnRight {
+    width: 49%;
     left:50%;
     position:absolute;
     top:0px;
     border-left:2px solid #3a5069;
+}
+
+#guideOverlayPane {
+    width: 100%;
+    position:absolute;
+    left:0px;
+    top:0px;
+    border-right:2px solid #3a5069;
 }
 
 #musicControlPane, #spotifyControlPane, #tvControlPane, #skyControlPane, #rokuControlsPane {
@@ -355,7 +363,7 @@ textarea {
     padding: 5px;
 }
 
-#musicBrowserPane, #webBrowserPane, #spotifyBrowserPane, #photosBrowserPane, #rokuBrowserPane, #tvChannelsPane {
+#musicBrowserPane, #webBrowserPane, #spotifyBrowserPane, #photosBrowserPane, #rokuBrowserPane, #tvChannelsPane, #guideSelectorPane, #guideListingsPane {
     overflow: hidden;
     padding: 5px;
 }

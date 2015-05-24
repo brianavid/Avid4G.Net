@@ -1,0 +1,53 @@
+﻿@{
+    switch (ViewBag.Mode as string)
+    {
+        default:
+        case "GuideEmpty":
+            break;
+
+        case "GuideSelectFavouritesEpg":
+        case "GuideSelectTvEpg":
+        case "GuideSelectRadioEpg":
+            {
+                IEnumerable<string> channelNames = null;
+                switch (ViewBag.Mode as string)
+                {
+                    case "GuideSelectFavouritesEpg":
+                        channelNames = DvbViewer.AllFavouriteChannelNames;
+                        break;
+                    case "GuideSelectTvEpg":
+                        channelNames = DvbViewer.AllTvChannelNamesFavouriteFirst;
+                        break;
+                    case "GuideSelectRadioEpg":
+                        channelNames = DvbViewer.AllRadioChannelNames;
+                        break;
+                }
+
+                <div class="TwoColumnBrowse">
+                    <div class="TwoColumnLeft">
+                        <div class="guideChannels">
+                            @foreach (string channelName in channelNames)
+                            {
+                                <div class="guideEpgChannel guideItem" id="@channelName">
+                                    <div class="guideTitle">@channelName</div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="TwoColumnRight">
+                        <div class="guideDates">
+                            @for (int i = 0; i <= 7; i++)
+                            {
+                                DateTime date = DateTime.Today.AddDays(i);
+                                <div class="guideEpgDate guideItem" id='@(date.Ticks)'>
+                                    <div class="guideTitle">@(date.ToString("ddd dd MMM"))</div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            break;
+
+    }
+}

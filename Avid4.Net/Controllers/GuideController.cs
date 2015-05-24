@@ -48,8 +48,17 @@ namespace Avid4.Net.Controllers
             return PartialView();
         }
 
-        // GET: /Guide/BrowserPane
-        public ActionResult BrowserPane2(
+        // GET: /Guide/SelectorPane
+        public ActionResult SelectorPane(
+            string mode)
+        {
+            ViewBag.Mode = mode;
+
+            return PartialView();
+        }
+
+        // GET: /Guide/Listings
+        public ActionResult ListingsPane(
             string mode,
             string id,
             string date,

@@ -29,6 +29,21 @@ else
     @Html.Raw(Render.Script("guide2", Request))
 }
 
-<div class="guideBrowserItems" id="guideBrowserItems">
-    @Html.Partial("BrowserPane2")
+@Html.Partial("PaneButtons")
+<div id="guidePanes">
+    <div id="guideOverlayPane">
+        <div id="guideSelectorPane">
+            <div class="guideSelectorItems guideOverlaySelectors" id="guideSelectorItems">
+                @Html.Partial("SelectorPane")
+            </div>
+        </div>
+    </div>
+
+    <div id="guideOverlayPane">
+        <div id="guideListingsPane">
+            <div class="guideBrowserItems guideOverlayListings" id="guideBrowserItems">
+                @Html.Partial("ListingsPane")
+            </div>
+        </div>
+    </div>
 </div>

@@ -992,7 +992,7 @@ public class DvbViewer
                     "&title={2}" +
                     "&dor={3}&epgbefore={4}&starttime={5}&endtime={6}&epgafter={7}" +
                     "&Exitaktion=0&Aufnahmeaktion=0&folder=Auto&Series=&Format=2" +
-                    "&scheme=%25year-%25date_%25time_%25station_%25name&RecAllAudio=checkbox" +
+                    "&scheme=%25year-%25date_%25time_%25station_%25event&RecAllAudio=checkbox" +
                     "&PATPMTAdjust=checkbox&searchaction=none&aktion=timer_add&source=timer_add" +
                     "&referer={8}" +
                     "&timer_id=&do=&timertype=0&save=Speichern&pdc=0&epgevent={9}&_={10}",
@@ -1011,7 +1011,6 @@ public class DvbViewer
                 HttpWebRequest request =
                     (HttpWebRequest)HttpWebRequest.Create(requestUrl);
                 request.Method = WebRequestMethods.Http.Get;
-                request.ContentType = "text/xml";
 
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             }

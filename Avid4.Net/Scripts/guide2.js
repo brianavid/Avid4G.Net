@@ -1,9 +1,60 @@
-﻿var browserHammer = null;
+﻿var selectorHammer = null;
 
 var selectedDate = null;
 var selectedChannel = null;
 
-function AddBrowserHammerActions() {
+function ResetSelectors() {
+    $(".guideEpgSelectedChannel").removeClass("guideEpgSelectedChannel")
+    $(".guideEpgSelectedDate").removeClass("guideEpgSelectedDate")
+    selectedDate = null;
+    selectedChannel = null;
+
+}
+
+function AddSelectorHammerActions() {
+    $("#guideSelectorItems").each(function () {
+        var h = $(window).height() - 24
+        var t = $(this).offset().top
+        console.log("#guideSelectorItems h=" + h + "; t=" + t + " => " + (h - t))
+        $(this).height(h - t)
+    });
+
+    if (!selectorHammer) {
+        selectorHammer = $(".guideSelectorItems").hammer({ prevent_default: true });
+    }
+
+    EnableDragScroll(selectorHammer)
+
+    selectorHammer.on("tap", ".guideEpgChannel", function (e) {
+        $(".guideEpgSelectedChannel").removeClass("guideEpgSelectedChannel")
+        $(this).addClass("guideEpgSelectedChannel");
+        selectedChannel = this.id;
+
+        if (selectedDate != null) {
+            $(".guideOverlayListings").show()
+            $(".guideOverlaySelectors").html("")
+            ReplacePane("guideBrowserItems", "/Guide/ListingsPane?mode=GuideProgrammes&date=" + selectedDate + "&channel=" + selectedChannel, "push")
+        }
+        return false;
+    });
+
+    selectorHammer.on("tap", ".guideEpgDate", function (e) {
+        $(".guideEpgSelectedDate").removeClass("guideEpgSelectedDate")
+        $(this).addClass("guideEpgSelectedDate");
+        selectedDate = this.id;
+
+        if (selectedChannel != null) {
+            $(".guideOverlayListings").show()
+            $(".guideOverlaySelectors").html("")
+            ReplacePane("guideBrowserItems", "/Guide/ListingsPane?mode=GuideProgrammes&date=" + selectedDate + "&channel=" + selectedChannel, "push")
+        }
+        return false;
+    });
+}
+
+var listingsHammer = null;
+
+function AddListingsHammerActions() {
     $("#guideBrowserItems").each(function () {
         var h = $(window).height() - 24
         var t = $(this).offset().top
@@ -11,74 +62,13 @@ function AddBrowserHammerActions() {
         $(this).height(h - t)
     });
 
-    if (!browserHammer) {
-        browserHammer = $(".guideBrowserItems").hammer({ prevent_default: true });
+    if (!listingsHammer) {
+        listingsHammer = $(".guideBrowserItems").hammer({ prevent_default: true });
     }
 
-    EnableDragScroll(browserHammer)
+    EnableDragScroll(listingsHammer)
 
-    browserHammer.on("swiperight swipeleft", function (e) {
-        PopStackedPane("guideBrowserItems", function () { ReplacePane("guideBrowserItems", "/Guide/BrowserPane2?mode=GuideRoot", "clear") })
-        return false;
-    })
-
-    browserHammer.on("doubletap", ".guideTitle", function (e) {
-        ReplacePane("guideBrowserItems", "/Guide/BrowserPane2?mode=GuideRoot", "clear")
-        return false;
-    });
-
-    browserHammer.on("tap", "#guideFavouritesEpg", function (e) {
-        ReplacePane("guideBrowserItems", "/Guide/BrowserPane2?mode=GuideSelectFavouritesEpg", "push")
-        return false;
-    });
-
-    browserHammer.on("tap", "#guideTvEpg", function (e) {
-        ReplacePane("guideBrowserItems", "/Guide/BrowserPane2?mode=GuideSelectTvEpg", "push")
-        return false;
-    });
-
-    browserHammer.on("tap", "#guideRadioEpg", function (e) {
-        ReplacePane("guideBrowserItems", "/Guide/BrowserPane2?mode=GuideSelectRadioEpg", "push")
-        return false;
-    });
-
-    browserHammer.on("tap", "#guideSchedule", function (e) {
-        ReplacePane("guideBrowserItems", "/Guide/BrowserPane2?mode=GuideSchedule", "push")
-        return false;
-    });
-
-    browserHammer.on("tap", "#guideSeries", function (e) {
-        ReplacePane("guideBrowserItems", "/Guide/BrowserPane2?mode=GuideSeries", "push")
-        return false;
-    });
-
-    browserHammer.on("tap", ".guideEpgChannel", function (e) {
-        $(".guideEpgSelectedChannel").removeClass("guideEpgSelectedChannel")
-        $(this).addClass("guideEpgSelectedChannel");
-        selectedChannel = this.id;
-
-        if (selectedDate != null) {
-            ReplacePane("guideBrowserItems", "/Guide/BrowserPane2?mode=GuideProgrammes&date=" + selectedDate + "&channel=" + selectedChannel, "push")
-            selectedDate = null;
-            selectedChannel = null;
-        }
-        return false;
-    });
-
-    browserHammer.on("tap", ".guideEpgDate", function (e) {
-        $(".guideEpgSelectedDate").removeClass("guideEpgSelectedDate")
-        $(this).addClass("guideEpgSelectedDate");
-        selectedDate = this.id;
-
-        if (selectedChannel != null) {
-            ReplacePane("guideBrowserItems", "/Guide/BrowserPane2?mode=GuideProgrammes&date=" + selectedDate + "&channel=" + selectedChannel, "push")
-            selectedDate = null;
-            selectedChannel = null;
-        }
-        return false;
-    });
-
-    browserHammer.on("tap", ".guideEpgProgramme", function (e) {
+    listingsHammer.on("tap", ".guideEpgProgramme", function (e) {
         var programItem = this;
         $(".guideEpgProgrammeDescription").remove();
         $(".guideEpgProgrammeCancel").remove();
@@ -100,14 +90,15 @@ function AddBrowserHammerActions() {
         })
     });
 
-    browserHammer.on("tap", ".guideEpgProgrammeRecord", function (e) {
+    listingsHammer.on("tap", ".guideEpgProgrammeRecord", function (e) {
         var programItem = this;
 
         $.ajax({
             url: "/Guide/Record?id=" + programItem.id,
             success: function (error) {
                 if (error == "") {
-                    ReplacePane("guideBrowserItems", "/Guide/BrowserPane2?mode=GuideSchedule", "none")
+                    $(".guideSelectorItems").html("")
+                    ReplacePane("guideBrowserItems", "/Guide/ListingsPane?mode=GuideSchedule", "none")
                 }
                 else {
                     alert(error)
@@ -117,14 +108,15 @@ function AddBrowserHammerActions() {
         })
     });
 
-    browserHammer.on("tap", ".guideEpgProgrammeRecordSeries", function (e) {
+    listingsHammer.on("tap", ".guideEpgProgrammeRecordSeries", function (e) {
         var programItem = this;
 
         $.ajax({
             url: "/Guide/RecordSeries?id=" + programItem.id,
             success: function (error) {
                 if (error == "") {
-                    ReplacePane("guideBrowserItems", "/Guide/BrowserPane2?mode=GuideSchedule", "none")
+                    $(".guideSelectorItems").html("")
+                    ReplacePane("guideBrowserItems", "/Guide/ListingsPane?mode=GuideSchedule", "none")
                 }
                 else {
                     alert(error)
@@ -134,14 +126,15 @@ function AddBrowserHammerActions() {
         })
     });
 
-    browserHammer.on("tap", ".guideEpgProgrammeCancel", function (e) {
+    listingsHammer.on("tap", ".guideEpgProgrammeCancel", function (e) {
         var programItem = this;
 
         $.ajax({
             url: "/Guide/Cancel?id=" + programItem.id,
             success: function (error) {
                 if (error == "") {
-                    ReplacePane("guideBrowserItems", "/Guide/BrowserPane2?mode=GuideRoot", "clear")
+                    $(".guideSelectorItems").html("")
+                    ReplacePane("guideBrowserItems", "/Guide/ListingsPane?mode=GuideSchedule", "none")
                 }
                 else {
                     alert(error)
@@ -151,28 +144,67 @@ function AddBrowserHammerActions() {
         })
     });
 
-    browserHammer.on("tap", ".guideEpgSeriesCancel", function (e) {
+    listingsHammer.on("tap", ".guideEpgSeriesCancel", function (e) {
         var seriesItem = this;
 
         $.ajax({
             url: "/Guide/CancelSeries?id=" + seriesItem.id,
             success: function () {
-                ReplacePane("guideBrowserItems", "/Guide/BrowserPane2?mode=GuideSeries", "none")
+                $(".guideSelectorItems").html("")
+                ReplacePane("guideBrowserItems", "/Guide/ListingsPane?mode=GuideSeries", "none")
                 cache: false
             }
         })
     });
 
+}
+
+$(function () {
+
+    $("#guideFavouritesEpg").click(function () {
+        ResetSelectors()
+        $(".guideOverlayListings").hide()
+        $(".guideBrowserItems").html("")
+        ReplacePane("guideSelectorItems", "/Guide/SelectorPane?mode=GuideSelectFavouritesEpg", "clear")
+    });
+
+    $("#guideTvEpg").click(function () {
+        ResetSelectors()
+        $(".guideOverlayListings").hide()
+        $(".guideBrowserItems").html("")
+        ReplacePane("guideSelectorItems", "/Guide/SelectorPane?mode=GuideSelectTvEpg", "clear")
+    });
+
+    $("#guideRadioEpg").click(function () {
+        ResetSelectors()
+        $(".guideOverlayListings").hide()
+        $(".guideBrowserItems").html("")
+        ReplacePane("guideSelectorItems", "/Guide/SelectorPane?mode=GuideSelectRadioEpg", "clear")
+    });
+
+    $("#guideSchedule").click(function () {
+        $(".guideOverlayListings").show()
+        $(".guideSelectorItems").html("")
+        ReplacePane("guideBrowserItems", "/Guide/ListingsPane?mode=GuideSchedule", "clear")
+    });
+
+    $("#guideSeries").click(function () {
+        $(".guideOverlayListings").show()
+        $(".guideSelectorItems").html("")
+        ReplacePane("guideBrowserItems", "/Guide/ListingsPane?mode=GuideSeries", "clear")
+    });
+
     $("#remoteHome").click(function () {
-        ReplacePane("guideBrowserItems", "/Guide/BrowserPane2?mode=GuideRoot", "clear")
+        $(".guideOverlayListings").show()
+        $(".guideSelectorItems").html("")
+        $(".guideBrowserItems").html("")
+        ReplacePane("guideBrowserItems", "/Guide/ListingsPane?mode=GuideEmpty", "clear")
     });
 
     $("#remoteExit").click(function () {
         close()
     });
 
-}
-
-$(function () {
-    AddBrowserHammerActions();
+    AddSelectorHammerActions();
+    AddListingsHammerActions();
 })

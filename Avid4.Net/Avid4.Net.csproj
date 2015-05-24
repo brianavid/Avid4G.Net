@@ -191,9 +191,11 @@
     <Content Include="Content\Buttons\LogFire.png" />
     <Content Include="Content\Buttons\MiniRound\Enter.png" />
     <Content Include="Content\Buttons\Roku.png" />
+    <Content Include="Content\Buttons\Series.png" />
     <Content Include="Content\Buttons\SmallRound\Exit.png" />
     <Content Include="Content\Buttons\SmallRound\Transport.Rec.Series.png" />
     <Content Include="Content\Buttons\Stream.png" />
+    <Content Include="Content\Buttons\Timers.png" />
     <Content Include="Content\favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -583,7 +585,6 @@
     <Content Include="Views\Streaming\BrowserPane.cshtml" />
     <Content Include="Views\Streaming\Browser.cshtml" />
     <Content Include="Views\Guide\Browser2.cshtml" />
-    <Content Include="Views\Guide\BrowserPane2.cshtml" />
     <Content Include="Views\Guide\BrowserWide2.cshtml" />
     <Content Include="Views\TV2\All.cshtml" />
     <Content Include="Views\TV2\Buttons.cshtml" />
@@ -596,6 +597,9 @@
     <Content Include="Views\TV2\Radio.cshtml" />
     <Content Include="Views\TV2\RadioPane.cshtml" />
     <Content Include="Views\TV2\Watch.cshtml" />
+    <Content Include="Views\Guide\SelectorPane.cshtml" />
+    <Content Include="Views\Guide\ListingsPane.cshtml" />
+    <Content Include="Views\Guide\PaneButtons.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
