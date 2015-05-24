@@ -70,6 +70,7 @@ textarea {
 .topBar {
     width: 100%;
     background-color: #ccc;
+    overflow:auto;
 }
 
 .topBarNone {
@@ -428,7 +429,7 @@ textarea {
 }
 
 
-.guideEpgProgrammeRecord, .guideEpgProgrammeRecordSeries, .guideEpgProgrammeCancel, .guideEpgSeriesCancel {
+.guideEpgProgrammeRecord, .guideEpgProgrammeRecordSeries, .guideEpgProgrammeCancel, .guideEpgSeriesCancel, #remoteExit {
     float: right;
 }
 

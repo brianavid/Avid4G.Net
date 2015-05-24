@@ -209,16 +209,5 @@ $(function () {
         ReplacePane("guideBrowserItems", "/Guide/ListingsPane?mode=GuideSeries", "clear")
     });
 
-    $("#remoteHome").click(function () {
-        $(".guideOverlayListings").show()
-        $(".guideSelectorItems").html("")
-        $(".guideBrowserItems").html("")
-        ReplacePane("guideBrowserItems", "/Guide/ListingsPane?mode=GuideEmpty", "clear")
-    });
-
-    $("#remoteExit").click(function () {
-        close()
-    });
-
     AddListingsHammerActions();
 })

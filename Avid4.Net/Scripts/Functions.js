@@ -320,4 +320,3 @@ function MouseClick(right) {
             timeout: 5000
         });
 }
-
