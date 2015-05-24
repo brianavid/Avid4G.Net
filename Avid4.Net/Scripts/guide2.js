@@ -1,4 +1,5 @@
-﻿var selectorHammer = null;
+﻿var selectorDateHammer = null;
+var selectorChannelHammer = null;
 
 var selectedDate = null;
 var selectedChannel = null;
@@ -12,20 +13,34 @@ function ResetSelectors() {
 }
 
 function AddSelectorHammerActions() {
-    $("#guideSelectorItems").each(function () {
+    $("#guideChannels").each(function () {
         var h = $(window).height() - 24
         var t = $(this).offset().top
-        console.log("#guideSelectorItems h=" + h + "; t=" + t + " => " + (h - t))
+        console.log(".guideChannelsPane h=" + h + "; t=" + t + " => " + (h - t))
         $(this).height(h - t)
     });
 
-    if (!selectorHammer) {
-        selectorHammer = $(".guideSelectorItems").hammer({ prevent_default: true });
-    }
+    $("#guideDates").each(function () {
+        var h = $(window).height() - 24
+        var t = $(this).offset().top
+        console.log(".guideDates h=" + h + "; t=" + t + " => " + (h - t))
+        $(this).height(h - t)
+    });
 
-    EnableDragScroll(selectorHammer)
+    $(".guideSelectorItems").each(function () {
+        var h = $(window).height() - 24
+        var t = $(this).offset().top
+        console.log(".guideSelectorItems h=" + h + "; t=" + t + " => " + (h - t))
+        $(this).height(h - t)
+    });
 
-    selectorHammer.on("tap", ".guideEpgChannel", function (e) {
+    selectorDateHammer = $("#guideDates").hammer({ prevent_default: true });
+    selectorChannelHammer = $("#guideChannels").hammer({ prevent_default: true });
+
+    EnableDragScroll(selectorDateHammer)
+    EnableDragScroll(selectorChannelHammer)
+
+    selectorChannelHammer.on("tap", ".guideEpgChannel", function (e) {
         $(".guideEpgSelectedChannel").removeClass("guideEpgSelectedChannel")
         $(this).addClass("guideEpgSelectedChannel");
         selectedChannel = this.id;
@@ -38,7 +53,7 @@ function AddSelectorHammerActions() {
         return false;
     });
 
-    selectorHammer.on("tap", ".guideEpgDate", function (e) {
+    selectorDateHammer.on("tap", ".guideEpgDate", function (e) {
         $(".guideEpgSelectedDate").removeClass("guideEpgSelectedDate")
         $(this).addClass("guideEpgSelectedDate");
         selectedDate = this.id;
@@ -165,21 +180,21 @@ $(function () {
         ResetSelectors()
         $(".guideOverlayListings").hide()
         $(".guideBrowserItems").html("")
-        ReplacePane("guideSelectorItems", "/Guide/SelectorPane?mode=GuideSelectFavouritesEpg", "clear")
+        ReplacePane("guideSelectorItems", "/Guide/SelectorPane?mode=GuideSelectFavouritesEpg", "clear", AddSelectorHammerActions)
     });
 
     $("#guideTvEpg").click(function () {
         ResetSelectors()
         $(".guideOverlayListings").hide()
         $(".guideBrowserItems").html("")
-        ReplacePane("guideSelectorItems", "/Guide/SelectorPane?mode=GuideSelectTvEpg", "clear")
+        ReplacePane("guideSelectorItems", "/Guide/SelectorPane?mode=GuideSelectTvEpg", "clear", AddSelectorHammerActions)
     });
 
     $("#guideRadioEpg").click(function () {
         ResetSelectors()
         $(".guideOverlayListings").hide()
         $(".guideBrowserItems").html("")
-        ReplacePane("guideSelectorItems", "/Guide/SelectorPane?mode=GuideSelectRadioEpg", "clear")
+        ReplacePane("guideSelectorItems", "/Guide/SelectorPane?mode=GuideSelectRadioEpg", "clear", AddSelectorHammerActions)
     });
 
     $("#guideSchedule").click(function () {
@@ -205,6 +220,5 @@ $(function () {
         close()
     });
 
-    AddSelectorHammerActions();
     AddListingsHammerActions();
 })

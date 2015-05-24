@@ -184,7 +184,7 @@ textarea {
     margin-left:5%;
 }
 
-.musicPlaybackQueueItems, .musicBrowserItems, .webBrowserItems, .guideBrowserItems, .guideSelectorItems, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .photosImagesGrid, .photosBrowserItems, .rokuBrowserItems, .tvButtons, .tvChannels, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoDvds {
+.musicPlaybackQueueItems, .musicBrowserItems, .webBrowserItems, .guideBrowserItems, .guideChannels, .guideDates, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .photosImagesGrid, .photosBrowserItems, .rokuBrowserItems, .tvButtons, .tvChannels, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoDvds {
     position: relative;
     overflow-y:hidden;
     -webkit-overflow-scrolling: touch;
@@ -363,7 +363,7 @@ textarea {
     padding: 5px;
 }
 
-#musicBrowserPane, #webBrowserPane, #spotifyBrowserPane, #photosBrowserPane, #rokuBrowserPane, #tvChannelsPane, #guideSelectorPane, #guideListingsPane {
+#musicBrowserPane, #webBrowserPane, #spotifyBrowserPane, #photosBrowserPane, #rokuBrowserPane, #tvChannelsPane, #guideChannelsPane, #guideDatesPane, #guideListingsPane {
     overflow: hidden;
     padding: 5px;
 }
