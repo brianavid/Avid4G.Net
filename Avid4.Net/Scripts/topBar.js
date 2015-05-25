@@ -319,7 +319,7 @@ function SwitchPanelAfterWake(isWide) {
                             break;
                         case "TV":
                         case "Radio":
-                            window.location = isWide ? "/Tv/All" : "/Tv/Watch";
+                            window.location = isWide ? "/Tv2/All" : "/Tv2/Watch";
                             break;
                         case "Sky":
                             window.location = isWide ? "/Sky/All" : "/Sky/Watch";

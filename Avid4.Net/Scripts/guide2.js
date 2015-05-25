@@ -210,4 +210,6 @@ $(function () {
     });
 
     AddListingsHammerActions();
+
+    StopSwitching()
 })

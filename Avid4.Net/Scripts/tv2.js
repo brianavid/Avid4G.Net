@@ -106,7 +106,7 @@ function AddChannelsHammerActions() {
         e.gesture.preventDefault()
         var which = this;
         $.ajax({
-            url: "/Tv2/NowAndNext?channelName=" + this.id,
+            url: "/Tv2/NowAndNext?channelName=" + encodeURIComponent(this.id),
             success: function (data) {
                 $(".tvChannelNowNext", which).html(data)
             },
@@ -118,7 +118,7 @@ function AddChannelsHammerActions() {
         e.gesture.preventDefault()
         var which = this;
         $.ajax({
-            url: "/Tv2/ChangeChannel?channelName=" + this.id,
+            url: "/Tv2/ChangeChannel?channelName=" + encodeURIComponent(this.id),
             success: function (data) {
                 DisplayRunningOnControlPad(true)
             },
@@ -147,7 +147,7 @@ function DisplayRunningOnControlPad(jump) {
     var controlDisplay = document.getElementById("tvControlPane");
 
     if (controlDisplay != null) {
-        ReplacePane("tvControlPane", "/Tvs/ControlPane", "none", ResizeButtons);
+        ReplacePane("tvControlPane", "/Tv2/ControlPane", "none", ResizeButtons);
     }
     else if (jump) {
         LinkTo("/Tv2/Watch");

@@ -498,7 +498,7 @@ public class DvbViewer
     public static void Initialize()
     {
         definedCommands = new Dictionary<string, int>();
-        using (var sr = new StreamReader(@"C:\Program Files (x86)\DVBViewer\actions.ini"))
+        using (var sr = new StreamReader(Config.DvbViewerActionsPath))
         {
             string line;
             while ((line = sr.ReadLine()) != null)
@@ -935,7 +935,7 @@ public class DvbViewer
             return schedule;
         }
     }
-    static IEnumerable<Timer> schedule = null;
+    static Timer[] schedule = null;
 
     /// <summary>
     /// Load the schedule of recordings from the DvbViewer Recording Service
@@ -945,7 +945,10 @@ public class DvbViewer
         XDocument scheduleDoc = GetXml("timerlist.html");
         schedule = scheduleDoc.Element("Timers").Elements("Timer")
             .Select(t => new Timer(t))
-            .Where(t => !t.InError);
+            .Where(t => !t.InError)
+            .ToArray();
+        Array.Sort(schedule, (s1, s2) => s1.StartTime.CompareTo(s2.StartTime));
+;
     }
 
     /// <summary>

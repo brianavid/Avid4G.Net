@@ -99,6 +99,18 @@ public static class Config
     }
 
     /// <summary>
+    /// The path to the DvbViewer Actions file
+    /// </summary>
+    public static string DvbViewerActionsPath
+    {
+        get
+        {
+            XElement elAddr = Doc.Root.Element("DvbViewerActions");
+            return elAddr == null ? null : elAddr.Value;
+        }
+    }
+
+    /// <summary>
     /// A collection of favourite Sky channels to be displayed first in any lists
     /// </summary>
     public static List<string> SkyFavourites

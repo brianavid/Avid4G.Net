@@ -80,7 +80,7 @@
                     <div class="guideSeriesDefinitions guideItem" id="@series.Id">
                         <img class="guideEpgSeriesCancel" id="@series.Id" src="/Content/Buttons/SmallRound/Exit.png" />
                         <div class="guideProgrammeInfo">
-                            <span>@(series.StartTime.ToLocalTime().ToString("dddd")) starting between @(series.StartTimeLow.ToLocalTime().ToString("hh:mm")) and @(series.StartTimeHigh.ToLocalTime().ToString("hh:mm"))</span>
+                            <span>@(series.StartTime.ToLocalTime().ToString("dddd")) starting between @(series.StartTimeLow.ToLocalTime().ToString("HH:mm")) and @(series.StartTimeHigh.ToLocalTime().ToString("HH:mm"))</span>
                             <span>@(series.Channel.Name)</span>
                         </div>
 
