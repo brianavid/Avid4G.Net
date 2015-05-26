@@ -4,7 +4,7 @@ Configuration file to be located at C:\Avid\AvidConfig.xml
 <Config>
 	<!-- Paths (with optional arguments) for the player applications -->
 	<Programs>
-		<Program name="TV" path = "C:\Windows\ehome\ehshell.exe" args="/homepage:VideoFullscreen.xml /PushStartPage:True" />	<!-- Windows Media Center -->
+		<Program name="TV" path = "c:\Program Files (x86)\DVBViewer\dvbviewer.exe"  args="-c -f" /> <!-- TV viewer-->
 		<Program name="Web" path = "C:\Program Files\Internet Explorer\iexplore.exe" args = "-k -noframemerging" />				<!-- IE Browser for BBC iPlayer -->
 		<Program name="Video" path = "C:\Program Files (x86)\Zoom Player\zplayer.exe" />										<!-- Zoom Player -->	
 		<Program name="Photo" path = "C:\Windows\System32\MC19.exe" />															<!-- J River Media Center -->
@@ -16,19 +16,19 @@ Configuration file to be located at C:\Avid\AvidConfig.xml
 	<Video>D:\Recorded TV</Video>
 	<DVD>D:\DVD</DVD>
 	<BluRay>D:\BluRay</BluRay>
-	
-	<!-- Fixed IP addresses - reserved by DHCP or outside DHCP range -->
+  <DvbViewerActions>C:\Program Files (x86)\DVBViewer\actions.ini</DvbViewerActions>
+
+  <!-- Fixed IP addresses - reserved by DHCP or outside DHCP range -->
 	<IpAddress>192.168.1.64</IpAddress>
 	<ReceiverAddress>192.168.1.11</ReceiverAddress>
 	
 	<!-- TV Favourites for watching live on Widows Media Center -->
 	<TV>
-		<Favourite>BBC ONE HD</Favourite>
+		<Favourite>BBC One HD</Favourite>
 		<Favourite>BBC Two HD</Favourite>
-		<Favourite>ITV1 HD</Favourite>
+		<Favourite>ITV HD</Favourite>
 		<Favourite>Channel 4 HD</Favourite>
 		<Favourite>BBC FOUR</Favourite>
-		<Live>Freeview</Live>	<!-- Freeview (for WMC)) or Sky -->
 	</TV>
 	
 	<!-- Sky TV Favourites, Radio stations and subscribed packages -->
