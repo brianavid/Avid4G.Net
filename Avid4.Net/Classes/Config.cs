@@ -171,30 +171,6 @@ public static class Config
     }
 
     /// <summary>
-    /// When true, indicates that Sky should be used for preference over the terrestrial tuners for live TV
-    /// </summary>
-    public static bool UseSkyLiveTV
-    {
-        get
-        {
-            XElement elLive = Doc.Root.Element("TV").Element("Live");
-            return elLive == null || elLive.Value == "Sky";
-        }
-    }
-
-    /// <summary>
-    /// When true, indicates that UseDvbViewer should be used for preference over WMC for live TV
-    /// </summary>
-    public static bool UseDvbViewer
-    {
-        get
-        {
-            XElement elLive = Doc.Root.Element("TV").Element("Live");
-            return elLive == null || elLive.Value == "DvbViewer";
-        }
-    }
-
-    /// <summary>
     /// The collection of BBC TV channels to be made available for iPlayer
     /// </summary>
     public static Dictionary<string, string> BBCTVChannels

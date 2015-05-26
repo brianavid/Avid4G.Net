@@ -13,17 +13,7 @@ $(function () {
 
     $("#selectTV").mousedown(function () {
         StopSwitching();
-        var tvService = $("#tvService").text();
-        if (tvService == "Sky") {
-            StartSky("Sky", "/Sky/All", "live")
-        } else {
-            LaunchProgram("TV", "/TV/All")
-        }
-    });
-
-    $("#selectTV2").mousedown(function () {
-        StopSwitching();
-        LaunchProgram("TV", "/TV2/All")
+        LaunchProgram("TV", "/TV/All")
     });
 
     $("#selectSky").mousedown(function () {

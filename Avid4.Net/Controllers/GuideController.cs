@@ -13,7 +13,7 @@ namespace Avid4.Net.Controllers
             string mode)
         {
             ViewBag.Mode = mode;
-            return View(Config.UseDvbViewer ? "Browser2" : "Browser");
+            return View("Browser");
         }
 
         // GET: /Guide/BrowserWide
@@ -21,7 +21,7 @@ namespace Avid4.Net.Controllers
             string mode)
         {
             ViewBag.Mode = mode;
-            return View(Config.UseDvbViewer ? "BrowserWide2" : "BrowserWide");
+            return View("BrowserWide");
         }
 
         // GET: /Guide/BrowserPane
@@ -85,69 +85,38 @@ namespace Avid4.Net.Controllers
         public ContentResult Description(
             string id)
         {
-            if (Config.UseDvbViewer)
-            {
-                return this.Content(DvbViewer.EpgProgramme(id).Description);
-            }
-            else
-            {
-                return this.Content(RemotePotato.GetDescription(id));
-            }
+            return this.Content(DvbViewer.EpgProgramme(id).Description);
         }
 
         // GET: /Guide/Record
         public ContentResult Record(
             string id)
         {
-            if (Config.UseDvbViewer)
-            {
-                DvbViewer.AddTimer(id);
-                return this.Content("");
-            }
-            else
-            {
-                return this.Content( RemotePotato.RecordShow(id));
-            }
+            DvbViewer.AddTimer(id);
+            return this.Content("");
         }
 
         // GET: /Guide/RecordSeries
         public ContentResult RecordSeries(
             string id)
         {
-            if (Config.UseDvbViewer)
-            {
-                DvbViewer.AddTimer(id, true);
-                return this.Content("");
-            }
-            else
-            {
-                return this.Content(RemotePotato.RecordSeries(id));
-            }
+            DvbViewer.AddTimer(id, true);
+            return this.Content("");
         }
 
         // GET: /Guide/Cancel
         public ContentResult Cancel(
             string id)
         {
-            if (Config.UseDvbViewer)
-            {
-                DvbViewer.CancelTimer(id);
-                return this.Content("");
-            }
-            else
-            {
-                return this.Content(RemotePotato.CancelRecording(id));
-            }
+            DvbViewer.CancelTimer(id);
+            return this.Content("");
         }
 
         // GET: /Guide/CancelSeries
         public ContentResult CancelSeries(
             string id)
         {
-            if (Config.UseDvbViewer)
-            {
-                DvbViewer.Series.Delete(id);
-            }
+            DvbViewer.Series.Delete(id);
             return this.Content("");
         }
 

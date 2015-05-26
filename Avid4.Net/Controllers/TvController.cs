@@ -13,7 +13,7 @@ namespace Avid4.Net.Controllers
         // GET: /Tv/Watch
         public ActionResult Watch()
         {
-            if (String.IsNullOrEmpty(RemotePotato.CurrentlySelectedChannelName))
+            if (DvbViewer.CurrentlySelectedChannel == null)
             {
                 return (View("Channels"));
             }
@@ -62,7 +62,7 @@ namespace Avid4.Net.Controllers
         public ContentResult ChangeChannel(
             string channelName)
         {
-            RemotePotato.SelectTvChannelName(channelName);
+            DvbViewer.SelectChannel(DvbViewer.NamedChannel(channelName));
             return this.Content("");
         }
 
@@ -70,7 +70,7 @@ namespace Avid4.Net.Controllers
         public ContentResult Action(
             string command)
         {
-            RemotePotato.SendCommand(command);
+            DvbViewer.SendCommand(command);
             return this.Content("");
         }
 

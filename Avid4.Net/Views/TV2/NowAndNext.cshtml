@@ -1,7 +1,0 @@
-﻿@{
-    var nowAndNext = DvbViewer.GetNowAndNext(DvbViewer.NamedChannel(ViewBag.ChannelName));
-    foreach (var programme in nowAndNext)
-    {
-        <div class="tvProgrammeInfo">@(programme.StartTime.ToLocalTime().ToString("HH:mm")) @programme.Title</div>
-    }
-}

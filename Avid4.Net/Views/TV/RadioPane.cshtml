@@ -1,14 +1,14 @@
 ﻿@{
-    var channels = RemotePotato.AllRadioChannels;
+    var channels = DvbViewer.AllRadioChannels;
     foreach (var channel in channels)
     {
         <div class="tvChannel" id="@channel.Display">
-            <div class="tvChannelNumber">@channel.Id</div>
-            <div class="tvChannelName"><span class="playButton">&gt;&nbsp;</span>@channel.Display</div>
+            <div class="tvChannelNumber">@channel.Number</div>
+            <div class="tvChannelName"><img height="40" src="@(DvbViewer.GetChannelLogoUrl(channel))" /> @channel.Display</div>
             <div class="tvChannelNowNext">
                 @if (channel.IsFavourite)
                 {
-                    var nowAndNext = RemotePotato.GetNowAndNext(channel.Name);
+                    var nowAndNext = DvbViewer.GetNowAndNext(channel);
                     foreach (var programme in nowAndNext)
                     {
                         <div class="tvProgrammeInfo">@(programme.StartTime.ToLocalTime().ToString("HH:mm"))) @programme.Title</div>

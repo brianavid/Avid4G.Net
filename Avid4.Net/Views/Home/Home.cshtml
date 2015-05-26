@@ -10,12 +10,12 @@
 
 <table class="buttonGrid">
 	<tr>
-		<td class="centeredButton"><img id=@(Config.UseDvbViewer ? "selectTV2" : "selectTV") src="~/Content/Buttons/Select.TV.Button.png"></td>
+		<td class="centeredButton"><img id="selectTV" src="~/Content/Buttons/Select.TV.Button.png"></td>
 		<td class="centeredButton"><img id="selectSky" src="~/Content/Buttons/Select.Sky.Button.png"></td>
 		<td class="centeredButton"><img id="selectVideo" src="~/Content/Buttons/Select.Video.Button.png"></td>
 	</tr>
 	<tr>
-		<td class="centeredButton"><img id=@(Config.UseDvbViewer ? "selectRadio2" : "selectRadio") src="~/Content/Buttons/Select.Radio.Button.png"></td>
+		<td class="centeredButton"><img id="selectRadio" src="~/Content/Buttons/Select.Radio.Button.png"></td>
 		<td class="centeredButton"><img id="selectSpotify" src="~/Content/Buttons/Select.Spotify.Button.png"></td>
 		<td class="centeredButton"><img id="selectMusic" src="~/Content/Buttons/Select.Music.Button.png"></td>
 	</tr>
@@ -26,5 +26,4 @@
 	</tr>
 </table>
 
-<span id="tvService" style="display:none">@(Config.UseSkyLiveTV ? "Sky" : "TV")</span>
 

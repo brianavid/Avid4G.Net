@@ -14,32 +14,12 @@ $(function () {
 
     $("#selectTV").mousedown(function () {
         StopSwitching();
-        var tvService = $("#tvService").text();
-        if (tvService == "Sky") {
-            StartSky("Sky", null, "live")
-        } else {
-            LaunchProgram("TV", "/TV/Channels")
-        }
-    });
-
-    $("#selectTV2").mousedown(function () {
-        StopSwitching();
-        LaunchProgram("TV", "/TV2/Channels")
+        LaunchProgram("TV", "/TV/Channels")
     });
 
     $("#selectRadio").mousedown(function () {
         StopSwitching();
-        var tvService = $("#tvService").text();
-        if (tvService == "Sky") {
-            StartSky("Sky", null, "radio")
-        } else {
-            LaunchProgram("TV", "/TV/Radio", "Radio")
-        }
-    });
-
-    $("#selectRadio2").mousedown(function () {
-        StopSwitching();
-        LaunchProgram("TV", "/TV2/Radio", "Radio")
+        LaunchProgram("TV", "/TV/Radio", "Radio")
     });
 
     $("#selectSky").mousedown(function () {

@@ -106,7 +106,7 @@ function AddChannelsHammerActions() {
         e.gesture.preventDefault()
         var which = this;
         $.ajax({
-            url: "/Tv/NowAndNext?channelName=" + this.id,
+            url: "/Tv/NowAndNext?channelName=" + encodeURIComponent(this.id),
             success: function (data) {
                 $(".tvChannelNowNext", which).html(data)
             },
@@ -118,7 +118,7 @@ function AddChannelsHammerActions() {
         e.gesture.preventDefault()
         var which = this;
         $.ajax({
-            url: "/Tv/ChangeChannel?channelName=" + this.id,
+            url: "/Tv/ChangeChannel?channelName=" + encodeURIComponent(this.id),
             success: function (data) {
                 DisplayRunningOnControlPad(true)
             },
@@ -146,22 +146,11 @@ function ResizeButtons()
 function DisplayRunningOnControlPad(jump) {
     var controlDisplay = document.getElementById("tvControlPane");
 
-    if (jump) {
-        $.ajax({
-            url: "/Tv/Action?command=GotoLiveTV",
-            success: function (data) {
-                if (controlDisplay != null) {
-                    ReplacePane("tvControlPane", "/Tv/ControlPane", "none", ResizeButtons);
-                }
-                else {
-                    LinkTo("/Tv/Watch");
-                }
-            },
-            cache: false
-        });
+    if (controlDisplay != null) {
+        ReplacePane("tvControlPane", "/Tv/ControlPane", "none", ResizeButtons);
     }
-    else if (controlDisplay != null) {
-        ReplacePane("tvControlPane", "/Tv/ControlPane", "none");
+    else if (jump) {
+        LinkTo("/Tv/Watch");
     }
 }
 
