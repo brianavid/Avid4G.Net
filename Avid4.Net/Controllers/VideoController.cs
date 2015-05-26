@@ -83,13 +83,6 @@ namespace Avid4.Net.Controllers
                 Zoom.IsDvdMode = false;
                 Zoom.Title = recording.Title;
             }
-            else if (TsRecordings.AllRecordings.ContainsKey(id))
-            {
-                var recording = TsRecordings.AllRecordings[id];
-                Running.LaunchProgram("Video", "/Media /F /ExFunc:exSetVolume,100 /Play \"" + recording.Filename + "\"");
-                Zoom.IsDvdMode = false;
-                Zoom.Title = recording.Title;
-            }
             return this.Content("");
         }
 
@@ -101,11 +94,6 @@ namespace Avid4.Net.Controllers
             {
                 var recording = RemotePotato.AllRecordings[id];
                 RemotePotato.DeleteRecording(recording);
-            }
-            else if (TsRecordings.AllRecordings.ContainsKey(id))
-            {
-                var recording = TsRecordings.AllRecordings[id];
-                TsRecordings.DeleteRecording(recording);
             }
             return this.Content("");
         }

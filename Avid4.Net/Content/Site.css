@@ -235,6 +235,10 @@ textarea {
     padding-bottom: 25px;
 }
 
+.videoOldRecording {
+    background-color: #eee;
+}
+
 .skyControlPad {
     background-image:url("/Content/SkyPad.png");
     background-repeat:no-repeat;
@@ -263,7 +267,7 @@ textarea {
     width:100%;
 }
 
-.skyRecordingBeingRecorded, .guideEpgProgrammeScheduled {
+.skyRecordingBeingRecorded, .tvRecordingBeingRecorded, .guideEpgProgrammeScheduled {
     background-color: #ff8f8f;
 }
 

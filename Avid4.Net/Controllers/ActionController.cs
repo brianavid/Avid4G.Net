@@ -276,7 +276,8 @@ namespace Avid4.Net.Controllers
             {
                 JRMC.LoadAndIndexAllAlbums(new string[] { "1", "2" }, true);
             }
-            DesktopClient.EnsureRemotePotatoRunning(true);
+            DesktopClient.EnsureRemotePotatoRunning(false);
+            DvbViewer.CleanupRefreshDB();
             return Content("");
         }
 

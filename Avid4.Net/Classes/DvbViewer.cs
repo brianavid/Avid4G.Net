@@ -434,9 +434,10 @@ public class DvbViewer
     /// <param name="url"></param>
     /// <param name="requestDoc"></param>
     /// <returns></returns>
-    static XDocument GetXml(
+    static XDocument PostGetXml(
         string url,
-        XDocument requestDoc)
+        XDocument requestDoc,
+        bool noResponseExpected = false)
     {
         try
         {
@@ -445,11 +446,21 @@ public class DvbViewer
             HttpWebRequest request =
                 (HttpWebRequest)HttpWebRequest.Create(requestUri);
             request.Method = WebRequestMethods.Http.Post;
-            StreamWriter requestWriter = new StreamWriter(request.GetRequestStream(), Encoding.UTF8);
-            requestWriter.Write(requestDoc.ToString());
-            requestWriter.Close();
+            if (requestDoc != null)
+            {
+                using (StreamWriter requestWriter = new StreamWriter(request.GetRequestStream(), Encoding.UTF8))
+                {
+                    requestWriter.Write(requestDoc.ToString());
+                    requestWriter.Close();
+                }
+            }
 
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            if (noResponseExpected)
+            {
+                return null;
+            }
+
             XDocument xDoc =
                 XDocument.Load(new StreamReader(response.GetResponseStream()));
 
@@ -1161,6 +1172,19 @@ public class DvbViewer
         {
             logger.Info("Delete recording file: {0}", recording.Filename);
             GetXml(String.Format("recdelete.html?id={0}&delfile=1", recording.Id));
+        }
+    }
+
+    public static void CleanupRefreshDB()
+    {
+        try
+        {
+	        PostGetXml(String.Format( "http://{0}:8089/tasks.html?task=CleanupRefreshDB&aktion=tasks ", Host), 
+	                   null, true);
+        }
+        catch (System.Exception ex)
+        {
+            logger.Error("Can't run task CleanupRefreshDB: ", ex);
         }
     }
 }

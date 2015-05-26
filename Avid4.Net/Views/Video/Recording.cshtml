@@ -1,12 +1,12 @@
 ﻿@{
-    if (TsRecordings.AllRecordings.ContainsKey(ViewBag.Id))
+    if (DvbViewer.AllRecordings.ContainsKey(ViewBag.Id))
     {
-        var recording = TsRecordings.AllRecordings[ViewBag.Id];
+        var recording = DvbViewer.AllRecordings[ViewBag.Id];
 
         <div class="videoRecording" id="@recording.Id">
             <div class="videoRecordingInfo">
                 <div class="videoRecordingWhen" id="videoRecordingWhen">@String.Format("{0}", recording.StartTime.ToString("ddd dd MMM HH:mm"))</div>
-                <div class="videoRecordingChannel">&nbsp;@recording.Channel</div>
+                <div class="videoRecordingChannel">&nbsp;@recording.Channel.Name</div>
             </div>
             <div class="videoRecordingName" id="videoRecordingName">@recording.Title</div>
             <div class="videoRecordingDescription">@recording.Description</div>

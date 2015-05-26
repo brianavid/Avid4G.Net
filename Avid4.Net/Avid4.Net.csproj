@@ -158,7 +158,6 @@
     <Compile Include="Classes\Sky.cs" />
     <Compile Include="Classes\Spotify.cs" />
     <Compile Include="Classes\SpotifyData.cs" />
-    <Compile Include="Classes\TsRecordings.cs" />
     <Compile Include="Classes\Zoom.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
