@@ -12,6 +12,12 @@ function ResetSelectors() {
 
 }
 
+function ScrollListingsToEnd() {
+    $(".guideBrowserItems").each(function () {
+        ScrollToEnd($(this))
+    })
+}
+
 function AddSelectorHammerActions() {
     $("#guideChannels").each(function () {
         var h = $(window).height() - 24
@@ -48,7 +54,7 @@ function AddSelectorHammerActions() {
         if (selectedDate != null) {
             $(".guideOverlayListings").show()
             $(".guideOverlaySelectors").html("")
-            ReplacePane("guideBrowserItems", "/Guide/ListingsPane?mode=GuideProgrammes&date=" + selectedDate + "&channel=" + selectedChannel, "push")
+            ReplacePane("guideBrowserItems", "/Guide/ListingsPane?mode=GuideProgrammes&date=" + selectedDate + "&channel=" + selectedChannel, "clear", ScrollListingsToEnd)
         }
         return false;
     });
@@ -61,7 +67,7 @@ function AddSelectorHammerActions() {
         if (selectedChannel != null) {
             $(".guideOverlayListings").show()
             $(".guideOverlaySelectors").html("")
-            ReplacePane("guideBrowserItems", "/Guide/ListingsPane?mode=GuideProgrammes&date=" + selectedDate + "&channel=" + selectedChannel, "push")
+            ReplacePane("guideBrowserItems", "/Guide/ListingsPane?mode=GuideProgrammes&date=" + selectedDate + "&channel=" + selectedChannel, "clear", ScrollListingsToEnd)
         }
         return false;
     });

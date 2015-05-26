@@ -259,6 +259,15 @@ function EnableDragScroll(h) {
     })
 }
 
+//  Scroll the div to the end (e.g. to initially display EPG listings for the evening)
+function ScrollToEnd(div) {
+    var max = div[0].scrollHeight - div.innerHeight();
+    if (max > 0) {
+        div.scrollTop(max);
+
+    }
+}
+
 //  For a Hammer.js object attached to a pane (a <div>) interpret draging and tapping within the pane as though
 //  it were on a touch pad or laptop mouse pad, moving Avid's on-screen cursor and sending mouse click events.
 function EnableMouseBehaviour(h) {
