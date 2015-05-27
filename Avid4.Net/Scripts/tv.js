@@ -114,7 +114,7 @@ function AddChannelsHammerActions() {
         });
     });
 
-    channelsHammer.on("doubletap", ".tvChannel", function (e) {
+    channelsHammer.on("tap", ".tvChannel", function (e) {
         e.gesture.preventDefault()
         var which = this;
         $.ajax({
@@ -222,6 +222,6 @@ $(function () {
 
     $("#displayTvRadio").click(DisplayTvRadio);
 
-    // update again every minute
-    setInterval("DisplayRunningOnControlPad()", 60000);
+    // update again every few seconds
+    setInterval("DisplayRunningOnControlPad()", 5000);
 })

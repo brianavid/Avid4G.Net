@@ -67,7 +67,7 @@ namespace Avid4.Net.Controllers
         }
 
         // GET: /Tv/ChangeChannelNumer
-        public ContentResult ChangeChannelNumer(
+        public ContentResult ChangeChannelNumber(
             int channelNumber)
         {
             DvbViewer.SelectChannel(DvbViewer.NumberedChannel(channelNumber));
