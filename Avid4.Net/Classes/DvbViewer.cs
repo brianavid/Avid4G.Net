@@ -779,7 +779,7 @@ public class DvbViewer
     public static void SelectChannel(
         Channel channel)
     {
-        if (channel != null && DvbTarget != null)
+        if (channel != null && DvbTarget != null && CurrentlySelectedChannel != channel)
         {
             GetXml(String.Format("dvbcommand.html?target={0}&cmd=-c{1}", DvbTarget, channel.Number));
             CurrentlySelectedChannel = channel;
