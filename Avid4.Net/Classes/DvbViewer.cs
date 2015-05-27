@@ -352,6 +352,15 @@ public class DvbViewer
                 InError = true;
             }
         }
+
+        public bool IsRecording 
+        { 
+            get 
+            {
+                return Schedule.Where(s => s.Channel.Id == Channel.Id && s.StartTime == StartTime).Any(s => s.IsRecording);
+            } 
+        }
+
     }
 
     /// <summary>

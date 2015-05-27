@@ -5,7 +5,7 @@
     {
         foreach (var recording in DvbViewer.AllRecordingsForTitle(ViewBag.GroupTitle))
         {
-            var beingRecordedClass = "";
+            var beingRecordedClass = recording.IsRecording ? "tvRecordingBeingRecorded" : "";
             <div class="videoRecording @beingRecordedClass" id="@recording.Id">
                 <div class="videoRecordingInfo">
                     <div class="videoRecordingWhen">@String.Format("{0} [{1} mins]", recording.StartTime.ToString("ddd dd MMM HH:mm"), Math.Round(recording.Duration.TotalMinutes))</div>
@@ -37,7 +37,7 @@
             }
             else
             {
-                var beingRecordedClass = "";
+                var beingRecordedClass = firstRecording.IsRecording ? "tvRecordingBeingRecorded" : "";
                 <div class="videoRecording @beingRecordedClass" id="@firstRecording.Id">
                     <div class="videoRecordingInfo">
                         <div class="videoRecordingWhen">@String.Format("{0} [{1} mins]", firstRecording.StartTime.ToString("ddd dd MMM HH:mm"), Math.Round(firstRecording.Duration.TotalMinutes))</div>
