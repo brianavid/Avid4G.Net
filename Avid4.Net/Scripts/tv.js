@@ -1,33 +1,4 @@
-﻿function ControlAction(action)
-{
-    console.log(action)
-    $.ajax({
-        url: action,
-        success: function (data) {
-            console.log(data)
-        },
-        async: false,
-        cache: false
-    });
-}
-
-var actionTextTimeout = null
-
-function DisplayControlAction(actionText, timeout)
-{
-    if (actionTextTimeout != null)
-    {
-        clearTimeout(actionTextTimeout)
-        actionTextTimeout = null
-    }
-    $(".tvControlAction").text(actionText);
-    if (timeout)
-    {
-        actionTextTimeout = setTimeout("$('.tvControlAction').text(''); actionTextTimeout=null", 2000);
-    }
-}
-
-var controlHammer = null;
+﻿var controlHammer = null;
 
 function AddControlHammerActions(controlUnderButtons) {
     if (!controlUnderButtons)
@@ -47,7 +18,6 @@ function AddControlHammerActions(controlUnderButtons) {
             success: function (data) {
                 DisplayRunningOnControlPad(false)
             },
-            async: false,
             cache: false
         });
     });
@@ -75,7 +45,6 @@ function AddButtonsHammerActions(controlHeight) {
             success: function (data) {
                 DisplayRunningOnControlPad(false)
             },
-            async: false,
             cache: false
         });
     });

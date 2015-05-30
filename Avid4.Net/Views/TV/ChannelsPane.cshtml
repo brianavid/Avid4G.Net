@@ -3,7 +3,6 @@
     foreach (var channel in channels)
     {
         <div class="tvChannel" id="@channel.Name">
-            <div class="tvChannelNumber">@channel.Number</div>
             <div class="tvChannelName"><img height="40" src="@(DvbViewer.GetChannelLogoUrl(channel))" /> @channel.Display</div>
             <div class="tvChannelNowNext">
                 @if (channel.IsFavourite)
