@@ -220,8 +220,15 @@ public static class Spotify
                     try
                     {
                         logger.Info("LoadAndIndexAllSavedTracks start");
+                        var pagedTracks = WebAppService.GetSavedTracks();
+                        if (pagedTracks.HasError() && pagedTracks.ErrorResponse.Status == 429)
+                        {
+                            logger.Info("LoadAndIndexAllSavedTracks rate limited");
+                            System.Threading.Thread.Sleep(1000);
+                            continue;
+                        }
                         var foundSavedTracks = MakeTracks(
-                            WebAppService.GetSavedTracks(),
+                            pagedTracks,
                             next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
 
                         if (foundSavedTracks == null)
@@ -1642,9 +1649,23 @@ public static class Spotify
                 }
             }
 
-            System.Threading.Thread.Sleep(200);
             if (col.Next == null) break;
-            col = ReadNext(col.Next);
+
+            for (var retries = 0; retries < 5; retries++ )
+            {
+                var newCol = ReadNext(col.Next);
+                if (newCol.HasError())
+                {
+                    logger.Info("Paged tracks error - {0} - {1} [{2} found]",
+                        newCol.ErrorResponse.Status, newCol.ErrorResponse.Message, noFound);
+                    System.Threading.Thread.Sleep(1000);
+                }
+                else
+                {
+                    col = newCol;
+                    break;
+                }
+            }
         }
 
         return result;
