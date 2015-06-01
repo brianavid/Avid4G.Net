@@ -127,6 +127,7 @@ public static class Running
                     ExitJRMC();
                 }
                 Zoom.Stop();
+                DvbViewer.Stop();
                 Spotify.Stop();
                 DesktopClient.ExitAllPrograms();
                 runningProgram = name;
@@ -144,6 +145,7 @@ public static class Running
             if (runningProgram != "Spotify" && !DesktopClient.ForegroundProgram(name))
             {
                 Zoom.Stop();
+                DvbViewer.Stop();
                 Spotify.Stop();
                 DesktopClient.ExitAllPrograms();
                 NothingRunning();
@@ -156,6 +158,11 @@ public static class Running
         if (runningProgram == "Music" || runningProgram == "Photo")
         {
             ExitJRMC();
+        }
+
+        if (runningProgram == "TV")
+        {
+            DvbViewer.Stop();
         }
 
         runningProgram = name;
@@ -250,6 +257,7 @@ public static class Running
             }
 
             Zoom.Stop();
+            DvbViewer.Stop();
             Spotify.Stop();
             DesktopClient.ExitAllPrograms();
             Receiver.SelectComputerInput();
@@ -337,6 +345,7 @@ public static class Running
             DesktopClient.ExitAllPrograms();
             DesktopClient.SendSpecialkey("ClearDesktop");
             Zoom.Stop();
+            DvbViewer.Stop();
             Spotify.Stop();
         }
 
@@ -386,6 +395,7 @@ public static class Running
     static void NothingRunning()
     {
         Zoom.Stop();
+        DvbViewer.Stop();
         Spotify.Stop();
         runningProgram = "";
         logger.Info("NothingRunning");

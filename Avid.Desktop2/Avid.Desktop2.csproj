@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="CustomApplicationContext.cs" />
     <Compile Include="DesktopController.cs" />
+    <Compile Include="DvbViewerMonitor.cs" />
     <Compile Include="GPUZ.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="UsbService.cs" />

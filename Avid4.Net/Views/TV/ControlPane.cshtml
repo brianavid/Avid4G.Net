@@ -1,27 +1,23 @@
 ﻿<div class="tvControls" id="tvControls">
     <div class="tvPlayingInfo">
+        <img class="tvProgrammeRecord tvAction" id="Record" src="/Content/Buttons/SmallRound/Transport.Rec.png" />
         <div class="tvCurrentChannelName" id="tvCurrentChannelName">@DvbViewer.CurrentlySelectedChannelName</div>
-        <div class="tvCurrentProgramme" id="tvCurrentProgramme">@DvbViewer.CurrentProgrammeTitle</div>
+        <div class="tvCurrentProgramme" id="tvCurrentProgramme">@DvbViewer.NowTitle</div>
         <div class="tvProgrammeInfo">
-            <div class="tvNextPrograme" id="tvNextPrograme">@DvbViewer.NextProgrameTime @DvbViewer.NextProgrameTitle</div>
+            <div class="tvNextPrograme" id="tvNextPrograme">@DvbViewer.NextStart @DvbViewer.NextTitle</div>
         </div>
     </div>
     <br />
     <table class="width100">
         <tr>
-            <td class="centeredButton">	<img class="tvAction" id="Jump+Minus+10" src="/Content/Buttons/Minus10.png" /></td>
-            <td class="centeredButton">	<img class="tvAction" id="Pause" src="/Content/Buttons/PlayPauseButton.png" /></td>
-            <td class="centeredButton">	<img class="tvAction" id="Jump+Plus+10" src="/Content/Buttons/Plus10.png" /></td>
+            <td class="centeredButton width30">	<img class="tvAction" id="Jump+Minus+10" src="/Content/Buttons/Minus10.png" /></td>
+            <td class="centeredButton width40">	<img class="tvAction" id="Pause" src="/Content/Buttons/PlayPauseButton.png" /></td>
+            <td class="centeredButton width30">	<img class="tvAction" id="Jump+Plus+10" src="/Content/Buttons/Plus10.png" /></td>
         </tr>
         <tr>
-            <td class="centeredButton">&nbsp;</td>
-            <td class="centeredButton">&nbsp;</td>
-            <td class="centeredButton">&nbsp;</td>
-        </tr>
-        <tr>
-            <td class="centeredButton">&nbsp;</td>
-            <td class="centeredButton">	<img class="tvAction" id="Stop" src="/Content/Buttons/Transport.Stop.png" /></td>
-            <td class="centeredButton">	<img class="tvAction" id="Record" src="/Content/Buttons/Transport.Rec.png" /></td>
+            <td class="centeredButton width30">@DvbViewer.PlayState</td>
+            <td class="centeredButton width40">@DvbViewer.TimeShift</td>
+            <td class="centeredButton width30">&nbsp;</td>
         </tr>
     </table>
 </div>

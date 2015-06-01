@@ -782,6 +782,15 @@ public class DvbViewer
     }
 
     /// <summary>
+    /// Note that DVBViewer has stopped
+    /// </summary>
+    public static void Stop()
+    {
+        CurrentlySelectedChannel = null;
+        LastStatus = null;
+    }
+
+    /// <summary>
     /// Select to watch a channel specified by channel number
     /// </summary>
     /// <param name="channel"></param>
@@ -792,6 +801,7 @@ public class DvbViewer
         {
             GetXml(String.Format("dvbcommand.html?target={0}&cmd=-c{1}", DvbTarget, channel.Number));
             CurrentlySelectedChannel = channel;
+            LastStatus = null;
         }
     }
 
@@ -1184,6 +1194,10 @@ public class DvbViewer
         }
     }
 
+    /// <summary>
+    /// Run a background task to "Cleanup" (remove DB entries that refer to non-existent recording files) 
+    /// and "Refresh" (add DB entries for TS recording files that were previously unknown)
+    /// </summary>
     public static void CleanupRefreshDB()
     {
         try
@@ -1195,5 +1209,91 @@ public class DvbViewer
         {
             logger.Error("Can't run task CleanupRefreshDB: ", ex);
         }
+    }
+
+    /// <summary>
+    /// The last recorded status posted from the DVB monitor
+    /// </summary>
+    public static XDocument LastStatus { private get; set; }
+
+    /// <summary>
+    /// The title of the currently watched programme as reported by the DVB monitor
+    /// </summary>
+    public static string NowTitle { get { return LastStatus == null ? "" : LastStatus.Root.Element("Now").Attribute("title").Value; } }
+
+    /// <summary>
+    /// The description of the currently watched programme as reported by the DVB monitor
+    /// </summary>
+    public static string NowDescription { get { return LastStatus == null ? "" : LastStatus.Root.Element("Now").Attribute("description").Value; } }
+
+    /// <summary>
+    /// The title of the next programme on the current channel as reported by the DVB monitor
+    /// </summary>
+    public static string NextTitle { get { return LastStatus == null ? "" : LastStatus.Root.Element("Next").Attribute("title").Value; } }
+
+    /// <summary>
+    /// The description of the next programme on the current channel as reported by the DVB monitor
+    /// </summary>
+    public static string NextDescription { get { return LastStatus == null ? "" : LastStatus.Root.Element("Next").Attribute("description").Value; } }
+
+    /// <summary>
+    /// The start time of the next programme on the current channel as reported by the DVB monitor
+    /// </summary>
+    public static string NextStart { get { return LastStatus == null ? "" : LastStatus.Root.Element("Next").Attribute("start").Value; } }
+    
+    /// <summary>
+    /// The "playstate" for display as reported by the DVB monitor, taking into account time-shifting
+    /// </summary>
+    public static string PlayState 
+    { 
+        get 
+        {
+            if (LastStatus == null)
+            {
+                return "";
+            }
+            else
+            {
+                var timeShifted = LastStatus.Root.Element("TimeShift") != null;
+                var playState = LastStatus.Root.Element("PlayState").Attribute("state").Value;
+                return playState != "Playing" ? playState : timeShifted ? "Delayed" : "";
+            }
+        } 
+    }
+
+
+    /// <summary>
+    /// The time-shift (if ant) for display as reported by the DVB monitor
+    /// </summary>
+    public static string TimeShift 
+    { 
+        get 
+        {
+            try
+            {
+	            if (LastStatus == null || LastStatus.Root.Element("TimeShift") == null)
+	            {
+	                return "";
+	            }
+	            else
+	            {
+	                TimeSpan delay = TimeSpan.ParseExact(LastStatus.Root.Element("TimeShift").Attribute("remain").Value, @"hh\:mm\:ss", CultureInfo.InvariantCulture);
+                    
+                    //  If the player remains paused, advance the time-shoft delay since the pause was last reported
+	                if (LastStatus.Root.Element("PlayState").Attribute("state").Value == "Paused")
+	                {
+	                    DateTime reportTime = DateTime.Parse(LastStatus.Root.Attribute("when").Value);
+	                    delay += DateTime.Now - reportTime;
+	                }
+	
+	                return delay.ToString(@"mm\:ss");
+	            }
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error("Can't get TimeShift", ex);
+                return "";
+            }
+        } 
     }
 }

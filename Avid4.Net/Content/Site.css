@@ -433,7 +433,7 @@ textarea {
 }
 
 
-.guideEpgProgrammeRecord, .guideEpgProgrammeRecordSeries, .guideEpgProgrammeCancel, .guideEpgSeriesCancel, #remoteExit {
+.tvProgrammeRecord, .guideEpgProgrammeRecord, .guideEpgProgrammeRecordSeries, .guideEpgProgrammeCancel, .guideEpgSeriesCancel, #remoteExit {
     float: right;
 }
 

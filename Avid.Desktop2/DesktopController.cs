@@ -298,13 +298,20 @@ namespace Avid.Desktop
 	            {
 	                if (otherProcess.Name != name && otherProcess.Running)
 	                {
-	                    result = otherProcess.Exit();
+                        DvbViewerMonitor.NothingToMonitor();
+                        result = otherProcess.Exit();
 	                    logger.Info("\tExit {0} {1}", otherProcess.Name, result ? "OK" : "Fail");
 	                }
 	            }
 	
 	            result = process.Start(args);
 	            logger.Info("\tStart {0} {1}", name, result ? "OK" : "Fail");
+
+                if (name == "TV")
+                {
+                    DvbViewerMonitor.StartMonitoring();
+                }
+
 	            return result;
             }
             catch (System.Exception ex)
@@ -388,7 +395,10 @@ namespace Avid.Desktop
 	
 	            result = process.Exit();
 	            logger.Info("\tExit {0} {1}", name, result ? "OK" : "Fail");
-	            return result;
+
+
+                DvbViewerMonitor.NothingToMonitor();
+                return result;
             }
             catch (System.Exception ex)
             {
@@ -417,7 +427,9 @@ namespace Avid.Desktop
 	                    logger.Info("\tExit {0} {1}", process.Name, result ? "OK" : "Fail");
 	                }
 	            }
-	
+
+                DvbViewerMonitor.NothingToMonitor();
+
 	            return true;
             }
             catch (System.Exception ex)

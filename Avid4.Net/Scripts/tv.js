@@ -192,5 +192,5 @@ $(function () {
     $("#displayTvRadio").click(DisplayTvRadio);
 
     // update again every few seconds
-    setInterval("DisplayRunningOnControlPad()", 5000);
+    setInterval("DisplayRunningOnControlPad()", 2000);
 })

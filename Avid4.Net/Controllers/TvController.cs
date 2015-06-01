@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml.Linq;
 
 namespace Avid4.Net.Controllers
 {
@@ -94,6 +96,32 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
+
+        // POST: /Tv/UpdateStatus
+        [HttpPost]
+        public ContentResult UpdateStatus()
+        {
+            try
+            {
+	            var xStatus = XDocument.Load(Request.InputStream);
+	
+	            DvbViewer.LastStatus = xStatus;
+	
+	            foreach (var channel in xStatus.Root.Elements("Channel"))
+	            {
+	                var channelNumber = int.Parse(channel.Attribute(("number")).Value);
+	                if (DvbViewer.CurrentlySelectedChannel == null || channelNumber != DvbViewer.CurrentlySelectedChannel.Number)
+	                {
+	                    DvbViewer.SelectChannel(DvbViewer.NumberedChannel(channelNumber));
+	                }
+	            }
+            }
+            catch (System.Exception ex)
+            {
+            }
+
+            return this.Content("");
+        }
 
     }
 }
