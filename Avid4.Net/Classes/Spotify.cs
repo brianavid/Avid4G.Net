@@ -33,11 +33,6 @@ public static class Spotify
     static SpotifyData.Album[] AllSavedAlbums;
     static SpotifyData.Artist[] AllSavedArtists;
 
-    public static void ResetSavedInfo()
-    {
-        AllSavedTracks = null;
-    }
-
     /// <summary>
     /// Initialize and memoize the we API service using the authentication token stored in the registry
     /// </summary>
@@ -215,96 +210,104 @@ public static class Spotify
     public static void LoadAndIndexAllSavedTracks()
     {
         AllSavedTracks = new List<SpotifyData.Track>(); // prevents reentrancy
+
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            for (var retries = 0; retries < 20; retries++)
             {
-                try
+                lock (WebAppService)
                 {
-                    AllSavedTracks = MakeTracks(
-                        WebAppService.GetSavedTracks(),
-                        next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
-
-                    HashSet<String> albumIds = new HashSet<String>();
-                    foreach (var track in AllSavedTracks)
+                    try
                     {
-                        if (!albumIds.Contains(track.AlbumId))
+                        logger.Info("LoadAndIndexAllSavedTracks start");
+                        var foundSavedTracks = MakeTracks(
+                            WebAppService.GetSavedTracks(),
+                            next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
+
+                        if (foundSavedTracks == null)
                         {
-                            albumIds.Add(track.AlbumId);
+                            logger.Info("LoadAndIndexAllSavedTracks tracks incomplete");
+                            System.Threading.Thread.Sleep(1000);
+                            continue;
                         }
-                    }
 
-                    List<SpotifyData.Album> savedAlbumList = new List<SpotifyData.Album>();
-                    foreach (var batch in albumIds.Batch(20))
-                    {
-                        var batchOfIds = batch.Select(id => SimplifyId(id));
-                        var batchOfAlbums = WebAppService.GetSeveralAlbums(batchOfIds.ToList());
-                        if (batchOfAlbums.Albums == null)
+                        AllSavedTracks = foundSavedTracks;
+                        logger.Info("LoadAndIndexAllSavedTracks {0} tracks", AllSavedTracks.Count());
+
+
+                        HashSet<String> albumIds = new HashSet<String>();
+                        foreach (var track in AllSavedTracks)
                         {
-                            foreach (var albumId in batchOfIds)
+                            if (!albumIds.Contains(track.AlbumId))
                             {
-                                var album = WebAppService.GetAlbum(albumId);
-                                if (album != null && album.Artists != null && album.Artists.Count != 0)
+                                albumIds.Add(track.AlbumId);
+                            }
+                        }
+
+                        List<SpotifyData.Album> savedAlbumList = new List<SpotifyData.Album>();
+                        foreach (var batch in albumIds.Batch(20))
+                        {
+                            var batchOfIds = batch.Select(id => SimplifyId(id));
+                            var batchOfAlbums = WebAppService.GetSeveralAlbums(batchOfIds.ToList());
+                            if (batchOfAlbums.Albums == null)
+                            {
+                                System.Threading.Thread.Sleep(2000);
+                                batchOfAlbums = WebAppService.GetSeveralAlbums(batchOfIds.ToList());
+                            }
+                            if (batchOfAlbums.Albums != null)
                                 {
-                                    savedAlbumList.Add(MakeAlbum(album));
+                                foreach (var album in batchOfAlbums.Albums)
+                                {
+                                    if (album != null && album.Artists != null && album.Artists.Count != 0)
+                                    {
+                                        savedAlbumList.Add(MakeAlbum(album));
+                                    }
                                 }
                             }
                         }
-                        else
+                        AllSavedAlbums = savedAlbumList.ToArray();
+                        logger.Info("LoadAndIndexAllSavedTracks {0}/{1} albums", AllSavedAlbums.Count(), albumIds.Count);
+
+                        HashSet<String> artistIds = new HashSet<String>();
+                        foreach (var album in AllSavedAlbums)
                         {
-                            foreach (var album in batchOfAlbums.Albums)
+                            if (!artistIds.Contains(album.ArtistId))
                             {
-                                if (album != null && album.Artists != null && album.Artists.Count != 0)
-                                {
-                                    savedAlbumList.Add(MakeAlbum(album));
-                                }
+                                artistIds.Add(album.ArtistId);
                             }
                         }
-                    }
-                    AllSavedAlbums = savedAlbumList.ToArray();
 
-                    HashSet<String> artistIds = new HashSet<String>();
-                    foreach (var album in AllSavedAlbums)
-                    {
-                        if (!artistIds.Contains(album.ArtistId))
+                        List<SpotifyData.Artist> savedArtistList = new List<SpotifyData.Artist>();
+                        foreach (var batch in artistIds.Batch(20))
                         {
-                            artistIds.Add(album.ArtistId);
-                        }
-                    }
-
-                    List<SpotifyData.Artist> savedArtistList = new List<SpotifyData.Artist>();
-                    foreach (var batch in artistIds.Batch(20))
-                    {
-                        var batchOfIds = batch.Select(id => SimplifyId(id));
-                        var batchOfArtists = WebAppService.GetSeveralArtists(batchOfIds.ToList());
-                        if (batchOfArtists.Artists == null)
-                        {
-                            foreach (var artistId in batchOfIds)
+                            var batchOfIds = batch.Select(id => SimplifyId(id));
+                            var batchOfArtists = WebAppService.GetSeveralArtists(batchOfIds.ToList());
+                            if (batchOfArtists.Artists == null)
                             {
-                                var artist = WebAppService.GetArtist(artistId);
-                                if (artist != null)
+                                System.Threading.Thread.Sleep(2000);
+                                batchOfArtists = WebAppService.GetSeveralArtists(batchOfIds.ToList());
+                            }
+                            if (batchOfArtists.Artists != null)
+                            {
+                                foreach (var artist in batchOfArtists.Artists)
                                 {
                                     savedArtistList.Add(MakeArtist(artist));
                                 }
                             }
                         }
-                        else
-                        {
-                            foreach (var artist in batchOfArtists.Artists)
-                            {
-                                savedArtistList.Add(MakeArtist(artist));
-                            }
-                        }
+
+                        AllSavedArtists = savedArtistList.ToArray();
+                        logger.Info("LoadAndIndexAllSavedTracks {0}/{1} artists", AllSavedArtists.Count(), artistIds.Count);
+
+                        Array.Sort(AllSavedAlbums, CompareAlbumByArtist);
+                        Array.Sort(AllSavedArtists, (a1, a2) => a1.Name.CompareTo(a2.Name));
+
+                        break;
                     }
-
-                    AllSavedArtists = savedArtistList.ToArray();
-
-                    Array.Sort(AllSavedAlbums, CompareAlbumByArtist);
-                    Array.Sort(AllSavedArtists, (a1, a2) => a1.Name.CompareTo(a2.Name));
-                }
-                catch (System.Exception ex)
-                {
-                    logger.Error(ex);
+                    catch (System.Exception ex)
+                    {
+                        logger.Error(ex);
+                    }
                 }
             }
         }
@@ -329,6 +332,8 @@ public static class Spotify
         trayAppClient.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue();
         trayAppClient.DefaultRequestHeaders.CacheControl.NoCache = true;
         trayAppClient.DefaultRequestHeaders.CacheControl.MaxAge = new TimeSpan(0);
+
+        LoadAndIndexAllSavedTracks();
     }
 
     #region Browsing and Searching
@@ -1439,7 +1444,7 @@ public static class Spotify
 
         while (noFound < 200)
         {
-            if (col.Items == null) break;
+            if (col.Items == null) return null;
             foreach (var a in col.Items)
             {
                 result.Add(MakeArtist(a));
@@ -1484,7 +1489,7 @@ public static class Spotify
 
         while (noFound < 200)
         {
-            if (col.Items == null) break;
+            if (col.Items == null) return null;
             var albumIds = col.Items.Select(a => a.Id).ToList();
             foreach (var a in WebAppService.GetSeveralAlbums(albumIds).Albums)
             {
@@ -1553,7 +1558,7 @@ public static class Spotify
 
         while (noFound < 200)
         {
-            if (col.Items == null) break;
+            if (col.Items == null) return null;
             foreach (var t in col.Items)
             {
                 var track = MakeTrack(t);
@@ -1588,7 +1593,7 @@ public static class Spotify
 
         while (noFound < 200)
         {
-            if (col.Items == null) break;
+            if (col.Items == null) return null;
             foreach (var t in col.Items)
             {
                 var track = MakeTrack(GetFullTrack(t.Id), album);
@@ -1622,7 +1627,11 @@ public static class Spotify
 
         for (; ; )  //  Unbounded within a playlist or saved tracks
         {
-            if (col.Items == null) break;
+            if (col.Items == null)
+            {
+                logger.Info("Incomplete paged tracks - {0} found", noFound);
+                return null;
+            }
             foreach (var t in col.Items)
             {
                 var track = MakeTrack(t.Track);
@@ -1633,6 +1642,7 @@ public static class Spotify
                 }
             }
 
+            System.Threading.Thread.Sleep(200);
             if (col.Next == null) break;
             col = ReadNext(col.Next);
         }
