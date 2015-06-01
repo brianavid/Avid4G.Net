@@ -303,11 +303,14 @@ namespace Avid4.Net.Controllers
             {
                 playlistId = Spotify.CurrentPlaylists[playlistName].Id;
             }
-            if (playlistId == null)
+            if (playlistId == null && !string.IsNullOrEmpty(playlistName))
             {
                 playlistId = Spotify.AddPlayList(playlistName);
             }
-            Spotify.AddAlbumToPlayList(playlistId, id);
+            if (playlistId != null)
+            {
+                Spotify.AddAlbumToPlayList(playlistId, id);
+            }
             return this.Content("");
         }
 

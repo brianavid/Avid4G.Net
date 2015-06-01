@@ -33,6 +33,11 @@ public static class Spotify
     static SpotifyData.Album[] AllSavedAlbums;
     static SpotifyData.Artist[] AllSavedArtists;
 
+    public static void ResetSavedInfo()
+    {
+        AllSavedTracks = null;
+    }
+
     /// <summary>
     /// Initialize and memoize the we API service using the authentication token stored in the registry
     /// </summary>
@@ -234,9 +239,26 @@ public static class Spotify
                     {
                         var batchOfIds = batch.Select(id => SimplifyId(id));
                         var batchOfAlbums = WebAppService.GetSeveralAlbums(batchOfIds.ToList());
-                        foreach (var album in batchOfAlbums.Albums)
+                        if (batchOfAlbums.Albums == null)
                         {
-                            savedAlbumList.Add(MakeAlbum(album));
+                            foreach (var albumId in batchOfIds)
+                            {
+                                var album = WebAppService.GetAlbum(albumId);
+                                if (album != null && album.Artists != null && album.Artists.Count != 0)
+                                {
+                                    savedAlbumList.Add(MakeAlbum(album));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (var album in batchOfAlbums.Albums)
+                            {
+                                if (album != null && album.Artists != null && album.Artists.Count != 0)
+                                {
+                                    savedAlbumList.Add(MakeAlbum(album));
+                                }
+                            }
                         }
                     }
                     AllSavedAlbums = savedAlbumList.ToArray();
@@ -255,9 +277,23 @@ public static class Spotify
                     {
                         var batchOfIds = batch.Select(id => SimplifyId(id));
                         var batchOfArtists = WebAppService.GetSeveralArtists(batchOfIds.ToList());
-                        foreach (var artist in batchOfArtists.Artists)
+                        if (batchOfArtists.Artists == null)
                         {
-                            savedArtistList.Add(MakeArtist(artist));
+                            foreach (var artistId in batchOfIds)
+                            {
+                                var artist = WebAppService.GetArtist(artistId);
+                                if (artist != null)
+                                {
+                                    savedArtistList.Add(MakeArtist(artist));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (var artist in batchOfArtists.Artists)
+                            {
+                                savedArtistList.Add(MakeArtist(artist));
+                            }
                         }
                     }
 
@@ -1452,7 +1488,10 @@ public static class Spotify
             var albumIds = col.Items.Select(a => a.Id).ToList();
             foreach (var a in WebAppService.GetSeveralAlbums(albumIds).Albums)
             {
-                result.Add(MakeAlbum(a));
+                if (a != null)
+                {
+                    result.Add(MakeAlbum(a));
+                }
                 noFound++;
             }
 
@@ -1475,19 +1514,28 @@ public static class Spotify
         {
             album = GetFullAlbum(track.Album.Id);
         }
-        return track == null ? null : new SpotifyData.Track
+        try
         {
-            Id = track.Uri,
-            Name = track.Name,
-            AlbumId = album.Uri,
-            AlbumName = album.Name,
-            ArtistId = album.Artists[0].Uri,
-            AlbumArtistName = album.Artists[0].Name,
-            TrackArtistNames = album.Artists.Aggregate("", ConstructTrackArtistNames),
-            TrackFirstArtistId = album.Artists[0].Uri,
-            Index = track.TrackNumber,
-            Duration = track.DurationMs / 1000
-        };
+            var noFullAlbum = album.Artists == null || album.Artists.Count == 0;
+	        return track == null ? null : new SpotifyData.Track
+	        {
+	            Id = track.Uri,
+	            Name = track.Name,
+                AlbumId = noFullAlbum ? track.Album.Uri : album.Uri,
+	            AlbumName = noFullAlbum ? track.Album.Name : album.Name,
+	            ArtistId = noFullAlbum ? track.Artists[0].Uri : album.Artists[0].Uri,
+	            AlbumArtistName = noFullAlbum ? track.Artists[0].Uri : album.Artists[0].Name,
+	            TrackArtistNames = (noFullAlbum ? track.Artists : album.Artists).Aggregate("", ConstructTrackArtistNames),
+                TrackFirstArtistId = noFullAlbum ? track.Artists[0].Uri : album.Artists[0].Uri,
+	            Index = track.TrackNumber,
+	            Duration = track.DurationMs / 1000
+	        };
+        }
+        catch (System.Exception ex)
+        {
+            logger.Error("Can't make track, {0}", track.Uri);
+            return null;
+        }
     }
 
     /// <summary>
@@ -1508,8 +1556,12 @@ public static class Spotify
             if (col.Items == null) break;
             foreach (var t in col.Items)
             {
-                result.Add(MakeTrack(t));
-                noFound++;
+                var track = MakeTrack(t);
+                if (track != null)
+                {
+                    result.Add(track);
+                    noFound++;
+                }
             }
 
             if (col.Next == null) break;
@@ -1539,8 +1591,13 @@ public static class Spotify
             if (col.Items == null) break;
             foreach (var t in col.Items)
             {
-                result.Add(MakeTrack(GetFullTrack(t.Id), album));
-                noFound++;
+                var track = MakeTrack(GetFullTrack(t.Id), album);
+                if (track != null)
+                {
+                    result.Add(track);
+                    noFound++;
+                }
+
             }
 
             if (col.Next == null) break;
@@ -1568,8 +1625,12 @@ public static class Spotify
             if (col.Items == null) break;
             foreach (var t in col.Items)
             {
-                result.Add(MakeTrack(t.Track));
-                noFound++;
+                var track = MakeTrack(t.Track);
+                if (track != null)
+                {
+                    result.Add(track);
+                    noFound++;
+                }
             }
 
             if (col.Next == null) break;

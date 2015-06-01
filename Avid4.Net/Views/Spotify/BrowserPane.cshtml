@@ -5,6 +5,7 @@
         default:
             break;
         case "Library":
+            Spotify.ResetSavedInfo();
             {
                 <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibrarySavedAlbums">
                     <div class="spotifyBrowserTitle">Saved Albums</div>
@@ -445,20 +446,20 @@
                 string actionClass = "";
                 if (ViewBag.AlbumId != null)
                 {
-                    actionClass = "spotifyBrowserPlaylistAddAlbumAsArtistName";
+                    actionClass = "spotifyBrowserPlaylistAddAlbum";
                     Avid.Spotify.SpotifyData.Album album = Spotify.GetAlbumById(ViewBag.AlbumId as String);
                     <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader"><div class="spotifyBrowserTitle">Add album "@album.Name" to ...</div></div>
                 }
                 else if (ViewBag.TrackId != null)
                 {
-                    actionClass = "spotifyBrowserPlaylistAddTrackAsArtistName";
+                    actionClass = "spotifyBrowserPlaylistAddTrack";
                     Avid.Spotify.SpotifyData.Track track = Spotify.GetTrackById(ViewBag.TrackId as String);
                     <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader"><div class="spotifyBrowserTitle">Add track "@track.Name" to ...</div></div>
                 }
                 if (ViewBag.ArtistId != null)
                 {
                     Avid.Spotify.SpotifyData.Artist artist = Spotify.GetArtistById(ViewBag.ArtistId as String);
-                    <div class="@actionClass spotifyBrowserItem" id="@artist.Name">
+                    <div class="@(actionClass)AsArtistName spotifyBrowserItem" id="@artist.Name">
                         <div class="spotifyBrowserTitle">@artist.Name</div>
                     </div>
                 }
