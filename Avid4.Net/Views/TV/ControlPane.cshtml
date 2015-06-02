@@ -1,6 +1,13 @@
 ﻿<div class="tvControls" id="tvControls">
     <div class="tvPlayingInfo">
-        <img class="tvProgrammeRecord tvAction" id="Record" src="/Content/Buttons/SmallRound/Transport.Rec.png" />
+        @if (DvbViewer.IsRecordingNow)
+        {
+            <div class="tvProgrammeIsRecord">[Rec]</div>
+        }
+        else
+        {
+            <img class="tvProgrammeRecord" id="Record" src="/Content/Buttons/SmallRound/Transport.Rec.png" />
+        }
         <div class="tvCurrentChannelName" id="tvCurrentChannelName">@DvbViewer.CurrentlySelectedChannelName</div>
         <div class="tvCurrentProgramme" id="tvCurrentProgramme">@DvbViewer.NowTitle</div>
         <div class="tvProgrammeInfo">

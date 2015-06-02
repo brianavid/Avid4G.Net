@@ -96,6 +96,17 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
+        // GET: /Tv/All
+        public ContentResult RecordNow()
+        {
+            var now = DvbViewer.GetNowAndNext(DvbViewer.CurrentlySelectedChannel).FirstOrDefault();
+            if (now != null)
+            {
+                DvbViewer.AddTimer(now);
+            }
+            return this.Content("");
+        }
+
 
         // POST: /Tv/UpdateStatus
         [HttpPost]
@@ -116,7 +127,7 @@ namespace Avid4.Net.Controllers
 	                }
 	            }
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
             }
 

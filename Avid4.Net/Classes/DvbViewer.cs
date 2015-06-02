@@ -1263,7 +1263,7 @@ public class DvbViewer
 
 
     /// <summary>
-    /// The time-shift (if ant) for display as reported by the DVB monitor
+    /// The time-shift (if any) for display as reported by the DVB monitor
     /// </summary>
     public static string TimeShift 
     { 
@@ -1295,5 +1295,22 @@ public class DvbViewer
                 return "";
             }
         } 
+    }
+
+    /// <summary>
+    /// Id the program on the current channel being recorded?
+    /// </summary>
+    public static bool IsRecordingNow
+    {
+        get
+        {
+            if (CurrentlySelectedChannel == null)
+            {
+                return false;
+            }
+            var now = GetNowAndNext(CurrentlySelectedChannel).FirstOrDefault();
+            return now == null ? false : now.IsScheduled;
+
+        }
     }
 }

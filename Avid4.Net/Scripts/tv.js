@@ -21,6 +21,16 @@ function AddControlHammerActions(controlUnderButtons) {
             cache: false
         });
     });
+
+    controlHammer.on("tap", ".tvProgrammeRecord", function (e) {
+        $.ajax({
+            url: "/Tv/RecordNow",
+            success: function (data) {
+                DisplayRunningOnControlPad(false)
+            },
+            cache: false
+        });
+    });
 }
 
 var buttonsHammer = null;

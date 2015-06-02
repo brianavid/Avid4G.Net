@@ -437,6 +437,11 @@ textarea {
     float: right;
 }
 
+.tvProgrammeIsRecord {
+    float: right;
+    color: #f00;
+}
+
 .rokuAppImage {
     margin-right: 1em;
     width: 40px;
