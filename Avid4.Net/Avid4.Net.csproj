@@ -452,6 +452,7 @@
     <Content Include="Scripts\guide.js" />
     <Content Include="Scripts\photos.js" />
     <Content Include="Scripts\streaming.js" />
+    <Content Include="Scripts\touch-emulator.js" />
     <Content Include="Scripts\tv.js" />
     <Content Include="Scripts\video.js" />
     <Content Include="Scripts\Web.js" />
