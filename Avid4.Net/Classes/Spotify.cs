@@ -1459,7 +1459,22 @@ public static class Spotify
             }
 
             if (col.Next == null) break;
-            col = ReadNext(col.Next);
+
+            for (var retries = 5; retries >= 0; retries--)
+            {
+                var newCol = ReadNext(col.Next);
+                if (retries > 0 && newCol.HasError())
+                {
+                    logger.Info("Paged artists error - {0} - {1} [{2} found]",
+                        newCol.ErrorResponse.Status, newCol.ErrorResponse.Message, noFound);
+                    System.Threading.Thread.Sleep(1000);
+                }
+                else
+                {
+                    col = newCol;
+                    break;
+                }
+            }
         }
 
         return result;
@@ -1508,7 +1523,22 @@ public static class Spotify
             }
 
             if (col.Next == null) break;
-            col = ReadNext(col.Next);
+
+            for (var retries = 5; retries >= 0; retries--)
+            {
+                var newCol = ReadNext(col.Next);
+                if (retries > 0 && newCol.HasError())
+                {
+                    logger.Info("Paged albums error - {0} - {1} [{2} found]",
+                        newCol.ErrorResponse.Status, newCol.ErrorResponse.Message, noFound);
+                    System.Threading.Thread.Sleep(1000);
+                }
+                else
+                {
+                    col = newCol;
+                    break;
+                }
+            }
         }
 
         return result;
@@ -1577,7 +1607,22 @@ public static class Spotify
             }
 
             if (col.Next == null) break;
-            col = ReadNext(col.Next);
+
+            for (var retries = 5; retries >= 0; retries--)
+            {
+                var newCol = ReadNext(col.Next);
+                if (retries > 0 && newCol.HasError())
+                {
+                    logger.Info("Paged tracks error - {0} - {1} [{2} found]",
+                        newCol.ErrorResponse.Status, newCol.ErrorResponse.Message, noFound);
+                    System.Threading.Thread.Sleep(1000);
+                }
+                else
+                {
+                    col = newCol;
+                    break;
+                }
+            }
         }
 
         return result;
@@ -1613,7 +1658,22 @@ public static class Spotify
             }
 
             if (col.Next == null) break;
-            col = ReadNext(col.Next);
+
+            for (var retries = 5; retries >= 0; retries--)
+            {
+                var newCol = ReadNext(col.Next);
+                if (retries > 0 && newCol.HasError())
+                {
+                    logger.Info("Paged tracks error - {0} - {1} [{2} found]",
+                        newCol.ErrorResponse.Status, newCol.ErrorResponse.Message, noFound);
+                    System.Threading.Thread.Sleep(1000);
+                }
+                else
+                {
+                    col = newCol;
+                    break;
+                }
+            }
         }
 
         return result;
@@ -1634,11 +1694,7 @@ public static class Spotify
 
         for (; ; )  //  Unbounded within a playlist or saved tracks
         {
-            if (col.Items == null)
-            {
-                logger.Info("Incomplete paged tracks - {0} found", noFound);
-                return null;
-            }
+            if (col.Items == null) return null;
             foreach (var t in col.Items)
             {
                 var track = MakeTrack(t.Track);
@@ -1651,10 +1707,10 @@ public static class Spotify
 
             if (col.Next == null) break;
 
-            for (var retries = 0; retries < 5; retries++ )
+            for (var retries = 5; retries >= 0; retries--)
             {
                 var newCol = ReadNext(col.Next);
-                if (newCol.HasError())
+                if (retries > 0 && newCol.HasError())
                 {
                     logger.Info("Paged tracks error - {0} - {1} [{2} found]",
                         newCol.ErrorResponse.Status, newCol.ErrorResponse.Message, noFound);
@@ -1708,7 +1764,22 @@ public static class Spotify
             }
 
             if (col.Next == null) break;
-            col = ReadNext(col.Next);
+
+            for (var retries = 5; retries >= 0; retries--)
+            {
+                var newCol = ReadNext(col.Next);
+                if (retries > 0 && newCol.HasError())
+                {
+                    logger.Info("Paged playlists error - {0} - {1} [{2} found]",
+                        newCol.ErrorResponse.Status, newCol.ErrorResponse.Message, noFound);
+                    System.Threading.Thread.Sleep(1000);
+                }
+                else
+                {
+                    col = newCol;
+                    break;
+                }
+            }
         }
 
         return result;
