@@ -35,20 +35,11 @@ namespace Avid.Spotify
             }
         }
 
-        /// <summary>
-        /// Play the identified track, either immediately or after the currently queued tracks
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="append"></param>
-        /// <returns></returns>
-        [HttpGet]
-        [LoggingExceptionFilter]
-        public Boolean PlayTrack(
-            string id,
+        async Task<Boolean> PlayTrackAsync(
+            Track track,
             bool append = false)
         {
-            Track track = SpotifySession.GetTrack(id);
-            if (track != null && track.IsAvailable)
+            if ((await track).IsAvailable)
             {
                 try
                 {
@@ -62,6 +53,34 @@ namespace Avid.Spotify
                 }
             }
             return true;
+        }
+
+        /// <summary>
+        /// Play the identified track, either immediately or after the currently queued tracks
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="append"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [LoggingExceptionFilter]
+        public Boolean PlayTrack(
+            string id,
+            bool append = false)
+        {
+            try
+            {
+                Track track = SpotifySession.GetTrack(id);
+                if (track == null)
+                {
+                    return false;
+                }
+                return PlayTrackAsync(track, append).Result;
+            }
+            catch (Exception ex)
+            {
+                logger.Warn(ex);
+                return false;
+            }
         }
 
         async Task<Boolean> PlayAlbumAsync(
