@@ -325,11 +325,10 @@ function SwitchPanelAfterWake(isWide) {
                             window.location = isWide ? "/Sky/All" : "/Sky/Watch";
                             break;
                         case "Roku":
+                        case "SmartTv":
                             window.location = isWide ? "/Streaming/All" : "/Streaming/Controls";
                             break;
                         case "Chromecast":
-                            window.location = isWide ? "/Streaming/All" : "/Streaming/Browser";
-                            break;
                         case "LogFire":
                             window.location = isWide ? "/Streaming/All" : "/Streaming/Browser";
                             break;

@@ -1,18 +1,22 @@
-﻿@{
-    ViewBag.Title = "Roku";
-}
-
-
-@Html.Partial("TopBar")
+﻿@Html.Partial("TopBar")
 @section scripts {
 @Html.Raw(Render.Script("topBar", Request))
 @Html.Raw(Render.Script("home", Request))
 @Html.Raw(Render.Script("streaming", Request))
 }
 
-@Html.Partial("PaneButtons")
+<div class="@(ViewBag.HideRokuClass ?? "")">
+    @Html.Partial("PaneButtons")
+</div>
 <div id="rokuControlsPane">
-    <div class="rokuControls">
-        @Html.Partial("ControlsPane")
+    <div id="rokuControlsPane" class="rokuControlsPane @(ViewBag.HideRokuClass ?? "")">
+        <div class="rokuControls">
+            @Html.Partial("RokuControlsPane")
+        </div>
+    </div>
+    <div id="smartControlsPane" class="smartControlsPane @(ViewBag.HideSmartClass ?? "")">
+        <div class="smartControls">
+            @Html.Partial("SmartControlsPane")
+        </div>
     </div>
 </div>

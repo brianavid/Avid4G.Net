@@ -11,6 +11,7 @@
         <table class="buttonRow">
             <tr>
                 <td class="centeredButton"><img id="goRokuSelect" src="/Content/Buttons/Roku.png" /></td>
+                <td class="centeredButton"><img id="goSmartTvSelect" src="/Content/Buttons/Smart.png" /></td>
                 <td class="centeredButton"><img id="goChromecastSelect" src="/Content/Buttons/Cast.png" /></td>
                 <td class="centeredButton"><img id="goLogFireSelect" src="/Content/Buttons/LogFire.png" /></td>
             </tr>
@@ -26,7 +27,12 @@
     <div id="streamingRightPane">
         <div id="rokuControlsPane" class="rokuControlsPane @(ViewBag.HideRokuClass ?? "")">
             <div class="rokuControls">
-                @Html.Partial("ControlsPane")
+                @Html.Partial("RokuControlsPane")
+            </div>
+        </div>
+        <div id="smartControlsPane" class="smartControlsPane @(ViewBag.HideSmartClass ?? "")">
+            <div class="smartControls">
+                @Html.Partial("SmartControlsPane")
             </div>
         </div>
     </div>

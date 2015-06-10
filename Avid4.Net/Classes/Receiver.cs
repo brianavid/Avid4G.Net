@@ -285,6 +285,17 @@ public static class Receiver
     }
 
     /// <summary>
+    /// Set the Receiver to take digital input from the TV itself (AV4)
+    /// </summary>
+    public static void SelectTvInput()
+    {
+        logger.Info("SelectTvInput");
+        SelectedInput = "TV";
+        MainZoneInput = "AV4";
+        GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Input><Input_Sel>AV4</Input_Sel></Input></Main_Zone></YAMAHA_AV>");
+    }
+
+    /// <summary>
     /// Ensure the Receiver actually has the digital input we currently expect it to have
     /// </summary>
     public static void ReselectInput()

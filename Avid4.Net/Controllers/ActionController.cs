@@ -203,13 +203,14 @@ namespace Avid4.Net.Controllers
         // GET: /Action/StartStream
         public ActionResult StartStream()
         {
-            Screen.EnsureScreenOn();
+            Screen.EnsureScreenOn(Running.RunningProgram != "SmartTv");
             var streamProgram = "";
             switch (Running.RunningProgram)
             {
                 case "LogFire":
                 case "Chromecast":
                 case "Roku":
+                case "SmartTv":
                 case "Music":
                 case "Spotify":
                     streamProgram = Running.RunningProgram;
@@ -251,6 +252,18 @@ namespace Avid4.Net.Controllers
             Running.StartStream("Roku");
             Receiver.SelectRokuInput();
             Receiver.SelectTVOutput();
+            return Content("");
+        }
+
+        // GET: /Action/GoSmart
+        public ActionResult GoSmart()
+        {
+            Screen.EnsureScreenOn(false);
+            Running.StartStream("SmartTv");
+            Receiver.SelectTvInput();
+            Receiver.SelectTVOutput();
+            Screen.WaitForScreenOn();
+            Samsung.SendKey("CONTENTS");
             return Content("");
         }
 

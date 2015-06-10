@@ -8,51 +8,52 @@ namespace Avid4.Net.Controllers
 {
     public class StreamingController : Controller
     {
+        void HideUnwantedUI()
+        {
+            switch (Running.RunningProgram)
+            {
+                case "Roku":
+                case "SmartTV":
+                case "Chromecast":
+                case "LogFire":
+                    ViewBag.Title = Running.RunningProgram;
+                    break;
+                default:
+                    ViewBag.Title = "";
+                    break;
+            }
+            if (Running.RunningProgram != "")
+            {
+                ViewBag.HideStreamGuidanceClass = "startHidden";
+            }
+            if (Running.RunningProgram != "Roku")
+            {
+                ViewBag.HideRokuClass = "startHidden";
+            }
+            if (Running.RunningProgram != "SmartTv")
+            {
+                ViewBag.HideSmartClass = "startHidden";
+            }
+        }
+
         // GET: /Streaming/Controls
         public ActionResult Controls()
         {
+            HideUnwantedUI();
             return View();
         }
 
         // GET: /Streaming/Browser
         public ActionResult Browser()
         {
-            switch (Running.RunningProgram)
-            {
-                case "Roku":
-                case "Chromecast":
-                case "LogFire":
-                    ViewBag.Title = Running.RunningProgram;
-                    break;
-                default:
-                    ViewBag.Title = "";
-                    break;
-            }
-            if (Running.RunningProgram != "Roku")
-            {
-                ViewBag.HideRokuClass = "startHidden";
-            }
+            HideUnwantedUI();
             return View();
         }
 
         // GET: /Streaming/All
         public ActionResult All()
         {
-            switch (Running.RunningProgram)
-            {
-                case "Roku":
-                case "Chromecast":
-                case "LogFire":
-                    ViewBag.Title = Running.RunningProgram;
-                    break;
-                default:
-                    ViewBag.Title = "";
-                    break;
-            }
-            if (Running.RunningProgram != "Roku")
-            {
-                ViewBag.HideRokuClass = "startHidden";
-            }
+            HideUnwantedUI();
             return View();
         }
 
@@ -90,6 +91,25 @@ namespace Avid4.Net.Controllers
             Roku.SendText(text);
             return this.Content("");
         }
+
+        // GET: /Streaming/SendTvKey
+        public ActionResult SendTvKey(
+            string keyName)
+        {
+            Samsung.SendKey(keyName);
+            return Content("");
+        }
+
+        static bool isPlaying = true;
+
+        // GET: /Streaming/SmartTvPlayPause
+        public ActionResult SmartTvPlayPause()
+        {
+            isPlaying = !isPlaying;
+            Samsung.SendKey(isPlaying ? "PLAY" : "PAUSE");
+            return Content("");
+        }
+
 
     }
 }

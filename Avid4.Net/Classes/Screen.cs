@@ -134,7 +134,8 @@ public static class Screen
     /// <summary>
     /// Ensure that the screen is on - we do this by turning it on!
     /// </summary>
-    public static void EnsureScreenOn()
+    public static void EnsureScreenOn(
+        bool exitSmart = true)
     {
         logger.Info("EnsureScreenOn");
         TurnOn();
@@ -142,6 +143,11 @@ public static class Screen
         if (currentMode == 0)
         {
             currentMode = 1;
+        }
+
+        if (exitSmart)
+        {
+            Samsung.SendKey("EXIT");
         }
 
     }

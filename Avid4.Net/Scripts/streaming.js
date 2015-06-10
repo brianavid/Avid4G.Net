@@ -1,93 +1,111 @@
-﻿var controlHammer = null;
+﻿var rokuControlHammer = null;
 
-function AddControlHammerActions() {
-    if (!controlHammer) {
-        controlHammer = $(".rokuControls").hammer();
+function AddRokuControlHammerActions() {
+    if (!rokuControlHammer) {
+        rokuControlHammer = $(".rokuControls").hammer();
     }
 
-    controlHammer.on("tap", "#btnHome", function (e) {
+    rokuControlHammer.on("tap", "#btnHome", function (e) {
         $.get("/Streaming/KeyPress/Home")
         return false;
     });
 
-    controlHammer.on("tap", "#btnBack", function (e) {
+    rokuControlHammer.on("tap", "#btnBack", function (e) {
         $.get("/Streaming/KeyPress/Back")
         return false;
     });
 
-    controlHammer.on("tap", "#btnOk", function (e) {
+    rokuControlHammer.on("tap", "#btnOk", function (e) {
         $.get("/Streaming/KeyPress/Select")
         return false;
     });
 
-    controlHammer.on("touch", "#btnUp", function (e) {
+    rokuControlHammer.on("touch", "#btnUp", function (e) {
         $.get("/Streaming/KeyDown/Up")
         return false;
     });
 
-    controlHammer.on("release", "#btnUp", function (e) {
+    rokuControlHammer.on("release", "#btnUp", function (e) {
         $.get("/Streaming/KeyUp/Up")
         return false;
     });
 
-    controlHammer.on("touch", "#btnLeft", function (e) {
+    rokuControlHammer.on("touch", "#btnLeft", function (e) {
         $.get("/Streaming/KeyDown/Left")
         return false;
     });
 
-    controlHammer.on("release", "#btnLeft", function (e) {
+    rokuControlHammer.on("release", "#btnLeft", function (e) {
         $.get("/Streaming/KeyUp/Left")
         return false;
     });
 
-    controlHammer.on("touch", "#btnRight", function (e) {
+    rokuControlHammer.on("touch", "#btnRight", function (e) {
         $.get("/Streaming/KeyDown/Right")
         return false;
     });
 
-    controlHammer.on("release", "#btnRight", function (e) {
+    rokuControlHammer.on("release", "#btnRight", function (e) {
         $.get("/Streaming/KeyUp/Right")
         return false;
     });
 
-    controlHammer.on("touch", "#btnDown", function (e) {
+    rokuControlHammer.on("touch", "#btnDown", function (e) {
         $.get("/Streaming/KeyDown/Down")
         return false;
     });
 
-    controlHammer.on("release", "#btnDown", function (e) {
+    rokuControlHammer.on("release", "#btnDown", function (e) {
         $.get("/Streaming/KeyUp/Down")
         return false;
     });
 
-    controlHammer.on("touch", "#btnPrev", function (e) {
+    rokuControlHammer.on("touch", "#btnPrev", function (e) {
         $.get("/Streaming/KeyDown/Rev")
         return false;
     });
 
-    controlHammer.on("release", "#btnPrev", function (e) {
+    rokuControlHammer.on("release", "#btnPrev", function (e) {
         $.get("/Streaming/KeyUp/Rev")
         return false;
     });
 
-    controlHammer.on("touch", "#btnNext", function (e) {
+    rokuControlHammer.on("touch", "#btnNext", function (e) {
         $.get("/Streaming/KeyDown/Fwd")
         return false;
     });
 
-    controlHammer.on("release", "#btnNext", function (e) {
+    rokuControlHammer.on("release", "#btnNext", function (e) {
         $.get("/Streaming/KeyUp/Fwd")
         return false;
     });
 
-    controlHammer.on("tap", "#btnPlayPause", function (e) {
+    rokuControlHammer.on("tap", "#btnPlayPause", function (e) {
         $.get("/Streaming/KeyPress/Play")
         return false;
     });
 
-    controlHammer.on("tap", "#goRokuText", function (e) {
+    rokuControlHammer.on("tap", "#goRokuText", function (e) {
         var text = document.getElementById("rokuText").value
         $.get("/Streaming/SendText?text=" + encodeURIComponent(text))
+        return false;
+    });
+}
+
+var smartControlHammer = null;
+
+function AddSmartControlHammerActions() {
+    if (!smartControlHammer) {
+        smartControlHammer = $(".smartControls").hammer();
+    }
+
+    smartControlHammer.on("tap", ".tvKey", function (e) {
+        $.get("/Streaming/SendTvKey?keyName=" + this.id)
+        return false;
+    });
+
+    smartControlHammer.on("tap", ".tvPlayPause", function (e) {
+        $.get("/Streaming/SmartTvPlayPause")
         return false;
     });
 }
@@ -129,7 +147,8 @@ $(function () {
         $(this).height(h - t)
     });
 
-    AddControlHammerActions()
+    AddRokuControlHammerActions()
+    AddSmartControlHammerActions()
     AddBrowserHammerActions();
 
     $("#goStreamSourceSelect").click(function () {
@@ -143,6 +162,17 @@ $(function () {
         } else {
             $.get("/Action/GoRoku", null, function () {
                 LinkTo(document.getElementById("isWide") != null ? "/Streaming/All" : "/Streaming/Browser")
+            })
+        }
+    });
+
+    $("#goSmartTvSelect").click(function () {
+        if (document.getElementById("isWide") == null &&
+            $("#homeTitle").text() == "SmartTv") {
+            LinkTo("/Streaming/Controls")
+        } else {
+            $.get("/Action/GoSmart", null, function () {
+                LinkTo(document.getElementById("isWide") != null ? "/Streaming/All" : "/Streaming/Controls")
             })
         }
     });

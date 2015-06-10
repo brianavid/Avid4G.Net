@@ -151,6 +151,7 @@
     <Compile Include="Classes\Render.cs" />
     <Compile Include="Classes\Roku.cs" />
     <Compile Include="Classes\Running.cs" />
+    <Compile Include="Classes\Samsung.cs" />
     <Compile Include="Classes\Screen.cs" />
     <Compile Include="Classes\Sky.cs" />
     <Compile Include="Classes\Spotify.cs" />
@@ -446,6 +447,7 @@
     <Content Include="Content\Fonts\guifx_v2_transports-webfont.ttf" />
     <Content Include="Content\Fonts\guifx_v2_transports-webfont.woff" />
     <Content Include="LICENSE" />
+    <Content Include="Controllers\RokuControlsPane.cshtml" />
     <None Include="Properties\PublishProfiles\Deploy to Avid.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\guide2.js" />
@@ -561,7 +563,7 @@
     <Content Include="Views\Home\GoAway.cshtml" />
     <Content Include="Views\Streaming\Controls.cshtml" />
     <Content Include="Views\Streaming\All.cshtml" />
-    <Content Include="Views\Streaming\ControlsPane.cshtml" />
+    <Content Include="Views\Streaming\RokuControlsPane.cshtml" />
     <Content Include="Views\Streaming\PaneButtons.cshtml" />
     <Content Include="Views\Streaming\BrowserPane.cshtml" />
     <Content Include="Views\Streaming\Browser.cshtml" />
@@ -581,6 +583,7 @@
     <Content Include="Views\Guide\SelectorPane.cshtml" />
     <Content Include="Views\Guide\ListingsPane.cshtml" />
     <Content Include="Views\Guide\PaneButtons.cshtml" />
+    <Content Include="Views\Streaming\SmartControlsPane.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

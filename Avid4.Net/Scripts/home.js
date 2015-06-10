@@ -51,7 +51,7 @@ $(function () {
         $.ajax({
             url: "/Action/StartStream",
             success: function () {
-                LinkTo(lastRunningProgram == "Roku" ? "/Streaming/Controls" : "/Streaming/Browser");
+                LinkTo(lastRunningProgram == "Roku" || lastRunningProgram == "SmartTv" ? "/Streaming/Controls" : "/Streaming/Browser");
             },
             cache: false
         });

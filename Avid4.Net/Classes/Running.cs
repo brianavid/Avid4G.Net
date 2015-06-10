@@ -48,6 +48,11 @@ public static class Running
             runningProgram = "Roku";
         }
 
+        if (Receiver.SelectedInput == "TV")
+        {
+            runningProgram = "SmartTv";
+        }
+
         if (Receiver.SelectedInput == "Chromecast")
         {
             runningProgram = "Chromecast";
@@ -79,6 +84,8 @@ public static class Running
                     return "topBarSky";
                 case "Roku":
                     return "topBarRoku";
+                case "SmartTv":
+                    return "topBarSmartTv";
                 case "Chromecast":
                     return "topBarChromecast";
                 case "LogFire":
