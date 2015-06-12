@@ -161,7 +161,7 @@ public static class Samsung
         }
         catch (System.Exception ex)
         {
-            logger.Error("Can't send key press: {0}", ex);
+            logger.Error("Can't send key press '{0}': {1}", keyName, ex);
         }
     }
 }

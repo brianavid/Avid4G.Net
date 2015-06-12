@@ -138,6 +138,8 @@ public static class Screen
         bool exitSmart = true)
     {
         logger.Info("EnsureScreenOn");
+        exitSmart &= isOn;
+
         TurnOn();
 
         if (currentMode == 0)
