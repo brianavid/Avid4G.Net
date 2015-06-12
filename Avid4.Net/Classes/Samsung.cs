@@ -1,6 +1,4 @@
-﻿#define USE_IR
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,182 +8,160 @@ using System.Text;
 using System.Web;
 using NLog;
 
+/// <summary>
+/// Class to support sending remote key presses to a Samsung TV
+/// </summary>
 public static class Samsung
 {
     static Logger logger = LogManager.GetCurrentClassLogger();
 
-#if USE_IR
-
-    static Dictionary<string, string> irMap = null;
-
-    static Dictionary<string, string> IrMap
-    {
-        get
-        {
-            if (irMap == null)
-            {
-                irMap = new Dictionary<string, string>();
-
-                irMap["0"] = "TV.0";
-                irMap["1"] = "TV.1";
-                irMap["2"] = "TV.2";
-                irMap["3"] = "TV.3";
-                irMap["4"] = "TV.4";
-                irMap["5"] = "TV.5";
-                irMap["6"] = "TV.6";
-                irMap["7"] = "TV.7";
-                irMap["8"] = "TV.8";
-                irMap["9"] = "TV.9";
-                irMap["CONTENTS"] = "TV.Smart";
-                irMap["UP"] = "TV.Up";
-                irMap["LEFT"] = "TV.Left";
-                irMap["ENTER"] = "TV.Select";
-                irMap["RIGHT"] = "TV.Right";
-                irMap["DOWN"] = "TV.Down";
-                irMap["RETURN"] = "TV.Return";
-                irMap["EXIT"] = "TV.Exit";
-                irMap["RED"] = "TV.Red";
-                irMap["GREEN"] = "TV.Green";
-                irMap["YELLOW"] = "TV.Yellow";
-                irMap["BLUE"] = "TV.Blue";
-                irMap["PLAY"] = "TV.Play";
-                irMap["PAUSE"] = "TV.Pause";
-                irMap["FWD"] = "TV.Fwd";
-                irMap["REWIND"] = "TV.Rewind";
-                irMap["INFO"] = "TV.Info";
-            }
-            return irMap;
-        }
-    }
-
-    public static void SendKey(
-        string keyName)
-    {
-        if (IrMap.ContainsKey(keyName))
-        {
-            DesktopClient.SendIR(IRCodes.Codes[IrMap[keyName]], keyName);
-        }
-    }
-#else
-
     const int TvPort = 55000;
     const string RemoteName = "Avid";
     const string AppName = "avid";
-    const string TvName = "UE46D6000";
 
+    /// <summary>
+    /// The local machine's network mac address in the form "XX-XX-XX-XX-XX-XX-XX-XX"
+    /// </summary>
     static string MacAddress
     {
         get
         {
             if (macAddress == null)
             {
+                //  Get the address, which is returned in a format without hyphens
                 var compactAddress =
                 (
                     from nic in NetworkInterface.GetAllNetworkInterfaces()
                     where nic.OperationalStatus == OperationalStatus.Up
                     select nic.GetPhysicalAddress().ToString()
                 ).FirstOrDefault();
-                var sb = new StringBuilder();
-                for (int i = 0; i < compactAddress.Length; i++)
-                {
-                    if (i != 0 && i % 2 == 0)
-                    {
-                        sb.Append('-');
-                    }
-                    sb.Append(compactAddress[i]);
-                }
 
-                macAddress = sb.ToString();
+                if (compactAddress != null)
+                {
+	                //  Add a hyphen between pairs of characters
+	                var sb = new StringBuilder();
+	                for (int i = 0; i < compactAddress.Length; i++)
+	                {
+	                    if (i != 0 && i % 2 == 0)
+	                    {
+	                        sb.Append('-');
+	                    }
+	                    sb.Append(compactAddress[i]);
+	                }
+	
+	                macAddress = sb.ToString();
+                }
             }
             return macAddress;
         }
     }
     static string macAddress = null;
 
+    /// <summary>
+    /// Encode a string in Base64
+    /// </summary>
+    /// <param name="plainText"></param>
+    /// <returns></returns>
     static string Base64Encode(string plainText)
     {
         var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
         return System.Convert.ToBase64String(plainTextBytes);
     }
 
+    /// <summary>
+    /// Append a byte array to a byte stream
+    /// </summary>
+    /// <param name="s"></param>
+    /// <param name="bytes"></param>
     static void AppendBytes(
-        this MemoryStream ms,
+        this Stream s,
         byte[] bytes)
     {
-        ms.Write(bytes, 0, bytes.Length);
+        s.Write(bytes, 0, bytes.Length);
     }
 
+    /// <summary>
+    /// Append a byte array to a byte stream preceded by a 
+    /// two-byte (little endian) count of the array size
+    /// </summary>
+    /// <param name="s"></param>
+    /// <param name="bytes"></param>
     static void AppendCountedBytes(
-        this MemoryStream ms,
+        this Stream s,
         byte[] bytes)
     {
-        ms.AppendBytes(new byte[] { (byte)bytes.Length, 0x00 });
-        ms.AppendBytes(bytes);
+        s.AppendBytes(new byte[] { (byte)bytes.Length, 0x00 });
+        s.AppendBytes(bytes);
     }
 
+    /// <summary>
+    /// Append a (UTF8) string as to a byte stream with a count
+    /// </summary>
+    /// <param name="s"></param>
+    /// <param name="text"></param>
     static void AppendString(
-        this MemoryStream ms,
+        this Stream s,
         string text)
     {
-        ms.AppendCountedBytes(System.Text.Encoding.UTF8.GetBytes(text));
+        s.AppendCountedBytes(System.Text.Encoding.UTF8.GetBytes(text));
     }
 
+    /// <summary>
+    /// Append a string encoded as Base64 to a byte stream
+    /// </summary>
+    /// <param name="s"></param>
+    /// <param name="text"></param>
     static void AppendBase64(
-        this MemoryStream ms,
+        this Stream s,
         string text)
     {
-        ms.AppendString(Base64Encode(text));
+        s.AppendString(Base64Encode(text));
     }
 
+    /// <summary>
+    /// Send a named Key Press to the TV
+    /// </summary>
+    /// <param name="keyName"></param>
     public static void SendKey(
         string keyName)
     {
-        using (UdpClient udp = new UdpClient(Config.TvAddress, TvPort))
+        try
         {
-            MemoryStream msMsg = new MemoryStream();
-            MemoryStream msPkt = new MemoryStream();
-
-            msMsg.AppendBytes(new byte[] { 0x64, 0x00 });
-            msMsg.AppendBase64(Config.IpAddress);
-            msMsg.AppendBase64(MacAddress);
-            msMsg.AppendBase64(RemoteName);
-
-            msPkt.AppendBytes(new byte[] { 0x00 });
-            msPkt.AppendString(AppName);
-            msPkt.AppendCountedBytes(msMsg.ToArray());
-
-            if (Config.TvAddress != Config.IpAddress)
-            {
-                var result = udp.Send(msPkt.ToArray(), (int)msPkt.Length);
-                if (result != msPkt.Length)
-                {
-                    logger.Error("Failed to send 1st packet: {0}", result);
-                }
-            }
-
-            msMsg = new MemoryStream();
-            msPkt = new MemoryStream();
-
-            msMsg.AppendBytes(new byte[] { 0x00, 0x00, 0x00 });
-            msMsg.AppendBase64("KEY_" + keyName);
-
-            msPkt.AppendBytes(new byte[] { 0x00 });
-            msPkt.AppendString(TvName);
-            msPkt.AppendCountedBytes(msMsg.ToArray());
-
-            if (Config.TvAddress != Config.IpAddress)
-            {
-                var result = udp.Send(msPkt.ToArray(), (int)msPkt.Length);
-                if (result != msPkt.Length)
-                {
-                    logger.Error("Failed to send 2nd packet: {0}", result);
-                }
-                else
-                {
-                    logger.Info("Sent key: {0}", keyName);
-                }
-            }
+	        //  A special encoding to avoid affecting the TV during testing
+	        if (Config.TvAddress != Config.IpAddress)
+	        {
+	            //  Open and close the TCP connection every time,
+	            //  as we don't know when the TV has been turned off
+	            using (TcpClient conn = new TcpClient(Config.TvAddress, TvPort))
+	            {
+	                //  First, authenticate the local IP Address and Mac address with the TV
+	                MemoryStream msMsg = new MemoryStream();
+	                var msPkt = conn.GetStream();
+	
+	                msMsg.AppendBytes(new byte[] { 0x64, 0x00 });
+	                msMsg.AppendBase64(Config.IpAddress);
+	                msMsg.AppendBase64(MacAddress);
+	                msMsg.AppendBase64(RemoteName);
+	
+	                msPkt.AppendBytes(new byte[] { 0x00 });
+	                msPkt.AppendString(AppName);
+	                msPkt.AppendCountedBytes(msMsg.ToArray());
+	
+	                //  Then send the named key
+	                msMsg = new MemoryStream();
+	
+	                msMsg.AppendBytes(new byte[] { 0x00, 0x00, 0x00 });
+	                msMsg.AppendBase64("KEY_" + keyName);
+	
+	                msPkt.AppendBytes(new byte[] { 0x00 });
+	                msPkt.AppendString(AppName);
+	                msPkt.AppendCountedBytes(msMsg.ToArray());
+	            }
+	        }
+        }
+        catch (System.Exception ex)
+        {
+            logger.Error("Can't send key press: {0}", ex);
         }
     }
-#endif
 }
