@@ -42,11 +42,37 @@ public static class Screen
     static Logger logger = LogManager.GetCurrentClassLogger();
 
     /// <summary>
-    /// Turn the screen on by issuing the appropriate discrete power on IR Code
+    /// Send an HDMI-CEC command string encoded in an HTTP URL to the control service tray application
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns>Success</returns>
+    static bool SendHdmiCecCommand(
+        string command)
+    {
+        try
+        {
+            Uri requestUri = new Uri("http://localhost:12997/control/Send?RawCommand='" + command + "'");
+
+            HttpWebRequest request =
+                (HttpWebRequest)HttpWebRequest.Create(requestUri);
+            request.Method = WebRequestMethods.Http.Get;
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            return response.StatusCode == HttpStatusCode.OK;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Turn the screen on by issuing the appropriate HDMI-CEC command to device 0 (which is always the TV screen).
+    /// Then catch any asynchronous unwanted consequential change of input on the receiver
     /// </summary>
     static void TurnOn()
     {
-        DesktopClient.SendIR(IRCodes.Codes["TV.PowerOn"], "TV.PowerOn");
+        SendHdmiCecCommand("!x0 04");
 
         isOn = true;
     }
@@ -155,11 +181,11 @@ public static class Screen
     }
 
     /// <summary>
-    /// Turn the screen off by issuing the appropriate  discrete power off IR Code
+    /// Turn the screen off by issuing the appropriate HDMI-CEC command to device 0 (which is always the TV screen).
     /// </summary>
     static void TurnOff()
     {
-        DesktopClient.SendIR(IRCodes.Codes["TV.PowerOff"], "TV.PowerOff");
+        SendHdmiCecCommand("!x0 36");
 
         isOn = false;
     }
