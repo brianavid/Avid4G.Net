@@ -260,9 +260,9 @@ namespace Avid4.Net.Controllers
         {
             Screen.EnsureScreenOn(false);
             Running.StartStream("SmartTv");
+            Screen.WaitForScreenOn();
             Receiver.SelectTvInput();
             Receiver.SelectTVOutput();
-            Screen.WaitForScreenOn();
             Samsung.SendKey("CONTENTS");
             return Content("");
         }

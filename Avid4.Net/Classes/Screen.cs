@@ -68,7 +68,6 @@ public static class Screen
 
     /// <summary>
     /// Turn the screen on by issuing the appropriate HDMI-CEC command to device 0 (which is always the TV screen).
-    /// Then catch any asynchronous unwanted consequential change of input on the receiver
     /// </summary>
     static void TurnOn()
     {
@@ -83,8 +82,8 @@ public static class Screen
     /// <returns></returns>
     static bool TestScreenOn()
     {
-        //  If we are watching Sky, it does not matter if the screen is on
-        if (Running.RunningProgram == "Sky")
+        //  If we are watching an external source, it does not matter if the screen is on
+        if (Receiver.SelectedInput != "Computer")
         {
             return isOn;
         }
@@ -160,10 +159,13 @@ public static class Screen
     /// <summary>
     /// Ensure that the screen is on - we do this by turning it on!
     /// </summary>
+    /// <param name="exitSmart">True to exit the currently on screen from its "SmartTV" mode</param>
     public static void EnsureScreenOn(
         bool exitSmart = true)
     {
         logger.Info("EnsureScreenOn");
+
+        //  If it wasn't previously on, it can't have been in its "SmartTV" mode 
         exitSmart &= isOn;
 
         TurnOn();
