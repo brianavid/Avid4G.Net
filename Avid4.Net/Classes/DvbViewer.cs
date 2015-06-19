@@ -543,6 +543,8 @@ public class DvbViewer
                 }
             }
         }
+
+        LastChannelChangeTime = DateTime.UtcNow;
     }
 
     /// <summary>
@@ -794,14 +796,26 @@ public class DvbViewer
     /// Select to watch a channel specified by channel number
     /// </summary>
     /// <param name="channel"></param>
+    /// <param name="isStatus">Is this change as a result of a status notification tracking external changes?</param>
     public static void SelectChannel(
-        Channel channel)
+        Channel channel,
+        bool isStatus = false)
     {
-        if (channel != null && DvbTarget != null && CurrentlySelectedChannel != channel)
+        //  Do not change channel as a result of a status notification if it comes within
+        //  ten seconds of a "real" channel change. Otherwise, the messages could 
+        //  "cross in the post" and the channel change may be reverted.
+        if (channel != null && DvbTarget != null && 
+            CurrentlySelectedChannel != channel &&
+            (!isStatus || DateTime.UtcNow > LastChannelChangeTime.AddSeconds(10)))
         {
             GetXml(String.Format("dvbcommand.html?target={0}&cmd=-c{1}", DvbTarget, channel.Number));
             CurrentlySelectedChannel = channel;
             LastStatus = null;
+        }
+
+        if (!isStatus)
+        {
+            LastChannelChangeTime = DateTime.UtcNow;
         }
     }
 
@@ -1215,6 +1229,11 @@ public class DvbViewer
     /// The last recorded status posted from the DVB monitor
     /// </summary>
     public static XDocument LastStatus { private get; set; }
+
+    /// <summary>
+    /// The last time the channel was changed
+    /// </summary>
+    public static DateTime LastChannelChangeTime { private get; set; }
 
     /// <summary>
     /// The title of the currently watched programme as reported by the DVB monitor

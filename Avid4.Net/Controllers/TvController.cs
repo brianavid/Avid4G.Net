@@ -123,7 +123,7 @@ namespace Avid4.Net.Controllers
 	                var channelNumber = int.Parse(channel.Attribute(("number")).Value);
 	                if (DvbViewer.CurrentlySelectedChannel == null || channelNumber != DvbViewer.CurrentlySelectedChannel.Number)
 	                {
-	                    DvbViewer.SelectChannel(DvbViewer.NumberedChannel(channelNumber));
+	                    DvbViewer.SelectChannel(DvbViewer.NumberedChannel(channelNumber), true);
 	                }
 	            }
             }
