@@ -9,7 +9,7 @@ function AddControlHammerActions(controlUnderButtons) {
     }
 
     if (!controlHammer) {
-        controlHammer = $(".tvControlPane").hammer();
+        controlHammer = $(".tvControlPane").hammer({ prevent_default: true });
     }
 
     controlHammer.on("touch", ".tvAction", function (e) {
@@ -44,7 +44,7 @@ function AddButtonsHammerActions(controlHeight) {
     });
 
     if (!buttonsHammer) {
-        buttonsHammer = $(".tvButtons").hammer();
+        buttonsHammer = $(".tvButtons").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(buttonsHammer)
