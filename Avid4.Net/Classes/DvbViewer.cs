@@ -1204,7 +1204,7 @@ public class DvbViewer
         if (recording != null)
         {
             logger.Info("Delete recording file: {0}", recording.Filename);
-            GetXml(String.Format("recdelete.html?id={0}&delfile=1", recording.Id));
+            GetXml(String.Format("recdelete.html?recid={0}&delfile=1", recording.Id));
         }
     }
 
@@ -1216,12 +1216,13 @@ public class DvbViewer
     {
         try
         {
-	        PostGetXml(String.Format( "http://{0}:8089/tasks.html?task=CleanupRefreshDB&aktion=tasks ", Host), 
-	                   null, true);
+            logger.Info("Cleanup/Refresh Recording DB");
+            GetXml("tasks.html?task=CleanupDB&aktion=tasks", true);
+            GetXml("tasks.html?task=RefreshDB&aktion=tasks", true);
         }
         catch (System.Exception ex)
         {
-            logger.Error("Can't run task CleanupRefreshDB: ", ex);
+            logger.Error("Can't run task Cleanup/Refresh DB: ", ex);
         }
     }
 
