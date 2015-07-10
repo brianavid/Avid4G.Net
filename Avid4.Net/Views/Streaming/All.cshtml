@@ -17,6 +17,16 @@
             </tr>
         </table>
 
+        <div class="@(ViewBag.HideStreamGuidanceClass ?? "")">
+            <p>Recommendations:</p>
+            <ul>
+                <li>Use <strong>Roku</strong> for Sky Now TV and TV catchup services</li>
+                <li>Use <strong>Smart</strong> for Amazon Prime and other streaming services not on Roku</li>
+                <li>Use <strong>Cast</strong> for YouTube, BBC iPlayer Radio and other content sent to Chromecast from a player on the phone or tablet</li>
+                <li>Use <strong>Log Fire</strong> for cold winter nights</li>
+            </ul>
+        </div>
+
         <div id="rokuBrowserPane" class="rokuBrowserPane @(ViewBag.HideRokuClass ?? "")">
             <div class="rokuBrowserItems" id="rokuBrowserItems">
                 @Html.Partial("BrowserPane")
