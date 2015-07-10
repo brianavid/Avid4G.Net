@@ -95,6 +95,11 @@ namespace Avid4.Net.Controllers
                 var recording = RemotePotato.AllRecordings[id];
                 RemotePotato.DeleteRecording(recording);
             }
+            else if (DvbViewer.AllRecordings.ContainsKey(id))
+            {
+                var recording = DvbViewer.AllRecordings[id];
+                DvbViewer.DeleteRecording(recording);
+            }
             return this.Content("");
         }
 
