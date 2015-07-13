@@ -587,6 +587,8 @@
     <Content Include="Views\Guide\PaneButtons.cshtml" />
     <Content Include="Views\Streaming\SmartControlsPane.cshtml" />
     <Content Include="Views\Streaming\CurzonControlsPane.cshtml" />
+    <Content Include="Views\Video\Videos.cshtml" />
+    <Content Include="Views\Video\VideosPane.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

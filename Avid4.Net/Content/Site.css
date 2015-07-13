@@ -195,7 +195,7 @@ textarea {
     margin-left:5%;
 }
 
-.musicPlaybackQueueItems, .musicBrowserItems, .webBrowserItems, .guideBrowserItems, .guideChannels, .guideDates, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .photosImagesGrid, .photosBrowserItems, .rokuBrowserItems, .tvButtons, .tvChannels, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoDvds {
+.musicPlaybackQueueItems, .musicBrowserItems, .webBrowserItems, .guideBrowserItems, .guideChannels, .guideDates, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .photosImagesGrid, .photosBrowserItems, .rokuBrowserItems, .tvButtons, .tvChannels, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoVideos, .videoDvds {
     position: relative;
     overflow-y:hidden;
     -webkit-overflow-scrolling: touch;

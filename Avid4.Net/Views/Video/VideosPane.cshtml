@@ -1,0 +1,22 @@
+﻿@{
+    var videoFiles = System.IO.Directory.GetFiles(Config.VideoPath, "*.*");
+    if (videoFiles.Length != 0)
+    {
+        foreach (var file in videoFiles)
+        {
+            if (System.IO.File.GetAttributes(file).HasFlag(System.IO.FileAttributes.Hidden))
+            {
+                continue;
+            }
+            string leaf = System.IO.Path.GetFileName(file);
+            int lastDot = leaf.LastIndexOf('.');
+            if (lastDot > 0)
+            {
+                string title = leaf.Substring(0, lastDot);
+                <div class="videoVideo videoDvd" id="@file">
+                    <div class="videoRecordingName"><span class="playButton">&gt;&nbsp;</span><span class="videoRecordingTitle">@title</span></div>
+                </div>
+            }
+        }
+    }
+}

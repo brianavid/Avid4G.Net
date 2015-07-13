@@ -77,11 +77,11 @@ public static class Config
     /// <summary>
     /// The path to the directory in which recoded TV programmes are stored
     /// </summary>
-    public static string VideoPath
+    public static string RecordingsPath
     {
         get
         {
-            XElement elAddr = Doc.Root.Element("Video");
+            XElement elAddr = Doc.Root.Element("Recordings");
             return elAddr == null ? null : elAddr.Value;
         }
     }
@@ -99,13 +99,13 @@ public static class Config
     }
 
     /// <summary>
-    /// The path to the directory in which ripped BluRays are stored
+    /// The path to the directory in which Video Files are stored
     /// </summary>
-    public static string BluRayPath
+    public static string VideoPath
     {
         get
         {
-            XElement elAddr = Doc.Root.Element("BluRay");
+            XElement elAddr = Doc.Root.Element("Video");
             return elAddr == null ? null : elAddr.Value;
         }
     }

@@ -42,6 +42,12 @@ namespace Avid4.Net.Controllers
             return View();
         }
 
+        // GET: /Video/Videos
+        public ActionResult Videos()
+        {
+            return View();
+        }
+
         // GET: /Video/DVDs
         public ActionResult DVDs()
         {
@@ -56,6 +62,12 @@ namespace Avid4.Net.Controllers
             {
                 ViewBag.GroupTitle = title;
             }
+            return PartialView();
+        }
+
+        // GET: /Video/VideosPane
+        public ActionResult VideosPane()
+        {
             return PartialView();
         }
 
@@ -131,13 +143,12 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
-        // GET: /Video/PlayBluRayFile
-        public ContentResult PlayBluRayFile(
+        // GET: /Video/PlayVideoFile
+        public ContentResult PlayVideoFile(
             string path,
             string title)
         {
             Running.LaunchProgram("Video", "/DVD /F /ExFunc:exSetVolume,100 /Play \"" + path + "\"");
-            Zoom.IsDvdMode = true;
             if (!string.IsNullOrEmpty(title))
             {
                 Zoom.Title = title;

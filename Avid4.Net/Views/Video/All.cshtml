@@ -13,13 +13,17 @@
     <div id ="videoLeftPane">
         <table class="buttonRow">
 	        <tr>
-	            <td class="centeredButton">	<img id="displayVideoRecordings" src="/Content/Buttons/Select.TV.Button.png" /></td>
+                <td class="centeredButton">	<img id="displayVideoRecordings" src="/Content/Buttons/Select.TV.Button.png" /></td>
+                <td class="centeredButton">	<img id="displayVideos" src="/Content/Buttons/Select.Video.Button.png" /></td>
 	            <td class="centeredButton">	<img id="displayDVDs" src="/Content/Buttons/Select.DVD.Button.png" /></td>
             </tr>
         </table>
 
         <div class="videoRecordings" id="videoRecordings">
             @Html.Partial("RecordingsPane")
+        </div>
+        <div class="videoVideos" id="videoVideos" style="display:none">
+            @Html.Partial("VideosPane")
         </div>
         <div class="videoDvds" id="videoDvds" style="display:none">
             @Html.Partial("DVDsPane")

@@ -30,6 +30,12 @@ function SetRecordingsHeight() {
         console.log(".videoRecordings h=" + h + "; t=" + t + " => " + (h - t))
         $(this).height(h - t)
     });
+    $(".videoVideos").each(function () {
+        var h = $(window).height() - 24
+        var t = $(this).offset().top
+        console.log(".videoDvds h=" + h + "; t=" + t + " => " + (h - t))
+        $(this).height(h - t)
+    });
     $(".videoDvds").each(function () {
         var h = $(window).height() - 24
         var t = $(this).offset().top
@@ -43,6 +49,7 @@ function DisplayVideoRecordings() {
     if (DvdsDisplay != null) {
         ClearStackedPanes()
         $(".videoRecordings").hide()
+        $(".videoVideos").hide()
         $(".videoDvds").hide()
         $.ajax({
             url: "/Video/RecordingsPane",
@@ -59,11 +66,34 @@ function DisplayVideoRecordings() {
     }
 }
 
+function DisplayVideos() {
+    var recordingsDisplay = document.getElementById("videoRecordings");
+    if (recordingsDisplay != null) {
+        ClearStackedPanes()
+        $(".videoRecordings").hide()
+        $(".videoVideos").hide()
+        $(".videoDvds").hide()
+        $.ajax({
+            url: "/Video/VideosPane",
+            success: function (data) {
+                $(".videoVideos").html(data)
+                $(".videoVideos").show()
+                SetRecordingsHeight()
+            },
+            cache: false
+        });
+    }
+    else {
+        LinkTo("/Video/DVDs");
+    }
+}
+
 function DisplayDvds() {
     var recordingsDisplay = document.getElementById("videoRecordings");
     if (recordingsDisplay != null) {
         ClearStackedPanes()
         $(".videoRecordings").hide()
+        $(".videoVideos").hide()
         $(".videoDvds").hide()
         $.ajax({
             url: "/Video/DVDsPane",
@@ -209,6 +239,31 @@ function AddVideoRecordingsHammerActions() {
 
 }
 
+var videoVideosListHammer = null;
+
+function AddVideoVideosHammerActions() {
+    if (!videoVideosListHammer) {
+        videoVideosListHammer = $(".videoVideos").hammer({ prevent_default: true });
+    }
+
+    EnableDragScroll(videoVideosListHammer)
+
+    videoVideosListHammer.on("doubletap", ".videoVideo", function () {
+        OverlayScreenForLaunch()
+        var playUrl = "/Video/PlayVideoFile?path=" + escape(this.id) + "&title=" + escape($(".videoRecordingTitle", this).text());
+        $.ajax({
+            url: playUrl,
+            success: function (data) {
+                RemoveScreenOverlay();
+                DisplayRunningOnWatchPane(true)
+            },
+            error: RemoveScreenOverlay,
+            cache: false
+        });
+    });
+
+}
+
 var videoDvdsListHammer = null;
 
 function AddVideoDvdsHammerActions() {
@@ -221,20 +276,6 @@ function AddVideoDvdsHammerActions() {
     videoDvdsListHammer.on("doubletap", ".videoDvdDrive", function () {
         OverlayScreenForLaunch()
         var playUrl = "/Video/PlayDvdDisk?drive=" + this.id + "&title=" + escape($(".videoRecordingTitle", this).text());
-        $.ajax({
-            url: playUrl,
-            success: function (data) {
-                RemoveScreenOverlay();
-                DisplayRunningOnWatchPane(true)
-            },
-            error: RemoveScreenOverlay,
-           cache: false
-        });
-    });
-
-    videoDvdsListHammer.on("doubletap", ".videoBluRay", function () {
-        OverlayScreenForLaunch()
-        var playUrl = "/Video/PlayBluRayFile?path=" + escape(this.id) + "&title=" + escape($(".videoRecordingTitle", this).text());
         $.ajax({
             url: playUrl,
             success: function (data) {
@@ -358,6 +399,7 @@ $(function () {
 
     AddVideoControlsHammerActions();
     AddVideoRecordingsHammerActions();
+    AddVideoVideosHammerActions();
     AddVideoDvdsHammerActions();
 
     $("#goVideoWatch").click(function () {
@@ -368,11 +410,17 @@ $(function () {
         LinkTo("/Video/Recordings")
     });
 
+    $("#goVideoVideos").click(function () {
+        LinkTo("/Video/Videos")
+    });
+
     $("#goVideoDVDs").click(function () {
         LinkTo("/Video/DVDs")
     });
 
     $("#displayVideoRecordings").click(DisplayVideoRecordings);
+
+    $("#displayVideos").click(DisplayVideos);
 
     $("#displayDVDs").click(DisplayDvds);
 
