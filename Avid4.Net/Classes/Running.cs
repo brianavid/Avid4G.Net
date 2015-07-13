@@ -88,6 +88,8 @@ public static class Running
                     return "topBarSmartTv";
                 case "Chromecast":
                     return "topBarChromecast";
+                case "Curzon":
+                    return "topBarCurzon";
                 case "LogFire":
                     return "topBarLogFire";
                 case "Spotify":

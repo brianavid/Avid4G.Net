@@ -15,6 +15,7 @@ namespace Avid4.Net.Controllers
                 case "Roku":
                 case "SmartTV":
                 case "Chromecast":
+                case "Curzon":
                 case "LogFire":
                     ViewBag.Title = Running.RunningProgram;
                     break;
@@ -33,6 +34,10 @@ namespace Avid4.Net.Controllers
             if (Running.RunningProgram != "SmartTv")
             {
                 ViewBag.HideSmartClass = "startHidden";
+            }
+            if (Running.RunningProgram != "Curzon")
+            {
+                ViewBag.HideCurzonClass = "startHidden";
             }
         }
 

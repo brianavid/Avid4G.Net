@@ -5,11 +5,11 @@ Configuration file to be located at C:\Avid\AvidConfig.xml
 	<!-- Paths (with optional arguments) for the player applications -->
 	<Programs>
 		<Program name="TV" path = "c:\Program Files (x86)\DVBViewer\dvbviewer.exe"  args="-c -f" /> <!-- TV viewer-->
-		<Program name="Web" path = "C:\Program Files\Internet Explorer\iexplore.exe" args = "-k -noframemerging" />				<!-- IE Browser for BBC iPlayer -->
 		<Program name="Video" path = "C:\Program Files (x86)\Zoom Player\zplayer.exe" />										<!-- Zoom Player -->	
 		<Program name="Photo" path = "C:\Windows\System32\MC19.exe" />															<!-- J River Media Center -->
 		<Program name="GForce" path = "C:\Program Files (x86)\SoundSpectrum\G-Force\G-Force Standalone.exe" mode="Normal" />	<!-- G-Force stand-alone -->
     <Program name="LogFire" path = "C:\Program Files (x86)\Zoom Player\zplayer.exe" args = "'D:\LogFire.mp4' /Vol:0 /F" /> <!-- Zoom Player for Log Fire video -->
+    <Program name="Curzon" path = "C:\Program Files\Internet Explorer\iexplore.exe" args = "-k -noframemerging https://www.curzonhomecinema.com/" /> <!-- IE Browser for Curzon Home Cinema -->
   </Programs>
 	
 	<!-- Paths for stored media files -->

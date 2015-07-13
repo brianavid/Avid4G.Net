@@ -110,6 +110,55 @@ function AddSmartControlHammerActions() {
     });
 }
 
+var curzonControlHammer = null;
+
+function AddCurzonControlHammerActions() {
+    if (!curzonControlHammer) {
+        curzonControlHammer = $(".curzonButtons").hammer({ prevent_default: true });
+    }
+
+    curzonControlHammer.on("tap", "#curzonEscape", function (e) {
+        $.ajax({
+            url: "/Action/SendKeys?keys={ESC}",
+            cache: false
+        });
+        return false;
+    });
+
+    curzonControlHammer.on("tap", "#curzonLeft", function (e) {
+        $.ajax({
+            url: "/Action/SendKeys?keys={BS}",
+            cache: false
+        });
+        return false;
+    });
+
+    curzonControlHammer.on("tap", "#curzonEnter", function (e) {
+        $.ajax({
+            url: "/Action/SendKeys?keys=~",
+            cache: false
+        });
+        return false;
+    });
+
+    curzonControlHammer.on("tap", "#curzonEnterText", function (e) {
+        var text = document.getElementById("curzonEnteredText").value
+        $.ajax({
+            url: "/Action/SendKeys?keys=" + encodeURIComponent(text),
+            cache: false
+        });
+        return false;
+    });
+
+    curzonControlHammer.on("tap", "#curzonMenu", function (e) {
+        $.ajax({
+            url: "/Action/MouseClick?right=yes",
+            cache: false
+        });
+        return false;
+    });
+}
+
 var browserHammer = null;
 
 function AddBrowserHammerActions() {
@@ -149,6 +198,7 @@ $(function () {
 
     AddRokuControlHammerActions()
     AddSmartControlHammerActions()
+    AddCurzonControlHammerActions()
     AddBrowserHammerActions();
 
     $("#goStreamSourceSelect").click(function () {
@@ -180,6 +230,18 @@ $(function () {
     $("#goChromecastSelect").click(function () {
         $.get("/Action/GoChromecast", null, function () {
             LinkTo(document.getElementById("isWide") != null ? "/Streaming/All" : "/Streaming/Browser")
+        })
+    });
+
+    $("#goChromecastAudioSelect").click(function () {
+        $.get("/Action/GoChromecastAudio", null, function () {
+            LinkTo(document.getElementById("isWide") != null ? "/Streaming/All" : "/Streaming/Browser")
+        })
+    });
+
+    $("#goCurzonSelect").click(function () {
+        $.get("/Action/GoCurzon", null, function () {
+            LinkTo(document.getElementById("isWide") != null ? "/Streaming/All" : "/Streaming/Controls")
         })
     });
 

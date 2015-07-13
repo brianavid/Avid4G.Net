@@ -211,6 +211,7 @@ namespace Avid4.Net.Controllers
                 case "Chromecast":
                 case "Roku":
                 case "SmartTv":
+                case "Curzon":
                 case "Music":
                 case "Spotify":
                     streamProgram = Running.RunningProgram;
@@ -234,6 +235,16 @@ namespace Avid4.Net.Controllers
             return Content("");
         }
 
+        // GET: /Action/GoCurzon
+        public ActionResult GoCurzon()
+        {
+            Screen.EnsureScreenOn();
+            Running.StartStream("Curzon");
+            Receiver.SelectComputerInput();
+            DesktopClient.LaunchProgram("Curzon", null);
+            return Content("");
+        }
+
         // GET: /Action/GoChromecast
         public ActionResult GoChromecast()
         {
@@ -241,6 +252,16 @@ namespace Avid4.Net.Controllers
             Running.StartStream("Chromecast");
             Receiver.SelectChromecastInput();
             Receiver.SelectTVOutput();
+            return Content("");
+        }
+
+        // GET: /Action/GoChromecastAudio
+        public ActionResult GoChromecastAudio()
+        {
+            Running.StartStream("Chromecast");
+            Receiver.SelectChromecastInput();
+            Receiver.SelectRoomsOutput();
+            Screen.SetScreenDisplayMode(0);
             return Content("");
         }
 
