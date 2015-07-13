@@ -81,14 +81,7 @@ namespace Avid4.Net.Controllers
         public ContentResult PlayRecording(
             string id)
         {
-            if (RemotePotato.AllRecordings.ContainsKey(id))
-            {
-                var recording = RemotePotato.AllRecordings[id];
-                Running.LaunchProgram("Video", "/Media /F /ExFunc:exSetVolume,100 /Play \"" + recording.Filename + "\"");
-                Zoom.IsDvdMode = false;
-                Zoom.Title = recording.Title;
-            }
-            else if (DvbViewer.AllRecordings.ContainsKey(id))
+            if (DvbViewer.AllRecordings.ContainsKey(id))
             {
                 var recording = DvbViewer.AllRecordings[id];
                 Running.LaunchProgram("Video", "/Media /F /ExFunc:exSetVolume,100 /Play \"" + recording.Filename + "\"");
@@ -102,12 +95,7 @@ namespace Avid4.Net.Controllers
         public ContentResult DeleteRecording(
             string id)
         {
-            if (RemotePotato.AllRecordings.ContainsKey(id))
-            {
-                var recording = RemotePotato.AllRecordings[id];
-                RemotePotato.DeleteRecording(recording);
-            }
-            else if (DvbViewer.AllRecordings.ContainsKey(id))
+            if (DvbViewer.AllRecordings.ContainsKey(id))
             {
                 var recording = DvbViewer.AllRecordings[id];
                 DvbViewer.DeleteRecording(recording);

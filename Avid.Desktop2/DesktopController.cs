@@ -672,52 +672,6 @@ namespace Avid.Desktop
         }
 
         /// <summary>
-        /// Ensure that the RemotePotato service is running and has not died, starting the service if it is not running
-        /// </summary>
-        /// <param name="recycle">If true; unconditionally stops and restarts the service</param>
-        /// <returns>True if the service is now running</returns>
-        [HttpGet]
-        public bool EnsureRemotePotatoRunning(
-            bool recycle)
-        {
-            logger.Info("EnsureRemotePotatoRunning");
-
-            try
-            {
-                const int timeoutMilliseconds = 5000;
-                ServiceController service = new ServiceController("Remote Potato Service");
-                int millisec1 = Environment.TickCount;
-                TimeSpan timeout;
-                if (recycle && service.Status == ServiceControllerStatus.Running)
-                {
-                    timeout = TimeSpan.FromMilliseconds(timeoutMilliseconds);
-
-                    service.Stop();
-                    service.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
-                    logger.Info("Stopped RemotePotato");
-                }
-
-                // count the rest of the timeout
-                int millisec2 = Environment.TickCount;
-                if (service.Status == ServiceControllerStatus.Stopped)
-                {
-                    timeout = TimeSpan.FromMilliseconds(timeoutMilliseconds - (millisec2 - millisec1));
-
-                    service.Start();
-                    service.WaitForStatus(ServiceControllerStatus.Running, timeout);
-                    logger.Info("Started RemotePotato");
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex);
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Ensure that the Spotify Player is running and has not died
         /// </summary>
         /// <returns>True if the player is now running</returns>

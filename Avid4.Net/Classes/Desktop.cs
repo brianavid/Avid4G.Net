@@ -309,32 +309,6 @@ public static class DesktopClient
     }
 
     /// <summary>
-    /// Ensure that the RemotePotato service is running and has not died, starting the service if it is not running
-    /// </summary>
-    /// <param name="recycle">If true; unconditionally stops and restarts the service</param>
-    /// <returns>True if the service is now running</returns>
-    static public bool EnsureRemotePotatoRunning(
-            bool recycle)
-    {
-        lock (trayAppClient)
-        {
-            try
-            {
-                logger.Info("EnsureRemotePotatoRunning");
-                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/EnsureRemotePotatoRunning?recycle={0}", recycle)).Result;
-                resp.EnsureSuccessStatusCode();
-
-                return resp.Content.ReadAsAsync<bool>().Result;
-            }
-            catch (System.Exception ex)
-            {
-                logger.Error(ex);
-                return false;
-            }
-        }
-    }
-
-    /// <summary>
     /// Ensure that the Spotify Player is running and has not died
     /// </summary>
     /// <returns>True if the player is now running</returns>

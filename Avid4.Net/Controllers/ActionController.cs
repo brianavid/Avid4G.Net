@@ -310,7 +310,6 @@ namespace Avid4.Net.Controllers
             {
                 JRMC.LoadAndIndexAllAlbums(new string[] { "1", "2" }, true);
             }
-            DesktopClient.EnsureRemotePotatoRunning(false);
             DvbViewer.CleanupRefreshDB();
             Spotify.LoadAndIndexAllSavedTracks();
             return Content("");
