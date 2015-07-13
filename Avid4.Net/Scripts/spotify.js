@@ -6,7 +6,7 @@ function AddSpotifyHammerActions() {
     });
 
     if (!spotifyHammer) {
-        spotifyHammer = $(".spotifyPad").hammer();
+        spotifyHammer = $(".spotifyPad").hammer({ prevent_default: true });
     }
     EnableMouseBehaviour(spotifyHammer)
 }
@@ -183,7 +183,7 @@ var controlHammer = null;
 
 function AddControlHammerActions() {
     if (!controlHammer) {
-        controlHammer = $(".spotifyPlayback").hammer();
+        controlHammer = $(".spotifyPlayback").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(controlHammer)

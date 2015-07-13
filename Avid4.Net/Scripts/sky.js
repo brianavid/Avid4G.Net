@@ -147,7 +147,7 @@ function AddButtonsHammerActions(controlHeight) {
     });
 
     if (!buttonsHammer) {
-        buttonsHammer = $(".skyButtons").hammer();
+        buttonsHammer = $(".skyButtons").hammer({ prevent_default: true });
     }
 
     EnableDragScroll(buttonsHammer)

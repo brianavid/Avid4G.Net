@@ -2,7 +2,7 @@
 
 function AddRokuControlHammerActions() {
     if (!rokuControlHammer) {
-        rokuControlHammer = $(".rokuControls").hammer();
+        rokuControlHammer = $(".rokuControls").hammer({ prevent_default: true });
     }
 
     rokuControlHammer.on("tap", "#btnHome", function (e) {
@@ -96,15 +96,15 @@ var smartControlHammer = null;
 
 function AddSmartControlHammerActions() {
     if (!smartControlHammer) {
-        smartControlHammer = $(".smartControls").hammer();
+        smartControlHammer = $(".smartControls").hammer({ prevent_default: true });
     }
 
-    smartControlHammer.on("tap", ".tvKey", function (e) {
+    smartControlHammer.on("touch", ".tvKey", function (e) {
         $.get("/Streaming/SendTvKey?keyName=" + this.id)
         return false;
     });
 
-    smartControlHammer.on("tap", ".tvPlayPause", function (e) {
+    smartControlHammer.on("touch", ".tvPlayPause", function (e) {
         $.get("/Streaming/SmartTvPlayPause")
         return false;
     });

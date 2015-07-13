@@ -100,7 +100,7 @@ var videoControlHammer = null;
 function AddVideoControlsHammerActions() {
 
     if (!videoControlHammer) {
-        videoControlHammer = $(".videoWatchPane").hammer();
+        videoControlHammer = $(".videoWatchPane").hammer({ prevent_default: true });
     }
 
     videoControlHammer.on("touch", "#videoBack60", function (e) {

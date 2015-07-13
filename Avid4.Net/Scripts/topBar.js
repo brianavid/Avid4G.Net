@@ -6,7 +6,7 @@ function AddMousePadHammer() {
     });
 
     if (!mousePadHammer) {
-        mousePadHammer = $(".mousePad").hammer();
+        mousePadHammer = $(".mousePad").hammer({ prevent_default: true });
     }
     EnableMouseBehaviour(mousePadHammer)
 }
@@ -15,7 +15,7 @@ var mouseEtcButtonsHammer = null;
 
 function AddMouseEtcButtonsHammer() {
     if (!mouseEtcButtonsHammer) {
-        mouseEtcButtonsHammer = $(".mouseEtcButtons").hammer();
+        mouseEtcButtonsHammer = $(".mouseEtcButtons").hammer({ prevent_default: true });
     }
 
     mouseEtcButtonsHammer.on("tap", "#mouseEtcEscape", function (e) {
