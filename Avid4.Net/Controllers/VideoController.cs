@@ -136,7 +136,7 @@ namespace Avid4.Net.Controllers
             string path,
             string title)
         {
-            Running.LaunchProgram("Video", "/DVD /F /ExFunc:exSetVolume,100 /Play \"" + path + "\"");
+            Running.LaunchProgram("Video", "/Media /F /ExFunc:exSetVolume,100 /Play \"" + path + "\"");
             if (!string.IsNullOrEmpty(title))
             {
                 Zoom.Title = title;
