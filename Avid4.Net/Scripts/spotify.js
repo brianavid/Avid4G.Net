@@ -361,6 +361,12 @@ function AddBrowserHammerActions() {
         return false;
     });
 
+    browserHammer.on("tap", "#spotifyBrowserLibraryRecentArtists", function (e) {
+        OverlayScreenForLaunch()    //  listing recent artists can take a while
+        ReplaceBrowserPane("/Spotify/BrowserPane?mode=RecentArtists", "push")
+        return false;
+    });
+
     browserHammer.on("tap", "#spotifyBrowserLibraryPlaylists", function (e) {
         OverlayScreenForLaunch()    //  listing playlists can take a while first time
         ReplaceBrowserPane("/Spotify/BrowserPane?mode=Playlists", "push")

@@ -12,6 +12,7 @@ using System.Net;
 using System.Net.Cache;
 using System.IO;
 using Newtonsoft.Json;
+using System.Xml.Linq;
 
 /// <summary>
 /// Class of static methods to access the Spotify player through its WebAPI interface
@@ -32,6 +33,8 @@ public static class Spotify
     static IEnumerable<SpotifyData.Track> AllSavedTracks = null;
     static SpotifyData.Album[] AllSavedAlbums;
     static SpotifyData.Artist[] AllSavedArtists;
+
+    static string PreferredMarket = "GB";
 
     /// <summary>
     /// Initialize and memoize the we API service using the authentication token stored in the registry
@@ -255,11 +258,11 @@ public static class Spotify
                         foreach (var batch in albumIds.Batch(20))
                         {
                             var batchOfIds = batch.Select(id => SimplifyId(id));
-                            var batchOfAlbums = WebAppService.GetSeveralAlbums(batchOfIds.ToList());
+                            var batchOfAlbums = WebAppService.GetSeveralAlbums(batchOfIds.ToList(), PreferredMarket);
                             if (batchOfAlbums.Albums == null)
                             {
                                 System.Threading.Thread.Sleep(2000);
-                                batchOfAlbums = WebAppService.GetSeveralAlbums(batchOfIds.ToList());
+                                batchOfAlbums = WebAppService.GetSeveralAlbums(batchOfIds.ToList(), PreferredMarket);
                             }
                             if (batchOfAlbums.Albums != null)
                                 {
@@ -513,6 +516,97 @@ public static class Spotify
         return null;
     }
 
+    class ArtistHistory
+    {
+        const string XmlFilename = @"C:\Avid.Net\SpotifyArtists.xml";
+        const int MaxHistory = 20;
+        public string Name;
+        public string Id;
+
+        static List<ArtistHistory> artistHistory = null;
+
+        ArtistHistory(
+            string name,
+            string id)
+        {
+            Id = id;
+            Name = name;
+        }
+
+        ArtistHistory(
+            XElement xSeries)
+        {
+            try
+            {
+                Id = xSeries.Attribute("Id").Value;
+                Name = xSeries.Attribute("Name").Value;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error("Error parsing ArtistHistory XML", ex);
+            }
+        }
+
+        /// <summary>
+        /// Load the ...
+        /// </summary>
+        static void Load()
+        {
+            if (artistHistory == null)
+            {
+                if (File.Exists(XmlFilename))
+                {
+                    XElement seriesDoc = XDocument.Load(XmlFilename, LoadOptions.None).Root;
+                    artistHistory = seriesDoc.Elements("Artist")
+                        .Select(s => new ArtistHistory(s))
+                        .ToList();
+                }
+                else
+                {
+                    artistHistory = new List<ArtistHistory>();
+                }
+            }
+        }
+
+        static void Save()
+        {
+            XElement root = new XElement("Artists", 
+                artistHistory.Select(s => s.ToXml));
+            root.Save(XmlFilename);
+        }
+
+        XElement ToXml
+        {
+            get
+            {
+                return new XElement("Artist",
+                    new XAttribute("Id", Id),
+                    new XAttribute("Name", Name));
+            }
+        }
+
+        public static List<ArtistHistory> All
+        {
+            get {
+                if (artistHistory == null)
+                {
+                    Load();
+                }
+                return artistHistory;
+            }
+        }
+
+        public static void Add(
+            string name,
+            string id)
+        {
+            var newHistory = All.Where(h => h.Id != id).Take(MaxHistory - 1).ToList();
+            newHistory.Insert(0, new ArtistHistory(name, id));
+            artistHistory = newHistory;
+            Save();
+        }
+    }
+
     /// <summary>
     /// Get the collection of albums for an identified artist
     /// </summary>
@@ -527,8 +621,11 @@ public static class Spotify
             {
                 try
                 {
+                    var artist = GetArtistById(id);
+                    ArtistHistory.Add(artist.Name, artist.Id);
+
                     return MakeAlbums(
-                        WebAppService.GetArtistsAlbums(SimplifyId(id), AlbumType.ALBUM),
+                        WebAppService.GetArtistsAlbums(SimplifyId(id), AlbumType.ALBUM, PreferredMarket),
                         next => WebAppService.DownloadData<Paging<SimpleAlbum>>(next));
 
                 }
@@ -569,6 +666,15 @@ public static class Spotify
     }
 
     /// <summary>
+    /// Get the collection of recently searched artists
+    /// </summary>
+    /// <returns></returns>
+    public static IEnumerable<SpotifyData.Artist> GetHistoryArtists()
+    {
+        return ArtistHistory.All.Select(h => MakeArtist(h));
+    }
+
+    /// <summary>
     /// Get the collection of tracks for an identified album
     /// </summary>
     /// <param name="id">The Spotify Album URI</param>
@@ -583,7 +689,7 @@ public static class Spotify
                 try
                 {
                     return MakeTracks(
-                        WebAppService.GetAlbumTracks(SimplifyId(id), "", limit: 50),
+                        WebAppService.GetAlbumTracks(SimplifyId(id), PreferredMarket, limit: 50),
                         GetFullAlbum(SimplifyId(id)),
                         next => WebAppService.DownloadData<Paging<SimpleTrack>>(next));
                 }
@@ -675,7 +781,7 @@ public static class Spotify
                 try
                 {
                     return MakeTracks(
-                        WebAppService.GetPlaylistTracks(webApiCurrentUserId, SimplifyId(id)),
+                        WebAppService.GetPlaylistTracks(webApiCurrentUserId, SimplifyId(id), PreferredMarket),
                         next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
                 }
                 catch (System.Exception ex)
@@ -703,7 +809,7 @@ public static class Spotify
                 try
                 {
                     var tracks = MakeTracks(
-                        WebAppService.GetPlaylistTracks(webApiCurrentUserId, SimplifyId(id)),
+                        WebAppService.GetPlaylistTracks(webApiCurrentUserId, SimplifyId(id), PreferredMarket),
                         next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
 
                     HashSet<String> albumIds = new HashSet<String>();
@@ -840,7 +946,7 @@ public static class Spotify
             {
                 try
                 {
-                    var tracks = WebAppService.GetAlbumTracks(SimplifyId(albumId), "");
+                    var tracks = WebAppService.GetAlbumTracks(SimplifyId(albumId), PreferredMarket);
                     for (; ; )
                     {
                         WebAppService.AddTracks(webApiCurrentUserId, SimplifyId(playlistId), tracks.Items.Select(t => t.Uri).ToList());
@@ -896,7 +1002,7 @@ public static class Spotify
             {
                 try
                 {
-                    var tracks = WebAppService.GetAlbumTracks(SimplifyId(albumId), "");
+                    var tracks = WebAppService.GetAlbumTracks(SimplifyId(albumId), PreferredMarket);
                     for (; ; )
                     {
                         WebAppService.DeletePlaylistTracks(webApiCurrentUserId, SimplifyId(playlistId), tracks.Items.Select(t => new DeleteTrackArg(t.Uri)).ToList());
@@ -948,7 +1054,7 @@ public static class Spotify
             {
                 try
                 {
-                    var tracks = WebAppService.GetAlbumTracks(SimplifyId(albumId), "");
+                    var tracks = WebAppService.GetAlbumTracks(SimplifyId(albumId), PreferredMarket);
                     for (; ; )
                     {
                         WebAppService.SaveTracks(tracks.Items.Select(t => t.Id).ToList());
@@ -979,7 +1085,7 @@ public static class Spotify
             {
                 try
                 {
-                    var tracks = WebAppService.GetAlbumTracks(SimplifyId(albumId), "");
+                    var tracks = WebAppService.GetAlbumTracks(SimplifyId(albumId), PreferredMarket);
                     for (; ; )
                     {
                         WebAppService.RemoveSavedTracks(tracks.Items.Select(t => t.Id).ToList());
@@ -1013,7 +1119,7 @@ public static class Spotify
             {
                 try
                 {
-                    var tracks = WebAppService.GetAlbumTracks(SimplifyId(albumId), "");
+                    var tracks = WebAppService.GetAlbumTracks(SimplifyId(albumId), PreferredMarket);
                     List<Boolean> saveIndications = WebAppService.CheckSavedTracks(tracks.Items.Select(t => t.Id).ToList()).List;
                     return saveIndications.All(v => v);
                 }
@@ -1128,7 +1234,7 @@ public static class Spotify
 
                 foreach (var batch in queuedTracks.Batch(50))
                 {
-                    foreach (var track in WebAppService.GetSeveralTracks(batch.Select(id => SimplifyId(id)).ToList()).Tracks)
+                    foreach (var track in WebAppService.GetSeveralTracks(batch.Select(id => SimplifyId(id)).ToList(), PreferredMarket).Tracks)
                     {
                         result.Add(MakeTrack(track));
                     }
@@ -1425,13 +1531,26 @@ public static class Spotify
     /// Make an external Artist structure from that returned by the Web API
     /// </summary>
     /// <param name="artist"></param>
-    /// <param name="biog"></param>
     /// <returns></returns>
     static SpotifyData.Artist MakeArtist(FullArtist artist)
     {
         return artist == null ? null : new SpotifyData.Artist
         {
             Id = artist.Uri,
+            Name = artist.Name
+        };
+    }
+
+    /// <summary>
+    /// Make an external Artist structure from that int the Artists History
+    /// </summary>
+    /// <param name="artist"></param>
+    /// <returns></returns>
+    static SpotifyData.Artist MakeArtist(ArtistHistory artist)
+    {
+        return artist == null ? null : new SpotifyData.Artist
+        {
+            Id = artist.Id,
             Name = artist.Name
         };
     }
@@ -1513,7 +1632,7 @@ public static class Spotify
         {
             if (col.Items == null) return null;
             var albumIds = col.Items.Select(a => a.Id).ToList();
-            foreach (var a in WebAppService.GetSeveralAlbums(albumIds).Albums)
+            foreach (var a in WebAppService.GetSeveralAlbums(albumIds, PreferredMarket).Albums)
             {
                 if (a != null)
                 {

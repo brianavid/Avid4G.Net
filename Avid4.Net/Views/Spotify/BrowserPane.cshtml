@@ -9,6 +9,9 @@
                 <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibrarySavedAlbums">
                     <div class="spotifyBrowserTitle">Saved Albums</div>
                 </div>
+                <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibraryRecentArtists">
+                    <div class="spotifyBrowserTitle">Recent Artists</div>
+                </div>
                 <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibraryPlaylists">
                     <div class="spotifyBrowserTitle">Playlists</div>
                 </div>
@@ -38,19 +41,19 @@
                 }
             }
             break;
-            
+
         case "SearchArtists":
             {
                 string searchText = "";
                 IEnumerable<Avid.Spotify.SpotifyData.Artist> searchedArtists = null;
                 string searchQuery = ViewBag.Query;
-                
+
                 if (!String.IsNullOrEmpty(searchQuery))
                 {
                     searchText = HttpUtility.UrlDecode(searchQuery);
                     searchedArtists = Spotify.SearchArtists(searchText);
                 }
-                
+
                 <div id="spotifySearchArtistsResults">
                     @if (searchedArtists != null)
                     {
@@ -58,7 +61,7 @@
                         foreach (var artist in searchedArtists)
                         {
                             anyFound = true;
-                            <div class="spotifyBrowserArtist spotifyBrowserItem" id ="@artist.Id">
+                            <div class="spotifyBrowserArtist spotifyBrowserItem" id="@artist.Id">
                                 <div class="spotifyBrowserTitle">@artist.Name</div>
                             </div>
                         }
@@ -66,6 +69,32 @@
                         {
                             <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader">
                                 <div class="spotifyBrowserTitle">No artist found: '@(searchText)'</div>
+                            </div>
+                        }
+                    }
+                </div>
+            }
+            break;
+
+        case "RecentArtists":
+            {
+                var recentArtists = Spotify.GetHistoryArtists();
+
+                <div id="spotifyRecentArtists">
+                    @if (recentArtists != null)
+                    {
+                        bool anyFound = false;
+                        foreach (var artist in recentArtists)
+                        {
+                            anyFound = true;
+                            <div class="spotifyBrowserArtist spotifyBrowserItem" id="@artist.Id">
+                                <div class="spotifyBrowserTitle">@artist.Name</div>
+                            </div>
+                        }
+                        if (!anyFound)
+                        {
+                            <div class="spotifyBrowserItem spotifyBrowserPlaylistHeader">
+                                <div class="spotifyBrowserTitle">No artist history</div>
                             </div>
                         }
                     }
@@ -85,7 +114,7 @@
                     searchedAlbums = Spotify.SearchAlbums(searchText);
                 }
 
-                   
+
                 <div id="spotifySearchAlbumsResults">
                     @if (searchedAlbums != null)
                     {
