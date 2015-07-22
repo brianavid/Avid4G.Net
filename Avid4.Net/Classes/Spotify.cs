@@ -34,7 +34,7 @@ public static class Spotify
     static SpotifyData.Album[] AllSavedAlbums;
     static SpotifyData.Artist[] AllSavedArtists;
 
-    static string PreferredMarket = "GB";
+    static string PreferredMarket = Config.SpotifyMarket ?? "GB";
 
     /// <summary>
     /// Initialize and memoize the we API service using the authentication token stored in the registry
@@ -519,7 +519,7 @@ public static class Spotify
     class ArtistHistory
     {
         const string XmlFilename = @"C:\Avid.Net\SpotifyArtists.xml";
-        const int MaxHistory = 20;
+        const int MaxHistory = 50;
         public string Name;
         public string Id;
 

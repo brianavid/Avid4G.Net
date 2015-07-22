@@ -16,9 +16,12 @@ Configuration file to be located at C:\Avid\AvidConfig.xml
 	<Recordings>D:\Recorded TV</Recordings>
 	<DVD>D:\DVD</DVD>
 	<Video>D:\Video</Video>
-  
+
   <!-- The mapping of DvbViewer Action names to their internal coded integer values -->
   <DvbViewerActions>C:\Program Files (x86)\DVBViewer\actions.ini</DvbViewerActions>
+
+  <!-- The local Spotify market for which albums and tracks are permitted to stream -->
+  <SpotifyMarket>GB</SpotifyMarket>
 
   <!-- Fixed IP addresses - reserved by DHCP or outside DHCP range -->
 	<IpAddress>192.168.1.64</IpAddress>

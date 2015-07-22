@@ -123,6 +123,18 @@ public static class Config
     }
 
     /// <summary>
+    /// The local Spotify market
+    /// </summary>
+    public static string SpotifyMarket
+    {
+        get
+        {
+            XElement elAddr = Doc.Root.Element("SpotifyMarket");
+            return elAddr == null ? null : elAddr.Value;
+        }
+    }
+
+    /// <summary>
     /// A collection of favourite Sky channels to be displayed first in any lists
     /// </summary>
     public static List<string> SkyFavourites
