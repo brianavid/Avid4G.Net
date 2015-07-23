@@ -226,6 +226,8 @@
 		<col key="yes" def="s72">Property</col>
 		<col key="yes" def="s72">Signature_</col>
 		<row><td>DOTNETVERSION45FULL</td><td>DotNet45Full</td></row>
+		<row><td>IISROOTFOLDER</td><td>_IISROOTFOLDER</td></row>
+		<row><td>IIS_VERSION</td><td>_IIS_VERSION</td></row>
 	</table>
 
 	<table name="BBControl">
@@ -272,6 +274,7 @@
 		<row><td>NewBinary8</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\RemoveIco.ibd</td></row>
 		<row><td>NewBinary9</td><td/><td>&lt;ISProductFolder&gt;\Redist\Language Independent\OS Independent\SetupIcon.ibd</td></row>
 		<row><td>SetAllUsers.dll</td><td/><td>&lt;ISRedistPlatformDependentFolder&gt;\SetAllUsers.dll</td></row>
+		<row><td>binIISHelper</td><td/><td>&lt;ISRedistPlatformDependentFolder&gt;\IISHelper.dll</td></row>
 	</table>
 
 	<table name="BindImage">
@@ -340,16 +343,12 @@
 		<col def="S0">ISDotNetInstallerArgsCommit</col>
 		<col def="S0">ISDotNetInstallerArgsUninstall</col>
 		<col def="S0">ISDotNetInstallerArgsRollback</col>
-		<row><td>Antlr3.Runtime.dll</td><td>{56C5B488-2ECE-4D50-AC3D-1C7C781F5DAE}</td><td>BIN</td><td>2</td><td/><td>antlr3.runtime.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Avid.Desktop.exe</td><td>{DA476EC2-E72C-4874-92C0-C73EB25A1AF5}</td><td>AVID.NET</td><td>2</td><td/><td>avid.desktop.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Avid.Spotify.Data.dll</td><td>{FDE78312-F432-4F31-AC05-49BA76CA1A52}</td><td>AVID.NET</td><td>2</td><td/><td>avid.spotify.data.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Avid.Spotify.Data.dll1</td><td>{353B0208-D722-4150-BEB4-0929C978FE2E}</td><td>BIN</td><td>2</td><td/><td>avid.spotify.data.dll1</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Antlr3.Runtime.dll</td><td>{07191718-47B7-49D1-9AE9-B35CD20FC471}</td><td>BIN</td><td>2</td><td/><td>antlr3.runtime.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Avid.Desktop.exe</td><td>{B57B156A-D58F-415A-965D-5A2AD6D0186D}</td><td>AVID.NET</td><td>2</td><td/><td>avid.desktop.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Avid.Spotify.exe</td><td>{0464BF89-5FAA-48DE-B529-DC656D4D7313}</td><td>AVID.NET</td><td>2</td><td/><td>avid.spotify.exe</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Avid4.Net.dll</td><td>{2DC25980-690D-4D82-B14F-E3DA802AC600}</td><td>BIN</td><td>2</td><td/><td>avid4.net.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>DesktopInterface.dll</td><td>{F6749D46-661F-42EA-9B72-A9C6C753E2A1}</td><td>AVID.NET</td><td>2</td><td/><td>desktopinterface.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>DesktopInterface.dll1</td><td>{27260519-8EEF-4DFA-BFBC-67365E521979}</td><td>BIN</td><td>2</td><td/><td>desktopinterface.dll1</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>EntityFramework.dll</td><td>{79668FE1-5B3B-4D48-B1C3-6BD379D24246}</td><td>BIN</td><td>2</td><td/><td>entityframework.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>GetCoreTempInfoNET.dll</td><td>{A4713BC8-B850-4118-83E8-6E049BFD0446}</td><td>AVID.NET</td><td>2</td><td/><td>getcoretempinfonet.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Avid4.Net.dll</td><td>{01C79154-C63E-4DD5-862C-C1311E967CFA}</td><td>BIN</td><td>2</td><td/><td>avid4.net.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>EntityFramework.dll</td><td>{00BFF6DE-43F2-463A-B84F-4ED5B569AF1A}</td><td>BIN</td><td>2</td><td/><td>entityframework.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>GetCoreTempInfoNET.dll</td><td>{C77739C4-88EB-4937-B5B1-F05FFACAFB26}</td><td>AVID.NET</td><td>2</td><td/><td>getcoretempinfonet.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td>{1AC19E45-D902-49A1-9AEB-7841A3D18C55}</td><td>C_</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td>{F910DECB-317F-436F-ACE7-C1680FD1F558}</td><td>AVID.NET</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT10</td><td>{A8C22A76-0626-4A10-A908-8FAA94A37FD0}</td><td>BUTTONS</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
@@ -365,51 +364,49 @@
 		<row><td>ISX_DEFAULTCOMPONENT2</td><td>{C691C5FB-7391-4883-B405-2F78F2C1372C}</td><td>AVID4.NET</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT20</td><td>{A4E551E5-C49A-43AA-BA04-8371BAEC3CF7}</td><td>MINIFIED</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT21</td><td>{37586BCE-246A-452E-8758-406C0ADF5768}</td><td>IMAGES1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT22</td><td>{A8FD56F9-819B-4E52-B9FF-89C298AFA278}</td><td>HOME</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT23</td><td>{15EF4856-2D93-433A-8343-9990E8AF8F40}</td><td>MUSIC</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT24</td><td>{1E5F2403-122C-464D-BB6F-636385B21D92}</td><td>PHOTOS</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT26</td><td>{20F8FE43-2F88-4D19-B6AE-AB4069FF39BE}</td><td>SHARED</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT27</td><td>{0E537776-588F-4228-B44F-5F89849A28C4}</td><td>SKY</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT28</td><td>{9F5C9B70-5DC6-4EAA-A0ED-5E585869803C}</td><td>SPOTIFY</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT29</td><td>{84A90427-D948-4127-9304-8AD2003DA36F}</td><td>STREAMING</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT3</td><td>{626D4DDC-DA5D-4385-9409-015C0839C405}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT30</td><td>{48565533-AA63-467D-99E0-101031B50AEB}</td><td>TV</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT31</td><td>{33FE374F-B4AC-4119-96C2-DFE78C47D70F}</td><td>VIDEO</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT32</td><td>{7CD56409-7270-4410-9ED3-9C68690A40D9}</td><td>WEB</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT4</td><td>{163F0CA4-A99A-49F2-84A2-366302A5A3D8}</td><td>INSTALLDIR</td><td>258</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT5</td><td>{4D939AA2-89D9-4E0F-B0C4-D999F30C852E}</td><td>VIEWS</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT6</td><td>{533E1C4D-0D82-44E1-9BD6-C134382F48A6}</td><td>BIN</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT69</td><td>{52AAB671-9074-487E-838B-1D6D18E22051}</td><td>SCRIPTS1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT7</td><td>{F9D547CE-C14A-46F5-A10D-EC494F2594CE}</td><td>CONTENT</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT70</td><td>{F7B0ACCE-92AE-48FF-AB27-00284E249C82}</td><td>VIEWS3</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT71</td><td>{785DC9EE-B802-46F0-B748-2053AC92143B}</td><td>GUIDE1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT72</td><td>{2A9CF94D-0904-4AF4-8882-2973EFF92EE3}</td><td>HOME1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT73</td><td>{F053E2A8-FEA7-4ECD-A570-571865640A69}</td><td>MUSIC1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT74</td><td>{DF2A7C5D-19F2-44B1-A274-97539143684F}</td><td>PHOTOS1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT75</td><td>{10F50993-4A62-4584-86A9-9A9AB1137E70}</td><td>SHARED1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT76</td><td>{2BE9E2D6-378B-4E9E-B419-40B76BA227E0}</td><td>SKY1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT77</td><td>{11E15092-7CE8-4E40-920B-18D9CA605272}</td><td>SPOTIFY1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT78</td><td>{B456CF90-79A9-4DAC-BB00-B703ED39B74B}</td><td>TEST1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT79</td><td>{9BA8E7AF-7E37-47F2-B639-A12C4E71D1E7}</td><td>TV1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT80</td><td>{74733AAD-2EBB-47A4-91C5-84DA817B9D60}</td><td>VIDEO1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>ISX_DEFAULTCOMPONENT81</td><td>{A361986F-C575-4DD5-A1A3-C09BDD94211A}</td><td>WEB1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>ISX_DEFAULTCOMPONENT8</td><td>{F4E2F9A3-E254-4AEE-9FF6-02F84D13B621}</td><td>GUIDE</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>ISX_DEFAULTCOMPONENT9</td><td>{71C1A06E-DAC0-4CEF-AF22-F2447792723E}</td><td>CONTENT1</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>InputSimulator.dll</td><td>{C61712AF-42FB-4C97-AE50-4ECEEA80DA24}</td><td>AVID.NET</td><td>2</td><td/><td>inputsimulator.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Microsoft.Web.Infrastructure.dll</td><td>{7E185F2D-8733-42AF-8814-B5FECB8FE6BE}</td><td>BIN</td><td>2</td><td/><td>microsoft.web.infrastructure</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Microsoft.Web.Mvc.FixedDisplayModes.dll</td><td>{E38ADEDD-0366-48AF-8B37-CCE30B221F7D}</td><td>BIN</td><td>2</td><td/><td>microsoft.web.mvc.fixeddispl</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>InputSimulator.dll</td><td>{6F330467-2A0B-432D-9254-41A402DDCA5B}</td><td>AVID.NET</td><td>2</td><td/><td>inputsimulator.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Microsoft.Web.Infrastructure.dll</td><td>{138A8C21-5680-4A24-833F-D3D993F06F73}</td><td>BIN</td><td>2</td><td/><td>microsoft.web.infrastructure</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Microsoft.Web.Mvc.FixedDisplayModes.dll</td><td>{1F21C22C-5A2F-4476-A434-658351987320}</td><td>BIN</td><td>2</td><td/><td>microsoft.web.mvc.fixeddispl</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>NAudio.dll</td><td>{2C63F2DA-3CF8-4D4A-AC78-553AC75385C0}</td><td>AVID.NET</td><td>2</td><td/><td>naudio.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>NLog.dll</td><td>{16D5D610-83B1-4751-B182-94C306FCD290}</td><td>AVID.NET</td><td>2</td><td/><td>nlog.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>NLog.dll1</td><td>{A9C8B596-A2F4-4E92-8E24-47C454F2AD6F}</td><td>BIN</td><td>2</td><td/><td>nlog.dll1</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>NLog.dll1</td><td>{6D5857ED-A79C-466C-B02E-1F45C3E15A6F}</td><td>BIN</td><td>2</td><td/><td>nlog.dll1</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>Newtonsoft.Json.dll</td><td>{515074F0-76EE-44C6-8903-BC5CB16C0C2A}</td><td>AVID.NET</td><td>2</td><td/><td>newtonsoft.json.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>Newtonsoft.Json.dll1</td><td>{83EC02F6-9AFA-41D2-8AAE-D81F1CBF8B8C}</td><td>BIN</td><td>2</td><td/><td>newtonsoft.json.dll1</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>Newtonsoft.Json.dll1</td><td>{FFC1AAC0-8F4B-40CA-97BF-188BEEE99033}</td><td>BIN</td><td>2</td><td/><td>newtonsoft.json.dll1</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>SpotiFire.Native.dll</td><td>{5EEA3C04-277C-4218-B961-0CBAB6732063}</td><td>AVID.NET</td><td>2</td><td/><td>spotifire.native.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>SpotiFire.dll</td><td>{A0AAF410-0001-411F-AC1C-33AD23E9043B}</td><td>AVID.NET</td><td>2</td><td/><td>spotifire.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Net.Http.Formatting.dll</td><td>{433E19D8-82AE-420B-90FB-C216BA5037A1}</td><td>AVID.NET</td><td>2</td><td/><td>system.net.http.formatting.d</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Net.Http.Formatting.dll1</td><td>{6F8A3B1F-C7A3-41F5-8AF2-22A9FBE17E33}</td><td>BIN</td><td>2</td><td/><td>system.net.http.formatting.d1</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Net.Http.WebRequest.dll</td><td>{CE23E96E-685F-49D8-9592-374F72520050}</td><td>BIN</td><td>2</td><td/><td>system.net.http.webrequest.d</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Net.Http.dll</td><td>{28DB54B3-14B8-4D43-8710-E4F353316585}</td><td>BIN</td><td>2</td><td/><td>system.net.http.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Web.Http.SelfHost.dll</td><td>{675B903B-FFA2-42C6-A47C-09EBAF9BF8DE}</td><td>AVID.NET</td><td>2</td><td/><td>system.web.http.selfhost.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Web.Http.WebHost.dll</td><td>{1AB1ACEB-C487-47BB-AF13-51E635718369}</td><td>BIN</td><td>2</td><td/><td>system.web.http.webhost.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Web.Http.dll</td><td>{19AED2ED-D032-403C-AA0D-67045ABA5DDF}</td><td>AVID.NET</td><td>2</td><td/><td>system.web.http.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Web.Http.dll1</td><td>{AB4F4BAB-2192-46BE-808C-E01FE2BECA3F}</td><td>BIN</td><td>2</td><td/><td>system.web.http.dll1</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Web.Mvc.dll</td><td>{A5DD126B-C81B-4882-AE35-D19587A4C315}</td><td>BIN</td><td>2</td><td/><td>system.web.mvc.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Web.Optimization.dll</td><td>{2D6B4840-9C9B-4642-85A9-1759C3EE3986}</td><td>BIN</td><td>2</td><td/><td>system.web.optimization.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Web.Providers.dll</td><td>{5466A85D-3A2C-4FED-85B3-D775424960C0}</td><td>BIN</td><td>2</td><td/><td>system.web.providers.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Web.Razor.dll</td><td>{2126B082-5AAE-4842-89E7-B3070DB70EC7}</td><td>BIN</td><td>2</td><td/><td>system.web.razor.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Web.WebPages.Deployment.dll</td><td>{C0AB9342-748E-434D-95B7-F43C2CB8152B}</td><td>BIN</td><td>2</td><td/><td>system.web.webpages.deployme</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Web.WebPages.Razor.dll</td><td>{0C34813C-2BF5-447B-9ADD-AE01255B42DF}</td><td>BIN</td><td>2</td><td/><td>system.web.webpages.razor.dl</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>System.Web.WebPages.dll</td><td>{014C2764-D383-4AAE-9E48-F250BD1941EF}</td><td>BIN</td><td>2</td><td/><td>system.web.webpages.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>UsbUirtManagedWrapper.dll</td><td>{79E66D50-96F8-4BE4-AC1A-670C9080A063}</td><td>AVID.NET</td><td>2</td><td/><td>usbuirtmanagedwrapper.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
-		<row><td>WebGrease.dll</td><td>{DA4815A0-C90E-467E-8BFD-C465325A46FD}</td><td>BIN</td><td>2</td><td/><td>webgrease.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>SpotifyAPI.dll</td><td>{479A56C8-E0C2-43BD-817E-48C34EECCCC4}</td><td>AVID.NET</td><td>2</td><td/><td>spotifyapi.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>SpotifyAPI.dll1</td><td>{81452121-25D0-4886-A57E-97AEE8EB2CF8}</td><td>BIN</td><td>2</td><td/><td>spotifyapi.dll1</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.Net.Http.Formatting.dll</td><td>{B94CEE48-02A9-40FD-ADF5-677DD7192119}</td><td>AVID.NET</td><td>2</td><td/><td>system.net.http.formatting.d</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.Web.Http.SelfHost.dll</td><td>{DCE2046F-A6DF-4112-9470-A101C90FB5A3}</td><td>AVID.NET</td><td>2</td><td/><td>system.web.http.selfhost.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.Web.Http.dll</td><td>{BAABD93A-CC37-4F30-82F3-7349EA4FD9A6}</td><td>AVID.NET</td><td>2</td><td/><td>system.web.http.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.Web.Mvc.dll</td><td>{E428E68E-C6BA-4F28-B697-E3CF3EEC26D3}</td><td>BIN</td><td>2</td><td/><td>system.web.mvc.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.Web.Optimization.dll</td><td>{1D9CA37A-9ACB-4F32-BCF6-BC19E0591241}</td><td>BIN</td><td>2</td><td/><td>system.web.optimization.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.Web.Providers.dll</td><td>{62AF0870-AE59-4979-95E1-248BDE38F87A}</td><td>BIN</td><td>2</td><td/><td>system.web.providers.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.Web.Razor.dll</td><td>{E9523274-E9F8-4B24-A340-28ADE2064DBF}</td><td>BIN</td><td>2</td><td/><td>system.web.razor.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.Web.WebPages.Deployment.dll</td><td>{C6A73C73-9AE7-4436-87BC-A8413DBEECEC}</td><td>BIN</td><td>2</td><td/><td>system.web.webpages.deployme</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.Web.WebPages.Razor.dll</td><td>{33F2E75D-3DD6-481C-A10E-CB39F2AD7F99}</td><td>BIN</td><td>2</td><td/><td>system.web.webpages.razor.dl</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>System.Web.WebPages.dll</td><td>{C67AFA03-024B-478C-86F9-806D37EE2398}</td><td>BIN</td><td>2</td><td/><td>system.web.webpages.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>UsbUirtManagedWrapper.dll</td><td>{5E394B5C-2A69-4C2C-B7DB-C3ADC7E7A257}</td><td>AVID.NET</td><td>2</td><td/><td>usbuirtmanagedwrapper.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>WebGrease.dll</td><td>{BFC059CE-9CA2-4F22-B0FD-E92FCD631A37}</td><td>BIN</td><td>2</td><td/><td>webgrease.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
+		<row><td>WebsiteComponent</td><td>{91A2AF48-BCC2-4551-90F8-B64CC3F26D70}</td><td>INSTALLDIR</td><td>2</td><td/><td/><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>libspotify.dll</td><td>{48D7F240-FA12-4C73-9723-02236B722D4C}</td><td>AVID.NET</td><td>2</td><td/><td>libspotify.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 		<row><td>uuirtdrv.dll</td><td>{1C0F2A4D-83FC-4017-B8E5-915F4526B830}</td><td>AVID.NET</td><td>2</td><td/><td>uuirtdrv.dll</td><td>17</td><td/><td/><td/><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td><td>/LogFile=</td></row>
 	</table>
@@ -1124,6 +1121,7 @@
 		<row><td>C_</td><td>ISX_DEFAULTCOMPONENT</td></row>
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT3</td></row>
 		<row><td>INSTALLDIR</td><td>ISX_DEFAULTCOMPONENT4</td></row>
+		<row><td>INSTALLDIR</td><td>WebsiteComponent</td></row>
 		<row><td>THEMES</td><td>ISX_DEFAULTCOMPONENT17</td></row>
 		<row><td>_VTI_CNF</td><td>ISX_DEFAULTCOMPONENT12</td></row>
 	</table>
@@ -1135,6 +1133,11 @@
 		<col def="S0">Target</col>
 		<col def="I4">ExtendedType</col>
 		<col def="S255">ISComments</col>
+		<row><td>ISIISCleanup</td><td>1</td><td>binIISHelper</td><td>ISIISCleanup</td><td/><td/></row>
+		<row><td>ISIISCosting</td><td>1</td><td>binIISHelper</td><td>ISIISCosting</td><td/><td/></row>
+		<row><td>ISIISInstall</td><td>3073</td><td>binIISHelper</td><td>ISIISInstall</td><td/><td/></row>
+		<row><td>ISIISRollback</td><td>3329</td><td>binIISHelper</td><td>ISIISRollback</td><td/><td/></row>
+		<row><td>ISIISUninstall</td><td>3073</td><td>binIISHelper</td><td>ISIISUninstall</td><td/><td/></row>
 		<row><td>ISPreventDowngrade</td><td>19</td><td/><td>[IS_PREVENT_DOWNGRADE_EXIT]</td><td/><td>Exits install when a newer version of this product is found</td></row>
 		<row><td>ISPrint</td><td>1</td><td>SetAllUsers.dll</td><td>PrintScrollableText</td><td/><td>Prints the contents of a ScrollableText control on a dialog.</td></row>
 		<row><td>ISRunSetupTypeAddLocalEvent</td><td>1</td><td>ISExpHlp.dll</td><td>RunSetupTypeAddLocalEvent</td><td/><td>Run the AddLocal events associated with the Next button on the Setup Type dialog.</td></row>
@@ -1226,9 +1229,9 @@
 		<row><td>FONTS</td><td>CONTENT1</td><td>Fonts</td><td/><td>0</td><td/></row>
 		<row><td>FavoritesFolder</td><td>TARGETDIR</td><td>.:FAVORI~1|Favorites</td><td/><td>0</td><td/></row>
 		<row><td>FontsFolder</td><td>TARGETDIR</td><td>.:Fonts</td><td/><td>0</td><td/></row>
-		<row><td>GUIDE1</td><td>VIEWS3</td><td>Guide</td><td/><td>0</td><td/></row>
+		<row><td>GUIDE</td><td>VIEWS</td><td>Guide</td><td/><td>0</td><td/></row>
 		<row><td>GlobalAssemblyCache</td><td>TARGETDIR</td><td>.:Global~1|GlobalAssemblyCache</td><td/><td>0</td><td/></row>
-		<row><td>HOME1</td><td>VIEWS3</td><td>Home</td><td/><td>0</td><td/></row>
+		<row><td>HOME</td><td>VIEWS</td><td>Home</td><td/><td>0</td><td/></row>
 		<row><td>IMAGES</td><td>BASE</td><td>images</td><td/><td>0</td><td/></row>
 		<row><td>IMAGES1</td><td>MINIFIED</td><td>images</td><td/><td>0</td><td/></row>
 		<row><td>INSTALLDIR</td><td>AVID4</td><td>.</td><td/><td>0</td><td/></row>
@@ -1239,11 +1242,11 @@
 		<row><td>LocalAppDataFolder</td><td>TARGETDIR</td><td>.:LocalA~1|LocalAppData</td><td/><td>0</td><td/></row>
 		<row><td>MINIFIED</td><td>BASE</td><td>minified</td><td/><td>0</td><td/></row>
 		<row><td>MINIROUND</td><td>BUTTONS</td><td>MINIRO~1|MiniRound</td><td/><td>0</td><td/></row>
-		<row><td>MUSIC1</td><td>VIEWS3</td><td>Music</td><td/><td>0</td><td/></row>
+		<row><td>MUSIC</td><td>VIEWS</td><td>Music</td><td/><td>0</td><td/></row>
 		<row><td>MY_PRODUCT_NAME</td><td>BRIANAVID</td><td>MYPROD~1|My Product Name</td><td/><td>0</td><td/></row>
 		<row><td>MyPicturesFolder</td><td>TARGETDIR</td><td>.:MyPict~1|MyPictures</td><td/><td>0</td><td/></row>
 		<row><td>NetHoodFolder</td><td>TARGETDIR</td><td>.:NetHood</td><td/><td>0</td><td/></row>
-		<row><td>PHOTOS1</td><td>VIEWS3</td><td>Photos</td><td/><td>0</td><td/></row>
+		<row><td>PHOTOS</td><td>VIEWS</td><td>Photos</td><td/><td>0</td><td/></row>
 		<row><td>PersonalFolder</td><td>TARGETDIR</td><td>.:Personal</td><td/><td>0</td><td/></row>
 		<row><td>PrimaryVolumePath</td><td>TARGETDIR</td><td>.:Primar~1|PrimaryVolumePath</td><td/><td>0</td><td/></row>
 		<row><td>PrintHoodFolder</td><td>TARGETDIR</td><td>.:PRINTH~1|PrintHood</td><td/><td>0</td><td/></row>
@@ -1252,10 +1255,11 @@
 		<row><td>ProgramMenuFolder</td><td>TARGETDIR</td><td>.:Programs</td><td/><td>3</td><td/></row>
 		<row><td>RecentFolder</td><td>TARGETDIR</td><td>.:Recent</td><td/><td>0</td><td/></row>
 		<row><td>SCRIPTS1</td><td>AVID4.NET</td><td>Scripts</td><td/><td>0</td><td/></row>
-		<row><td>SHARED1</td><td>VIEWS3</td><td>Shared</td><td/><td>0</td><td/></row>
-		<row><td>SKY1</td><td>VIEWS3</td><td>Sky</td><td/><td>0</td><td/></row>
+		<row><td>SHARED</td><td>VIEWS</td><td>Shared</td><td/><td>0</td><td/></row>
+		<row><td>SKY</td><td>VIEWS</td><td>Sky</td><td/><td>0</td><td/></row>
 		<row><td>SMALLROUND</td><td>BUTTONS</td><td>SMALLR~1|SmallRound</td><td/><td>0</td><td/></row>
-		<row><td>SPOTIFY1</td><td>VIEWS3</td><td>Spotify</td><td/><td>0</td><td/></row>
+		<row><td>SPOTIFY</td><td>VIEWS</td><td>Spotify</td><td/><td>0</td><td/></row>
+		<row><td>STREAMING</td><td>VIEWS</td><td>STREAM~1|Streaming</td><td/><td>0</td><td/></row>
 		<row><td>SendToFolder</td><td>TARGETDIR</td><td>.:SendTo</td><td/><td>3</td><td/></row>
 		<row><td>StartMenuFolder</td><td>TARGETDIR</td><td>.:STARTM~1|Start Menu</td><td/><td>3</td><td/></row>
 		<row><td>StartupFolder</td><td>TARGETDIR</td><td>.:StartUp</td><td/><td>3</td><td/></row>
@@ -1263,15 +1267,14 @@
 		<row><td>System64Folder</td><td>TARGETDIR</td><td>.:System64</td><td/><td>0</td><td/></row>
 		<row><td>SystemFolder</td><td>TARGETDIR</td><td>.:System32</td><td/><td>0</td><td/></row>
 		<row><td>TARGETDIR</td><td/><td>SourceDir</td><td/><td>0</td><td/></row>
-		<row><td>TEST1</td><td>VIEWS3</td><td>Test</td><td/><td>0</td><td/></row>
 		<row><td>THEMES</td><td>CONTENT1</td><td>themes</td><td/><td>0</td><td/></row>
-		<row><td>TV1</td><td>VIEWS3</td><td>TV</td><td/><td>0</td><td/></row>
+		<row><td>TV</td><td>VIEWS</td><td>TV</td><td/><td>0</td><td/></row>
 		<row><td>TempFolder</td><td>TARGETDIR</td><td>.:Temp</td><td/><td>0</td><td/></row>
 		<row><td>TemplateFolder</td><td>TARGETDIR</td><td>.:ShellNew</td><td/><td>0</td><td/></row>
 		<row><td>USERPROFILE</td><td>TARGETDIR</td><td>.:USERPR~1|UserProfile</td><td/><td>0</td><td/></row>
-		<row><td>VIDEO1</td><td>VIEWS3</td><td>Video</td><td/><td>0</td><td/></row>
-		<row><td>VIEWS3</td><td>AVID4.NET</td><td>Views</td><td/><td>0</td><td/></row>
-		<row><td>WEB1</td><td>VIEWS3</td><td>Web</td><td/><td>0</td><td/></row>
+		<row><td>VIDEO</td><td>VIEWS</td><td>Video</td><td/><td>0</td><td/></row>
+		<row><td>VIEWS</td><td>AVID4.NET</td><td>Views</td><td/><td>0</td><td/></row>
+		<row><td>WEB</td><td>VIEWS</td><td>Web</td><td/><td>0</td><td/></row>
 		<row><td>WindowsFolder</td><td>TARGETDIR</td><td>.:Windows</td><td/><td>0</td><td/></row>
 		<row><td>WindowsVolume</td><td>TARGETDIR</td><td>.:WinRoot</td><td/><td>0</td><td/></row>
 		<row><td>_VTI_CNF</td><td>BIGROUND</td><td>_vti_cnf</td><td/><td>0</td><td/></row>
@@ -1971,12 +1974,8 @@
 		<col key="yes" def="s72">Component_</col>
 		<row><td>AlwaysInstall</td><td>Antlr3.Runtime.dll</td></row>
 		<row><td>AlwaysInstall</td><td>Avid.Desktop.exe</td></row>
-		<row><td>AlwaysInstall</td><td>Avid.Spotify.Data.dll</td></row>
-		<row><td>AlwaysInstall</td><td>Avid.Spotify.Data.dll1</td></row>
 		<row><td>AlwaysInstall</td><td>Avid.Spotify.exe</td></row>
 		<row><td>AlwaysInstall</td><td>Avid4.Net.dll</td></row>
-		<row><td>AlwaysInstall</td><td>DesktopInterface.dll</td></row>
-		<row><td>AlwaysInstall</td><td>DesktopInterface.dll1</td></row>
 		<row><td>AlwaysInstall</td><td>EntityFramework.dll</td></row>
 		<row><td>AlwaysInstall</td><td>GetCoreTempInfoNET.dll</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT</td></row>
@@ -1994,23 +1993,23 @@
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT2</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT20</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT21</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT22</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT23</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT24</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT26</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT27</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT28</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT29</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT3</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT30</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT31</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT32</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT4</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT5</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT6</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT69</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT7</td></row>
-		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT70</td></row>
-		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT71</td></row>
-		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT72</td></row>
-		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT73</td></row>
-		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT74</td></row>
-		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT75</td></row>
-		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT76</td></row>
-		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT77</td></row>
-		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT78</td></row>
-		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT79</td></row>
-		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT80</td></row>
-		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT81</td></row>
+		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT8</td></row>
 		<row><td>AlwaysInstall</td><td>ISX_DEFAULTCOMPONENT9</td></row>
 		<row><td>AlwaysInstall</td><td>InputSimulator.dll</td></row>
 		<row><td>AlwaysInstall</td><td>Microsoft.Web.Infrastructure.dll</td></row>
@@ -2022,14 +2021,11 @@
 		<row><td>AlwaysInstall</td><td>Newtonsoft.Json.dll1</td></row>
 		<row><td>AlwaysInstall</td><td>SpotiFire.Native.dll</td></row>
 		<row><td>AlwaysInstall</td><td>SpotiFire.dll</td></row>
+		<row><td>AlwaysInstall</td><td>SpotifyAPI.dll</td></row>
+		<row><td>AlwaysInstall</td><td>SpotifyAPI.dll1</td></row>
 		<row><td>AlwaysInstall</td><td>System.Net.Http.Formatting.dll</td></row>
-		<row><td>AlwaysInstall</td><td>System.Net.Http.Formatting.dll1</td></row>
-		<row><td>AlwaysInstall</td><td>System.Net.Http.WebRequest.dll</td></row>
-		<row><td>AlwaysInstall</td><td>System.Net.Http.dll</td></row>
 		<row><td>AlwaysInstall</td><td>System.Web.Http.SelfHost.dll</td></row>
-		<row><td>AlwaysInstall</td><td>System.Web.Http.WebHost.dll</td></row>
 		<row><td>AlwaysInstall</td><td>System.Web.Http.dll</td></row>
-		<row><td>AlwaysInstall</td><td>System.Web.Http.dll1</td></row>
 		<row><td>AlwaysInstall</td><td>System.Web.Mvc.dll</td></row>
 		<row><td>AlwaysInstall</td><td>System.Web.Optimization.dll</td></row>
 		<row><td>AlwaysInstall</td><td>System.Web.Providers.dll</td></row>
@@ -2039,6 +2035,7 @@
 		<row><td>AlwaysInstall</td><td>System.Web.WebPages.dll</td></row>
 		<row><td>AlwaysInstall</td><td>UsbUirtManagedWrapper.dll</td></row>
 		<row><td>AlwaysInstall</td><td>WebGrease.dll</td></row>
+		<row><td>AlwaysInstall</td><td>WebsiteComponent</td></row>
 		<row><td>AlwaysInstall</td><td>libspotify.dll</td></row>
 		<row><td>AlwaysInstall</td><td>uuirtdrv.dll</td></row>
 	</table>
@@ -2056,18 +2053,19 @@
 		<col def="I4">ISAttributes</col>
 		<col def="S72">ISComponentSubFolder_</col>
 		<row><td>_d.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>3D.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\3D.png</td><td>1</td><td/></row>
-		<row><td>_layout.cshtml1</td><td>ISX_DEFAULTCOMPONENT75</td><td>_LAYOU~1.CSH|_Layout.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Shared\_Layout.cshtml</td><td>1</td><td/></row>
-		<row><td>_references.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>_REFER~1.JS|_references.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\_references.js</td><td>1</td><td/></row>
-		<row><td>_viewstart.cshtml1</td><td>ISX_DEFAULTCOMPONENT70</td><td>_VIEWS~1.CSH|_ViewStart.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\_ViewStart.cshtml</td><td>1</td><td/></row>
-		<row><td>actionmenu.cshtml1</td><td>ISX_DEFAULTCOMPONENT75</td><td>ACTION~1.CSH|ActionMenu.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Shared\ActionMenu.cshtml</td><td>1</td><td/></row>
+		<row><td>_layout.cshtml</td><td>ISX_DEFAULTCOMPONENT26</td><td>_LAYOU~1.CSH|_Layout.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Shared\_Layout.cshtml</td><td>1</td><td/></row>
+		<row><td>_references.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>_REFER~1.JS|_references.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\_references.js</td><td>1</td><td/></row>
+		<row><td>_viewstart.cshtml</td><td>ISX_DEFAULTCOMPONENT5</td><td>_VIEWS~1.CSH|_ViewStart.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\_ViewStart.cshtml</td><td>1</td><td/></row>
+		<row><td>actionmenu.cshtml</td><td>ISX_DEFAULTCOMPONENT26</td><td>ACTION~1.CSH|ActionMenu.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Shared\ActionMenu.cshtml</td><td>1</td><td/></row>
 		<row><td>admin.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Admin.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Admin.png</td><td>1</td><td/></row>
-		<row><td>all.cshtml10</td><td>ISX_DEFAULTCOMPONENT77</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\All.cshtml</td><td>1</td><td/></row>
-		<row><td>all.cshtml11</td><td>ISX_DEFAULTCOMPONENT79</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\All.cshtml</td><td>1</td><td/></row>
-		<row><td>all.cshtml12</td><td>ISX_DEFAULTCOMPONENT80</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\All.cshtml</td><td>1</td><td/></row>
-		<row><td>all.cshtml13</td><td>ISX_DEFAULTCOMPONENT81</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Web\All.cshtml</td><td>1</td><td/></row>
-		<row><td>all.cshtml7</td><td>ISX_DEFAULTCOMPONENT73</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\All.cshtml</td><td>1</td><td/></row>
-		<row><td>all.cshtml8</td><td>ISX_DEFAULTCOMPONENT74</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\All.cshtml</td><td>1</td><td/></row>
-		<row><td>all.cshtml9</td><td>ISX_DEFAULTCOMPONENT76</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\All.cshtml</td><td>1</td><td/></row>
+		<row><td>all.cshtml</td><td>ISX_DEFAULTCOMPONENT23</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\All.cshtml</td><td>1</td><td/></row>
+		<row><td>all.cshtml1</td><td>ISX_DEFAULTCOMPONENT24</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\All.cshtml</td><td>1</td><td/></row>
+		<row><td>all.cshtml2</td><td>ISX_DEFAULTCOMPONENT27</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\All.cshtml</td><td>1</td><td/></row>
+		<row><td>all.cshtml3</td><td>ISX_DEFAULTCOMPONENT28</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\All.cshtml</td><td>1</td><td/></row>
+		<row><td>all.cshtml4</td><td>ISX_DEFAULTCOMPONENT29</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Streaming\All.cshtml</td><td>1</td><td/></row>
+		<row><td>all.cshtml5</td><td>ISX_DEFAULTCOMPONENT30</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\All.cshtml</td><td>1</td><td/></row>
+		<row><td>all.cshtml6</td><td>ISX_DEFAULTCOMPONENT31</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\All.cshtml</td><td>1</td><td/></row>
+		<row><td>all.cshtml7</td><td>ISX_DEFAULTCOMPONENT32</td><td>ALL~1.CSH|All.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Web\All.cshtml</td><td>1</td><td/></row>
 		<row><td>antlr3.runtime.dll</td><td>Antlr3.Runtime.dll</td><td>ANTLR3~1.DLL|Antlr3.Runtime.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\Antlr3.Runtime.dll</td><td>1</td><td/></row>
 		<row><td>apple_touch_icon.png</td><td>ISX_DEFAULTCOMPONENT9</td><td>APPLE-~1.PNG|apple-touch-icon.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\apple-touch-icon.png</td><td>1</td><td/></row>
 		<row><td>audio.mute.on.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>AUDIOM~1.PNG|Audio.Mute.On.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Audio.Mute.On.png</td><td>1</td><td/></row>
@@ -2078,15 +2076,12 @@
 		<row><td>audio.volume.up.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>AUDIOV~1.PNG|Audio.Volume.Up.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Audio.Volume.Up.png</td><td>1</td><td/></row>
 		<row><td>audio.volume.up.png1</td><td>ISX_DEFAULTCOMPONENT14</td><td>AUDIOV~1.PNG|Audio.Volume.Up.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Audio.Volume.Up.png</td><td>1</td><td/></row>
 		<row><td>audio.volume.up.png2</td><td>ISX_DEFAULTCOMPONENT15</td><td>AUDIOV~1.PNG|Audio.Volume.Up.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\Audio.Volume.Up.png</td><td>1</td><td/></row>
+		<row><td>audiocast.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>AUDIOC~1.PNG|AudioCast.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\AudioCast.png</td><td>1</td><td/></row>
 		<row><td>audiocontrol.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>AUDIOC~1.PNG|AudioControl.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\AudioControl.png</td><td>1</td><td/></row>
-		<row><td>avid.desktop.exe</td><td>Avid.Desktop.exe</td><td>AVIDDE~1.EXE|Avid.Desktop.exe</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop\bin\Debug\Avid.Desktop.exe</td><td>1</td><td/></row>
-		<row><td>avid.desktop.exe.config</td><td>ISX_DEFAULTCOMPONENT1</td><td>AVIDDE~1.CON|Avid.Desktop.exe.config</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop\bin\Debug\Avid.Desktop.exe.config</td><td>1</td><td/></row>
-		<row><td>avid.spotify.data.dll</td><td>Avid.Spotify.Data.dll</td><td>AVIDSP~1.DLL|Avid.Spotify.Data.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Spotify\bin\Debug\Avid.Spotify.Data.dll</td><td>1</td><td/></row>
-		<row><td>avid.spotify.data.dll1</td><td>Avid.Spotify.Data.dll1</td><td>AVIDSP~1.DLL|Avid.Spotify.Data.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\Avid.Spotify.Data.dll</td><td>1</td><td/></row>
+		<row><td>avid.desktop.exe</td><td>Avid.Desktop.exe</td><td>AVIDDE~1.EXE|Avid.Desktop.exe</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop2\bin\Debug\Avid.Desktop.exe</td><td>1</td><td/></row>
 		<row><td>avid.spotify.exe</td><td>Avid.Spotify.exe</td><td>AVIDSP~1.EXE|Avid.Spotify.exe</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Spotify\bin\Debug\Avid.Spotify.exe</td><td>1</td><td/></row>
 		<row><td>avid.spotify.exe.config</td><td>ISX_DEFAULTCOMPONENT1</td><td>AVIDSP~1.CON|Avid.Spotify.exe.config</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Spotify\bin\Debug\Avid.Spotify.exe.config</td><td>1</td><td/></row>
 		<row><td>avid4.net.dll</td><td>Avid4.Net.dll</td><td>AVID4N~1.DLL|Avid4.Net.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\Avid4.Net.dll</td><td>1</td><td/></row>
-		<row><td>avid4blue64.ico</td><td>ISX_DEFAULTCOMPONENT1</td><td>AVID4B~1.ICO|Avid4Blue64.ico</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop\bin\Debug\Avid4Blue64.ico</td><td>1</td><td/></row>
 		<row><td>avid4green64.ico</td><td>ISX_DEFAULTCOMPONENT1</td><td>AVID4G~1.ICO|Avid4Green64.ico</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Spotify\bin\Debug\Avid4Green64.ico</td><td>1</td><td/></row>
 		<row><td>avid_icon64.png</td><td>ISX_DEFAULTCOMPONENT2</td><td>AVID-I~1.PNG|avid-icon64.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\avid-icon64.png</td><td>1</td><td/></row>
 		<row><td>avidconfig.xml</td><td>ISX_DEFAULTCOMPONENT1</td><td>AVIDCO~1.XML|AvidConfig.xml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Config\AvidConfig.xml</td><td>1</td><td/></row>
@@ -2101,52 +2096,55 @@
 		<row><td>blank.png1</td><td>ISX_DEFAULTCOMPONENT14</td><td>Blank.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Blank.png</td><td>1</td><td/></row>
 		<row><td>blank.png2</td><td>ISX_DEFAULTCOMPONENT15</td><td>Blank.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\Blank.png</td><td>1</td><td/></row>
 		<row><td>blank.psd</td><td>ISX_DEFAULTCOMPONENT10</td><td>Blank.psd</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Blank.psd</td><td>1</td><td/></row>
-		<row><td>browse.cshtml1</td><td>ISX_DEFAULTCOMPONENT74</td><td>BROWSE~1.CSH|Browse.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\Browse.cshtml</td><td>1</td><td/></row>
-		<row><td>browser.cshtml4</td><td>ISX_DEFAULTCOMPONENT71</td><td>BROWSE~1.CSH|Browser.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Guide\Browser.cshtml</td><td>1</td><td/></row>
-		<row><td>browser.cshtml5</td><td>ISX_DEFAULTCOMPONENT73</td><td>BROWSE~1.CSH|Browser.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\Browser.cshtml</td><td>1</td><td/></row>
-		<row><td>browser.cshtml6</td><td>ISX_DEFAULTCOMPONENT77</td><td>BROWSE~1.CSH|Browser.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\Browser.cshtml</td><td>1</td><td/></row>
-		<row><td>browser.cshtml7</td><td>ISX_DEFAULTCOMPONENT81</td><td>BROWSE~1.CSH|Browser.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Web\Browser.cshtml</td><td>1</td><td/></row>
-		<row><td>browserpane.cshtml5</td><td>ISX_DEFAULTCOMPONENT71</td><td>BROWSE~1.CSH|BrowserPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Guide\BrowserPane.cshtml</td><td>1</td><td/></row>
-		<row><td>browserpane.cshtml6</td><td>ISX_DEFAULTCOMPONENT73</td><td>BROWSE~1.CSH|BrowserPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\BrowserPane.cshtml</td><td>1</td><td/></row>
-		<row><td>browserpane.cshtml7</td><td>ISX_DEFAULTCOMPONENT74</td><td>BROWSE~1.CSH|BrowserPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\BrowserPane.cshtml</td><td>1</td><td/></row>
-		<row><td>browserpane.cshtml8</td><td>ISX_DEFAULTCOMPONENT77</td><td>BROWSE~1.CSH|BrowserPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\BrowserPane.cshtml</td><td>1</td><td/></row>
-		<row><td>browserpane.cshtml9</td><td>ISX_DEFAULTCOMPONENT81</td><td>BROWSE~1.CSH|BrowserPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Web\BrowserPane.cshtml</td><td>1</td><td/></row>
-		<row><td>browsersearchpane.cshtml</td><td>ISX_DEFAULTCOMPONENT73</td><td>BROWSE~1.CSH|BrowserSearchPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\BrowserSearchPane.cshtml</td><td>1</td><td/></row>
-		<row><td>browsersearchpane.cshtml1</td><td>ISX_DEFAULTCOMPONENT77</td><td>BROWSE~1.CSH|BrowserSearchPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\BrowserSearchPane.cshtml</td><td>1</td><td/></row>
-		<row><td>browserwide.cshtml1</td><td>ISX_DEFAULTCOMPONENT71</td><td>BROWSE~1.CSH|BrowserWide.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Guide\BrowserWide.cshtml</td><td>1</td><td/></row>
-		<row><td>buttons.cshtml2</td><td>ISX_DEFAULTCOMPONENT76</td><td>BUTTON~1.CSH|Buttons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\Buttons.cshtml</td><td>1</td><td/></row>
-		<row><td>buttons.cshtml3</td><td>ISX_DEFAULTCOMPONENT79</td><td>BUTTON~1.CSH|Buttons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\Buttons.cshtml</td><td>1</td><td/></row>
-		<row><td>buttonspane.cshtml2</td><td>ISX_DEFAULTCOMPONENT76</td><td>BUTTON~1.CSH|ButtonsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\ButtonsPane.cshtml</td><td>1</td><td/></row>
-		<row><td>buttonspane.cshtml3</td><td>ISX_DEFAULTCOMPONENT79</td><td>BUTTON~1.CSH|ButtonsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\ButtonsPane.cshtml</td><td>1</td><td/></row>
+		<row><td>browse.cshtml</td><td>ISX_DEFAULTCOMPONENT24</td><td>BROWSE~1.CSH|Browse.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\Browse.cshtml</td><td>1</td><td/></row>
+		<row><td>browser.cshtml</td><td>ISX_DEFAULTCOMPONENT8</td><td>BROWSE~1.CSH|Browser.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Guide\Browser.cshtml</td><td>1</td><td/></row>
+		<row><td>browser.cshtml1</td><td>ISX_DEFAULTCOMPONENT23</td><td>BROWSE~1.CSH|Browser.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\Browser.cshtml</td><td>1</td><td/></row>
+		<row><td>browser.cshtml2</td><td>ISX_DEFAULTCOMPONENT28</td><td>BROWSE~1.CSH|Browser.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\Browser.cshtml</td><td>1</td><td/></row>
+		<row><td>browser.cshtml3</td><td>ISX_DEFAULTCOMPONENT29</td><td>BROWSE~1.CSH|Browser.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Streaming\Browser.cshtml</td><td>1</td><td/></row>
+		<row><td>browser.cshtml4</td><td>ISX_DEFAULTCOMPONENT32</td><td>BROWSE~1.CSH|Browser.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Web\Browser.cshtml</td><td>1</td><td/></row>
+		<row><td>browserpane.cshtml</td><td>ISX_DEFAULTCOMPONENT23</td><td>BROWSE~1.CSH|BrowserPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\BrowserPane.cshtml</td><td>1</td><td/></row>
+		<row><td>browserpane.cshtml1</td><td>ISX_DEFAULTCOMPONENT24</td><td>BROWSE~1.CSH|BrowserPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\BrowserPane.cshtml</td><td>1</td><td/></row>
+		<row><td>browserpane.cshtml2</td><td>ISX_DEFAULTCOMPONENT28</td><td>BROWSE~1.CSH|BrowserPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\BrowserPane.cshtml</td><td>1</td><td/></row>
+		<row><td>browserpane.cshtml3</td><td>ISX_DEFAULTCOMPONENT29</td><td>BROWSE~1.CSH|BrowserPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Streaming\BrowserPane.cshtml</td><td>1</td><td/></row>
+		<row><td>browserpane.cshtml4</td><td>ISX_DEFAULTCOMPONENT32</td><td>BROWSE~1.CSH|BrowserPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Web\BrowserPane.cshtml</td><td>1</td><td/></row>
+		<row><td>browsersearchpane.cshtml</td><td>ISX_DEFAULTCOMPONENT23</td><td>BROWSE~1.CSH|BrowserSearchPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\BrowserSearchPane.cshtml</td><td>1</td><td/></row>
+		<row><td>browsersearchpane.cshtml1</td><td>ISX_DEFAULTCOMPONENT28</td><td>BROWSE~1.CSH|BrowserSearchPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\BrowserSearchPane.cshtml</td><td>1</td><td/></row>
+		<row><td>browserwide.cshtml</td><td>ISX_DEFAULTCOMPONENT8</td><td>BROWSE~1.CSH|BrowserWide.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Guide\BrowserWide.cshtml</td><td>1</td><td/></row>
+		<row><td>buttons.cshtml</td><td>ISX_DEFAULTCOMPONENT27</td><td>BUTTON~1.CSH|Buttons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\Buttons.cshtml</td><td>1</td><td/></row>
+		<row><td>buttons.cshtml1</td><td>ISX_DEFAULTCOMPONENT30</td><td>BUTTON~1.CSH|Buttons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\Buttons.cshtml</td><td>1</td><td/></row>
+		<row><td>buttonspane.cshtml</td><td>ISX_DEFAULTCOMPONENT27</td><td>BUTTON~1.CSH|ButtonsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\ButtonsPane.cshtml</td><td>1</td><td/></row>
+		<row><td>buttonspane.cshtml1</td><td>ISX_DEFAULTCOMPONENT30</td><td>BUTTON~1.CSH|ButtonsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\ButtonsPane.cshtml</td><td>1</td><td/></row>
 		<row><td>cancelseries.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>CANCEL~1.PNG|CancelSeries.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\CancelSeries.png</td><td>1</td><td/></row>
 		<row><td>cancelshow.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>CANCEL~1.PNG|CancelShow.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\CancelShow.png</td><td>1</td><td/></row>
+		<row><td>cast.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Cast.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Cast.png</td><td>1</td><td/></row>
 		<row><td>channel.down.png</td><td>ISX_DEFAULTCOMPONENT11</td><td>CHANNE~1.PNG|Channel.Down.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\BigRound\Channel.Down.png</td><td>1</td><td/></row>
 		<row><td>channel.down.png1</td><td>ISX_DEFAULTCOMPONENT14</td><td>CHANNE~1.PNG|Channel.Down.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Channel.Down.png</td><td>1</td><td/></row>
 		<row><td>channel.up.png</td><td>ISX_DEFAULTCOMPONENT11</td><td>CHANNE~1.PNG|Channel.Up.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\BigRound\Channel.Up.png</td><td>1</td><td/></row>
 		<row><td>channel.up.png1</td><td>ISX_DEFAULTCOMPONENT14</td><td>CHANNE~1.PNG|Channel.Up.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Channel.Up.png</td><td>1</td><td/></row>
-		<row><td>channels.cshtml1</td><td>ISX_DEFAULTCOMPONENT79</td><td>CHANNE~1.CSH|Channels.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\Channels.cshtml</td><td>1</td><td/></row>
+		<row><td>channels.cshtml</td><td>ISX_DEFAULTCOMPONENT30</td><td>CHANNE~1.CSH|Channels.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\Channels.cshtml</td><td>1</td><td/></row>
 		<row><td>channels.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Channels.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Channels.png</td><td>1</td><td/></row>
-		<row><td>channelspane.cshtml2</td><td>ISX_DEFAULTCOMPONENT76</td><td>CHANNE~1.CSH|ChannelsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\ChannelsPane.cshtml</td><td>1</td><td/></row>
-		<row><td>channelspane.cshtml3</td><td>ISX_DEFAULTCOMPONENT79</td><td>CHANNE~1.CSH|ChannelsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\ChannelsPane.cshtml</td><td>1</td><td/></row>
+		<row><td>channelspane.cshtml</td><td>ISX_DEFAULTCOMPONENT27</td><td>CHANNE~1.CSH|ChannelsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\ChannelsPane.cshtml</td><td>1</td><td/></row>
+		<row><td>channelspane.cshtml1</td><td>ISX_DEFAULTCOMPONENT30</td><td>CHANNE~1.CSH|ChannelsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\ChannelsPane.cshtml</td><td>1</td><td/></row>
 		<row><td>colours.blue.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>COLOUR~1.PNG|Colours.Blue.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Colours.Blue.png</td><td>1</td><td/></row>
 		<row><td>colours.green.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>COLOUR~1.PNG|Colours.Green.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Colours.Green.png</td><td>1</td><td/></row>
 		<row><td>colours.red.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>COLOUR~1.PNG|Colours.Red.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Colours.Red.png</td><td>1</td><td/></row>
 		<row><td>colours.yellow.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>COLOUR~1.PNG|Colours.Yellow.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Colours.Yellow.png</td><td>1</td><td/></row>
-		<row><td>controlpane.cshtml2</td><td>ISX_DEFAULTCOMPONENT76</td><td>CONTRO~1.CSH|ControlPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\ControlPane.cshtml</td><td>1</td><td/></row>
-		<row><td>controlpane.cshtml3</td><td>ISX_DEFAULTCOMPONENT79</td><td>CONTRO~1.CSH|ControlPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\ControlPane.cshtml</td><td>1</td><td/></row>
+		<row><td>controlpane.cshtml</td><td>ISX_DEFAULTCOMPONENT27</td><td>CONTRO~1.CSH|ControlPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\ControlPane.cshtml</td><td>1</td><td/></row>
+		<row><td>controlpane.cshtml1</td><td>ISX_DEFAULTCOMPONENT30</td><td>CONTRO~1.CSH|ControlPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\ControlPane.cshtml</td><td>1</td><td/></row>
+		<row><td>controls.cshtml</td><td>ISX_DEFAULTCOMPONENT29</td><td>CONTRO~1.CSH|Controls.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Streaming\Controls.cshtml</td><td>1</td><td/></row>
 		<row><td>controls.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Controls.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Controls.png</td><td>1</td><td/></row>
+		<row><td>curzon.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Curzon.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Curzon.png</td><td>1</td><td/></row>
+		<row><td>curzoncontrolspane.cshtml</td><td>ISX_DEFAULTCOMPONENT29</td><td>CURZON~1.CSH|CurzonControlsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Streaming\CurzonControlsPane.cshtml</td><td>1</td><td/></row>
 		<row><td>cycle.display.button.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>CYCLED~1.PNG|Cycle.Display.Button.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Cycle.Display.Button.png</td><td>1</td><td/></row>
 		<row><td>delete.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Delete.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Delete.png</td><td>1</td><td/></row>
-		<row><td>desktopinterface.dll</td><td>DesktopInterface.dll</td><td>DESKTO~1.DLL|DesktopInterface.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop\bin\Debug\DesktopInterface.dll</td><td>1</td><td/></row>
-		<row><td>desktopinterface.dll1</td><td>DesktopInterface.dll1</td><td>DESKTO~1.DLL|DesktopInterface.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\DesktopInterface.dll</td><td>1</td><td/></row>
-		<row><td>display.cshtml1</td><td>ISX_DEFAULTCOMPONENT74</td><td>DISPLA~1.CSH|Display.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\Display.cshtml</td><td>1</td><td/></row>
+		<row><td>display.cshtml</td><td>ISX_DEFAULTCOMPONENT24</td><td>DISPLA~1.CSH|Display.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\Display.cshtml</td><td>1</td><td/></row>
 		<row><td>display.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Display.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Display.png</td><td>1</td><td/></row>
-		<row><td>displaypane.cshtml1</td><td>ISX_DEFAULTCOMPONENT74</td><td>DISPLA~1.CSH|DisplayPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\DisplayPane.cshtml</td><td>1</td><td/></row>
-		<row><td>dvds.cshtml1</td><td>ISX_DEFAULTCOMPONENT80</td><td>DVDS~1.CSH|DVDs.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\DVDs.cshtml</td><td>1</td><td/></row>
-		<row><td>dvdspane.cshtml1</td><td>ISX_DEFAULTCOMPONENT80</td><td>DVDSPA~1.CSH|DVDsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\DVDsPane.cshtml</td><td>1</td><td/></row>
+		<row><td>displaypane.cshtml</td><td>ISX_DEFAULTCOMPONENT24</td><td>DISPLA~1.CSH|DisplayPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\DisplayPane.cshtml</td><td>1</td><td/></row>
+		<row><td>dvds.cshtml</td><td>ISX_DEFAULTCOMPONENT31</td><td>DVDS~1.CSH|DVDs.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\DVDs.cshtml</td><td>1</td><td/></row>
+		<row><td>dvdspane.cshtml</td><td>ISX_DEFAULTCOMPONENT31</td><td>DVDSPA~1.CSH|DVDsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\DVDsPane.cshtml</td><td>1</td><td/></row>
 		<row><td>enter.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>Enter.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Enter.png</td><td>1</td><td/></row>
 		<row><td>entityframework.dll</td><td>EntityFramework.dll</td><td>ENTITY~1.DLL|EntityFramework.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\EntityFramework.dll</td><td>1</td><td/></row>
-		<row><td>error.cshtml1</td><td>ISX_DEFAULTCOMPONENT75</td><td>ERROR~1.CSH|Error.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Shared\Error.cshtml</td><td>1</td><td/></row>
+		<row><td>error.cshtml</td><td>ISX_DEFAULTCOMPONENT26</td><td>ERROR~1.CSH|Error.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Shared\Error.cshtml</td><td>1</td><td/></row>
 		<row><td>escape.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>Escape.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Escape.png</td><td>1</td><td/></row>
 		<row><td>exit.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Exit.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Exit.png</td><td>1</td><td/></row>
 		<row><td>exit.png1</td><td>ISX_DEFAULTCOMPONENT14</td><td>Exit.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Exit.png</td><td>1</td><td/></row>
@@ -2154,38 +2152,39 @@
 		<row><td>favicon.ico</td><td>ISX_DEFAULTCOMPONENT7</td><td>favicon.ico</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\Content\favicon.ico</td><td>1</td><td/></row>
 		<row><td>favicon.ico1</td><td>ISX_DEFAULTCOMPONENT9</td><td>favicon.ico</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\favicon.ico</td><td>1</td><td/></row>
 		<row><td>fonts.css</td><td>ISX_DEFAULTCOMPONENT9</td><td>Fonts.css</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Fonts.css</td><td>1</td><td/></row>
-		<row><td>functions.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>FUNCTI~1.JS|Functions.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\Functions.js</td><td>1</td><td/></row>
-		<row><td>getcoretempinfonet.dll</td><td>GetCoreTempInfoNET.dll</td><td>GETCOR~1.DLL|GetCoreTempInfoNET.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop\bin\Debug\GetCoreTempInfoNET.dll</td><td>1</td><td/></row>
+		<row><td>functions.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>FUNCTI~1.JS|Functions.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\Functions.js</td><td>1</td><td/></row>
+		<row><td>getcoretempinfonet.dll</td><td>GetCoreTempInfoNET.dll</td><td>GETCOR~1.DLL|GetCoreTempInfoNET.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop2\bin\Debug\GetCoreTempInfoNET.dll</td><td>1</td><td/></row>
 		<row><td>global.asax</td><td>ISX_DEFAULTCOMPONENT2</td><td>GLOBAL~1.ASA|Global.asax</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Global.asax</td><td>1</td><td/></row>
 		<row><td>global.asax.cs</td><td>ISX_DEFAULTCOMPONENT2</td><td>GLOBAL~1.CS|Global.asax.cs</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Global.asax.cs</td><td>1</td><td/></row>
+		<row><td>goaway.cshtml</td><td>ISX_DEFAULTCOMPONENT22</td><td>GOAWAY~1.CSH|GoAway.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Home\GoAway.cshtml</td><td>1</td><td/></row>
 		<row><td>grid.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Grid.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Grid.png</td><td>1</td><td/></row>
-		<row><td>guide.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>guide.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\guide.js</td><td>1</td><td/></row>
+		<row><td>guide.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>guide.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\guide.js</td><td>1</td><td/></row>
 		<row><td>guide.png</td><td>ISX_DEFAULTCOMPONENT11</td><td>Guide.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\BigRound\Guide.png</td><td>1</td><td/></row>
 		<row><td>guide.png1</td><td>ISX_DEFAULTCOMPONENT14</td><td>Guide.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Guide.png</td><td>1</td><td/></row>
+		<row><td>guide2.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>guide2.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\guide2.js</td><td>1</td><td/></row>
 		<row><td>guifx_v2_transports_webfont.</td><td>ISX_DEFAULTCOMPONENT16</td><td>GUIFX_~1.EOT|guifx_v2_transports-webfont.eot</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Fonts\guifx_v2_transports-webfont.eot</td><td>1</td><td/></row>
 		<row><td>guifx_v2_transports_webfont.1</td><td>ISX_DEFAULTCOMPONENT16</td><td>GUIFX_~1.SVG|guifx_v2_transports-webfont.svg</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Fonts\guifx_v2_transports-webfont.svg</td><td>1</td><td/></row>
 		<row><td>guifx_v2_transports_webfont.2</td><td>ISX_DEFAULTCOMPONENT16</td><td>GUIFX_~1.TTF|guifx_v2_transports-webfont.ttf</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Fonts\guifx_v2_transports-webfont.ttf</td><td>1</td><td/></row>
 		<row><td>guifx_v2_transports_webfont.3</td><td>ISX_DEFAULTCOMPONENT16</td><td>GUIFX_~1.WOF|guifx_v2_transports-webfont.woff</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Fonts\guifx_v2_transports-webfont.woff</td><td>1</td><td/></row>
-		<row><td>hammer.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>Hammer.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\Hammer.js</td><td>1</td><td/></row>
+		<row><td>hammer.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>hammer.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\hammer.js</td><td>1</td><td/></row>
 		<row><td>hammer.min.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>HAMMER~1.JS|hammer.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\hammer.min.js</td><td>1</td><td/></row>
-		<row><td>home.cshtml1</td><td>ISX_DEFAULTCOMPONENT72</td><td>HOME~1.CSH|Home.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Home\Home.cshtml</td><td>1</td><td/></row>
-		<row><td>home.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>home.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\home.js</td><td>1</td><td/></row>
+		<row><td>home.cshtml</td><td>ISX_DEFAULTCOMPONENT22</td><td>HOME~1.CSH|Home.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Home\Home.cshtml</td><td>1</td><td/></row>
+		<row><td>home.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>home.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\home.js</td><td>1</td><td/></row>
 		<row><td>home.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Home.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Home.png</td><td>1</td><td/></row>
 		<row><td>home.png1</td><td>ISX_DEFAULTCOMPONENT14</td><td>Home.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Home.png</td><td>1</td><td/></row>
 		<row><td>home.png2</td><td>ISX_DEFAULTCOMPONENT15</td><td>Home.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\Home.png</td><td>1</td><td/></row>
-		<row><td>homewide.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>homeWide.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\homeWide.js</td><td>1</td><td/></row>
-		<row><td>images.cshtml1</td><td>ISX_DEFAULTCOMPONENT74</td><td>IMAGES~1.CSH|Images.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\Images.cshtml</td><td>1</td><td/></row>
-		<row><td>imagespane.cshtml1</td><td>ISX_DEFAULTCOMPONENT74</td><td>IMAGES~1.CSH|ImagesPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\ImagesPane.cshtml</td><td>1</td><td/></row>
-		<row><td>index.cshtml1</td><td>ISX_DEFAULTCOMPONENT78</td><td>INDEX~1.CSH|Index.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Test\Index.cshtml</td><td>1</td><td/></row>
+		<row><td>homewide.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>homeWide.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\homeWide.js</td><td>1</td><td/></row>
+		<row><td>images.cshtml</td><td>ISX_DEFAULTCOMPONENT24</td><td>IMAGES~1.CSH|Images.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\Images.cshtml</td><td>1</td><td/></row>
+		<row><td>imagespane.cshtml</td><td>ISX_DEFAULTCOMPONENT24</td><td>IMAGES~1.CSH|ImagesPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\ImagesPane.cshtml</td><td>1</td><td/></row>
 		<row><td>info.png</td><td>ISX_DEFAULTCOMPONENT11</td><td>Info.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\BigRound\Info.png</td><td>1</td><td/></row>
 		<row><td>info.png1</td><td>ISX_DEFAULTCOMPONENT14</td><td>Info.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Info.png</td><td>1</td><td/></row>
-		<row><td>inputsimulator.dll</td><td>InputSimulator.dll</td><td>INPUTS~1.DLL|InputSimulator.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop\bin\Debug\InputSimulator.dll</td><td>1</td><td/></row>
+		<row><td>inputsimulator.dll</td><td>InputSimulator.dll</td><td>INPUTS~1.DLL|InputSimulator.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop2\bin\Debug\InputSimulator.dll</td><td>1</td><td/></row>
 		<row><td>iplayer.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>iPlayer.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\iPlayer.png</td><td>1</td><td/></row>
-		<row><td>jquery.easing.min.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.easing.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.easing.min.js</td><td>1</td><td/></row>
-		<row><td>jquery.hammer.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.hammer.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.hammer.js</td><td>1</td><td/></row>
-		<row><td>jquery.hammer.min.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.hammer.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.hammer.min.js</td><td>1</td><td/></row>
-		<row><td>jquery.nouislider.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.nouislider.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.nouislider.js</td><td>1</td><td/></row>
-		<row><td>jquery.nouislider.min.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.nouislider.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.nouislider.min.js</td><td>1</td><td/></row>
+		<row><td>jquery.easing.min.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.easing.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.easing.min.js</td><td>1</td><td/></row>
+		<row><td>jquery.hammer.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.hammer.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.hammer.js</td><td>1</td><td/></row>
+		<row><td>jquery.hammer.min.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.hammer.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.hammer.min.js</td><td>1</td><td/></row>
+		<row><td>jquery.nouislider.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.nouislider.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.nouislider.js</td><td>1</td><td/></row>
+		<row><td>jquery.nouislider.min.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.nouislider.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.nouislider.min.js</td><td>1</td><td/></row>
 		<row><td>jquery.scrollto_1.4.3.1.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.scrollTo-1.4.3.1.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.scrollTo-1.4.3.1.js</td><td>1</td><td/></row>
 		<row><td>jquery.scrollto_1.4.3.1_min.</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.scrollTo-1.4.3.1-min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.scrollTo-1.4.3.1-min.js</td><td>1</td><td/></row>
 		<row><td>jquery.ui.accordion.css</td><td>ISX_DEFAULTCOMPONENT18</td><td>JQUERY~1.CSS|jquery.ui.accordion.css</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\themes\base\jquery.ui.accordion.css</td><td>1</td><td/></row>
@@ -2214,20 +2213,20 @@
 		<row><td>jquery.ui.tabs.min.css</td><td>ISX_DEFAULTCOMPONENT20</td><td>JQUERY~1.CSS|jquery.ui.tabs.min.css</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\themes\base\minified\jquery.ui.tabs.min.css</td><td>1</td><td/></row>
 		<row><td>jquery.ui.theme.css</td><td>ISX_DEFAULTCOMPONENT18</td><td>JQUERY~1.CSS|jquery.ui.theme.css</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\themes\base\jquery.ui.theme.css</td><td>1</td><td/></row>
 		<row><td>jquery.ui.theme.min.css</td><td>ISX_DEFAULTCOMPONENT20</td><td>JQUERY~1.CSS|jquery.ui.theme.min.css</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\themes\base\minified\jquery.ui.theme.min.css</td><td>1</td><td/></row>
-		<row><td>jquery.unobtrusive_ajax.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.unobtrusive-ajax.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.unobtrusive-ajax.js</td><td>1</td><td/></row>
-		<row><td>jquery.unobtrusive_ajax.min.1</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.unobtrusive-ajax.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.unobtrusive-ajax.min.js</td><td>1</td><td/></row>
-		<row><td>jquery.validate.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.validate.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.validate.js</td><td>1</td><td/></row>
-		<row><td>jquery.validate.min.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.validate.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.validate.min.js</td><td>1</td><td/></row>
-		<row><td>jquery.validate.unobtrusive.2</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.validate.unobtrusive.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.validate.unobtrusive.js</td><td>1</td><td/></row>
-		<row><td>jquery.validate.unobtrusive.3</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.validate.unobtrusive.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.validate.unobtrusive.min.js</td><td>1</td><td/></row>
+		<row><td>jquery.unobtrusive_ajax.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.unobtrusive-ajax.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.unobtrusive-ajax.js</td><td>1</td><td/></row>
+		<row><td>jquery.unobtrusive_ajax.min.</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.unobtrusive-ajax.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.unobtrusive-ajax.min.js</td><td>1</td><td/></row>
+		<row><td>jquery.validate.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.validate.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.validate.js</td><td>1</td><td/></row>
+		<row><td>jquery.validate.min.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.validate.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.validate.min.js</td><td>1</td><td/></row>
+		<row><td>jquery.validate.unobtrusive.</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.validate.unobtrusive.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.validate.unobtrusive.js</td><td>1</td><td/></row>
+		<row><td>jquery.validate.unobtrusive.1</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.validate.unobtrusive.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.validate.unobtrusive.min.js</td><td>1</td><td/></row>
 		<row><td>jquery.validate_vsdoc.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery.validate-vsdoc.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery.validate-vsdoc.js</td><td>1</td><td/></row>
 		<row><td>jquery_1.8.2.intellisense.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery-1.8.2.intellisense.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery-1.8.2.intellisense.js</td><td>1</td><td/></row>
-		<row><td>jquery_1.8.2.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery-1.8.2.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery-1.8.2.js</td><td>1</td><td/></row>
-		<row><td>jquery_1.8.2.min.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery-1.8.2.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery-1.8.2.min.js</td><td>1</td><td/></row>
+		<row><td>jquery_1.8.2.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery-1.8.2.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery-1.8.2.js</td><td>1</td><td/></row>
+		<row><td>jquery_1.8.2.min.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery-1.8.2.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery-1.8.2.min.js</td><td>1</td><td/></row>
 		<row><td>jquery_ui.css</td><td>ISX_DEFAULTCOMPONENT18</td><td>JQUERY~1.CSS|jquery-ui.css</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\themes\base\jquery-ui.css</td><td>1</td><td/></row>
 		<row><td>jquery_ui.min.css</td><td>ISX_DEFAULTCOMPONENT20</td><td>JQUERY~1.CSS|jquery-ui.min.css</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\themes\base\minified\jquery-ui.min.css</td><td>1</td><td/></row>
-		<row><td>jquery_ui_1.8.24.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery-ui-1.8.24.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery-ui-1.8.24.js</td><td>1</td><td/></row>
-		<row><td>jquery_ui_1.8.24.min.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery-ui-1.8.24.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery-ui-1.8.24.min.js</td><td>1</td><td/></row>
+		<row><td>jquery_ui_1.8.24.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery-ui-1.8.24.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery-ui-1.8.24.js</td><td>1</td><td/></row>
+		<row><td>jquery_ui_1.8.24.min.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>JQUERY~1.JS|jquery-ui-1.8.24.min.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\jquery-ui-1.8.24.min.js</td><td>1</td><td/></row>
 		<row><td>keyboard.numbers.0.png</td><td>ISX_DEFAULTCOMPONENT11</td><td>KEYBOA~1.PNG|Keyboard.Numbers.0.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\BigRound\Keyboard.Numbers.0.png</td><td>1</td><td/></row>
 		<row><td>keyboard.numbers.0.png1</td><td>ISX_DEFAULTCOMPONENT14</td><td>KEYBOA~1.PNG|Keyboard.Numbers.0.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Keyboard.Numbers.0.png</td><td>1</td><td/></row>
 		<row><td>keyboard.numbers.1.png</td><td>ISX_DEFAULTCOMPONENT11</td><td>KEYBOA~1.PNG|Keyboard.Numbers.1.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\BigRound\Keyboard.Numbers.1.png</td><td>1</td><td/></row>
@@ -2249,12 +2248,14 @@
 		<row><td>keyboard.numbers.9.png</td><td>ISX_DEFAULTCOMPONENT11</td><td>KEYBOA~1.PNG|Keyboard.Numbers.9.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\BigRound\Keyboard.Numbers.9.png</td><td>1</td><td/></row>
 		<row><td>keyboard.numbers.9.png1</td><td>ISX_DEFAULTCOMPONENT14</td><td>KEYBOA~1.PNG|Keyboard.Numbers.9.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Keyboard.Numbers.9.png</td><td>1</td><td/></row>
 		<row><td>keypad.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>Keypad.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Keypad.png</td><td>1</td><td/></row>
-		<row><td>knockout_2.2.0.debug.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>KNOCKO~1.JS|knockout-2.2.0.debug.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\knockout-2.2.0.debug.js</td><td>1</td><td/></row>
-		<row><td>knockout_2.2.0.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>KNOCKO~1.JS|knockout-2.2.0.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\knockout-2.2.0.js</td><td>1</td><td/></row>
+		<row><td>knockout_2.2.0.debug.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>KNOCKO~1.JS|knockout-2.2.0.debug.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\knockout-2.2.0.debug.js</td><td>1</td><td/></row>
+		<row><td>knockout_2.2.0.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>KNOCKO~1.JS|knockout-2.2.0.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\knockout-2.2.0.js</td><td>1</td><td/></row>
 		<row><td>librarytab.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>LIBRAR~1.PNG|LibraryTab.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\LibraryTab.png</td><td>1</td><td/></row>
 		<row><td>libspotify.dll</td><td>libspotify.dll</td><td>LIBSPO~1.DLL|libspotify.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Spotify\bin\Debug\libspotify.dll</td><td>1</td><td/></row>
+		<row><td>listingspane.cshtml</td><td>ISX_DEFAULTCOMPONENT8</td><td>LISTIN~1.CSH|ListingsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Guide\ListingsPane.cshtml</td><td>1</td><td/></row>
 		<row><td>listtab.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>ListTab.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\ListTab.png</td><td>1</td><td/></row>
-		<row><td>live.cshtml1</td><td>ISX_DEFAULTCOMPONENT76</td><td>LIVE~1.CSH|Live.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\Live.cshtml</td><td>1</td><td/></row>
+		<row><td>live.cshtml</td><td>ISX_DEFAULTCOMPONENT27</td><td>LIVE~1.CSH|Live.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\Live.cshtml</td><td>1</td><td/></row>
+		<row><td>logfire.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>LogFire.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\LogFire.png</td><td>1</td><td/></row>
 		<row><td>menu.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>Menu.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Menu.png</td><td>1</td><td/></row>
 		<row><td>microsoft.web.infrastructure</td><td>Microsoft.Web.Infrastructure.dll</td><td>MICROS~1.DLL|Microsoft.Web.Infrastructure.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\Microsoft.Web.Infrastructure.dll</td><td>1</td><td/></row>
 		<row><td>microsoft.web.mvc.fixeddispl</td><td>Microsoft.Web.Mvc.FixedDisplayModes.dll</td><td>MICROS~1.DLL|Microsoft.Web.Mvc.FixedDisplayModes.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll</td><td>1</td><td/></row>
@@ -2263,14 +2264,14 @@
 		<row><td>minus10.png1</td><td>ISX_DEFAULTCOMPONENT15</td><td>Minus10.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\Minus10.png</td><td>1</td><td/></row>
 		<row><td>minus60.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Minus60.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Minus60.png</td><td>1</td><td/></row>
 		<row><td>minus60.png1</td><td>ISX_DEFAULTCOMPONENT15</td><td>Minus60.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\Minus60.png</td><td>1</td><td/></row>
-		<row><td>modernizr_2.6.2.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>MODERN~1.JS|modernizr-2.6.2.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\modernizr-2.6.2.js</td><td>1</td><td/></row>
-		<row><td>mouse.cshtml2</td><td>ISX_DEFAULTCOMPONENT77</td><td>MOUSE~1.CSH|Mouse.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\Mouse.cshtml</td><td>1</td><td/></row>
-		<row><td>mouse.cshtml3</td><td>ISX_DEFAULTCOMPONENT81</td><td>MOUSE~1.CSH|Mouse.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Web\Mouse.cshtml</td><td>1</td><td/></row>
+		<row><td>modernizr_2.6.2.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>MODERN~1.JS|modernizr-2.6.2.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\modernizr-2.6.2.js</td><td>1</td><td/></row>
+		<row><td>mouse.cshtml</td><td>ISX_DEFAULTCOMPONENT28</td><td>MOUSE~1.CSH|Mouse.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\Mouse.cshtml</td><td>1</td><td/></row>
+		<row><td>mouse.cshtml1</td><td>ISX_DEFAULTCOMPONENT32</td><td>MOUSE~1.CSH|Mouse.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Web\Mouse.cshtml</td><td>1</td><td/></row>
 		<row><td>mousecontrol.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>MOUSEC~1.PNG|MouseControl.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\MouseControl.png</td><td>1</td><td/></row>
-		<row><td>mouseetc.cshtml1</td><td>ISX_DEFAULTCOMPONENT72</td><td>MOUSEE~1.CSH|MouseEtc.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Home\MouseEtc.cshtml</td><td>1</td><td/></row>
-		<row><td>mouseetcwide.cshtml1</td><td>ISX_DEFAULTCOMPONENT72</td><td>MOUSEE~1.CSH|MouseEtcWide.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Home\MouseEtcWide.cshtml</td><td>1</td><td/></row>
+		<row><td>mouseetc.cshtml</td><td>ISX_DEFAULTCOMPONENT22</td><td>MOUSEE~1.CSH|MouseEtc.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Home\MouseEtc.cshtml</td><td>1</td><td/></row>
+		<row><td>mouseetcwide.cshtml</td><td>ISX_DEFAULTCOMPONENT22</td><td>MOUSEE~1.CSH|MouseEtcWide.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Home\MouseEtcWide.cshtml</td><td>1</td><td/></row>
 		<row><td>move.left.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>MOVELE~1.PNG|Move.Left.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Move.Left.png</td><td>1</td><td/></row>
-		<row><td>music.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>music.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\music.js</td><td>1</td><td/></row>
+		<row><td>music.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>music.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\music.js</td><td>1</td><td/></row>
 		<row><td>naudio.dll</td><td>NAudio.dll</td><td>NAudio.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Spotify\bin\Debug\NAudio.dll</td><td>1</td><td/></row>
 		<row><td>nav.down.png</td><td>ISX_DEFAULTCOMPONENT11</td><td>NAVDOW~1.PNG|Nav.Down.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\BigRound\Nav.Down.png</td><td>1</td><td/></row>
 		<row><td>nav.down.png1</td><td>ISX_DEFAULTCOMPONENT14</td><td>NAVDOW~1.PNG|Nav.Down.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Nav.Down.png</td><td>1</td><td/></row>
@@ -2290,8 +2291,8 @@
 		<row><td>nlog.dll1</td><td>NLog.dll1</td><td>NLog.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\NLog.dll</td><td>1</td><td/></row>
 		<row><td>nouislider.fox.css</td><td>ISX_DEFAULTCOMPONENT9</td><td>NOUISL~1.CSS|nouislider.fox.css</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\nouislider.fox.css</td><td>1</td><td/></row>
 		<row><td>nouislider.space.css</td><td>ISX_DEFAULTCOMPONENT9</td><td>NOUISL~1.CSS|nouislider.space.css</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\nouislider.space.css</td><td>1</td><td/></row>
-		<row><td>nowandnext.cshtml2</td><td>ISX_DEFAULTCOMPONENT76</td><td>NOWAND~1.CSH|NowAndNext.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\NowAndNext.cshtml</td><td>1</td><td/></row>
-		<row><td>nowandnext.cshtml3</td><td>ISX_DEFAULTCOMPONENT79</td><td>NOWAND~1.CSH|NowAndNext.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\NowAndNext.cshtml</td><td>1</td><td/></row>
+		<row><td>nowandnext.cshtml</td><td>ISX_DEFAULTCOMPONENT27</td><td>NOWAND~1.CSH|NowAndNext.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\NowAndNext.cshtml</td><td>1</td><td/></row>
+		<row><td>nowandnext.cshtml1</td><td>ISX_DEFAULTCOMPONENT30</td><td>NOWAND~1.CSH|NowAndNext.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\NowAndNext.cshtml</td><td>1</td><td/></row>
 		<row><td>ok.png</td><td>ISX_DEFAULTCOMPONENT11</td><td>OK.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\BigRound\OK.png</td><td>1</td><td/></row>
 		<row><td>ok.png1</td><td>ISX_DEFAULTCOMPONENT10</td><td>OK.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\OK.png</td><td>1</td><td/></row>
 		<row><td>ok.png2</td><td>ISX_DEFAULTCOMPONENT14</td><td>OK.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\OK.png</td><td>1</td><td/></row>
@@ -2302,20 +2303,22 @@
 		<row><td>page.down.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>PAGEDO~1.PNG|Page.Down.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Page.Down.png</td><td>1</td><td/></row>
 		<row><td>page.up.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>PAGEUP~1.PNG|Page.Up.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Page.Up.png</td><td>1</td><td/></row>
 		<row><td>page.up.png1</td><td>ISX_DEFAULTCOMPONENT15</td><td>PAGEUP~1.PNG|Page.Up.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\Page.Up.png</td><td>1</td><td/></row>
-		<row><td>panebuttons.cshtml10</td><td>ISX_DEFAULTCOMPONENT79</td><td>PANEBU~1.CSH|PaneButtons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\PaneButtons.cshtml</td><td>1</td><td/></row>
-		<row><td>panebuttons.cshtml11</td><td>ISX_DEFAULTCOMPONENT80</td><td>PANEBU~1.CSH|PaneButtons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\PaneButtons.cshtml</td><td>1</td><td/></row>
-		<row><td>panebuttons.cshtml6</td><td>ISX_DEFAULTCOMPONENT73</td><td>PANEBU~1.CSH|PaneButtons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\PaneButtons.cshtml</td><td>1</td><td/></row>
-		<row><td>panebuttons.cshtml7</td><td>ISX_DEFAULTCOMPONENT74</td><td>PANEBU~1.CSH|PaneButtons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\PaneButtons.cshtml</td><td>1</td><td/></row>
-		<row><td>panebuttons.cshtml8</td><td>ISX_DEFAULTCOMPONENT76</td><td>PANEBU~1.CSH|PaneButtons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\PaneButtons.cshtml</td><td>1</td><td/></row>
-		<row><td>panebuttons.cshtml9</td><td>ISX_DEFAULTCOMPONENT77</td><td>PANEBU~1.CSH|PaneButtons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\PaneButtons.cshtml</td><td>1</td><td/></row>
-		<row><td>photos.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>photos.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\photos.js</td><td>1</td><td/></row>
+		<row><td>panebuttons.cshtml</td><td>ISX_DEFAULTCOMPONENT8</td><td>PANEBU~1.CSH|PaneButtons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Guide\PaneButtons.cshtml</td><td>1</td><td/></row>
+		<row><td>panebuttons.cshtml1</td><td>ISX_DEFAULTCOMPONENT23</td><td>PANEBU~1.CSH|PaneButtons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\PaneButtons.cshtml</td><td>1</td><td/></row>
+		<row><td>panebuttons.cshtml2</td><td>ISX_DEFAULTCOMPONENT24</td><td>PANEBU~1.CSH|PaneButtons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\PaneButtons.cshtml</td><td>1</td><td/></row>
+		<row><td>panebuttons.cshtml3</td><td>ISX_DEFAULTCOMPONENT27</td><td>PANEBU~1.CSH|PaneButtons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\PaneButtons.cshtml</td><td>1</td><td/></row>
+		<row><td>panebuttons.cshtml4</td><td>ISX_DEFAULTCOMPONENT28</td><td>PANEBU~1.CSH|PaneButtons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\PaneButtons.cshtml</td><td>1</td><td/></row>
+		<row><td>panebuttons.cshtml5</td><td>ISX_DEFAULTCOMPONENT29</td><td>PANEBU~1.CSH|PaneButtons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Streaming\PaneButtons.cshtml</td><td>1</td><td/></row>
+		<row><td>panebuttons.cshtml6</td><td>ISX_DEFAULTCOMPONENT30</td><td>PANEBU~1.CSH|PaneButtons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\PaneButtons.cshtml</td><td>1</td><td/></row>
+		<row><td>panebuttons.cshtml7</td><td>ISX_DEFAULTCOMPONENT31</td><td>PANEBU~1.CSH|PaneButtons.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\PaneButtons.cshtml</td><td>1</td><td/></row>
+		<row><td>photos.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>photos.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\photos.js</td><td>1</td><td/></row>
 		<row><td>planner.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Planner.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Planner.png</td><td>1</td><td/></row>
 		<row><td>planner.png1</td><td>ISX_DEFAULTCOMPONENT14</td><td>Planner.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Planner.png</td><td>1</td><td/></row>
 		<row><td>playall.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>PlayAll.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\PlayAll.png</td><td>1</td><td/></row>
-		<row><td>playing.cshtml2</td><td>ISX_DEFAULTCOMPONENT73</td><td>PLAYIN~1.CSH|Playing.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\Playing.cshtml</td><td>1</td><td/></row>
-		<row><td>playing.cshtml3</td><td>ISX_DEFAULTCOMPONENT77</td><td>PLAYIN~1.CSH|Playing.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\Playing.cshtml</td><td>1</td><td/></row>
-		<row><td>playingpane.cshtml2</td><td>ISX_DEFAULTCOMPONENT73</td><td>PLAYIN~1.CSH|PlayingPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\PlayingPane.cshtml</td><td>1</td><td/></row>
-		<row><td>playingpane.cshtml3</td><td>ISX_DEFAULTCOMPONENT77</td><td>PLAYIN~1.CSH|PlayingPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\PlayingPane.cshtml</td><td>1</td><td/></row>
+		<row><td>playing.cshtml</td><td>ISX_DEFAULTCOMPONENT23</td><td>PLAYIN~1.CSH|Playing.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\Playing.cshtml</td><td>1</td><td/></row>
+		<row><td>playing.cshtml1</td><td>ISX_DEFAULTCOMPONENT28</td><td>PLAYIN~1.CSH|Playing.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\Playing.cshtml</td><td>1</td><td/></row>
+		<row><td>playingpane.cshtml</td><td>ISX_DEFAULTCOMPONENT23</td><td>PLAYIN~1.CSH|PlayingPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\PlayingPane.cshtml</td><td>1</td><td/></row>
+		<row><td>playingpane.cshtml1</td><td>ISX_DEFAULTCOMPONENT28</td><td>PLAYIN~1.CSH|PlayingPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\PlayingPane.cshtml</td><td>1</td><td/></row>
 		<row><td>playpausebutton.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>PLAYPA~1.PNG|PlayPauseButton.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\PlayPauseButton.png</td><td>1</td><td/></row>
 		<row><td>playpausetbutton.png</td><td>ISX_DEFAULTCOMPONENT15</td><td>PLAYPA~1.PNG|PlayPausetButton.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\PlayPausetButton.png</td><td>1</td><td/></row>
 		<row><td>playtab.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>PlayTab.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\PlayTab.png</td><td>1</td><td/></row>
@@ -2327,24 +2330,26 @@
 		<row><td>plus60.png1</td><td>ISX_DEFAULTCOMPONENT15</td><td>Plus60.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\Plus60.png</td><td>1</td><td/></row>
 		<row><td>power.off.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>POWERO~1.PNG|Power.Off.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Power.Off.png</td><td>1</td><td/></row>
 		<row><td>power.on.png</td><td>ISX_DEFAULTCOMPONENT15</td><td>POWERO~1.PNG|Power.On.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\Power.On.png</td><td>1</td><td/></row>
-		<row><td>queue.cshtml2</td><td>ISX_DEFAULTCOMPONENT73</td><td>QUEUE~1.CSH|Queue.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\Queue.cshtml</td><td>1</td><td/></row>
-		<row><td>queue.cshtml3</td><td>ISX_DEFAULTCOMPONENT77</td><td>QUEUE~1.CSH|Queue.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\Queue.cshtml</td><td>1</td><td/></row>
-		<row><td>queuepane.cshtml2</td><td>ISX_DEFAULTCOMPONENT73</td><td>QUEUEP~1.CSH|QueuePane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\QueuePane.cshtml</td><td>1</td><td/></row>
-		<row><td>queuepane.cshtml3</td><td>ISX_DEFAULTCOMPONENT77</td><td>QUEUEP~1.CSH|QueuePane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\QueuePane.cshtml</td><td>1</td><td/></row>
-		<row><td>radio.cshtml2</td><td>ISX_DEFAULTCOMPONENT76</td><td>RADIO~1.CSH|Radio.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\Radio.cshtml</td><td>1</td><td/></row>
-		<row><td>radio.cshtml3</td><td>ISX_DEFAULTCOMPONENT79</td><td>RADIO~1.CSH|Radio.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\Radio.cshtml</td><td>1</td><td/></row>
-		<row><td>radiopane.cshtml2</td><td>ISX_DEFAULTCOMPONENT76</td><td>RADIOP~1.CSH|RadioPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\RadioPane.cshtml</td><td>1</td><td/></row>
-		<row><td>radiopane.cshtml3</td><td>ISX_DEFAULTCOMPONENT79</td><td>RADIOP~1.CSH|RadioPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\RadioPane.cshtml</td><td>1</td><td/></row>
-		<row><td>recording.cshtml2</td><td>ISX_DEFAULTCOMPONENT76</td><td>RECORD~1.CSH|Recording.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\Recording.cshtml</td><td>1</td><td/></row>
-		<row><td>recording.cshtml3</td><td>ISX_DEFAULTCOMPONENT80</td><td>RECORD~1.CSH|Recording.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\Recording.cshtml</td><td>1</td><td/></row>
-		<row><td>recordings.cshtml2</td><td>ISX_DEFAULTCOMPONENT76</td><td>RECORD~1.CSH|Recordings.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\Recordings.cshtml</td><td>1</td><td/></row>
-		<row><td>recordings.cshtml3</td><td>ISX_DEFAULTCOMPONENT80</td><td>RECORD~1.CSH|Recordings.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\Recordings.cshtml</td><td>1</td><td/></row>
+		<row><td>queue.cshtml</td><td>ISX_DEFAULTCOMPONENT23</td><td>QUEUE~1.CSH|Queue.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\Queue.cshtml</td><td>1</td><td/></row>
+		<row><td>queue.cshtml1</td><td>ISX_DEFAULTCOMPONENT28</td><td>QUEUE~1.CSH|Queue.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\Queue.cshtml</td><td>1</td><td/></row>
+		<row><td>queuepane.cshtml</td><td>ISX_DEFAULTCOMPONENT23</td><td>QUEUEP~1.CSH|QueuePane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Music\QueuePane.cshtml</td><td>1</td><td/></row>
+		<row><td>queuepane.cshtml1</td><td>ISX_DEFAULTCOMPONENT28</td><td>QUEUEP~1.CSH|QueuePane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\QueuePane.cshtml</td><td>1</td><td/></row>
+		<row><td>radio.cshtml</td><td>ISX_DEFAULTCOMPONENT27</td><td>RADIO~1.CSH|Radio.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\Radio.cshtml</td><td>1</td><td/></row>
+		<row><td>radio.cshtml1</td><td>ISX_DEFAULTCOMPONENT30</td><td>RADIO~1.CSH|Radio.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\Radio.cshtml</td><td>1</td><td/></row>
+		<row><td>radiopane.cshtml</td><td>ISX_DEFAULTCOMPONENT27</td><td>RADIOP~1.CSH|RadioPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\RadioPane.cshtml</td><td>1</td><td/></row>
+		<row><td>radiopane.cshtml1</td><td>ISX_DEFAULTCOMPONENT30</td><td>RADIOP~1.CSH|RadioPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\RadioPane.cshtml</td><td>1</td><td/></row>
+		<row><td>recording.cshtml</td><td>ISX_DEFAULTCOMPONENT27</td><td>RECORD~1.CSH|Recording.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\Recording.cshtml</td><td>1</td><td/></row>
+		<row><td>recording.cshtml1</td><td>ISX_DEFAULTCOMPONENT31</td><td>RECORD~1.CSH|Recording.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\Recording.cshtml</td><td>1</td><td/></row>
+		<row><td>recordings.cshtml</td><td>ISX_DEFAULTCOMPONENT27</td><td>RECORD~1.CSH|Recordings.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\Recordings.cshtml</td><td>1</td><td/></row>
+		<row><td>recordings.cshtml1</td><td>ISX_DEFAULTCOMPONENT31</td><td>RECORD~1.CSH|Recordings.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\Recordings.cshtml</td><td>1</td><td/></row>
 		<row><td>recordings.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>RECORD~1.PNG|Recordings.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Recordings.png</td><td>1</td><td/></row>
-		<row><td>recordingspane.cshtml2</td><td>ISX_DEFAULTCOMPONENT76</td><td>RECORD~1.CSH|RecordingsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\RecordingsPane.cshtml</td><td>1</td><td/></row>
-		<row><td>recordingspane.cshtml3</td><td>ISX_DEFAULTCOMPONENT80</td><td>RECORD~1.CSH|RecordingsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\RecordingsPane.cshtml</td><td>1</td><td/></row>
+		<row><td>recordingspane.cshtml</td><td>ISX_DEFAULTCOMPONENT27</td><td>RECORD~1.CSH|RecordingsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\RecordingsPane.cshtml</td><td>1</td><td/></row>
+		<row><td>recordingspane.cshtml1</td><td>ISX_DEFAULTCOMPONENT31</td><td>RECORD~1.CSH|RecordingsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\RecordingsPane.cshtml</td><td>1</td><td/></row>
 		<row><td>recseries.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>RECSER~1.PNG|RecSeries.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\RecSeries.png</td><td>1</td><td/></row>
 		<row><td>recshow.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>RecShow.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\RecShow.png</td><td>1</td><td/></row>
 		<row><td>refresh.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Refresh.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Refresh.png</td><td>1</td><td/></row>
+		<row><td>roku.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Roku.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Roku.png</td><td>1</td><td/></row>
+		<row><td>rokucontrolspane.cshtml</td><td>ISX_DEFAULTCOMPONENT29</td><td>ROKUCO~1.CSH|RokuControlsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Streaming\RokuControlsPane.cshtml</td><td>1</td><td/></row>
 		<row><td>rotate.png</td><td>ISX_DEFAULTCOMPONENT15</td><td>Rotate.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\Rotate.png</td><td>1</td><td/></row>
 		<row><td>screen.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Screen.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Screen.png</td><td>1</td><td/></row>
 		<row><td>screencontrol.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>SCREEN~1.PNG|ScreenControl.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\ScreenControl.png</td><td>1</td><td/></row>
@@ -2377,31 +2382,33 @@
 		<row><td>select.watch.button.png1</td><td>ISX_DEFAULTCOMPONENT15</td><td>SELECT~1.PNG|Select.Watch.Button.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\Select.Watch.Button.png</td><td>1</td><td/></row>
 		<row><td>select.web.button.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>SELECT~1.PNG|Select.Web.Button.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Select.Web.Button.png</td><td>1</td><td/></row>
 		<row><td>select.web.button.png1</td><td>ISX_DEFAULTCOMPONENT15</td><td>SELECT~1.PNG|Select.Web.Button.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\Select.Web.Button.png</td><td>1</td><td/></row>
+		<row><td>selectorpane.cshtml</td><td>ISX_DEFAULTCOMPONENT8</td><td>SELECT~1.CSH|SelectorPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Guide\SelectorPane.cshtml</td><td>1</td><td/></row>
+		<row><td>series.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Series.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Series.png</td><td>1</td><td/></row>
 		<row><td>site.css</td><td>ISX_DEFAULTCOMPONENT9</td><td>Site.css</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Site.css</td><td>1</td><td/></row>
 		<row><td>skip_1_minutes.png</td><td>ISX_DEFAULTCOMPONENT11</td><td>SKIP_1~1.PNG|Skip+1-minutes.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\BigRound\Skip+1-minutes.png</td><td>1</td><td/></row>
 		<row><td>skip_20_seconds.png</td><td>ISX_DEFAULTCOMPONENT11</td><td>SKIP_2~1.PNG|Skip+20-seconds.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\BigRound\Skip+20-seconds.png</td><td>1</td><td/></row>
 		<row><td>skip_20_seconds.png1</td><td>ISX_DEFAULTCOMPONENT11</td><td>SKIP-2~1.PNG|Skip-20-seconds.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\BigRound\Skip-20-seconds.png</td><td>1</td><td/></row>
 		<row><td>skip_4_minutes.png</td><td>ISX_DEFAULTCOMPONENT11</td><td>SKIP_4~1.PNG|Skip+4-minutes.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\BigRound\Skip+4-minutes.png</td><td>1</td><td/></row>
-		<row><td>sky.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>sky.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\sky.js</td><td>1</td><td/></row>
+		<row><td>sky.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>sky.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\sky.js</td><td>1</td><td/></row>
 		<row><td>skyffrew.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>SkyFfRew.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SkyFfRew.png</td><td>1</td><td/></row>
 		<row><td>skypad.png</td><td>ISX_DEFAULTCOMPONENT9</td><td>SkyPad.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\SkyPad.png</td><td>1</td><td/></row>
 		<row><td>smart.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Smart.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Smart.png</td><td>1</td><td/></row>
+		<row><td>smartcontrolspane.cshtml</td><td>ISX_DEFAULTCOMPONENT29</td><td>SMARTC~1.CSH|SmartControlsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Streaming\SmartControlsPane.cshtml</td><td>1</td><td/></row>
 		<row><td>source.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Source.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Source.png</td><td>1</td><td/></row>
 		<row><td>spanner.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>Spanner.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Spanner.png</td><td>1</td><td/></row>
 		<row><td>spotifire.dll</td><td>SpotiFire.dll</td><td>SPOTIF~1.DLL|SpotiFire.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Spotify\bin\Debug\SpotiFire.dll</td><td>1</td><td/></row>
 		<row><td>spotifire.native.dll</td><td>SpotiFire.Native.dll</td><td>SPOTIF~1.DLL|SpotiFire.Native.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Spotify\bin\Debug\SpotiFire.Native.dll</td><td>1</td><td/></row>
-		<row><td>spotify.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>spotify.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\spotify.js</td><td>1</td><td/></row>
+		<row><td>spotify.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>spotify.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\spotify.js</td><td>1</td><td/></row>
 		<row><td>spotify.png</td><td>ISX_DEFAULTCOMPONENT9</td><td>Spotify.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Spotify.png</td><td>1</td><td/></row>
+		<row><td>spotifyapi.dll</td><td>SpotifyAPI.dll</td><td>SPOTIF~1.DLL|SpotifyAPI.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Spotify\bin\Debug\SpotifyAPI.dll</td><td>1</td><td/></row>
+		<row><td>spotifyapi.dll1</td><td>SpotifyAPI.dll1</td><td>SPOTIF~1.DLL|SpotifyAPI.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\SpotifyAPI.dll</td><td>1</td><td/></row>
 		<row><td>startup.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Startup.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Startup.png</td><td>1</td><td/></row>
+		<row><td>stream.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Stream.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Stream.png</td><td>1</td><td/></row>
+		<row><td>streaming.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>STREAM~1.JS|streaming.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\streaming.js</td><td>1</td><td/></row>
 		<row><td>switch.display.png</td><td>ISX_DEFAULTCOMPONENT15</td><td>SWITCH~1.PNG|Switch.Display.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\Switch.Display.png</td><td>1</td><td/></row>
-		<row><td>system.net.http.dll</td><td>System.Net.Http.dll</td><td>SYSTEM~1.DLL|System.Net.Http.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\System.Net.Http.dll</td><td>1</td><td/></row>
-		<row><td>system.net.http.formatting.d</td><td>System.Net.Http.Formatting.dll</td><td>SYSTEM~1.DLL|System.Net.Http.Formatting.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Spotify\bin\Debug\System.Net.Http.Formatting.dll</td><td>1</td><td/></row>
-		<row><td>system.net.http.formatting.d1</td><td>System.Net.Http.Formatting.dll1</td><td>SYSTEM~1.DLL|System.Net.Http.Formatting.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\System.Net.Http.Formatting.dll</td><td>1</td><td/></row>
-		<row><td>system.net.http.webrequest.d</td><td>System.Net.Http.WebRequest.dll</td><td>SYSTEM~1.DLL|System.Net.Http.WebRequest.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\System.Net.Http.WebRequest.dll</td><td>1</td><td/></row>
-		<row><td>system.web.http.dll</td><td>System.Web.Http.dll</td><td>SYSTEM~1.DLL|System.Web.Http.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Spotify\bin\Debug\System.Web.Http.dll</td><td>1</td><td/></row>
-		<row><td>system.web.http.dll1</td><td>System.Web.Http.dll1</td><td>SYSTEM~1.DLL|System.Web.Http.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\System.Web.Http.dll</td><td>1</td><td/></row>
-		<row><td>system.web.http.selfhost.dll</td><td>System.Web.Http.SelfHost.dll</td><td>SYSTEM~1.DLL|System.Web.Http.SelfHost.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Spotify\bin\Debug\System.Web.Http.SelfHost.dll</td><td>1</td><td/></row>
-		<row><td>system.web.http.webhost.dll</td><td>System.Web.Http.WebHost.dll</td><td>SYSTEM~1.DLL|System.Web.Http.WebHost.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\System.Web.Http.WebHost.dll</td><td>1</td><td/></row>
+		<row><td>system.net.http.formatting.d</td><td>System.Net.Http.Formatting.dll</td><td>SYSTEM~1.DLL|System.Net.Http.Formatting.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop2\bin\Debug\System.Net.Http.Formatting.dll</td><td>1</td><td/></row>
+		<row><td>system.web.http.dll</td><td>System.Web.Http.dll</td><td>SYSTEM~1.DLL|System.Web.Http.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop2\bin\Debug\System.Web.Http.dll</td><td>1</td><td/></row>
+		<row><td>system.web.http.selfhost.dll</td><td>System.Web.Http.SelfHost.dll</td><td>SYSTEM~1.DLL|System.Web.Http.SelfHost.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop2\bin\Debug\System.Web.Http.SelfHost.dll</td><td>1</td><td/></row>
 		<row><td>system.web.mvc.dll</td><td>System.Web.Mvc.dll</td><td>SYSTEM~1.DLL|System.Web.Mvc.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\System.Web.Mvc.dll</td><td>1</td><td/></row>
 		<row><td>system.web.optimization.dll</td><td>System.Web.Optimization.dll</td><td>SYSTEM~1.DLL|System.Web.Optimization.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\System.Web.Optimization.dll</td><td>1</td><td/></row>
 		<row><td>system.web.providers.dll</td><td>System.Web.Providers.dll</td><td>SYSTEM~1.DLL|System.Web.Providers.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\System.Web.Providers.dll</td><td>1</td><td/></row>
@@ -2410,9 +2417,11 @@
 		<row><td>system.web.webpages.dll</td><td>System.Web.WebPages.dll</td><td>SYSTEM~1.DLL|System.Web.WebPages.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\System.Web.WebPages.dll</td><td>1</td><td/></row>
 		<row><td>system.web.webpages.razor.dl</td><td>System.Web.WebPages.Razor.dll</td><td>SYSTEM~1.DLL|System.Web.WebPages.Razor.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\System.Web.WebPages.Razor.dll</td><td>1</td><td/></row>
 		<row><td>thumbs.db</td><td>ISX_DEFAULTCOMPONENT7</td><td>Thumbs.db</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\Content\Thumbs.db</td><td>1</td><td/></row>
-		<row><td>topbar.cshtml1</td><td>ISX_DEFAULTCOMPONENT75</td><td>TOPBAR~1.CSH|TopBar.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Shared\TopBar.cshtml</td><td>1</td><td/></row>
-		<row><td>topbar.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>topBar.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\topBar.js</td><td>1</td><td/></row>
-		<row><td>topbarwide.cshtml1</td><td>ISX_DEFAULTCOMPONENT75</td><td>TOPBAR~1.CSH|TopBarWide.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Shared\TopBarWide.cshtml</td><td>1</td><td/></row>
+		<row><td>timers.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Timers.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Timers.png</td><td>1</td><td/></row>
+		<row><td>topbar.cshtml</td><td>ISX_DEFAULTCOMPONENT26</td><td>TOPBAR~1.CSH|TopBar.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Shared\TopBar.cshtml</td><td>1</td><td/></row>
+		<row><td>topbar.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>topBar.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\topBar.js</td><td>1</td><td/></row>
+		<row><td>topbarwide.cshtml</td><td>ISX_DEFAULTCOMPONENT26</td><td>TOPBAR~1.CSH|TopBarWide.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Shared\TopBarWide.cshtml</td><td>1</td><td/></row>
+		<row><td>touch_emulator.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>TOUCH-~1.JS|touch-emulator.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\touch-emulator.js</td><td>1</td><td/></row>
 		<row><td>transport.fastforward.png</td><td>ISX_DEFAULTCOMPONENT13</td><td>TRANSP~1.PNG|Transport.FastForward.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\MiniRound\Transport.FastForward.png</td><td>1</td><td/></row>
 		<row><td>transport.fastforward.png1</td><td>ISX_DEFAULTCOMPONENT14</td><td>TRANSP~1.PNG|Transport.FastForward.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Transport.FastForward.png</td><td>1</td><td/></row>
 		<row><td>transport.fastforward.png2</td><td>ISX_DEFAULTCOMPONENT10</td><td>TRANSP~1.PNG|Transport.FastForward.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Transport.FastForward.png</td><td>1</td><td/></row>
@@ -2435,7 +2444,7 @@
 		<row><td>transport.stop.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>TRANSP~1.PNG|Transport.Stop.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Transport.Stop.png</td><td>1</td><td/></row>
 		<row><td>transport.stop.png1</td><td>ISX_DEFAULTCOMPONENT15</td><td>TRANSP~1.PNG|Transport.Stop.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\Transport.Stop.png</td><td>1</td><td/></row>
 		<row><td>trashicon.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>TRASHI~1.PNG|TrashIcon.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\TrashIcon.png</td><td>1</td><td/></row>
-		<row><td>tv.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>tv.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\tv.js</td><td>1</td><td/></row>
+		<row><td>tv.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>tv.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\tv.js</td><td>1</td><td/></row>
 		<row><td>tvtext.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>TVText.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\TVText.png</td><td>1</td><td/></row>
 		<row><td>ui_bg_flat_0_aaaaaa_40x100.p</td><td>ISX_DEFAULTCOMPONENT19</td><td>UI-BG_~1.PNG|ui-bg_flat_0_aaaaaa_40x100.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png</td><td>1</td><td/></row>
 		<row><td>ui_bg_flat_0_aaaaaa_40x100.p1</td><td>ISX_DEFAULTCOMPONENT21</td><td>UI-BG_~1.PNG|ui-bg_flat_0_aaaaaa_40x100.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png</td><td>1</td><td/></row>
@@ -2463,21 +2472,23 @@
 		<row><td>ui_icons_888888_256x240.png1</td><td>ISX_DEFAULTCOMPONENT21</td><td>UI-ICO~1.PNG|ui-icons_888888_256x240.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\themes\base\minified\images\ui-icons_888888_256x240.png</td><td>1</td><td/></row>
 		<row><td>ui_icons_cd0a0a_256x240.png</td><td>ISX_DEFAULTCOMPONENT19</td><td>UI-ICO~1.PNG|ui-icons_cd0a0a_256x240.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\themes\base\images\ui-icons_cd0a0a_256x240.png</td><td>1</td><td/></row>
 		<row><td>ui_icons_cd0a0a_256x240.png1</td><td>ISX_DEFAULTCOMPONENT21</td><td>UI-ICO~1.PNG|ui-icons_cd0a0a_256x240.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png</td><td>1</td><td/></row>
-		<row><td>usbuirtmanagedwrapper.dll</td><td>UsbUirtManagedWrapper.dll</td><td>USBUIR~1.DLL|UsbUirtManagedWrapper.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\ReferencedDLLs\UsbUirtManagedWrapper.dll</td><td>1</td><td/></row>
+		<row><td>usbuirtmanagedwrapper.dll</td><td>UsbUirtManagedWrapper.dll</td><td>USBUIR~1.DLL|UsbUirtManagedWrapper.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid.Desktop2\bin\Debug\UsbUirtManagedWrapper.dll</td><td>1</td><td/></row>
 		<row><td>uuirtdrv.dll</td><td>uuirtdrv.dll</td><td>uuirtdrv.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\ReferencedDLLs\uuirtdrv.dll</td><td>1</td><td/></row>
-		<row><td>video.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>video.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\video.js</td><td>1</td><td/></row>
+		<row><td>video.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>video.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\video.js</td><td>1</td><td/></row>
+		<row><td>videos.cshtml</td><td>ISX_DEFAULTCOMPONENT31</td><td>VIDEOS~1.CSH|Videos.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\Videos.cshtml</td><td>1</td><td/></row>
+		<row><td>videospane.cshtml</td><td>ISX_DEFAULTCOMPONENT31</td><td>VIDEOS~1.CSH|VideosPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\VideosPane.cshtml</td><td>1</td><td/></row>
 		<row><td>view.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>View.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\View.png</td><td>1</td><td/></row>
-		<row><td>watch.cshtml3</td><td>ISX_DEFAULTCOMPONENT76</td><td>WATCH~1.CSH|Watch.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\Watch.cshtml</td><td>1</td><td/></row>
-		<row><td>watch.cshtml4</td><td>ISX_DEFAULTCOMPONENT79</td><td>WATCH~1.CSH|Watch.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\Watch.cshtml</td><td>1</td><td/></row>
-		<row><td>watch.cshtml5</td><td>ISX_DEFAULTCOMPONENT80</td><td>WATCH~1.CSH|Watch.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\Watch.cshtml</td><td>1</td><td/></row>
-		<row><td>watchpane.cshtml1</td><td>ISX_DEFAULTCOMPONENT80</td><td>WATCHP~1.CSH|WatchPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\WatchPane.cshtml</td><td>1</td><td/></row>
-		<row><td>web.config5</td><td>ISX_DEFAULTCOMPONENT70</td><td>WEB~1.CON|Web.config</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Web.config</td><td>1</td><td/></row>
+		<row><td>watch.cshtml</td><td>ISX_DEFAULTCOMPONENT27</td><td>WATCH~1.CSH|Watch.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Sky\Watch.cshtml</td><td>1</td><td/></row>
+		<row><td>watch.cshtml1</td><td>ISX_DEFAULTCOMPONENT30</td><td>WATCH~1.CSH|Watch.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\TV\Watch.cshtml</td><td>1</td><td/></row>
+		<row><td>watch.cshtml2</td><td>ISX_DEFAULTCOMPONENT31</td><td>WATCH~1.CSH|Watch.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\Watch.cshtml</td><td>1</td><td/></row>
+		<row><td>watchpane.cshtml</td><td>ISX_DEFAULTCOMPONENT31</td><td>WATCHP~1.CSH|WatchPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Video\WatchPane.cshtml</td><td>1</td><td/></row>
+		<row><td>web.config</td><td>ISX_DEFAULTCOMPONENT5</td><td>WEB~1.CON|Web.config</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Web.config</td><td>1</td><td/></row>
 		<row><td>web.config6</td><td>ISX_DEFAULTCOMPONENT2</td><td>WEB~1.CON|Web.config</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Web.config</td><td>1</td><td/></row>
-		<row><td>web.js1</td><td>ISX_DEFAULTCOMPONENT69</td><td>Web.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\Web.js</td><td>1</td><td/></row>
+		<row><td>web.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>Web.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\Web.js</td><td>1</td><td/></row>
 		<row><td>webgrease.dll</td><td>WebGrease.dll</td><td>WEBGRE~1.DLL|WebGrease.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\WebGrease.dll</td><td>1</td><td/></row>
-		<row><td>wide.cshtml1</td><td>ISX_DEFAULTCOMPONENT72</td><td>WIDE~1.CSH|Wide.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Home\Wide.cshtml</td><td>1</td><td/></row>
+		<row><td>wide.cshtml</td><td>ISX_DEFAULTCOMPONENT22</td><td>WIDE~1.CSH|Wide.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Home\Wide.cshtml</td><td>1</td><td/></row>
 		<row><td>wideblank.psd</td><td>ISX_DEFAULTCOMPONENT10</td><td>WIDEBL~1.PSD|WideBlank.psd</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\WideBlank.psd</td><td>1</td><td/></row>
-		<row><td>widemouse.cshtml1</td><td>ISX_DEFAULTCOMPONENT77</td><td>WIDEMO~1.CSH|WideMouse.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\WideMouse.cshtml</td><td>1</td><td/></row>
+		<row><td>widemouse.cshtml</td><td>ISX_DEFAULTCOMPONENT28</td><td>WIDEMO~1.CSH|WideMouse.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\WideMouse.cshtml</td><td>1</td><td/></row>
 		<row><td>zoomfill.png</td><td>ISX_DEFAULTCOMPONENT15</td><td>ZoomFill.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\ZoomFill.png</td><td>1</td><td/></row>
 		<row><td>zoomin.png</td><td>ISX_DEFAULTCOMPONENT15</td><td>ZoomIn.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\ZoomIn.png</td><td>1</td><td/></row>
 		<row><td>zoomout.png</td><td>ISX_DEFAULTCOMPONENT15</td><td>ZoomOut.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\ZoomOut.png</td><td>1</td><td/></row>
@@ -2625,16 +2636,12 @@
 		<col def="S0">FTPLocation</col>
 		<col def="S0">HTTPLocation</col>
 		<col def="S0">Miscellaneous</col>
-		<row><td>Antlr3.Runtime.dll</td><td/><td/><td>_B0F0AC18_51E8_4239_B82C_23C02ED71B4B_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Avid.Desktop.exe</td><td/><td/><td>_78DDB48F_F21E_4C14_966C_AF0837233F30_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Avid.Spotify.Data.dll</td><td/><td/><td>_3DA90B49_7BD3_4B89_9B23_B6D3FF4DFDF6_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Avid.Spotify.Data.dll1</td><td/><td/><td>_03A7AFCF_0194_4122_8CD4_A515A567D1D2_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Antlr3.Runtime.dll</td><td/><td/><td>_C86901C8_6917_46B4_8490_D4349CB784FB_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Avid.Desktop.exe</td><td/><td/><td>_420E5F74_99AC_41FE_A443_AE90568511D7_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Avid.Spotify.exe</td><td/><td/><td>_2D934E08_3F3E_48BE_80F5_C4084F37BF18_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Avid4.Net.dll</td><td/><td/><td>_0D50DD6F_F4C5_4759_9215_364AC930AC5B_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>DesktopInterface.dll</td><td/><td/><td>_4F0F563B_BEE1_44C0_91F7_EAF3DE908CC1_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>DesktopInterface.dll1</td><td/><td/><td>_4EB55703_7AC8_4B2A_AC31_C6733751DBAF_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>EntityFramework.dll</td><td/><td/><td>_94ACD55D_D04E_4F4E_BBAC_CB14CB6A6378_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>GetCoreTempInfoNET.dll</td><td/><td/><td>_73E57488_B055_46C9_88C1_B9815C2094CF_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Avid4.Net.dll</td><td/><td/><td>_E6E2789E_D0DF_4019_9C9F_151A1CADE59E_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>EntityFramework.dll</td><td/><td/><td>_DCB68461_3302_4F9E_8D59_52A73194F0DC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>GetCoreTempInfoNET.dll</td><td/><td/><td>_1E0A8560_6571_4F45_8200_38509A32C278_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT</td><td/><td/><td>_6A75E666_5653_4C2D_A654_EAA94F098413_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT1</td><td/><td/><td>_B6E76987_1E75_4884_8856_948C388277DE_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT10</td><td/><td/><td>_F26EE1B3_D8F3_4FAC_A806_3DFB586BBE22_FILTER</td><td/><td/><td/><td/></row>
@@ -2650,51 +2657,49 @@
 		<row><td>ISX_DEFAULTCOMPONENT2</td><td/><td/><td>_658C0084_CC69_4BCE_92D6_F307DED5A58D_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT20</td><td/><td/><td>_DA50D277_8D02_42E8_BF20_03C5C681AE11_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT21</td><td/><td/><td>_E4B2885F_9D8B_4D96_8805_240B51180B03_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT22</td><td/><td/><td>_7C0F37AF_36CE_43E2_9A67_B22B71C078B8_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT23</td><td/><td/><td>_BA598045_B774_44CA_9C37_0B9FCBDF898F_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT24</td><td/><td/><td>_ADF74B7B_971B_4463_A8DA_9DBBDFF7366E_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT26</td><td/><td/><td>_5A508204_006F_438E_B8B8_A6121E123EB3_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT27</td><td/><td/><td>_12268BD6_61F0_414F_A302_88EFD161BE6C_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT28</td><td/><td/><td>_484449EC_4813_4136_9437_37E764158A2C_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT29</td><td/><td/><td>_1F427ED9_9D47_4A82_B82A_21222B0BE922_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT3</td><td/><td/><td>_B31F9F80_78D6_40F5_B5F7_13546A1549F4_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT30</td><td/><td/><td>_0E4F4D04_E3A8_44DB_9D05_7FA46FC371F0_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT31</td><td/><td/><td>_CD5DA31E_DBF3_4344_9548_4484E9CFB7A5_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT32</td><td/><td/><td>_62A660BD_790B_4B54_93DD_466B23B152A3_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT4</td><td/><td/><td>_18930EF1_FCCA_46FC_B2E4_DEB612E4F79A_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT5</td><td/><td/><td>_04E9C127_A6B8_4386_88C3_4FE18F05908F_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT6</td><td/><td/><td>_5A16FD68_8050_4217_B6B5_C8F5461A6BD8_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT69</td><td/><td/><td>_A455B0A5_7927_4DC3_85B5_0931D7B05BE5_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT7</td><td/><td/><td>_F4CE1132_5E48_4FC5_AA15_EEE7C663D387_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISX_DEFAULTCOMPONENT70</td><td/><td/><td>_1200216F_A8C6_4F07_9A9A_095C78F1CBFF_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISX_DEFAULTCOMPONENT71</td><td/><td/><td>_FC00092A_9FA5_4E75_88B5_B222FA86CDBC_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISX_DEFAULTCOMPONENT72</td><td/><td/><td>_F8526BFC_26A4_49B3_A63C_9FAC45AB5CD0_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISX_DEFAULTCOMPONENT73</td><td/><td/><td>_C46E1BAF_F728_44F5_B824_BCFC2D79F14D_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISX_DEFAULTCOMPONENT74</td><td/><td/><td>_9AA9791E_42B6_42CC_B1E5_A5B356C7BD89_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISX_DEFAULTCOMPONENT75</td><td/><td/><td>_C3031B33_9AC7_48D9_BFC8_657BD4DD49B0_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISX_DEFAULTCOMPONENT76</td><td/><td/><td>_CC40B8C1_5703_4FDC_974A_709485169B4D_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISX_DEFAULTCOMPONENT77</td><td/><td/><td>_BD95139A_7929_41DA_974D_77926E7344AF_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISX_DEFAULTCOMPONENT78</td><td/><td/><td>_B3C0E346_7F55_44ED_8D8C_63F3B5D9C32D_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISX_DEFAULTCOMPONENT79</td><td/><td/><td>_0A2ACB22_8324_4A11_A3B3_1DD7368ED652_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISX_DEFAULTCOMPONENT80</td><td/><td/><td>_6DD248C7_EA94_46A3_8F05_E93F30E80FC6_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>ISX_DEFAULTCOMPONENT81</td><td/><td/><td>_48BD4CD3_F1B8_44C8_9F41_E3064A522A1A_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>ISX_DEFAULTCOMPONENT8</td><td/><td/><td>_974C909E_F381_4A90_A698_7F0B9A71312F_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>ISX_DEFAULTCOMPONENT9</td><td/><td/><td>_B6D4923B_E27C_4336_A04D_0A4695DD8509_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>InputSimulator.dll</td><td/><td/><td>_E128681D_88E2_48C0_A0E1_46BB854137FF_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Microsoft.Web.Infrastructure.dll</td><td/><td/><td>_8C3E1754_5C72_411E_881B_0A5EA13CAA54_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Microsoft.Web.Mvc.FixedDisplayModes.dll</td><td/><td/><td>_2D3B7AFA_D7DF_4E7E_84CB_1E215D089209_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>InputSimulator.dll</td><td/><td/><td>_40E67F34_84B1_47CD_B322_6C744E1DF553_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Microsoft.Web.Infrastructure.dll</td><td/><td/><td>_505C9EC5_1576_43CC_B4D6_F8E4B55EA7F2_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Microsoft.Web.Mvc.FixedDisplayModes.dll</td><td/><td/><td>_9172DC6F_BA7D_4372_AA14_96127C761A2A_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>NAudio.dll</td><td/><td/><td>_8777850C_14E4_4DF9_84A1_73638B138CCD_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>NLog.dll</td><td/><td/><td>_5B576D2C_2413_4368_935C_535D4168BE57_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>NLog.dll1</td><td/><td/><td>_44FC6B87_13A2_472E_8D4C_FA3C85ADC48D_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>NLog.dll1</td><td/><td/><td>_FD6CF9C3_8282_4061_82E8_AD0BA14D39C3_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>Newtonsoft.Json.dll</td><td/><td/><td>_326F9B63_3543_47AD_ABE8_076FA7E3C551_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>Newtonsoft.Json.dll1</td><td/><td/><td>_A9EF9551_D2DB_40FD_BF77_36DBE8858612_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>Newtonsoft.Json.dll1</td><td/><td/><td>_1575E9AD_C0A0_4810_827B_332234B28E73_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>SpotiFire.Native.dll</td><td/><td/><td>_0347967C_75C5_4318_9A78_AC0023746F75_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>SpotiFire.dll</td><td/><td/><td>_E93FA783_9DBF_4DFA_BAEF_AFFDC0B7837D_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Net.Http.Formatting.dll</td><td/><td/><td>_CD518695_E57D_481D_9782_A80BABB06CD8_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Net.Http.Formatting.dll1</td><td/><td/><td>_95734048_CBF5_4381_A2B6_BB6DB95498BF_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Net.Http.WebRequest.dll</td><td/><td/><td>_DFD03DA4_4822_40CC_AA0F_A389DEA01CF0_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Net.Http.dll</td><td/><td/><td>_3A6E73E9_C9BF_4E53_8E09_F55F8290E56A_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Web.Http.SelfHost.dll</td><td/><td/><td>_07190695_5339_46AE_8222_56350E2ACF64_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Web.Http.WebHost.dll</td><td/><td/><td>_FA247EE2_1E7B_42AA_8D38_3150AED5B665_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Web.Http.dll</td><td/><td/><td>_3C625876_6FBF_4D6B_A914_2766FE366673_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Web.Http.dll1</td><td/><td/><td>_A952CB53_9389_49B9_96E5_9FE914CA3CDC_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Web.Mvc.dll</td><td/><td/><td>_7B8F4A12_518F_44D9_8BC0_9FB9447E05F5_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Web.Optimization.dll</td><td/><td/><td>_B416981F_7985_4A02_A08B_2FB295BB4AFC_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Web.Providers.dll</td><td/><td/><td>_5E0439AB_04EB_4238_B775_7F01AA5AC48D_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Web.Razor.dll</td><td/><td/><td>_8E8A6421_FFB2_4FCF_89F2_9555EEB176B1_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Web.WebPages.Deployment.dll</td><td/><td/><td>_DBC3301A_4833_4426_B556_03FC34ACB886_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Web.WebPages.Razor.dll</td><td/><td/><td>_0AE1ACBB_895E_4CB4_B63F_5543EDD855E8_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>System.Web.WebPages.dll</td><td/><td/><td>_C5F3EC0C_2A64_4EED_90EB_92048099BA53_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>UsbUirtManagedWrapper.dll</td><td/><td/><td>_B1FB2107_4E5B_424D_986A_35BE9F18DFBC_FILTER</td><td/><td/><td/><td/></row>
-		<row><td>WebGrease.dll</td><td/><td/><td>_9578F301_9069_4DB5_A1F8_F29B0329AE82_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>SpotifyAPI.dll</td><td/><td/><td>_365F4ACB_F2D0_42AC_B19A_46FC8ECB0A3A_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>SpotifyAPI.dll1</td><td/><td/><td>_EFA6B605_587C_4B66_B044_DA9F376E8335_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.Net.Http.Formatting.dll</td><td/><td/><td>_8AD29E1C_A91C_47E2_AFD8_99BF5CFA9E7D_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.Web.Http.SelfHost.dll</td><td/><td/><td>_8157C64B_CACF_4882_9EA4_0443AFA9BEFE_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.Web.Http.dll</td><td/><td/><td>_EB374B95_34DA_41D2_8D23_B80574B9A744_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.Web.Mvc.dll</td><td/><td/><td>_0084BE39_035F_4174_9B67_5ECA52193CD7_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.Web.Optimization.dll</td><td/><td/><td>_7E85C79F_0F8B_4D6A_9A1D_03D8AA2E5ECD_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.Web.Providers.dll</td><td/><td/><td>_D7136353_39B8_4002_B06F_55FA0260A073_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.Web.Razor.dll</td><td/><td/><td>_CC917FA9_DBEF_4A18_89FB_B4C4324E8072_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.Web.WebPages.Deployment.dll</td><td/><td/><td>_6A3A9E57_9DE3_4AFC_B4EA_EED22E805E9D_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.Web.WebPages.Razor.dll</td><td/><td/><td>_09E13AF4_1E7D_441B_A334_E46CEDF2316F_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>System.Web.WebPages.dll</td><td/><td/><td>_5CE20DAF_9215_43AF_97E5_6005BC1D4BDC_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>UsbUirtManagedWrapper.dll</td><td/><td/><td>_3AE19EAB_F3DC_4672_8E79_9115EC7B743F_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>WebGrease.dll</td><td/><td/><td>_CE17CAB6_1D75_43FC_B4A5_59D8D4A0642D_FILTER</td><td/><td/><td/><td/></row>
+		<row><td>WebsiteComponent</td><td/><td/><td>_E5FFBEA4_FAF5_4E29_8A1E_620B568F5101_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>libspotify.dll</td><td/><td/><td>_7DB16433_E39E_4297_8B7F_15C1EAE961FF_FILTER</td><td/><td/><td/><td/></row>
 		<row><td>uuirtdrv.dll</td><td/><td/><td>_31C3EAD6_3C83_4A84_A12B_CFC2D264A7C4_FILTER</td><td/><td/><td/><td/></row>
 	</table>
@@ -2820,6 +2825,7 @@
 		<col def="L255">DisplayName</col>
 		<col def="i4">Type</col>
 		<col def="S72">Component_</col>
+		<row><td>IisItem1</td><td/><td>##ID_STRING4##</td><td>1</td><td>WebsiteComponent</td></row>
 	</table>
 
 	<table name="ISIISProperty">
@@ -2834,6 +2840,19 @@
 		<col def="L0">MetaDataValue</col>
 		<col def="I4">Order</col>
 		<col def="I4">ISAttributes</col>
+		<row><td>ISIISProperty1</td><td>IisItem1</td><td/><td>Path</td><td/><td/><td/><td/><td>AVID4.NET</td><td>0</td><td>0</td></row>
+		<row><td>ISIISProperty10</td><td>IisItem1</td><td/><td>ServerBindings</td><td/><td/><td/><td/><td>*:83:</td><td>0</td><td>0</td></row>
+		<row><td>ISIISProperty11</td><td>IisItem1</td><td/><td>SiteNumber</td><td/><td/><td/><td/><td>0</td><td>0</td><td>0</td></row>
+		<row><td>ISIISProperty12</td><td>IisItem1</td><td/><td>DefaultDoc</td><td/><td/><td/><td/><td/><td>0</td><td>0</td></row>
+		<row><td>ISIISProperty13</td><td>IisItem1</td><td/><td>AspVer</td><td/><td/><td/><td/><td>4.0.30319</td><td>0</td><td>0</td></row>
+		<row><td>ISIISProperty2</td><td>IisItem1</td><td/><td>AccessFlags</td><td/><td/><td/><td/><td>513</td><td>0</td><td>0</td></row>
+		<row><td>ISIISProperty3</td><td>IisItem1</td><td/><td>ContentIndexed</td><td/><td/><td/><td/><td>1</td><td>0</td><td>0</td></row>
+		<row><td>ISIISProperty4</td><td>IisItem1</td><td/><td>DontLog</td><td/><td/><td/><td/><td>0</td><td>0</td><td>0</td></row>
+		<row><td>ISIISProperty5</td><td>IisItem1</td><td/><td>AppIsolated</td><td/><td/><td/><td/><td>2</td><td>0</td><td>0</td></row>
+		<row><td>ISIISProperty6</td><td>IisItem1</td><td/><td>AuthFlags</td><td/><td/><td/><td/><td>5</td><td>0</td><td>0</td></row>
+		<row><td>ISIISProperty7</td><td>IisItem1</td><td/><td>ScriptTimeout</td><td/><td/><td/><td/><td>90</td><td>0</td><td>0</td></row>
+		<row><td>ISIISProperty8</td><td>IisItem1</td><td/><td>SessionTimeout</td><td/><td/><td/><td/><td>20</td><td>0</td><td>0</td></row>
+		<row><td>ISIISProperty9</td><td>IisItem1</td><td/><td>AppPoolId</td><td/><td/><td/><td/><td/><td>0</td><td>0</td></row>
 	</table>
 
 	<table name="ISInstallScriptAction">
@@ -4136,7 +4155,6 @@
 		<row><td>IDS_SETUPEXE_EXPIRE_MSG</td><td>1033</td><td>This setup works until %s. The setup will now exit.</td><td>0</td><td/><td>-660454840</td></row>
 		<row><td>IDS_SETUPEXE_LAUNCH_COND_E</td><td>1033</td><td>This setup was built with an evaluation version of InstallShield and can only be launched from setup.exe.</td><td>0</td><td/><td>-660454840</td></row>
 		<row><td>IDS_SHORTCUT_DISPLAY_NAME1</td><td>1033</td><td>LAUNCH~1.EXE|Launch Avid.Desktop.exe</td><td>0</td><td/><td>-660439409</td></row>
-		<row><td>IDS_SHORTCUT_DISPLAY_NAME2</td><td>1033</td><td>LAUNCH~1.EXE|Launch Avid.Spotify.exe</td><td>0</td><td/><td>-660470065</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO</td><td>1033</td><td>From the list of servers below, select the database server you would like to target.</td><td>0</td><td/><td>-660454840</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_DB</td><td>1033</td><td>From the list of catalog names below, select the database catalog you would like to target.</td><td>0</td><td/><td>-660454840</td></row>
 		<row><td>IDS_SQLBROWSE_INTRO_TEMPLATE</td><td>1033</td><td>[IS_SQLBROWSE_INTRO]</td><td>0</td><td/><td>-660454840</td></row>
@@ -4426,8 +4444,9 @@
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>-660454840</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>-660454840</td></row>
 		<row><td>ID_STRING1</td><td>1033</td><td/><td>0</td><td/><td>-660454840</td></row>
-		<row><td>ID_STRING2</td><td>1033</td><td>http://www.brianavid.co.uk</td><td>0</td><td/><td>-660455985</td></row>
+		<row><td>ID_STRING2</td><td>1033</td><td>https://github.com/brianavid/Avid4G.Net</td><td>0</td><td/><td>-1146888433</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>brianavid</td><td>0</td><td/><td>-660462129</td></row>
+		<row><td>ID_STRING4</td><td>1033</td><td>Avid4</td><td>0</td><td/><td>-1146901328</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>-660454840</td></row>
 	</table>
 
@@ -4537,7 +4556,6 @@
 		<col def="I2">ISIconIndex</col>
 		<row><td>ARPPRODUCTICON.exe</td><td/><td>&lt;VSSolutionFolder&gt;\Avid4.Net\bin\Content\favicon.ico</td><td>0</td></row>
 		<row><td>Avid.Desktop.exe_A6FE4A34ABBE42348F66C0449B5F55D7.exe</td><td/><td>&lt;ISProductFolder&gt;\redist\Language Independent\OS Independent\GenericExe.ico</td><td>0</td></row>
-		<row><td>Avid.Spotify.exe_41A28BE977024CC6BF9526892ED3F412.exe</td><td/><td>&lt;ISProductFolder&gt;\redist\Language Independent\OS Independent\GenericExe.ico</td><td>0</td></row>
 	</table>
 
 	<table name="IniFile">
@@ -4578,6 +4596,11 @@
 		<row><td>DuplicateFiles</td><td/><td>4210</td><td>DuplicateFiles</td><td/></row>
 		<row><td>FileCost</td><td/><td>900</td><td>FileCost</td><td/></row>
 		<row><td>FindRelatedProducts</td><td>NOT ISSETUPDRIVEN</td><td>420</td><td>FindRelatedProducts</td><td/></row>
+		<row><td>ISIISCleanup</td><td/><td>6602</td><td/><td/></row>
+		<row><td>ISIISCosting</td><td/><td>1500</td><td/><td/></row>
+		<row><td>ISIISInstall</td><td>REMOVE&lt;&gt;"ALL"</td><td>4001</td><td/><td/></row>
+		<row><td>ISIISRollback</td><td/><td>3501</td><td/><td/></row>
+		<row><td>ISIISUninstall</td><td>Installed</td><td>3502</td><td/><td/></row>
 		<row><td>ISPreventDowngrade</td><td>ISFOUNDNEWERPRODUCTVERSION</td><td>450</td><td>ISPreventDowngrade</td><td/></row>
 		<row><td>ISRunSetupTypeAddLocalEvent</td><td>Not Installed And Not ISRUNSETUPTYPEADDLOCALEVENT</td><td>1050</td><td>ISRunSetupTypeAddLocalEvent</td><td/></row>
 		<row><td>ISSelfRegisterCosting</td><td/><td>2201</td><td/><td/></row>
@@ -4670,7 +4693,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>ISTheme</td><td>InstallShield Blue.theme</td></row>
 		<row><td>ISUSLock</td><td>{50EBA0BD-ACFE-40D0-9BBA-07BCF0698C42}</td></row>
 		<row><td>ISUSSignature</td><td>{D74AF6FE-05CE-4498-876E-3C081CF39A8C}</td></row>
-		<row><td>ISVisitedViews</td><td>viewAssistant,viewShortcuts,viewAppFiles,viewObjects,viewFeatureFiles,viewProject,viewRealSetupDesign,viewSetupTypes,viewUpgradePaths,viewUpdateService,viewRelease,viewSupportFiles,viewCustomActions,viewInstallScriptStd,viewSystemSearch,viewDependencies,viewSetupDesign,viewAppV,viewISToday,viewRegistry,viewTextFiles,viewXMLConfig,viewFileExtensions,viewComponentServices,viewServices,viewUI,viewBillboards,viewTextMessages</td></row>
+		<row><td>ISVisitedViews</td><td>viewAssistant,viewShortcuts,viewAppFiles,viewObjects,viewFeatureFiles,viewProject,viewRealSetupDesign,viewSetupTypes,viewUpgradePaths,viewUpdateService,viewRelease,viewSupportFiles,viewCustomActions,viewInstallScriptStd,viewSystemSearch,viewDependencies,viewSetupDesign,viewAppV,viewISToday,viewRegistry,viewTextFiles,viewXMLConfig,viewFileExtensions,viewComponentServices,viewServices,viewUI,viewBillboards,viewTextMessages,viewIniFiles,viewVRoots</td></row>
 		<row><td>Limited</td><td>1</td></row>
 		<row><td>LockPermissionMode</td><td>1</td></row>
 		<row><td>MsiExecCmdLineOptions</td><td/></row>
@@ -5058,7 +5081,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<row><td>RestartManagerOption</td><td>CloseRestart</td><td/></row>
 		<row><td>SERIALNUMBER</td><td/><td/></row>
 		<row><td>SERIALNUMVALSUCCESSRETVAL</td><td>1</td><td/></row>
-		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;DOTNETVERSION45FULL</td><td/></row>
+		<row><td>SecureCustomProperties</td><td>ISFOUNDNEWERPRODUCTVERSION;USERNAME;COMPANYNAME;ISX_SERIALNUM;SUPPORTDIR;DOTNETVERSION45FULL;IIS_VERSION;IISROOTFOLDER</td><td/></row>
 		<row><td>SelectedSetupType</td><td>##IDS__DisplayName_Typical##</td><td/></row>
 		<row><td>SetupType</td><td>Typical</td><td/></row>
 		<row><td>UpgradeCode</td><td>{6929ECD5-5322-4802-9990-1100DE45CC20}</td><td/></row>
@@ -5104,6 +5127,8 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">Name</col>
 		<col def="I2">Type</col>
 		<row><td>DotNet45Full</td><td>2</td><td>SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full</td><td>Version</td><td>2</td></row>
+		<row><td>_IISROOTFOLDER</td><td>2</td><td>Software\Microsoft\InetStp</td><td>PathWWWRoot</td><td>0</td></row>
+		<row><td>_IIS_VERSION</td><td>2</td><td>SYSTEM\CurrentControlSet\Services\W3SVC\Parameters</td><td>MajorVersion</td><td>2</td></row>
 	</table>
 
 	<table name="Registry">
@@ -5116,9 +5141,7 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="I4">ISAttributes</col>
 		<row><td>Registry1</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion</td><td/><td/><td>ISX_DEFAULTCOMPONENT3</td><td>1</td></row>
 		<row><td>Registry17</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>Avid.Desktop</td><td>"C:\Avid.Net\Avid.Desktop.exe"</td><td>ISX_DEFAULTCOMPONENT3</td><td>0</td></row>
-		<row><td>Registry18</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>Avid.Spotify</td><td>"C:\Avid.Net\Avid.Spotify.exe"</td><td>ISX_DEFAULTCOMPONENT3</td><td>0</td></row>
 		<row><td>Registry19</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>Avid.Desktop</td><td>"C:\Avid.Net\Avid.Desktop.exe"</td><td>ISX_DEFAULTCOMPONENT4</td><td>0</td></row>
-		<row><td>Registry2</td><td>2</td><td>SOFTWARE\Microsoft\Windows\CurrentVersion\Run</td><td>Avid.Spotify</td><td>"C:\Avid.Net\Avid.Spotify.exe"</td><td>ISX_DEFAULTCOMPONENT4</td><td>0</td></row>
 		<row><td>Registry20</td><td>2</td><td>SOFTWARE</td><td/><td/><td>ISX_DEFAULTCOMPONENT3</td><td>1</td></row>
 		<row><td>Registry21</td><td>2</td><td>SOFTWARE</td><td/><td/><td>ISX_DEFAULTCOMPONENT4</td><td>1</td></row>
 		<row><td>Registry22</td><td>2</td><td>SOFTWARE\Microsoft</td><td>Avid.Desktop</td><td>"C:\Avid.Net\Avid.Desktop.exe"</td><td>ISX_DEFAULTCOMPONENT3</td><td>0</td></row>
@@ -5132,10 +5155,6 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="L255">FileName</col>
 		<col def="s72">DirProperty</col>
 		<col def="i2">InstallMode</col>
-		<row><td>Avid.Desktop.exe</td><td>Avid.Desktop.exe</td><td/><td>avid4</td><td>2</td></row>
-		<row><td>Avid.Spotify.exe</td><td>Avid.Spotify.exe</td><td/><td>avid4</td><td>2</td></row>
-		<row><td>FileKey1</td><td>Avid.Desktop.exe</td><td/><td>briana_1_brianavid</td><td>2</td></row>
-		<row><td>FileKey2</td><td>Avid.Desktop.exe</td><td/><td>avid4</td><td>2</td></row>
 	</table>
 
 	<table name="RemoveIniFile">
@@ -5221,8 +5240,6 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
-		<row><td>Avid.Desktop.exe</td><td>avid4</td><td>##IDS_SHORTCUT_DISPLAY_NAME1##</td><td>Avid.Desktop.exe</td><td>AlwaysInstall</td><td/><td/><td/><td>Avid.Desktop.exe_A6FE4A34ABBE42348F66C0449B5F55D7.exe</td><td>0</td><td>1</td><td>AVID.NET</td><td/><td/><td/><td/><td/><td/><td/></row>
-		<row><td>Avid.Spotify.exe</td><td>avid4</td><td>##IDS_SHORTCUT_DISPLAY_NAME2##</td><td>Avid.Spotify.exe</td><td>AlwaysInstall</td><td/><td/><td/><td>Avid.Spotify.exe_41A28BE977024CC6BF9526892ED3F412.exe</td><td>0</td><td>1</td><td>AVID.NET</td><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">
