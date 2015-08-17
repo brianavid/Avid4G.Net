@@ -105,10 +105,13 @@ namespace Avid4.Net.Controllers
 
             if (!isAlreadyRunningSky)
             {
-                System.Threading.Thread.Sleep(2000);
                 Receiver.SetMute(true);
+            }
 
-                DesktopClient.SendIR(IRCodes.Codes["Sky.Watch"], "Sky.Watch");
+            DesktopClient.SendIR(IRCodes.Codes["Sky.Watch"], "Sky.Watch");
+
+            if (!isAlreadyRunningSky)
+            {
                 System.Threading.Thread.Sleep(2000);
                 SkyData.Sky.ChangeChannel(0);
             }
