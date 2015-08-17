@@ -324,7 +324,7 @@ textarea {
     font-style: italic;
 }
 
-.musicPlaybackQueueDuration, .spotifyPlaybackQueueDuration, .musicBrowserDuration, .spotifyBrowserDuration, .tvChannelNumber, .skyChannelNumber {
+.musicPlaybackQueueDuration, .spotifyPlaybackQueueDuration, .musicBrowserDuration, .spotifyBrowserDuration, .musicBrowserReleaseYear, .spotifyBrowserReleaseYear, .tvChannelNumber, .skyChannelNumber {
     font-size: small; 
     text-align: right; 
 }

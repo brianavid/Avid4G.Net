@@ -1600,6 +1600,22 @@ public static class Spotify
     }
 
     /// <summary>
+    /// Get the year of release for an album
+    /// </summary>
+    /// <param name="album"></param>
+    /// <returns></returns>
+    static string ReleaseYear(FullAlbum album)
+    {
+        DateTime released;
+        if (DateTime.TryParse(album.ReleaseDate, out released))
+        {
+            return released.Year.ToString();
+        }
+
+        return album.ReleaseDate ?? "";
+    }
+
+    /// <summary>
     /// Make an external Album structure from that returned by the Web API
     /// </summary>
     /// <param name="album"></param>
@@ -1611,7 +1627,8 @@ public static class Spotify
             Id = album.Uri,
             Name = album.Name,
             ArtistId = album.Artists[0].Uri,
-            ArtistName = album.Artists[0].Name
+            ArtistName = album.Artists[0].Name,
+            Year = ReleaseYear(album)
         };
     }
 

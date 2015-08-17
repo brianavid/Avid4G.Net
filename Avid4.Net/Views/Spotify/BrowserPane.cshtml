@@ -133,6 +133,7 @@
                                     }
                                 </div>
                                 <div class="spotifyBrowserTitle"><span class="playButton">&gt;&nbsp;</span>@album.Name</div>
+                                <div class="spotifyBrowserReleaseYear">@album.Year</div>
                             </div>
                         }
                         if (!anyFound)
@@ -267,6 +268,7 @@
 		            <img src="/Spotify/GetAlbumImage?id=@album.Id" class="spotifyInfoImage" alt="Playing Track Image" />
 		            <div class="spotifyInfoArtist">@album.ArtistName</div>
 		            <div class="spotifyInfoAlbum">@album.Name</div>
+                    <div class="spotifyBrowserReleaseYear">@album.Year</div>
 	            </div>
                 <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibraryPlayAlbum">
                     <div class="spotifyBrowserTitle">Play Album</div>
@@ -394,6 +396,7 @@
                                 }
                             </div>
                             <div class="spotifyBrowserTitle"><span class="playButton">&gt;&nbsp;</span>@album.Name</div>
+                            <div class="spotifyBrowserReleaseYear">@album.Year</div>
                         </div>
                     }
                 }
