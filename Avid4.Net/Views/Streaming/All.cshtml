@@ -11,7 +11,7 @@
         <table class="buttonRow">
             <tr>
                 <td class="centeredButton"><img id="goRokuSelect" src="/Content/Buttons/Roku.png" /></td>
-                <td class="centeredButton"><img id="goSmartTvSelect" src="/Content/Buttons/Smart.png" /></td>
+                <td class="centeredButton"><img id="goPrimeSelect" src="/Content/Buttons/Prime.png" /></td>
                 <td class="centeredButton"><img id="goChromecastSelect" src="/Content/Buttons/Cast.png" /></td>
                 <td class="centeredButton"><img id="goLogFireSelect" src="/Content/Buttons/LogFire.png" /></td>
             </tr>
@@ -27,7 +27,7 @@
             <p>Recommendations:</p>
             <ul>
                 <li>Use <strong>Roku</strong> for Sky Now TV and TV catchup services</li>
-                <li>Use <strong>Smart</strong> for Amazon Prime and other streaming services not on Roku</li>
+                <li>Use <strong>Prime</strong> for Amazon Prime Instant Video</li>
                 <li>Use <strong>Curzon</strong> for Curzon Home Cinema</li>
                 <li>Use <strong>Cast</strong> for YouTube and other video content sent to Chromecast from a player on the phone or tablet</li>
                 <li>Use <strong>Audio</strong> for BBC iPlayer Radio and other audio-only content sent to Chromecast from a player on the phone or tablet</li>
@@ -53,9 +53,9 @@
                 @Html.Partial("SmartControlsPane")
             </div>
         </div>
-        <div id="curzonControlsPane" class="curzonControlsPane @(ViewBag.HideCurzonClass ?? "")">
-            <div class="curzonControls">
-                @Html.Partial("CurzonControlsPane")
+        <div id="webControlsPane" class="webControlsPane @(ViewBag.HideWebClass ?? "")">
+            <div class="webControls">
+                @Html.Partial("WebControlsPane")
             </div>
         </div>
     </div>

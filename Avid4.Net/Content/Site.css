@@ -125,6 +125,11 @@ textarea {
     color: white;
 }
 
+.topBarPrime {
+    background-color: #2d2d2d;
+    color: white;
+}
+
 .topBarLogFire {
     background-color: #7e381d;
     color: white;

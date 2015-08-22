@@ -110,14 +110,14 @@ function AddSmartControlHammerActions() {
     });
 }
 
-var curzonControlHammer = null;
+var webControlHammer = null;
 
-function AddCurzonControlHammerActions() {
-    if (!curzonControlHammer) {
-        curzonControlHammer = $(".curzonButtons").hammer({ prevent_default: true });
+function AddWebControlHammerActions() {
+    if (!webControlHammer) {
+        webControlHammer = $(".webButtons").hammer({ prevent_default: true });
     }
 
-    curzonControlHammer.on("tap", "#curzonEscape", function (e) {
+    webControlHammer.on("tap", "#webEscape", function (e) {
         $.ajax({
             url: "/Action/SendKeys?keys={ESC}",
             cache: false
@@ -125,7 +125,7 @@ function AddCurzonControlHammerActions() {
         return false;
     });
 
-    curzonControlHammer.on("tap", "#curzonLeft", function (e) {
+    webControlHammer.on("tap", "#webLeft", function (e) {
         $.ajax({
             url: "/Action/SendKeys?keys={BS}",
             cache: false
@@ -133,7 +133,7 @@ function AddCurzonControlHammerActions() {
         return false;
     });
 
-    curzonControlHammer.on("tap", "#curzonEnter", function (e) {
+    webControlHammer.on("tap", "#webEnter", function (e) {
         $.ajax({
             url: "/Action/SendKeys?keys=~",
             cache: false
@@ -141,8 +141,24 @@ function AddCurzonControlHammerActions() {
         return false;
     });
 
-    curzonControlHammer.on("tap", "#curzonEnterText", function (e) {
-        var text = document.getElementById("curzonEnteredText").value
+    webControlHammer.on("tap", "#webPageUp", function (e) {
+        $.ajax({
+            url: "/Action/SendKeys?keys={PGUP}",
+            cache: false
+        });
+        return false;
+    });
+
+    webControlHammer.on("tap", "#webPageDown", function (e) {
+        $.ajax({
+            url: "/Action/SendKeys?keys={PGDN}",
+            cache: false
+        });
+        return false;
+    });
+
+    webControlHammer.on("tap", "#webEnterText", function (e) {
+        var text = document.getElementById("webEnteredText").value
         $.ajax({
             url: "/Action/SendKeys?keys=" + encodeURIComponent(text),
             cache: false
@@ -150,7 +166,7 @@ function AddCurzonControlHammerActions() {
         return false;
     });
 
-    curzonControlHammer.on("tap", "#curzonMenu", function (e) {
+    webControlHammer.on("tap", "#webMenu", function (e) {
         $.ajax({
             url: "/Action/MouseClick?right=yes",
             cache: false
@@ -198,7 +214,7 @@ $(function () {
 
     AddRokuControlHammerActions()
     AddSmartControlHammerActions()
-    AddCurzonControlHammerActions()
+    AddWebControlHammerActions()
     AddBrowserHammerActions();
 
     $("#goStreamSourceSelect").click(function () {
@@ -241,6 +257,12 @@ $(function () {
 
     $("#goCurzonSelect").click(function () {
         $.get("/Action/GoCurzon", null, function () {
+            LinkTo(document.getElementById("isWide") != null ? "/Streaming/All" : "/Streaming/Controls")
+        })
+    });
+
+    $("#goPrimeSelect").click(function () {
+        $.get("/Action/GoPrime", null, function () {
             LinkTo(document.getElementById("isWide") != null ? "/Streaming/All" : "/Streaming/Controls")
         })
     });

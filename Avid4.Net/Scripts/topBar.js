@@ -327,6 +327,7 @@ function SwitchPanelAfterWake(isWide) {
                         case "Roku":
                         case "SmartTv":
                         case "Curzon":
+                        case "Prime":
                             window.location = isWide ? "/Streaming/All" : "/Streaming/Controls";
                             break;
                         case "Chromecast":

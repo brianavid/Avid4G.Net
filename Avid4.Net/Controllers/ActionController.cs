@@ -215,6 +215,7 @@ namespace Avid4.Net.Controllers
                 case "Roku":
                 case "SmartTv":
                 case "Curzon":
+                case "Prime":
                 case "Music":
                 case "Spotify":
                     streamProgram = Running.RunningProgram;
@@ -245,6 +246,16 @@ namespace Avid4.Net.Controllers
             Running.StartStream("Curzon");
             Receiver.SelectComputerInput();
             DesktopClient.LaunchProgram("Curzon", null);
+            return Content("");
+        }
+
+        // GET: /Action/GoPrime
+        public ActionResult GoPrime()
+        {
+            Screen.EnsureScreenOn();
+            Running.StartStream("Prime");
+            Receiver.SelectComputerInput();
+            DesktopClient.LaunchProgram("Prime", null);
             return Content("");
         }
 

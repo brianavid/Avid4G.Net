@@ -187,6 +187,7 @@
     <Content Include="Content\Buttons\Curzon.png" />
     <Content Include="Content\Buttons\LogFire.png" />
     <Content Include="Content\Buttons\MiniRound\Enter.png" />
+    <Content Include="Content\Buttons\Prime.png" />
     <Content Include="Content\Buttons\Roku.png" />
     <Content Include="Content\Buttons\Series.png" />
     <Content Include="Content\Buttons\SmallRound\Exit.png" />
@@ -585,7 +586,7 @@
     <Content Include="Views\Guide\ListingsPane.cshtml" />
     <Content Include="Views\Guide\PaneButtons.cshtml" />
     <Content Include="Views\Streaming\SmartControlsPane.cshtml" />
-    <Content Include="Views\Streaming\CurzonControlsPane.cshtml" />
+    <Content Include="Views\Streaming\WebControlsPane.cshtml" />
     <Content Include="Views\Video\Videos.cshtml" />
     <Content Include="Views\Video\VideosPane.cshtml" />
   </ItemGroup>

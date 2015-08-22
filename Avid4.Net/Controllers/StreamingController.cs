@@ -35,9 +35,9 @@ namespace Avid4.Net.Controllers
             {
                 ViewBag.HideSmartClass = "startHidden";
             }
-            if (Running.RunningProgram != "Curzon")
+            if (Running.RunningProgram != "Curzon" && Running.RunningProgram != "Prime")
             {
-                ViewBag.HideCurzonClass = "startHidden";
+                ViewBag.HideWebClass = "startHidden";
             }
         }
 
