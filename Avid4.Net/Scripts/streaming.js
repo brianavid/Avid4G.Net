@@ -110,6 +110,28 @@ function AddSmartControlHammerActions() {
     });
 }
 
+
+var touchRepeater = null;
+function DoRepeatedKey(key) {
+    $.ajax({
+        url: "/Action/SendKeys?keys={" + key + "}",
+        async: false,
+        cache: false
+    });
+}
+
+function StartRepeat(key) {
+    if (touchRepeater == null) {
+        touchRepeater = setInterval("DoRepeatedKey('" + key + "')", 50);
+    }
+}
+
+function StopRepeat() {
+    if (touchRepeater != null) {
+        clearInterval(touchRepeater)
+        touchRepeater = null;
+    }
+}
 var webControlHammer = null;
 
 function AddWebControlHammerActions() {
@@ -154,6 +176,21 @@ function AddWebControlHammerActions() {
             url: "/Action/SendKeys?keys={PGDN}",
             cache: false
         });
+        return false;
+    });
+
+    webControlHammer.on("hold dragstart", "#webPageUp", function (e) {
+        StartRepeat("UP");
+        return false;
+    });
+
+    webControlHammer.on("hold dragstart", "#webPageDown", function (e) {
+        StartRepeat("DOWN");
+        return false;
+    });
+
+    webControlHammer.on("release dragend", function (e) {
+        StopRepeat();
         return false;
     });
 
