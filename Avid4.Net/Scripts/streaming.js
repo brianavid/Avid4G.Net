@@ -112,22 +112,41 @@ function AddSmartControlHammerActions() {
 
 
 var touchRepeater = null;
+var touchStartTime = null;
+var touchStartTicks = 0;
+var tapKey = null;
+
 function DoRepeatedKey(key) {
-    $.ajax({
-        url: "/Action/SendKeys?keys={" + key + "}",
-        async: false,
-        cache: false
-    });
+    var nowTime = new Date();
+    var nowTicks = nowTime.getTime();
+    if (nowTicks - touchStartTicks > 200) {
+        $.ajax({
+            url: "/Action/SendKeys?keys={" + key + "}",
+            async: false,
+            cache: false
+        });
+    }
 }
 
-function StartRepeat(key) {
+function StartRepeat(key, key2) {
     if (touchRepeater == null) {
+        touchStartTime = new Date();
+        touchStartTicks = touchStartTime.getTime();
+        tapKey = key2;
         touchRepeater = setInterval("DoRepeatedKey('" + key + "')", 50);
     }
 }
 
 function StopRepeat() {
     if (touchRepeater != null) {
+        var nowTime = new Date();
+        var nowTicks = nowTime.getTime();
+        if (nowTicks - touchStartTicks <= 200) {
+            $.ajax({
+                url: "/Action/SendKeys?keys={" + tapKey + "}",
+                cache: false
+            });
+        }
         clearInterval(touchRepeater)
         touchRepeater = null;
     }
@@ -163,33 +182,17 @@ function AddWebControlHammerActions() {
         return false;
     });
 
-    webControlHammer.on("tap", "#webPageUp", function (e) {
-        $.ajax({
-            url: "/Action/SendKeys?keys={PGUP}",
-            cache: false
-        });
+    webControlHammer.on("touch", "#webPageUp", function (e) {
+        StartRepeat("UP", "PGUP");
         return false;
     });
 
-    webControlHammer.on("tap", "#webPageDown", function (e) {
-        $.ajax({
-            url: "/Action/SendKeys?keys={PGDN}",
-            cache: false
-        });
+    webControlHammer.on("touch", "#webPageDown", function (e) {
+        StartRepeat("DOWN", "PGDN");
         return false;
     });
 
-    webControlHammer.on("hold dragstart", "#webPageUp", function (e) {
-        StartRepeat("UP");
-        return false;
-    });
-
-    webControlHammer.on("hold dragstart", "#webPageDown", function (e) {
-        StartRepeat("DOWN");
-        return false;
-    });
-
-    webControlHammer.on("release dragend", function (e) {
+    webControlHammer.on("release", function (e) {
         StopRepeat();
         return false;
     });
