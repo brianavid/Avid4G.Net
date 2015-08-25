@@ -245,6 +245,7 @@ namespace Avid4.Net.Controllers
             Screen.EnsureScreenOn();
             Running.StartStream("Curzon");
             Receiver.SelectComputerInput();
+            Receiver.SelectTVOutput();
             DesktopClient.LaunchProgram("Curzon", null);
             return Content("");
         }
@@ -255,6 +256,7 @@ namespace Avid4.Net.Controllers
             Screen.EnsureScreenOn();
             Running.StartStream("Prime");
             Receiver.SelectComputerInput();
+            Receiver.SelectTVOutput();
             DesktopClient.LaunchProgram("Prime", null);
             return Content("");
         }
