@@ -453,7 +453,6 @@
     <None Include="Properties\PublishProfiles\Deploy to Avid.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\guide2.js" />
-    <Content Include="Scripts\guide.js" />
     <Content Include="Scripts\photos.js" />
     <Content Include="Scripts\streaming.js" />
     <Content Include="Scripts\touch-emulator.js" />

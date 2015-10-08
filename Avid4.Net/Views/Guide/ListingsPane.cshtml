@@ -19,6 +19,7 @@
                 IEnumerable<DvbViewer.Programme> schedule = DvbViewer.GetEpgProgrammesForDay(date, DvbViewer.NamedChannel(channel));
 
                 <div class="guideItem guideHeader"><div class="guideTitle">@channel @(date.ToString("ddd dd MMM"))</div></div>
+                <span id="ChannelName" style="display:none">@channel</span>
                 foreach (DvbViewer.Programme programme in schedule)
                 {
                     var displayClass = "guideEpgProgramme" + (programme.IsScheduled ? " guideEpgProgrammeScheduled" : "");

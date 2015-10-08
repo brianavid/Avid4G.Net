@@ -83,24 +83,27 @@ namespace Avid4.Net.Controllers
 
         // GET: /Guide/Description
         public ContentResult Description(
-            string id)
+            string id,
+            string channelName)
         {
-            return this.Content(DvbViewer.EpgProgramme(id).Description);
+            return this.Content(DvbViewer.EpgProgramme(id, channelName).Description);
         }
 
         // GET: /Guide/Record
         public ContentResult Record(
-            string id)
+            string id,
+            string channelName)
         {
-            DvbViewer.AddTimer(id);
+            DvbViewer.AddTimer(id, channelName);
             return this.Content("");
         }
 
         // GET: /Guide/RecordSeries
         public ContentResult RecordSeries(
-            string id)
+            string id,
+            string channelName)
         {
-            DvbViewer.AddTimer(id, true);
+            DvbViewer.AddTimer(id, channelName, true);
             return this.Content("");
         }
 

@@ -864,18 +864,27 @@ public class DvbViewer
 
             foreach (var programme in epgProgrammesByChannel[channel.Name])
             {
-                epgProgrammesById[programme.Id] = programme;
+                epgProgrammesByIdAndChannel[MakeIdAndChannelKey(programme.Id, channel.Name)] = programme;
             }
         }
 
         return epgProgrammesByChannel[channel.Name];
     }
     static Dictionary<String, IEnumerable<Programme>> epgProgrammesByChannel = new Dictionary<String, IEnumerable<Programme>>();
-    static Dictionary<String, Programme> epgProgrammesById = new Dictionary<String, Programme>();
-
-    public static Programme EpgProgramme(String Id)
+    static String MakeIdAndChannelKey(
+        String Id,
+        String channelName)
     {
-        return epgProgrammesById[Id];
+        return Id + ";" + channelName; 
+    }
+
+    static Dictionary<String, Programme> epgProgrammesByIdAndChannel = new Dictionary<String, Programme>();
+
+    public static Programme EpgProgramme(
+        String Id,
+        String channelName)
+    {
+        return epgProgrammesByIdAndChannel[MakeIdAndChannelKey(Id, channelName)];
     }
 
     /// <summary>
@@ -1013,9 +1022,11 @@ public class DvbViewer
     /// <returns></returns>
     public static Timer AddTimer(
         String id,
+        String channelName,
         bool isSeries = false)
     {
-        return epgProgrammesById.ContainsKey(id) ? AddTimer(epgProgrammesById[id], isSeries) : null;
+        string key = MakeIdAndChannelKey(id, channelName);
+        return epgProgrammesByIdAndChannel.ContainsKey(key) ? AddTimer(epgProgrammesByIdAndChannel[key], isSeries) : null;
     }
 
     /// <summary>
