@@ -18,7 +18,7 @@
                 $(posDisplay).text(posText);
             }
 
-            sendZoom("exSeekTo," + Math.round(PositionMS / 1000));
+            sendZoomExtend("exSeekTo," + Math.round(PositionMS / 1000));
         }
     });
 }
@@ -120,9 +120,12 @@ function DisplayRunningOnWatchPane(jump) {
     }
 }
 
-function sendZoom(cmd, onAfter)
-{
+function sendZoom(cmd, onAfter) {
     $.get("/Video/SendZoom?cmd=" + escape(cmd), null, onAfter)
+}
+
+function sendZoomExtend(cmd, onAfter) {
+    $.get("/Video/SendZoom?cmd=" + escape(cmd) + "&forceExtend=yes", null, onAfter)
 }
 
 var videoControlHammer = null;
@@ -134,19 +137,19 @@ function AddVideoControlsHammerActions() {
     }
 
     videoControlHammer.on("touch", "#videoBack60", function (e) {
-        sendZoom("exSeekBack,60")
+        sendZoomExtend("exSeekBack,60")
     });
 
     videoControlHammer.on("touch", "#videoBack10", function (e) {
-        sendZoom("exSeekBack,10")
+        sendZoomExtend("exSeekBack,10")
     });
 
     videoControlHammer.on("touch", "#videoForward10", function (e) {
-        sendZoom("exSeekAhead,10")
+        sendZoomExtend("exSeekAhead,10")
     });
 
     videoControlHammer.on("touch", "#videoForward60", function (e) {
-        sendZoom("exSeekAhead,60")
+        sendZoomExtend("exSeekAhead,60")
     });
 
     videoControlHammer.on("touch", "#videoPlayPause", function (e) {

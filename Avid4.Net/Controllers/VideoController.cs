@@ -5,11 +5,45 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Runtime.InteropServices;
 
 namespace Avid4.Net.Controllers
 {
     public class VideoController : Controller
     {
+        [DllImport("kernel32.dll")]
+        private static extern uint GetCompressedFileSizeW([In(), MarshalAs(UnmanagedType.LPWStr)]
+            string lpFileName, [Out(), MarshalAs(UnmanagedType.U4)]
+            uint lpFileSizeHigh);
+
+        /// <summary>
+        /// The path of a recording file currently being played
+        /// </summary>
+        static string currentFilename = null;
+
+        /// <summary>
+        /// The size (on disk) of the recording file, which will change if the recording is still in progress
+        /// </summary>
+        static ulong lastFileSize = 0;
+
+        /// <summary>
+        /// The time at which the size of the recording file was last checked
+        /// </summary>
+        static DateTime lastSizeCheck;
+
+        /// <summary>
+        /// Get the size of a file on-disk, which may change over time for a recording in progress
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        static ulong GetOnDiskFileSize(
+            String path)
+        {
+            uint fileSizeHigh = 0;
+            uint fileSizeLow = GetCompressedFileSizeW(path, fileSizeHigh);
+            return Convert.ToUInt64(fileSizeHigh) << 32 | fileSizeLow;
+        }
+
         // GET: /Video/Watch
         public ActionResult Watch()
         {
@@ -84,6 +118,9 @@ namespace Avid4.Net.Controllers
             if (DvbViewer.AllRecordings.ContainsKey(id))
             {
                 var recording = DvbViewer.AllRecordings[id];
+                currentFilename = recording.Filename;
+                lastFileSize = GetOnDiskFileSize(currentFilename);
+                lastSizeCheck = DateTime.UtcNow;
                 Running.LaunchProgram("Video", "/Media /F /ExFunc:exSetVolume,100 /ExFunc:exSetMode,0 /Play \"" + recording.Filename + "\"");
                 Zoom.IsDvdMode = false;
                 Zoom.Title = recording.Title;
@@ -110,6 +147,7 @@ namespace Avid4.Net.Controllers
         {
             Running.LaunchProgram("Video", "/DVD /F /ExFunc:exSetVolume,100 /ExFunc:exSetMode,1 /Opendrive:" + drive);
             Zoom.IsDvdMode = true;
+            currentFilename = null;
             if (!string.IsNullOrEmpty(title))
             {
                 Zoom.Title = title;
@@ -124,6 +162,7 @@ namespace Avid4.Net.Controllers
         {
             Running.LaunchProgram("Video", "/DVD /F /ExFunc:exSetVolume,100 /ExFunc:exSetMode,1 /Play \"" + path + "\\VIDEO_TS\\VIDEO_TS.IFO\"");
             Zoom.IsDvdMode = true;
+            currentFilename = null;
             if (!string.IsNullOrEmpty(title))
             {
                 Zoom.Title = title;
@@ -137,6 +176,8 @@ namespace Avid4.Net.Controllers
             string title)
         {
             Running.LaunchProgram("Video", "/Media /F /ExFunc:exSetVolume,100 /ExFunc:exSetMode,0 /Play \"" + path + "\"");
+            Zoom.IsDvdMode = false;
+            currentFilename = null;
             if (!string.IsNullOrEmpty(title))
             {
                 Zoom.Title = title;
@@ -154,8 +195,25 @@ namespace Avid4.Net.Controllers
 
         // GET: /Video/SendZoom
         public ContentResult SendZoom(
-            string cmd)
+            string cmd,
+            string forceExtend)
         {
+            //  If this is a transport command to skip within the playing file,
+            //  check if the length of the file on disk has changed, indicating a recording in progress.
+            //  If so, re-load the current media file (at most once every 10 seconds) in order
+            //  to re-determine the current duration.
+            if (forceExtend != null && currentFilename != null && (DateTime.UtcNow - lastSizeCheck).TotalSeconds > 10)
+            {
+                var currentFileSize = GetOnDiskFileSize(currentFilename);
+                if (currentFileSize != lastFileSize)
+                {
+                    lastFileSize = currentFileSize;
+                    lastSizeCheck = DateTime.UtcNow;
+
+                    SendZoom("fnReloadCurrent", null);
+                }
+            }
+
             Uri requestUri = new Uri(Zoom.FuncUrl + cmd);
 
             for (int i = 1; i < 11; i++)
