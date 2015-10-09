@@ -43,6 +43,11 @@
     </div>
 
     <div id="streamingRightPane">
+        <div id="rokuSearchPane" class="rokuSearchPane @(ViewBag.HideRokuClass ?? "")">
+            <div class="rokuSearch">
+                @Html.Partial("RokuSearchPane")
+            </div>
+        </div>
         <div id="rokuControlsPane" class="rokuControlsPane @(ViewBag.HideRokuClass ?? "")">
             <div class="rokuControls">
                 @Html.Partial("RokuControlsPane")
@@ -51,6 +56,11 @@
         <div id="smartControlsPane" class="smartControlsPane @(ViewBag.HideSmartClass ?? "")">
             <div class="smartControls">
                 @Html.Partial("SmartControlsPane")
+            </div>
+        </div>
+        <div id="webSearchPane" class="webSearchPane @(ViewBag.HideWebClass ?? "")">
+            <div class="webSearch">
+                @Html.Partial("WebSearchPane")
             </div>
         </div>
         <div id="webControlsPane" class="webControlsPane @(ViewBag.HideWebClass ?? "")">

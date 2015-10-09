@@ -84,8 +84,22 @@ function AddRokuControlHammerActions() {
         $.get("/Streaming/KeyPress/Play")
         return false;
     });
+}
 
-    rokuControlHammer.on("tap", "#goRokuText", function (e) {
+var rokuSearchHammer = null;
+
+function AddRokuSearchHammerActions() {
+    if (!rokuSearchHammer) {
+        rokuSearchHammer = $(".rokuSearch").hammer({ prevent_default: true });
+    }
+
+    rokuSearchHammer.on("tap", "#rokuText", function (e) {
+        this.blur()
+        this.focus()
+        return false;
+    });
+
+    rokuSearchHammer.on("tap", "#goRokuText", function (e) {
         var text = document.getElementById("rokuText").value
         $.get("/Streaming/SendText?text=" + encodeURIComponent(text))
         return false;
@@ -197,18 +211,32 @@ function AddWebControlHammerActions() {
         return false;
     });
 
-    webControlHammer.on("tap", "#webEnterText", function (e) {
-        var text = document.getElementById("webEnteredText").value
+    webControlHammer.on("tap", "#webMenu", function (e) {
         $.ajax({
-            url: "/Action/SendKeys?keys=" + encodeURIComponent(text),
+            url: "/Action/MouseClick?right=yes",
             cache: false
         });
         return false;
     });
+}
 
-    webControlHammer.on("tap", "#webMenu", function (e) {
+var webSearchHammer = null;
+
+function AddWebSearchHammerActions() {
+    if (!webSearchHammer) {
+        webSearchHammer = $(".webSearch").hammer();
+    }
+
+    webSearchHammer.on("tap", "#webEnteredText", function (e) {
+        this.blur()
+        this.focus()
+        return false;
+    });
+
+    webSearchHammer.on("tap", "#webEnterText", function (e) {
+        var text = document.getElementById("webEnteredText").value
         $.ajax({
-            url: "/Action/MouseClick?right=yes",
+            url: "/Action/SendKeys?keys=" + encodeURIComponent(text),
             cache: false
         });
         return false;
@@ -253,8 +281,10 @@ $(function () {
     });
 
     AddRokuControlHammerActions()
+    AddRokuSearchHammerActions()
     AddSmartControlHammerActions()
     AddWebControlHammerActions()
+    AddWebSearchHammerActions()
     AddBrowserHammerActions();
 
     $("#goStreamSourceSelect").click(function () {

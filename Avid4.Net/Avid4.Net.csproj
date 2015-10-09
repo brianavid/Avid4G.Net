@@ -588,6 +588,8 @@
     <Content Include="Views\Streaming\WebControlsPane.cshtml" />
     <Content Include="Views\Video\Videos.cshtml" />
     <Content Include="Views\Video\VideosPane.cshtml" />
+    <Content Include="Views\Streaming\WebSearchPane.cshtml" />
+    <Content Include="Views\Streaming\RokuSearchPane.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
