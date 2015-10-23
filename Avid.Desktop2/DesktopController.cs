@@ -701,5 +701,77 @@ namespace Avid.Desktop
             }
         }
 
+        static CecClient cecClient = null;
+
+        static void InitCec()
+        {
+            if (cecClient == null)
+            {
+                cecClient = new CecClient();
+                cecClient.Connect(10000);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [HttpGet]
+        public bool TvScreenOn()
+        {
+            logger.Info("TvScreenOn");
+            try
+            {
+                InitCec();
+                cecClient.TvScreenOn();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [HttpGet]
+        public bool TvScreenOff()
+        {
+            logger.Info("TvScreenOff");
+            try
+            {
+                InitCec();
+                cecClient.TvScreenOff();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [HttpGet]
+        public bool TvScreenIsOn()
+        {
+            logger.Info("TvScreenIsOn");
+            try
+            {
+                InitCec();
+                bool result = cecClient.TvScreenIsOn();
+                logger.Info("TvScreenIsOn = {0}", result);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
+        }
+
     }
 }

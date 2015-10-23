@@ -16,62 +16,14 @@ using NLog;
 /// </summary>
 public static class Screen
 {
-    #region Win32 Native methods
-    [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-    static extern SafeFileHandle CreateFile(
-        string lpFileName,
-        [MarshalAs(UnmanagedType.U4)] FileAccess dwDesiredAccess,
-        [MarshalAs(UnmanagedType.U4)] FileShare dwShareMode,
-        IntPtr lpSecurityAttributes,
-        [MarshalAs(UnmanagedType.U4)] FileMode dwCreationDisposition,
-        [MarshalAs(UnmanagedType.U4)] FileAttributes dwFlagsAndAttributes,
-        IntPtr hTemplateFile);
-
-    [DllImport("kernel32.dll", SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    static extern bool CloseHandle(SafeFileHandle hObject);
-
-    [DllImport("Kernel32.DLL", CharSet = CharSet.Auto,
-           SetLastError = true)]
-    private extern static
-        bool GetDevicePowerState(
-            SafeFileHandle hDevice,
-            out bool fOn);
-    #endregion
-
     static Logger logger = LogManager.GetCurrentClassLogger();
-
-    /// <summary>
-    /// Send an HDMI-CEC command string encoded in an HTTP URL to the control service tray application
-    /// </summary>
-    /// <param name="command"></param>
-    /// <returns>Success</returns>
-    static bool SendHdmiCecCommand(
-        string command)
-    {
-        try
-        {
-            Uri requestUri = new Uri("http://localhost:12997/control/Send?RawCommand='" + command + "'");
-
-            HttpWebRequest request =
-                (HttpWebRequest)HttpWebRequest.Create(requestUri);
-            request.Method = WebRequestMethods.Http.Get;
-
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            return response.StatusCode == HttpStatusCode.OK;
-        }
-        catch (Exception)
-        {
-            return false;
-        }
-    }
 
     /// <summary>
     /// Turn the screen on by issuing the appropriate HDMI-CEC command to device 0 (which is always the TV screen).
     /// </summary>
     static void TurnOn()
     {
-        SendHdmiCecCommand("!x0 04");
+        DesktopClient.TvScreenOn();
 
         isOn = true;
     }
@@ -88,29 +40,7 @@ public static class Screen
             return isOn;
         }
 
-        //  The only reliable way I can determine if the screen is on is if the display is other than the "Generic PnP Monitor"
-        //  It appears that when there is no output screen switched on, the media PC's display reverts to "Generic PnP Monitor".
-        //  When the screen is on, it is something more specific.
-        //  We can get this information through ManagementObjectCollection
-        ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM CIM_Display");
-        ManagementObjectCollection collection = searcher.Get();
-
-        bool fOn = false;
-        foreach (ManagementObject obj in collection)
-        {
-            string caption = (string)obj["Caption"];
-            if (caption != null)
-            {
-                if (caption != "Generic PnP Monitor")
-                {
-                    fOn = true;
-                }
-            }
-        }
-
-        isOn = fOn;
-
-        return fOn;
+        return DesktopClient.TvScreenIsOn();
     }
 
     /// <summary>
@@ -120,8 +50,6 @@ public static class Screen
     public static void WaitForScreenOn()
     {
         logger.Info("WaitForScreenOn");
-
-        LogDisplayStatus();
 
         for (int i = 0; i < 30; i++)
         {
@@ -133,26 +61,6 @@ public static class Screen
             }
 
             System.Threading.Thread.Sleep(500);
-        }
-
-        LogDisplayStatus();
-    }
-
-    /// <summary>
-    /// Log the screen state for diagnosis purposes
-    /// </summary>
-    [Conditional("LOG_SCREEN_STATE")]
-    private static void LogDisplayStatus()
-    {
-        ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM CIM_Display");
-        ManagementObjectCollection collection = searcher.Get();
-
-        foreach (ManagementObject obj in collection)
-        {
-            foreach (var prop in obj.Properties)
-            {
-                logger.Info("{0} -> {1}", prop.Name, prop.Value);
-            }
         }
     }
 
@@ -187,8 +95,7 @@ public static class Screen
     /// </summary>
     static void TurnOff()
     {
-        SendHdmiCecCommand("!x0 36");
-
+        DesktopClient.TvScreenOff();
         isOn = false;
     }
 

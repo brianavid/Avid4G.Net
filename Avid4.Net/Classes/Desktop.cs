@@ -331,4 +331,68 @@ public static class DesktopClient
             }
         }
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    static public void TvScreenOn()
+    {
+        lock (trayAppClient)
+        {
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync("api/Desktop/TvScreenOn").Result;
+                resp.EnsureSuccessStatusCode();
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    static public void TvScreenOff()
+    {
+        lock (trayAppClient)
+        {
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync("api/Desktop/TvScreenOff").Result;
+                resp.EnsureSuccessStatusCode();
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    static public bool TvScreenIsOn()
+    {
+        lock (trayAppClient)
+        {
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync("api/Desktop/TvScreenIsOn").Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<bool>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
+        }
+    }
+
 }

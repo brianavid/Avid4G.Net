@@ -2134,7 +2134,6 @@
 		<row><td>controls.cshtml</td><td>ISX_DEFAULTCOMPONENT29</td><td>CONTRO~1.CSH|Controls.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Streaming\Controls.cshtml</td><td>1</td><td/></row>
 		<row><td>controls.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Controls.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Controls.png</td><td>1</td><td/></row>
 		<row><td>curzon.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Curzon.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Curzon.png</td><td>1</td><td/></row>
-		<row><td>curzoncontrolspane.cshtml</td><td>ISX_DEFAULTCOMPONENT29</td><td>CURZON~1.CSH|CurzonControlsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Streaming\CurzonControlsPane.cshtml</td><td>1</td><td/></row>
 		<row><td>cycle.display.button.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>CYCLED~1.PNG|Cycle.Display.Button.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Cycle.Display.Button.png</td><td>1</td><td/></row>
 		<row><td>delete.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Delete.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Delete.png</td><td>1</td><td/></row>
 		<row><td>display.cshtml</td><td>ISX_DEFAULTCOMPONENT24</td><td>DISPLA~1.CSH|Display.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Photos\Display.cshtml</td><td>1</td><td/></row>
@@ -2158,7 +2157,6 @@
 		<row><td>global.asax.cs</td><td>ISX_DEFAULTCOMPONENT2</td><td>GLOBAL~1.CS|Global.asax.cs</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Global.asax.cs</td><td>1</td><td/></row>
 		<row><td>goaway.cshtml</td><td>ISX_DEFAULTCOMPONENT22</td><td>GOAWAY~1.CSH|GoAway.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Home\GoAway.cshtml</td><td>1</td><td/></row>
 		<row><td>grid.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Grid.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Grid.png</td><td>1</td><td/></row>
-		<row><td>guide.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>guide.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\guide.js</td><td>1</td><td/></row>
 		<row><td>guide.png</td><td>ISX_DEFAULTCOMPONENT11</td><td>Guide.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\BigRound\Guide.png</td><td>1</td><td/></row>
 		<row><td>guide.png1</td><td>ISX_DEFAULTCOMPONENT14</td><td>Guide.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\Guide.png</td><td>1</td><td/></row>
 		<row><td>guide2.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>guide2.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\guide2.js</td><td>1</td><td/></row>
@@ -2350,6 +2348,7 @@
 		<row><td>refresh.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Refresh.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Refresh.png</td><td>1</td><td/></row>
 		<row><td>roku.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Roku.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Roku.png</td><td>1</td><td/></row>
 		<row><td>rokucontrolspane.cshtml</td><td>ISX_DEFAULTCOMPONENT29</td><td>ROKUCO~1.CSH|RokuControlsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Streaming\RokuControlsPane.cshtml</td><td>1</td><td/></row>
+		<row><td>rokusearchpane.cshtml</td><td>ISX_DEFAULTCOMPONENT29</td><td>ROKUSE~1.CSH|RokuSearchPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Streaming\RokuSearchPane.cshtml</td><td>1</td><td/></row>
 		<row><td>rotate.png</td><td>ISX_DEFAULTCOMPONENT15</td><td>Rotate.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\_vti_cnf\Rotate.png</td><td>1</td><td/></row>
 		<row><td>screen.png</td><td>ISX_DEFAULTCOMPONENT10</td><td>Screen.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\Screen.png</td><td>1</td><td/></row>
 		<row><td>screencontrol.png</td><td>ISX_DEFAULTCOMPONENT14</td><td>SCREEN~1.PNG|ScreenControl.png</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\SmallRound\ScreenControl.png</td><td>1</td><td/></row>
@@ -2485,7 +2484,9 @@
 		<row><td>web.config</td><td>ISX_DEFAULTCOMPONENT5</td><td>WEB~1.CON|Web.config</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Web.config</td><td>1</td><td/></row>
 		<row><td>web.config6</td><td>ISX_DEFAULTCOMPONENT2</td><td>WEB~1.CON|Web.config</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Web.config</td><td>1</td><td/></row>
 		<row><td>web.js</td><td>ISX_DEFAULTCOMPONENT69</td><td>Web.js</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Scripts\Web.js</td><td>1</td><td/></row>
+		<row><td>webcontrolspane.cshtml</td><td>ISX_DEFAULTCOMPONENT29</td><td>WEBCON~1.CSH|WebControlsPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Streaming\WebControlsPane.cshtml</td><td>1</td><td/></row>
 		<row><td>webgrease.dll</td><td>WebGrease.dll</td><td>WEBGRE~1.DLL|WebGrease.dll</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\bin\WebGrease.dll</td><td>1</td><td/></row>
+		<row><td>websearchpane.cshtml</td><td>ISX_DEFAULTCOMPONENT29</td><td>WEBSEA~1.CSH|WebSearchPane.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Streaming\WebSearchPane.cshtml</td><td>1</td><td/></row>
 		<row><td>wide.cshtml</td><td>ISX_DEFAULTCOMPONENT22</td><td>WIDE~1.CSH|Wide.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Home\Wide.cshtml</td><td>1</td><td/></row>
 		<row><td>wideblank.psd</td><td>ISX_DEFAULTCOMPONENT10</td><td>WIDEBL~1.PSD|WideBlank.psd</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Content\Buttons\WideBlank.psd</td><td>1</td><td/></row>
 		<row><td>widemouse.cshtml</td><td>ISX_DEFAULTCOMPONENT28</td><td>WIDEMO~1.CSH|WideMouse.cshtml</td><td>0</td><td/><td/><td/><td>1</td><td>D:\Documents\Avid4G.Net\Avid4.Net\Views\Spotify\WideMouse.cshtml</td><td>1</td><td/></row>

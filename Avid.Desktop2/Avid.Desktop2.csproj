@@ -43,6 +43,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CecClient.cs" />
     <Compile Include="CustomApplicationContext.cs" />
     <Compile Include="DesktopController.cs" />
     <Compile Include="DvbViewerMonitor.cs" />
@@ -56,6 +57,9 @@
     </Reference>
     <Reference Include="InputSimulator">
       <HintPath>..\ReferencedDLLs\InputSimulator.dll</HintPath>
+    </Reference>
+    <Reference Include="LibCecSharp">
+      <HintPath>C:\Program Files (x86)\Pulse-Eight\USB-CEC Adapter\LibCecSharp.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
