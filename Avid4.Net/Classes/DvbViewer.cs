@@ -1228,8 +1228,8 @@ public class DvbViewer
         try
         {
             logger.Info("Cleanup/Refresh Recording DB");
-            GetXml("tasks.html?task=CleanupDB&aktion=tasks", true);
-            GetXml("tasks.html?task=RefreshDB&aktion=tasks", true);
+            PostGetXml("tasks.html?task=CleanupDB&aktion=tasks", null, true);
+            PostGetXml("tasks.html?task=RefreshDB&aktion=tasks", null, true);
         }
         catch (System.Exception ex)
         {
