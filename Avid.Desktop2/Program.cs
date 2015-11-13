@@ -55,6 +55,7 @@ namespace Avid.Desktop
             catch (Exception ex)
             {
                 logger.Fatal(ex);
+                DvbViewerMonitor.NothingToMonitor();
             }
             catch
             {
