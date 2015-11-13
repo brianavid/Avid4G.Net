@@ -1,12 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avid4.Net", "Avid4.Net\Avid4.Net.csproj", "{C14A239C-342F-4541-9D5A-E86F403A158A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avid.Spotify", "Avid.Spotify\Avid.Spotify.csproj", "{8C7AAC62-C852-4352-B867-4B1DAF75D219}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{70EB299F-2638-4071-BFEC-00721A395966}"
 	ProjectSection(SolutionItems) = preProject
 		Documentation\Avid4 Installation and Configuration.docx = Documentation\Avid4 Installation and Configuration.docx
@@ -30,6 +26,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReferencedDLLs", "Reference
 		ReferencedDLLs\UsbUirtManagedWrapper.dll = ReferencedDLLs\UsbUirtManagedWrapper.dll
 		ReferencedDLLs\uuirtdrv.dll = ReferencedDLLs\uuirtdrv.dll
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avid4.Net", "Avid4.Net\Avid4.Net.csproj", "{C14A239C-342F-4541-9D5A-E86F403A158A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avid.Spotify", "Avid.Spotify\Avid.Spotify.csproj", "{8C7AAC62-C852-4352-B867-4B1DAF75D219}"
 EndProject
 Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "Installer", "Installer\Installer.isproj", "{8E4505AB-018F-4EB8-B2AB-6988F13CFFBC}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -168,10 +168,10 @@ Global
 		{996CE069-D4FD-4A83-AEC8-A4394874B986}.CD_ROM|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{996CE069-D4FD-4A83-AEC8-A4394874B986}.CD_ROM|Mixed Platforms.Build.0 = Release|Any CPU
 		{996CE069-D4FD-4A83-AEC8-A4394874B986}.CD_ROM|x86.ActiveCfg = Release|Any CPU
-		{996CE069-D4FD-4A83-AEC8-A4394874B986}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{996CE069-D4FD-4A83-AEC8-A4394874B986}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{996CE069-D4FD-4A83-AEC8-A4394874B986}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{996CE069-D4FD-4A83-AEC8-A4394874B986}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{996CE069-D4FD-4A83-AEC8-A4394874B986}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{996CE069-D4FD-4A83-AEC8-A4394874B986}.Debug|Any CPU.Build.0 = Debug|x86
+		{996CE069-D4FD-4A83-AEC8-A4394874B986}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{996CE069-D4FD-4A83-AEC8-A4394874B986}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{996CE069-D4FD-4A83-AEC8-A4394874B986}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{996CE069-D4FD-4A83-AEC8-A4394874B986}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
 		{996CE069-D4FD-4A83-AEC8-A4394874B986}.DVD-5|Any CPU.Build.0 = Debug|Any CPU

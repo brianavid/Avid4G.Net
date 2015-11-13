@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
@@ -10,8 +6,6 @@ using System.Windows.Forms;
 using NLog;
 using Microsoft.Win32;
 using System.IO;
-using SpotifyAPI.SpotifyWebAPI;
-using SpotifyAPI.SpotifyWebAPI.Models;
 using System.Net.Cache;
 using System.Threading;
 using System.Security.Principal;
@@ -111,14 +105,23 @@ namespace Avid.Spotify
                 {
                     logger.Info("Must authenticate to Spotify Web API");
                     const String RedirectUri = "http://www.brianavid.co.uk/Avid4SpotifyAuth/Auth/";
-                    var auth = new AutorizationCodeAuth()
+                    var auth = new SpotifyAPI.Web.Auth.AutorizationCodeAuth()
                     {
                         ClientId = "b2d4e764bb8c49f39f1211dfc6b71b34",
                         RedirectUri = RedirectUri + "Authenticate",
 
                         //How many permissions we need?
-                        Scope = Scope.USER_READ_PRIVATE | Scope.USER_READ_EMAIL | Scope.PLAYLIST_READ_PRIVATE | Scope.USER_LIBRARAY_READ | Scope.USER_LIBRARY_MODIFY | Scope.USER_READ_PRIVATE
-                            | Scope.USER_FOLLOW_MODIFY | Scope.USER_FOLLOW_READ | Scope.PLAYLIST_MODIFY_PUBLIC | Scope.PLAYLIST_MODIFY_PRIVATE | Scope.USER_READ_BIRTHDATE
+                        Scope = SpotifyAPI.Web.Enums.Scope.UserReadPrivate |
+                                SpotifyAPI.Web.Enums.Scope.UserReadEmail |
+                                SpotifyAPI.Web.Enums.Scope.PlaylistReadPrivate |
+                                SpotifyAPI.Web.Enums.Scope.UserLibrarayRead |
+                                SpotifyAPI.Web.Enums.Scope.UserLibraryModify |
+                                SpotifyAPI.Web.Enums.Scope.UserReadPrivate |
+                                SpotifyAPI.Web.Enums.Scope.UserFollowRead |
+                                SpotifyAPI.Web.Enums.Scope.UserFollowModify |
+                                SpotifyAPI.Web.Enums.Scope.PlaylistModifyPrivate |
+                                SpotifyAPI.Web.Enums.Scope.PlaylistModifyPublic |
+                                SpotifyAPI.Web.Enums.Scope.UserReadBirthdate
                     };
 
                     //  Open up a browser to authenticate
