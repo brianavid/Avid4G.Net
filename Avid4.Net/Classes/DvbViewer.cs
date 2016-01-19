@@ -398,7 +398,7 @@ public class DvbViewer
     /// </summary>
     public static string Url
     {
-        get { return "http://" + Host + ":8089/api/"; }
+        get { return "http://" + Host + ":8089"; }
     }
 
 
@@ -413,56 +413,16 @@ public class DvbViewer
     {
         try
         {
+            if (!url.StartsWith("/"))
+            {
+                url = "/api/" + url;
+            }
             Uri requestUri = new Uri(Url + url);
 
             HttpWebRequest request =
                 (HttpWebRequest)HttpWebRequest.Create(requestUri);
             request.Method = WebRequestMethods.Http.Get;
             request.ContentType = "text/xml";
-
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            if (noResponseExpected)
-            {
-                return null;
-            }
-
-            XDocument xDoc =
-                XDocument.Load(new StreamReader(response.GetResponseStream()));
-
-            return xDoc;
-        }
-        catch
-        {
-            return null;
-        }
-    }
-
-    /// <summary>
-    /// Send an HTTP POST request to the DvbViewer Recording Service with an XML body, expecting an XML response, which is returned
-    /// </summary>
-    /// <param name="url"></param>
-    /// <param name="requestDoc"></param>
-    /// <returns></returns>
-    static XDocument PostGetXml(
-        string url,
-        XDocument requestDoc,
-        bool noResponseExpected = false)
-    {
-        try
-        {
-            Uri requestUri = new Uri(Url + url);
-
-            HttpWebRequest request =
-                (HttpWebRequest)HttpWebRequest.Create(requestUri);
-            request.Method = WebRequestMethods.Http.Post;
-            if (requestDoc != null)
-            {
-                using (StreamWriter requestWriter = new StreamWriter(request.GetRequestStream(), Encoding.UTF8))
-                {
-                    requestWriter.Write(requestDoc.ToString());
-                    requestWriter.Close();
-                }
-            }
 
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             if (noResponseExpected)
@@ -1228,7 +1188,9 @@ public class DvbViewer
         try
         {
             logger.Info("Cleanup/Refresh Recording DB");
-            SendCommand("Refresh Cleanup Compress RecDB");
+            //  Note use of absolute path to avoid prepending "/api/"
+            GetXml("/tasks.html?task=CleanupDB&aktion=tasks", true);
+            GetXml("/tasks.html?task=RefreshDB&aktion=tasks", true);
         }
         catch (System.Exception ex)
         {
