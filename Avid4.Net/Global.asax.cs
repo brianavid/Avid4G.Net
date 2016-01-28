@@ -32,11 +32,13 @@ namespace Avid4.Net
             DesktopClient.Initialize();
             Receiver.Initialize();
             Running.Initialize();
-            //SkyData.Initialize(Config.SkyFavourites, Config.SkyRadio, Config.SkyPackages, Config.SkyCapacityGB);
             Spotify.Initialize();
             DvbViewer.Initialize();
 
+#if USE_SKY_STB
+            SkyData.Initialize(Config.SkyFavourites, Config.SkyRadio, Config.SkyPackages, Config.SkyCapacityGB);
             var sky = SkyData.Sky;
+#endif
         }
 
         protected void Application_Error()

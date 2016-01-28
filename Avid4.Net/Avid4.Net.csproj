@@ -183,7 +183,6 @@
     <Compile Include="Classes\Running.cs" />
     <Compile Include="Classes\Samsung.cs" />
     <Compile Include="Classes\Screen.cs" />
-    <Compile Include="Classes\Sky.cs" />
     <Compile Include="Classes\Spotify.cs" />
     <Compile Include="Classes\SpotifyData.cs" />
     <Compile Include="Classes\Zoom.cs" />
@@ -198,7 +197,6 @@
     <Compile Include="Controllers\PhotosController.cs" />
     <Compile Include="Controllers\StreamingController.cs" />
     <Compile Include="Controllers\TvController.cs" />
-    <Compile Include="Controllers\SkyController.cs" />
     <Compile Include="Controllers\SpotifyController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\VideoController.cs" />
@@ -522,18 +520,6 @@
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Shared\TopBarWide.cshtml" />
     <Content Include="Views\Home\Wide.cshtml" />
-    <Content Include="Views\Sky\Watch.cshtml" />
-    <Content Include="Views\Sky\ChannelsPane.cshtml" />
-    <Content Include="Views\Sky\RecordingsPane.cshtml" />
-    <Content Include="Views\Sky\ButtonsPane.cshtml" />
-    <Content Include="Views\Sky\ControlPane.cshtml" />
-    <Content Include="Views\Sky\PaneButtons.cshtml" />
-    <Content Include="Views\Sky\Live.cshtml" />
-    <Content Include="Views\Sky\Recordings.cshtml" />
-    <Content Include="Views\Sky\Buttons.cshtml" />
-    <Content Include="Views\Sky\All.cshtml" />
-    <Content Include="Views\Sky\NowAndNext.cshtml" />
-    <Content Include="Views\Sky\Recording.cshtml" />
     <Content Include="Views\Shared\ActionMenu.cshtml" />
     <Content Include="Views\Spotify\Mouse.cshtml" />
     <Content Include="Views\Spotify\WideMouse.cshtml" />
@@ -548,8 +534,6 @@
     <Content Include="Views\Video\DVDsPane.cshtml" />
     <Content Include="Views\Video\All.cshtml" />
     <Content Include="Views\Video\Recording.cshtml" />
-    <Content Include="Views\Sky\RadioPane.cshtml" />
-    <Content Include="Views\Sky\Radio.cshtml" />
     <Content Include="Views\Spotify\All.cshtml" />
     <Content Include="Views\Spotify\Browser.cshtml" />
     <Content Include="Views\Spotify\BrowserPane.cshtml" />

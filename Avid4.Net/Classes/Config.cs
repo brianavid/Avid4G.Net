@@ -134,6 +134,7 @@ public static class Config
         }
     }
 
+#if USE_SKY_STB
     /// <summary>
     /// A collection of favourite Sky channels to be displayed first in any lists
     /// </summary>
@@ -181,6 +182,7 @@ public static class Config
             return elCapacity == null ? 0 : Convert.ToInt32(elCapacity.Value);
         }
     }
+#endif
 
     /// <summary>
     /// A collection of favourite terrestrial TV channels to be displayed first in any lists

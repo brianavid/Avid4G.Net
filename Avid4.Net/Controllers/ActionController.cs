@@ -76,6 +76,7 @@ namespace Avid4.Net.Controllers
             return Content("OK");
         }
 
+#if USE_SKY_STB
         // GET: /Action/StartSky
         public ActionResult StartSky(
             string mode)
@@ -127,6 +128,7 @@ namespace Avid4.Net.Controllers
             }
             return Content("/Sky/Watch");
         }
+#endif
 
         // GET: /Action/AllOff
         public ActionResult AllOff(
