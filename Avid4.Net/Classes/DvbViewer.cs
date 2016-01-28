@@ -13,6 +13,25 @@ using System.Globalization;
 
 
 /// <summary>
+/// Class to add a DistinctBy() extension method to IEnumerable
+/// </summary>
+public static class EnumerableExtension
+{
+    public static IEnumerable<TSource> DistinctBy<TSource, TKey>
+    (this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+    {
+        HashSet<TKey> seenKeys = new HashSet<TKey>();
+        foreach (TSource element in source)
+        {
+            if (seenKeys.Add(keySelector(element)))
+            {
+                yield return element;
+            }
+        }
+    }
+}
+
+/// <summary>
 /// Control class for DvbViewer service that provides a web service interface to DvbViewer and
 /// its Recording Service for terrestrial TV and Radio, both live and recorded
 /// </summary>
@@ -246,7 +265,7 @@ public class DvbViewer
 
         static void Save()
         {
-            XElement root = new XElement("SeriesDefinitions", 
+            XElement root = new XElement("SeriesDefinitions",
                 All.Select(s => s.ToXml));
             root.Save(Series.XmlFilename);
         }
@@ -264,7 +283,7 @@ public class DvbViewer
                     new XAttribute("StartTimeHigh", StartTimeHigh.ToString(Format)));
             }
         }
-        
+
         public static void Add(
             string id,
             string name,
@@ -353,12 +372,12 @@ public class DvbViewer
             }
         }
 
-        public bool IsRecording 
-        { 
-            get 
+        public bool IsRecording
+        {
+            get
             {
                 return Schedule.Where(s => s.Channel.Id == Channel.Id && s.StartTime == StartTime).Any(s => s.IsRecording);
-            } 
+            }
         }
 
     }
@@ -447,9 +466,9 @@ public class DvbViewer
     /// </summary>
     static string DvbTarget
     {
-        get 
+        get
         {
-            if (dvbTarget == null) 
+            if (dvbTarget == null)
             {
                 var targetXml = GetXml("dvbcommand.html").Element("targets").Element("target");
                 if (targetXml != null)
@@ -464,7 +483,7 @@ public class DvbViewer
     static string dvbTarget = null;
 
     /// <summary>
-    /// Commands for a running foreground DvbViewer are encoded as integers, but for usability, 
+    /// Commands for a running foreground DvbViewer are encoded as integers, but for usability,
     /// a name mapping is read from the "actions.ini" file and stored in a Dictionary
     /// </summary>
     static Dictionary<string, int> definedCommands;
@@ -596,13 +615,13 @@ public class DvbViewer
     }
 
     /// <summary>
-    /// A collection of all favourite TV channels
-    /// </summary>
+         /// A collection of all favourite TV channels
+         /// </summary>
     public static IEnumerable<Channel> AllFavouriteChannels
     {
         get
         {
-            var favourites = AllTvChannels.Where(ch => ch.IsFavourite).ToDictionary(c => c.Name.ToLower());
+            var favourites = AllTvChannels.Where(ch => ch.IsFavourite).DistinctBy(c => c.Name.ToLower()).ToDictionary(c => c.Name.ToLower());
             foreach (var name in FavouriteChannelNames)
             {
                 if (favourites.ContainsKey(name.ToLower()))
@@ -762,9 +781,9 @@ public class DvbViewer
         bool isStatus = false)
     {
         //  Do not change channel as a result of a status notification if it comes within
-        //  ten seconds of a "real" channel change. Otherwise, the messages could 
+        //  ten seconds of a "real" channel change. Otherwise, the messages could
         //  "cross in the post" and the channel change may be reverted.
-        if (channel != null && DvbTarget != null && 
+        if (channel != null && DvbTarget != null &&
             CurrentlySelectedChannel != channel &&
             (!isStatus || DateTime.UtcNow > LastChannelChangeTime.AddSeconds(10)))
         {
@@ -835,7 +854,7 @@ public class DvbViewer
         String Id,
         String channelName)
     {
-        return Id + ";" + channelName; 
+        return Id + ";" + channelName;
     }
 
     static Dictionary<String, Programme> epgProgrammesByIdAndChannel = new Dictionary<String, Programme>();
@@ -893,7 +912,7 @@ public class DvbViewer
             programme.StartTime.TimeOfDay >= series.StartTimeLow.TimeOfDay &&
             programme.StartTime.TimeOfDay <= series.StartTimeHigh.TimeOfDay;
     }
-     
+
     static IEnumerable<Programme> GetEpgProgrammesInSeries(
         Series series)
     {
@@ -1180,7 +1199,7 @@ public class DvbViewer
     }
 
     /// <summary>
-    /// Run a background task to "Cleanup" (remove DB entries that refer to non-existent recording files) 
+    /// Run a background task to "Cleanup" (remove DB entries that refer to non-existent recording files)
     /// and "Refresh" (add DB entries for TS recording files that were previously unknown)
     /// </summary>
     public static void CleanupRefreshDB()
@@ -1232,13 +1251,13 @@ public class DvbViewer
     /// The start time of the next programme on the current channel as reported by the DVB monitor
     /// </summary>
     public static string NextStart { get { return LastStatus == null ? "" : LastStatus.Root.Element("Next").Attribute("start").Value; } }
-    
+
     /// <summary>
     /// The "playstate" for display as reported by the DVB monitor, taking into account time-shifting
     /// </summary>
-    public static string PlayState 
-    { 
-        get 
+    public static string PlayState
+    {
+        get
         {
             if (LastStatus == null)
             {
@@ -1250,43 +1269,43 @@ public class DvbViewer
                 var playState = LastStatus.Root.Element("PlayState").Attribute("state").Value;
                 return playState != "Playing" ? playState : timeShifted ? "Delayed" : "";
             }
-        } 
+        }
     }
 
 
     /// <summary>
     /// The time-shift (if any) for display as reported by the DVB monitor
     /// </summary>
-    public static string TimeShift 
-    { 
-        get 
+    public static string TimeShift
+    {
+        get
         {
             try
             {
-	            if (LastStatus == null || LastStatus.Root.Element("TimeShift") == null)
-	            {
-	                return "";
-	            }
-	            else
-	            {
-	                TimeSpan delay = TimeSpan.ParseExact(LastStatus.Root.Element("TimeShift").Attribute("remain").Value, @"hh\:mm\:ss", CultureInfo.InvariantCulture);
-                    
+                if (LastStatus == null || LastStatus.Root.Element("TimeShift") == null)
+                {
+                    return "";
+                }
+                else
+                {
+                    TimeSpan delay = TimeSpan.ParseExact(LastStatus.Root.Element("TimeShift").Attribute("remain").Value, @"hh\:mm\:ss", CultureInfo.InvariantCulture);
+
                     //  If the player remains paused, advance the time-shoft delay since the pause was last reported
-	                if (LastStatus.Root.Element("PlayState").Attribute("state").Value == "Paused")
-	                {
-	                    DateTime reportTime = DateTime.Parse(LastStatus.Root.Attribute("when").Value);
-	                    delay += DateTime.Now - reportTime;
-	                }
-	
-	                return delay.ToString(@"mm\:ss");
-	            }
+                    if (LastStatus.Root.Element("PlayState").Attribute("state").Value == "Paused")
+                    {
+                        DateTime reportTime = DateTime.Parse(LastStatus.Root.Attribute("when").Value);
+                        delay += DateTime.Now - reportTime;
+                    }
+
+                    return delay.ToString(@"mm\:ss");
+                }
             }
             catch (System.Exception ex)
             {
                 logger.Error("Can't get TimeShift", ex);
                 return "";
             }
-        } 
+        }
     }
 
     /// <summary>
