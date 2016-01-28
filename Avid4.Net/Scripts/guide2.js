@@ -180,13 +180,6 @@ function AddListingsHammerActions() {
 
 $(function () {
 
-    $("#guideFavouritesEpg").click(function () {
-        ResetSelectors()
-        $(".guideOverlayListings").hide()
-        $(".guideBrowserItems").html("")
-        ReplacePane("guideSelectorItems", "/Guide/SelectorPane?mode=GuideSelectFavouritesEpg", "clear", AddSelectorHammerActions)
-    });
-
     $("#guideTvEpg").click(function () {
         ResetSelectors()
         $(".guideOverlayListings").hide()

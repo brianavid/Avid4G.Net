@@ -5,18 +5,14 @@
         case "GuideEmpty":
             break;
 
-        case "GuideSelectFavouritesEpg":
         case "GuideSelectTvEpg":
         case "GuideSelectRadioEpg":
             {
                 IEnumerable<string> channelNames = null;
                 switch (ViewBag.Mode as string)
                 {
-                    case "GuideSelectFavouritesEpg":
-                        channelNames = DvbViewer.AllFavouriteChannelNames;
-                        break;
                     case "GuideSelectTvEpg":
-                        channelNames = DvbViewer.AllTvChannelNamesFavouriteFirst;
+                        channelNames = DvbViewer.AllTvChannelNames;
                         break;
                     case "GuideSelectRadioEpg":
                         channelNames = DvbViewer.AllRadioChannelNames;
@@ -29,8 +25,10 @@
                             <div id="guideChannels" class="guideChannels">
                                 @foreach (string channelName in channelNames)
                                 {
+                                    var parenIndex = channelName.IndexOf(" (");
+                                    var channelNameDisplay = parenIndex <= 0 ? channelName : channelName.Substring(0, parenIndex);
                                     <div class="guideEpgChannel guideItem" id="@channelName">
-                                        <div class="guideTitle">@channelName</div>
+                                        <div class="guideTitle">@channelNameDisplay</div>
                                     </div>
                                 }
                             </div>

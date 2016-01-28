@@ -541,7 +541,7 @@ public class DvbViewer
         {
             if (channelsXml == null)
             {
-                channelsXml = GetXml("getchannelsxml.html?logo=1");
+                channelsXml = GetXml("getchannelsxml.html?logo=1&root=Avid");
                 CurrentlySelectedChannel = null;
             }
 
@@ -615,53 +615,6 @@ public class DvbViewer
     }
 
     /// <summary>
-         /// A collection of all favourite TV channels
-         /// </summary>
-    public static IEnumerable<Channel> AllFavouriteChannels
-    {
-        get
-        {
-            var favourites = AllTvChannels.Where(ch => ch.IsFavourite).DistinctBy(c => c.Name.ToLower()).ToDictionary(c => c.Name.ToLower());
-            foreach (var name in FavouriteChannelNames)
-            {
-                if (favourites.ContainsKey(name.ToLower()))
-                {
-                    yield return favourites[name.ToLower()];
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// A collection of all TV channels, ordered with the favourites at the start
-    /// </summary>
-    public static IEnumerable<Channel> AllTvChannelsFavouriteFirst
-    {
-        get
-        {
-            Dictionary<string, Channel> favourites = AllFavouriteChannels.ToDictionary(c => c.Name);
-            foreach (var c in favourites.Values)
-            {
-                yield return c;
-            }
-            foreach (var c in AllTvChannels)
-            {
-                if (!favourites.ContainsKey(c.Name) && c.IsHD)
-                {
-                    yield return c;
-                }
-            }
-            foreach (var c in AllTvChannels)
-            {
-                if (!favourites.ContainsKey(c.Name) && !c.IsHD)
-                {
-                    yield return c;
-                }
-            }
-        }
-    }
-
-    /// <summary>
     /// A collection of all TV channel names
     /// </summary>
     public static IEnumerable<string> AllTvChannelNames
@@ -680,28 +633,6 @@ public class DvbViewer
         get
         {
             return AllRadioChannels.Select(c => c.Name);
-        }
-    }
-
-    /// <summary>
-    /// A collection of all favourite TV channel names
-    /// </summary>
-    public static IEnumerable<string> AllFavouriteChannelNames
-    {
-        get
-        {
-            return AllFavouriteChannels.Select(c => c.Name);
-        }
-    }
-
-    /// <summary>
-    /// A sorted collection of all TV channel names
-    /// </summary>
-    public static IEnumerable<string> AllTvChannelNamesFavouriteFirst
-    {
-        get
-        {
-            return AllTvChannelsFavouriteFirst.Select(c => c.Name);
         }
     }
 
