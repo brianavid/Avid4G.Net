@@ -13,6 +13,15 @@
         </div>
         <div class="videoRecordingAction" id="videoRecordingPlayFromStart">Play recording</div>
         <div class="videoRecordingAction videoRecordingActionAlert" id="videoRecordingDelete"><span class="playButton">&gt;&nbsp;</span>Delete recording</div>
+        <div class="startHidden" id="videoRecordingConfirmDelete">
+            <div class="videoRecordingAction videoRecordingActionAlert">
+                Confirm delete recording ...
+                <br />
+                @recording.Title
+                <br />
+                @String.Format("{0}", recording.StartTime.ToString("ddd dd MMM HH:mm"))
+            </div>
+        </div>
         <span id="recordingId" style="display:none">@recording.Id</span>
     }
 }

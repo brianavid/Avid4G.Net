@@ -225,19 +225,19 @@ function AddVideoRecordingsHammerActions() {
     });
 
     videoRecordingsListHammer.on("doubletap", "#videoRecordingDelete", function () {
-        var title = $("#videoRecordingName").text();
-        var when = $("#videoRecordingWhen").text();
-        var doDelete = true // confirm("Delete '" + title + "' (" + when + ")");
-        if (doDelete) {
-            $("#videoRecordingDelete").text("Deleting ...")
-            $.ajax({
-                url: "/Video/DeleteRecording?id=" + $("#recordingId").text(),
-                success: function (data) {
-                    DisplayVideoRecordings()
-                },
-                cache: false
-            });
-        }
+        $("#videoRecordingConfirmDelete").show();
+    });
+
+
+    videoRecordingsListHammer.on("tap", "#videoRecordingConfirmDelete", function () {
+        $("#videoRecordingDelete").text("Deleting ...")
+        $.ajax({
+            url: "/Video/DeleteRecording?id=" + $("#recordingId").text(),
+            success: function (data) {
+                DisplayVideoRecordings()
+            },
+            cache: false
+        });
     });
 
 }
