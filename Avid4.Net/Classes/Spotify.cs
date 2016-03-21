@@ -51,16 +51,16 @@ public static class Spotify
 	                try
 	                {
 		                RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Avid");
-	
+
 	                    string refreshUrl = key.GetValue("SpotifyRefreshUrl") as string;
-	
+
 	                    if (!string.IsNullOrEmpty(refreshUrl))
 		                {
 		                    HttpWebRequest request =
 		                        (HttpWebRequest)HttpWebRequest.Create(refreshUrl);
 		                    request.Method = WebRequestMethods.Http.Get;
 		                    request.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
-		
+
 		                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 		                    var tokenJsonString = new StreamReader(response.GetResponseStream()).ReadToEnd();
 		                    if (!string.IsNullOrEmpty(tokenJsonString))
@@ -192,7 +192,7 @@ public static class Spotify
 
 
     /// <summary>
-    /// Helper comparator function to compare albums, first by artist name and then 
+    /// Helper comparator function to compare albums, first by artist name and then
     /// (for the same artist) by the album name
     /// </summary>
     /// <param name="a1"></param>
@@ -570,7 +570,7 @@ public static class Spotify
 
         static void Save()
         {
-            XElement root = new XElement("Artists", 
+            XElement root = new XElement("Artists",
                 artistHistory.Select(s => s.ToXml));
             root.Save(XmlFilename);
         }
@@ -1234,9 +1234,15 @@ public static class Spotify
 
                 foreach (var batch in queuedTracks.Batch(50))
                 {
-                    foreach (var track in WebAppService.GetSeveralTracks(batch.Select(id => SimplifyId(id)).ToList(), PreferredMarket).Tracks)
+                    if (WebAppService != null)
                     {
-                        result.Add(MakeTrack(track));
+                        lock (WebAppService)
+                        {
+                            foreach (var track in WebAppService.GetSeveralTracks(batch.Select(id => SimplifyId(id)).ToList(), PreferredMarket).Tracks)
+                            {
+                                result.Add(MakeTrack(track));
+                            }
+                        }
                     }
                 }
             }
@@ -1921,7 +1927,7 @@ public static class Spotify
         return result;
     }
 
-  
+
     /// <summary>
     /// Construct a formatted string for a (possibly multiple) artist names for a track
     /// </summary>
