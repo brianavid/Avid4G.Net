@@ -349,6 +349,7 @@ public class DvbViewer
         public DateTime StopTime { get { return StartTime + Duration; } }
         public String Filename { get; private set; }
         public bool InError { get; internal set; }
+        public String ChannelName { get { return Channel == null ? Channel.UnknownName : Channel.Name; } }
 
         public Recording(
             XElement xRecording)
