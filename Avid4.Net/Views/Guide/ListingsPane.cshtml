@@ -55,7 +55,7 @@
                         <img class="guideEpgProgrammeCancel" id="@timer.Id" src="/Content/Buttons/SmallRound/Exit.png" />
                         <div class="guideProgrammeInfo">
                             <span>@(timer.StartTime.ToLocalTime().ToString("ddd dd MMM HH:mm")) [@JRMC.FormatDuration(timer.Duration.TotalMinutes.ToString())] @(timer.InSeries ? "SERIES" : "")</span>
-                            <span>@(timer.Channel.Name)</span>
+                            <span>@(timer.ChannelName)</span>
                         </div>
 
                         <div class="guideTitle">@timer.Name</div>
@@ -83,7 +83,7 @@
                         <img class="guideEpgSeriesCancel" id="@series.Id" src="/Content/Buttons/SmallRound/Exit.png" />
                         <div class="guideProgrammeInfo">
                             <span>@(series.StartTime.ToLocalTime().ToString("dddd")) starting between @(series.StartTimeLow.ToLocalTime().ToString("HH:mm")) and @(series.StartTimeHigh.ToLocalTime().ToString("HH:mm"))</span>
-                            <span>@(series.Channel.Name)</span>
+                            <span>@(series.ChannelName)</span>
                         </div>
 
                         <div class="guideTitle">@series.Name</div>

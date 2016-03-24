@@ -47,6 +47,7 @@ public class DvbViewer
     /// </summary>
     public class Channel
     {
+        public const String UnknownName = "Unknown";
         public int Number { get; private set; }
         public string Name { get; internal set; }
         public string Id { get; internal set; }
@@ -110,6 +111,7 @@ public class DvbViewer
         public TimeSpan Duration { get { return StopTime - StartTime; } }
         public bool InError { get; internal set; }
         public bool IsScheduled { get { return DvbViewer.IsScheduled(Id); } }
+        public String ChannelName { get { return Channel == null ? Channel.UnknownName : Channel.Name; } }
 
         public Programme(
             XElement xProg)
@@ -155,6 +157,7 @@ public class DvbViewer
         public bool InSeries { get { return Series.Find(Name, Channel, StartTime) != null; } }
         public bool IsRecording { get; private set; }
         public bool InError { get; internal set; }
+        public String ChannelName { get { return Channel == null ? Channel.UnknownName : Channel.Name; } }
 
         public Timer(
             XElement xTimer)
@@ -165,7 +168,7 @@ public class DvbViewer
                 Name = xTimer.Element("Descr").Value;
                 PrePad = xTimer.Attribute("PreEPG") == null ? TimeSpan.Zero : TimeSpan.FromMinutes(int.Parse(xTimer.Attribute("PreEPG").Value));
                 PostPad = xTimer.Attribute("PostEPG") == null ? TimeSpan.Zero : TimeSpan.FromMinutes(int.Parse(xTimer.Attribute("PostEPG").Value));
-                Channel = AllChannels.FirstOrDefault(c => c.Id == xTimer.Element("Channel").Attribute("ID").Value.Split('|')[0]);
+                Channel = AllChannels.FirstOrDefault(c => c.Name == xTimer.Element("Channel").Attribute("ID").Value.Split('|')[1]);
                 StartTime = DateTime.ParseExact(
                     xTimer.Attribute("Date").Value + " " + xTimer.Attribute("Start").Value,
                     new[] { "dd.MM.yyyy HH:mm:ss" },
@@ -195,6 +198,7 @@ public class DvbViewer
         public DateTime StartTimeLow { get; private set; }
         public DateTime StartTimeHigh { get; private set; }
         bool isDeleted = false;
+        public String ChannelName { get { return Channel == null ? Channel.UnknownName : Channel.Name; } }
 
         const string XmlFilename = @"C:\Avid.Net\Series.xml";
         const string Format = "dd-MM-yyyy HH:mm";

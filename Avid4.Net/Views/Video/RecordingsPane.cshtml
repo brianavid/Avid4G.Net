@@ -9,7 +9,7 @@
             <div class="videoRecording @beingRecordedClass" id="@recording.Id">
                 <div class="videoRecordingInfo">
                     <div class="videoRecordingWhen">@String.Format("{0} [{1} mins]", recording.StartTime.ToString("ddd dd MMM HH:mm"), Math.Round(recording.Duration.TotalMinutes))</div>
-                    <div class="videoRecordingChannel">&nbsp;@recording.Channel.Name</div>
+                    <div class="videoRecordingChannel">&nbsp;@recording.ChannelName</div>
                 </div>
                 <div class="videoRecordingName">
                     @recording.Title
@@ -29,7 +29,7 @@
                 <div class="videoRecordingGroup" id="@firstRecording.Title">
                     <div class="videorecordinginfo">
                         <div class="videoRecordingWhen">@(firstRecording.StartTime.ToString("ddd dd MMM")) .. @(lastRecording.StartTime.ToString("dd MMM")) [@(recordings.Count)]</div>
-                        <div class="videoRecordingChannel">&nbsp;@lastRecording.Channel.Name</div>
+                        <div class="videoRecordingChannel">&nbsp;@lastRecording.ChannelName</div>
                     </div>
                     <div class="videoRecordingName">@lastRecording.Title</div>
                     <div class="videoRecordingDescription">&nbsp;</div>
@@ -41,7 +41,7 @@
                 <div class="videoRecording @beingRecordedClass" id="@firstRecording.Id">
                     <div class="videoRecordingInfo">
                         <div class="videoRecordingWhen">@String.Format("{0} [{1} mins]", firstRecording.StartTime.ToString("ddd dd MMM HH:mm"), Math.Round(firstRecording.Duration.TotalMinutes))</div>
-                        <div class="videoRecordingChannel">&nbsp;@firstRecording.Channel.Name</div>
+                        <div class="videoRecordingChannel">&nbsp;@firstRecording.ChannelName</div>
                     </div>
                     <div class="videoRecordingName">
                         @firstRecording.Title
