@@ -419,29 +419,19 @@ public static class Running
     /// <returns></returns>
     static Boolean IsActive()
     {
-        //  If the screen is on, don't turn everything off
-        if (Screen.IsOn)
-        {
-            return true;
-        }
-
-        //  If the receiver is muted, it may have been forgotten
-        if (Receiver.VolumeMuted)
-        {
-            return false;
-        }
-
         //  If a music player is stopped or paused, it may have been forgotten
         switch (runningProgram)
         {
             default:
-                //  We assume that other running programs with the screen off are doing that for a reason
-                //  So leave them as active
-                return true;
+                //  If the screen is off and the volume is muted, it may have been forgotten
+                //  So treat as inactive
+                return Screen.IsOn || !Receiver.VolumeMuted;
             case "Music":
                 return JRMC.IsActivelyPlaying();
             case "Spotify":
                 return Spotify.GetPlaying() > 0;
+            case "Video":
+                return Zoom.IsCurrentlyActive;
         }
 
     }
@@ -460,9 +450,9 @@ public static class Running
                 lastActive = DateTime.UtcNow;
             }
 
-            //  If the receiver is on and there has been no activity for 10 minutes,
+            //  If the receiver is on and there has been no activity for 15 minutes,
             //  turn everything off
-            if (Receiver.IsOn() && lastActive.AddMinutes(10) < DateTime.UtcNow)
+            if (Receiver.IsOn() && lastActive.AddMinutes(15) < DateTime.UtcNow)
             {
                 logger.Info("No activity from {0} since {1} - Exiting", runningProgram, lastActive.ToShortTimeString());
                 ExitAllPrograms(false);

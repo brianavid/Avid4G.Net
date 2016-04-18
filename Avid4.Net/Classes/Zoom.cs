@@ -18,7 +18,7 @@ public class Zoom
     /// <summary>
     /// The default address of the Zoom Player web service interface
     /// </summary>
-    static string Host 
+    static string Host
     {
         get { return "http://localhost:4768/"; }      //  The default port number for the web service interface
     }
@@ -66,7 +66,7 @@ public class Zoom
                 {
 	                using (NetworkStream ns = client.GetStream())
 	                {
-                        //  Store the network stream globally so that other threads can send commands while 
+                        //  Store the network stream globally so that other threads can send commands while
                         //  data is still being received in the backgound
 	                    networkStream = ns;
 	                    using (StreamReader sr = new StreamReader(ns))
@@ -89,7 +89,7 @@ public class Zoom
                 }
                 catch (Exception)
                 {
-                	
+
                 }
                 networkStream = null;
             }
@@ -244,7 +244,7 @@ public class Zoom
             }
             catch (Exception)
             {
-            	
+
             }
         }
     }
@@ -285,10 +285,10 @@ public class Zoom
     /// <summary>
     /// The title of the video or DVD that is currently playing
     /// </summary>
-    public static string Title { 
-        get 
-        { 
-            return title; 
+    public static string Title {
+        get
+        {
+            return title;
         }
         set
         {
@@ -299,7 +299,7 @@ public class Zoom
     static string title;
 
     /// <summary>
-    /// The asynchronously maintain state of the video or DVD that is currently playing 
+    /// The asynchronously maintain state of the video or DVD that is currently playing
     /// </summary>
     static int positionMs = 0;
     static int durationMs = 0;
@@ -310,6 +310,11 @@ public class Zoom
     /// Is Zoom Player currently playing (including if paused)?
     /// </summary>
     public static bool IsCurrentlyPlaying { get { return state == "Playing" || state == "Paused"; } }
+
+    /// <summary>
+    /// Is Zoom Player currently active (NOT if paused)?
+    /// </summary>
+    public static bool IsCurrentlyActive { get { return state == "Playing"; } }
 
     /// <summary>
     /// Is Zoom Player currently in its "DVD" mode as opposed to its "Media" mode
