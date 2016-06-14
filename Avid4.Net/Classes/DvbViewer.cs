@@ -80,7 +80,7 @@ public class DvbViewer
             }
             catch (System.Exception ex)
             {
-                logger.Error("Error parsing Channel XML", ex);
+                logger.Error(ex, "Error parsing Channel XML");
                 InError = true;
             }
         }
@@ -134,7 +134,7 @@ public class DvbViewer
             }
             catch (System.Exception ex)
             {
-                logger.Error("Error parsing Programme XML", ex);
+                logger.Error(ex, "Error parsing Programme XML");
                 InError = true;
             }
         }
@@ -180,7 +180,7 @@ public class DvbViewer
             }
             catch (System.Exception ex)
             {
-                logger.Error("Error parsing Timer XML", ex);
+                logger.Error(ex, "Error parsing Timer XML");
                 InError = true;
             }
         }
@@ -222,7 +222,7 @@ public class DvbViewer
             }
             catch (System.Exception ex)
             {
-                logger.Error("Error parsing Series XML", ex);
+                logger.Error(ex, "Error parsing Series XML");
             }
         }
 
@@ -315,7 +315,8 @@ public class DvbViewer
                     series.Channel == channel &&
                     series.StartTimeLow.DayOfWeek == startTime.DayOfWeek &&
                     series.StartTimeLow.TimeOfDay <= startTime.TimeOfDay &&
-                    series.StartTimeHigh.TimeOfDay >= startTime.TimeOfDay)
+                    (series.StartTimeLow.TimeOfDay > series.StartTimeHigh.TimeOfDay || 
+                     series.StartTimeHigh.TimeOfDay >= startTime.TimeOfDay))
                 {
                     return series;
                 }
@@ -372,7 +373,7 @@ public class DvbViewer
             }
             catch (System.Exception ex)
             {
-                logger.Error("Error parsing Recording XML", ex);
+                logger.Error(ex, "Error parsing Recording XML");
                 InError = true;
             }
         }
@@ -846,7 +847,8 @@ public class DvbViewer
             programme.Title == series.Name &&
             programme.StartTime.DayOfWeek == series.StartTime.DayOfWeek &&
             programme.StartTime.TimeOfDay >= series.StartTimeLow.TimeOfDay &&
-            programme.StartTime.TimeOfDay <= series.StartTimeHigh.TimeOfDay;
+            (series.StartTimeLow.TimeOfDay > series.StartTimeHigh.TimeOfDay || 
+             programme.StartTime.TimeOfDay <= series.StartTimeHigh.TimeOfDay);
     }
 
     static IEnumerable<Programme> GetEpgProgrammesInSeries(
@@ -1000,7 +1002,7 @@ public class DvbViewer
             }
             catch (System.Exception ex)
             {
-                logger.Error("Can't set timer", ex);
+                logger.Error(ex, "Can't set timer");
             }
 #endif
             LoadSchedule();
@@ -1149,7 +1151,7 @@ public class DvbViewer
         }
         catch (System.Exception ex)
         {
-            logger.Error("Can't run task Cleanup/Refresh DB: ", ex);
+            logger.Error(ex, "Can't run task Cleanup/Refresh DB: ");
         }
     }
 
@@ -1238,7 +1240,7 @@ public class DvbViewer
             }
             catch (System.Exception ex)
             {
-                logger.Error("Can't get TimeShift", ex);
+                logger.Error(ex, "Can't get TimeShift");
                 return "";
             }
         }
