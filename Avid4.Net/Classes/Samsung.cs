@@ -48,7 +48,7 @@ public static class Samsung
 	                    }
 	                    sb.Append(compactAddress[i]);
 	                }
-	
+
 	                macAddress = sb.ToString();
                 }
             }
@@ -81,7 +81,7 @@ public static class Samsung
     }
 
     /// <summary>
-    /// Append a byte array to a byte stream preceded by a 
+    /// Append a byte array to a byte stream preceded by a
     /// two-byte (little endian) count of the array size
     /// </summary>
     /// <param name="s"></param>
@@ -137,22 +137,22 @@ public static class Samsung
 	                //  First, authenticate the local IP Address and Mac address with the TV
 	                MemoryStream msMsg = new MemoryStream();
 	                var msPkt = conn.GetStream();
-	
+
 	                msMsg.AppendBytes(new byte[] { 0x64, 0x00 });
 	                msMsg.AppendBase64(Config.IpAddress);
 	                msMsg.AppendBase64(MacAddress);
 	                msMsg.AppendBase64(RemoteName);
-	
+
 	                msPkt.AppendBytes(new byte[] { 0x00 });
 	                msPkt.AppendString(AppName);
 	                msPkt.AppendCountedBytes(msMsg.ToArray());
-	
+
 	                //  Then send the named key
 	                msMsg = new MemoryStream();
-	
+
 	                msMsg.AppendBytes(new byte[] { 0x00, 0x00, 0x00 });
 	                msMsg.AppendBase64("KEY_" + keyName);
-	
+
 	                msPkt.AppendBytes(new byte[] { 0x00 });
 	                msPkt.AppendString(AppName);
 	                msPkt.AppendCountedBytes(msMsg.ToArray());
@@ -161,7 +161,7 @@ public static class Samsung
         }
         catch (System.Exception ex)
         {
-            logger.Error("Can't send key press '{0}': {1}", keyName, ex);
+            logger.Error(ex, "Can't send key press '{0}'", keyName);
         }
     }
 }

@@ -157,7 +157,7 @@ namespace Avid.Desktop
                 }
                 catch (System.Exception ex)
                 {
-                    //logger.Error("Can't open running DVBViewerServer.DVBViewer: {0}", ex.Message);
+                    //logger.Error(ex, "Can't open running DVBViewerServer.DVBViewer");
                     dvb = null;
                 }
 
@@ -206,14 +206,14 @@ namespace Avid.Desktop
                             }
                             catch (System.Exception ex)
                             {
-                                //logger.Error(String.Format("DVB COM error 1 : {0}", ex));
+                                //logger.Error(ex. "DVB COM error 1");
                                 break;
                             }
                         }
                     }
                     catch (System.Exception ex)
                     {
-                        //logger.Error(String.Format("DVB COM error 2 : {0}", ex));
+                        //logger.Error(ex, "DVB COM error 2");
                     }
 
                     //  Terminated or DVBViewer not found
