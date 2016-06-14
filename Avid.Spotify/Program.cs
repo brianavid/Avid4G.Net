@@ -98,7 +98,7 @@ namespace Avid.Spotify
                 }
                 catch (System.Exception ex)
                 {
-                    logger.Error("Unable to grant write access to the Avid registry subkey");
+                    logger.Error(ex, "Unable to grant write access to the Avid registry subkey: {0}", ex.Message);
                 }
 
                 if (string.IsNullOrEmpty(webKey.GetValue(SpotifyRefreshUrlRegistryValue) as string))
@@ -172,15 +172,11 @@ namespace Avid.Spotify
             {
                 logger.Fatal(ex);
             }
-            catch
-            {
-                logger.Fatal("Non-.Net Exception");
-            }
         }
 
         static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
         {
-            logger.Fatal("Unhandled Thread Exception: {0}", e.Exception);
+            logger.Fatal(e.Exception, "Unhandled Thread Exception: {0}", e.Exception.Message);
         }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

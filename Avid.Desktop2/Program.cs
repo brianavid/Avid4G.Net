@@ -57,10 +57,6 @@ namespace Avid.Desktop
                 logger.Fatal(ex);
                 DvbViewerMonitor.NothingToMonitor();
             }
-            catch
-            {
-                logger.Fatal("Non-.Net Exception");
-            }
         }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

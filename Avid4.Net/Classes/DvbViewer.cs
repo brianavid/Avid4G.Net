@@ -1002,7 +1002,7 @@ public class DvbViewer
             }
             catch (System.Exception ex)
             {
-                logger.Error(ex, "Can't set timer");
+                logger.Error(ex, "Cannot add timer: {0}", ex.Message);
             }
 #endif
             LoadSchedule();
@@ -1021,7 +1021,7 @@ public class DvbViewer
         }
         catch (System.Exception ex)
         {
-            logger.Error("Cannot add timer", ex);
+            logger.Error(ex, "Cannot add timer: {0}", ex.Message);
             return null;
         }
     }

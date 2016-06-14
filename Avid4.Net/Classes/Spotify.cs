@@ -84,7 +84,7 @@ public static class Spotify
                                                 }
                                                 catch (System.Exception ex)
                                                 {
-                                                    logger.Info("Unable to update saved authentication data for Spotify Web API", ex);
+                                                    logger.Info(ex, "Unable to update saved authentication data for Spotify Web API", ex.Message);
                                                 }
                                             }
                                         }
@@ -117,7 +117,7 @@ public static class Spotify
 	                }
 	                catch (System.Exception ex)
 	                {
-                        logger.Error("Failed to connect to Spotify Web API: {0}", ex);
+                        logger.Error(ex, "Failed to connect to Spotify Web API: {0}", ex.Message);
                     }
 	            }
 
@@ -543,7 +543,7 @@ public static class Spotify
             }
             catch (System.Exception ex)
             {
-                logger.Error("Error parsing ArtistHistory XML", ex);
+                logger.Error(ex, "Error parsing ArtistHistory XML: {0}", ex.Message);
             }
         }
 
@@ -1717,7 +1717,7 @@ public static class Spotify
         }
         catch (System.Exception ex)
         {
-            logger.Error("Can't make track, {0}", track.Uri);
+            logger.Error(ex, "Can't make track {0}: {1}", track.Uri, ex.Message);
             return null;
         }
     }
