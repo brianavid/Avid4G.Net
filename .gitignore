@@ -156,3 +156,5 @@ $RECYCLE.BIN/
 # Mac desktop service store files
 .DS_Store
 /packages/ini-parser.2.1.1
+/packages
+/Avid4SpotifyAuth/Scripts
