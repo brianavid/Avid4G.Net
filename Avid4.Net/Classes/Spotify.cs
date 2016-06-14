@@ -117,7 +117,7 @@ public static class Spotify
 	                }
 	                catch (System.Exception ex)
 	                {
-                        logger.Error(ex, "Failed to connect to Spotify Web API");
+                        logger.Error("Failed to connect to Spotify Web API: {0}", ex);
                     }
 	            }
 
@@ -543,7 +543,7 @@ public static class Spotify
             }
             catch (System.Exception ex)
             {
-                logger.Error(ex, "Error parsing ArtistHistory XML");
+                logger.Error("Error parsing ArtistHistory XML", ex);
             }
         }
 
@@ -1497,14 +1497,8 @@ public static class Spotify
     {
         lock (trayAppClient)
         {
-            try
-            {
-	            trayAppClient.GetAsync(string.Format("api/player/ExitPlayer"));
-            }
-            catch (System.Exception)
-            {
-            	
-            }
+            HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/player/ExitPlayer")).Result;
+            resp.EnsureSuccessStatusCode();
         }
 
     }
