@@ -33,6 +33,8 @@ public static class Running
     /// </summary>
     static DateTime lastActive = DateTime.UtcNow;
 
+    static bool spotifyRunning = false;
+
     /// <summary>
     /// Initialize, detecting if Sky is running
     /// </summary>
@@ -139,7 +141,10 @@ public static class Running
                 }
                 Zoom.Stop();
                 DvbViewer.Stop();
-                Spotify.Stop();
+                if (spotifyRunning)
+                {
+                    Spotify.Stop();
+                }
                 DesktopClient.ExitAllPrograms();
                 runningProgram = name;
                 Screen.SetScreenDisplayMode(0);
@@ -157,7 +162,10 @@ public static class Running
             {
                 Zoom.Stop();
                 DvbViewer.Stop();
-                Spotify.Stop();
+                if (spotifyRunning)
+                {
+                    Spotify.Stop();
+                }
                 DesktopClient.ExitAllPrograms();
                 NothingRunning();
                 return false;
@@ -238,6 +246,7 @@ public static class Running
                 Receiver.SelectRoomsOutput();
                 DesktopClient.ExitAllPrograms();
                 DesktopClient.EnsureSpotifyRunning();
+                spotifyRunning = true;
                 logger.Info("LaunchProgram OK {0}", runningProgram);
                 return true;
         }
@@ -269,7 +278,10 @@ public static class Running
 
             Zoom.Stop();
             DvbViewer.Stop();
-            Spotify.Stop();
+            if (spotifyRunning)
+            {
+	            Spotify.Stop();
+            }
             DesktopClient.ExitAllPrograms();
             Receiver.SelectComputerInput();
             Receiver.ReselectInput();
@@ -300,6 +312,12 @@ public static class Running
         logger.Info("ExitAllPrograms");
 
         lastActive = DateTime.UtcNow;
+
+        if (spotifyRunning)
+        {
+            Spotify.ExitPlayer();
+            spotifyRunning = false;
+        }
 
         if (runningProgram == "Music" || runningProgram == "Photo")
         {
@@ -357,7 +375,10 @@ public static class Running
             DesktopClient.SendSpecialkey("ClearDesktop");
             Zoom.Stop();
             DvbViewer.Stop();
-            Spotify.Stop();
+            if (spotifyRunning)
+            {
+                Spotify.Stop();
+            }
         }
 
         runningProgram = "Sky";
@@ -407,7 +428,10 @@ public static class Running
     {
         Zoom.Stop();
         DvbViewer.Stop();
-        Spotify.Stop();
+        if (spotifyRunning)
+        {
+            Spotify.Stop();
+        }
         runningProgram = "";
         logger.Info("NothingRunning");
     }
@@ -455,7 +479,6 @@ public static class Running
             if (Receiver.IsOn() && lastActive.AddMinutes(15) < DateTime.UtcNow)
             {
                 logger.Info("No activity from {0} since {1} - Exiting", runningProgram, lastActive.ToShortTimeString());
-                Spotify.ExitPlayer();
                 ExitAllPrograms(false);
             }
         }

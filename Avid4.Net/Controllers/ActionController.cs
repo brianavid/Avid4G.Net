@@ -136,15 +136,13 @@ namespace Avid4.Net.Controllers
         {
             try
             {
-                Spotify.ExitPlayer();
-
-                Running.ExitAllPrograms(!string.IsNullOrEmpty(keep));
+	            Running.ExitAllPrograms(!string.IsNullOrEmpty(keep));
 	            DesktopClient.SendSpecialkey("ClearDesktop");
 	            return Content(Receiver.VolumeDisplay);
             }
             catch (System.Exception ex)
             {
-                logger.Error(ex, "Error in AllOff: {0}");
+                logger.Error(ex, "Error in AllOff: {0}", ex.Message);
                 return Content("Error");
             }
         }
