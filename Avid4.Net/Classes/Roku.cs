@@ -132,7 +132,7 @@ public static class Roku
     {
         foreach (var c in text)
         {
-            PostRequest("keypress/", "Lit_" + c.ToString());
+            PostRequest("keypress/", "Lit_" + HttpUtility.UrlEncode(c.ToString()));
         }
         PostRequest("keypress/", "Enter");
     }
