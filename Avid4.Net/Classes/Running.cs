@@ -19,7 +19,7 @@ public static class Running
 
     /// <summary>
     /// Avid name for the currently running player application
-    /// Arguments to the 
+    /// Arguments to the
     /// </summary>
     static string runningArgs = "";
 
@@ -67,7 +67,7 @@ public static class Running
     }
 
     /// <summary>
-    /// Return a CSS class name which can be used to style (colour) the UI top bar based on the running player application 
+    /// Return a CSS class name which can be used to style (colour) the UI top bar based on the running player application
     /// </summary>
     public static string RunningProgramTopBarClass
     {
@@ -121,8 +121,8 @@ public static class Running
     {
         logger.Info("LaunchProgram {0} -> {1} {2}", runningProgram, name, args ?? "");
 
-        lastActive = DateTime.UtcNow; 
-        
+        lastActive = DateTime.UtcNow;
+
         runningArgs = args;
 
         if (name != "Sky")
@@ -228,8 +228,8 @@ public static class Running
                 Receiver.SelectTVOutput();
                 //Screen.WaitForScreenOn();
 
-                if (args != null ? 
-                    !DesktopClient.LaunchNewProgram("Video", args) : 
+                if (args != null ?
+                    !DesktopClient.LaunchNewProgram("Video", args) :
                     !DesktopClient.LaunchProgram("Video", args))
                 {
                     NothingRunning();
@@ -386,7 +386,7 @@ public static class Running
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     private static void StopSky()
     {
@@ -456,6 +456,9 @@ public static class Running
                 return Spotify.GetPlaying() > 0;
             case "Video":
                 return Zoom.IsCurrentlyActive;
+            case "TV":
+            case "Radio":
+                return DvbViewer.CurrentlySelectedChannel != null;
         }
 
     }
