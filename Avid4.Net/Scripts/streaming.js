@@ -15,6 +15,16 @@ function AddRokuControlHammerActions() {
         return false;
     });
 
+    rokuControlHammer.on("tap", "#btnStar", function (e) {
+        $.get("/Streaming/KeyPress/Info")
+        return false;
+    });
+
+    rokuControlHammer.on("tap", "#btnRepeat", function (e) {
+        $.get("/Streaming/KeyPress/InstantReplay")
+        return false;
+    });
+
     rokuControlHammer.on("tap", "#btnOk", function (e) {
         $.get("/Streaming/KeyPress/Select")
         return false;
