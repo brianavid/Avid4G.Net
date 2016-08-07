@@ -458,6 +458,7 @@
     <Content Include="Content\Fonts\guifx_v2_transports-webfont.eot" />
     <Content Include="Content\Fonts\guifx_v2_transports-webfont.ttf" />
     <Content Include="Content\Fonts\guifx_v2_transports-webfont.woff" />
+    <None Include="Properties\PublishProfiles\Deploy Locally.pubxml" />
     <None Include="Properties\PublishProfiles\Deploy to Avid.pubxml" />
     <Content Include="Scripts\guide2.js" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
