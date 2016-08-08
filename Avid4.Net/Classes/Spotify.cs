@@ -1709,8 +1709,8 @@ public static class Spotify
 	            AlbumName = noFullAlbum ? track.Album.Name : album.Name,
 	            ArtistId = noFullAlbum ? track.Artists[0].Uri : album.Artists[0].Uri,
 	            AlbumArtistName = noFullAlbum ? track.Artists[0].Uri : album.Artists[0].Name,
-	            TrackArtistNames = (noFullAlbum ? track.Artists : album.Artists).Aggregate("", ConstructTrackArtistNames),
-                TrackFirstArtistId = noFullAlbum ? track.Artists[0].Uri : album.Artists[0].Uri,
+	            TrackArtistNames = track.Artists.Aggregate("", ConstructTrackArtistNames),
+                TrackFirstArtistId = track.Artists[0].Uri,
 	            Index = track.TrackNumber,
 	            Duration = track.DurationMs / 1000
 	        };
