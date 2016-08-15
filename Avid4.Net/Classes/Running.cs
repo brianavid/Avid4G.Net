@@ -481,7 +481,7 @@ public static class Running
             //  turn everything off
             if (Receiver.IsOn() && lastActive.AddMinutes(15) < DateTime.UtcNow)
             {
-                logger.Info("No activity from {0} since {1} - Exiting", runningProgram, lastActive.ToShortTimeString());
+                logger.Info("No activity from {0} since {1} - Exiting", runningProgram, lastActive.ToLocalTime().ToShortTimeString());
                 ExitAllPrograms(false);
             }
         }
