@@ -12,7 +12,7 @@ using System.Threading;
 using NLog;
 
 /// <summary>
-/// The JRMC class encapsulates all access to the J River Media Center player which is used for 
+/// The JRMC class encapsulates all access to the J River Media Center player which is used for
 /// cataloging and playing all stored music, music streamed from BBC iPlayer Radio and viewing photos.
 /// </summary>
 [Serializable]
@@ -39,7 +39,7 @@ public class JRMC
         /// <summary>
         /// The properties of the track as a string-keyed Dictionary
         /// </summary>
-        public Dictionary<string, string> Info { get; private set; } 
+        public Dictionary<string, string> Info { get; private set; }
     };
 
     /// <summary>
@@ -54,7 +54,7 @@ public class JRMC
         /// <param name="_albumId">The ID of the album as a whole</param>
         /// <param name="_tracks">The array of tracks</param>
         public AlbumData(
-            string _albumId, 
+            string _albumId,
             TrackData[] _tracks)
         {
             AlbumId = _albumId;
@@ -78,8 +78,8 @@ public class JRMC
         public TrackData Track0 { get { return Tracks[0]; } }
 
         /// <summary>
-        /// Get the Artist name for the album - not the artist for any particular track. 
-        /// This can be the "Album Artist" (if provided) 
+        /// Get the Artist name for the album - not the artist for any particular track.
+        /// This can be the "Album Artist" (if provided)
         /// or "Various Artists" if the tracks have different "Artist" values
         /// or the single "Artist" value common across all tracks
         /// </summary>
@@ -236,7 +236,7 @@ public class JRMC
     /// The real Host address of the JRMC web service on the local computer (not 127.0.0.1 which is unreliable)
     /// </summary>
     /// <remarks>This is determined only once</remarks>
-    public static string Host 
+    public static string Host
     {
         get {
             if (host == null)
@@ -585,7 +585,7 @@ public class JRMC
     /// <param name="refresh"></param>
     /// <returns></returns>
     public static AlbumCollection LoadAndIndexAllAlbums(
-        string[] itemIds, 
+        string[] itemIds,
         bool refresh)
     {
         //  THe information is normally loaded from a cache in a fixed location
@@ -641,7 +641,7 @@ public class JRMC
             }
         }
 
-        //  Irrespective f how we loaded the album and track information, build all internal index 
+        //  Irrespective f how we loaded the album and track information, build all internal index
         if (AlbumList != null)
         {
             BuildIndexesByTrackId();
@@ -791,7 +791,7 @@ public class JRMC
     {
         return parent.Elements(childElementName).ToDictionary(elem => elem.Attribute("Name").Value, elem => elem.Value);
     }
-    
+
     /// <summary>
     /// For all tracks in all albums, build the albumByTrackId and trackByTrackId indexes
     /// </summary>
@@ -1044,12 +1044,12 @@ public class JRMC
     }
 
     /// <summary>
-    /// Get the 20 most recently added albums
+    /// Get the 100 most recently added albums
     /// </summary>
     /// <returns></returns>
     public static IEnumerable<AlbumData> GetRecentAlbums()
     {
-        return AlbumList.MostRecentFirst.Take(20);
+        return AlbumList.MostRecentFirst.Take(100);
     }
 
     /// <summary>
@@ -1181,7 +1181,7 @@ public class JRMC
     /// <summary>
     /// Display modes for JRMC
     /// </summary>
-    public enum DisplayMode { 
+    public enum DisplayMode {
         Standard = 0,   //  Standard listing/panel
         Mini = 1,       //  Mini mode - very small
         Display = 2,    //  Display mode for photos and visualization
@@ -1198,7 +1198,7 @@ public class JRMC
     {
         if (maximize)
         {
-            SendCommand("Control/MCC?Command=10027");          //Maximize 
+            SendCommand("Control/MCC?Command=10027");          //Maximize
             Thread.Sleep(200);
         }
         SendCommand("Control/MCC?Command=22009&Parameter=" + ((int)displayMode).ToString());  // Display screen
