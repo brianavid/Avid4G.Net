@@ -263,7 +263,7 @@ function AddQueueHammerActions(controlHeight) {
     });
 
     if (!queueHammer) {
-        queueHammer = $(".spotifyPlaybackQueueItems").hammer({ prevent_default: true });
+        queueHammer = $(".spotifyPlaybackQueueItems").hammer({ prevent_default: true, holdThreshold: 100 });
     }
 
     EnableDragScroll(queueHammer)
@@ -277,6 +277,7 @@ function AddQueueHammerActions(controlHeight) {
     });
 
     queueHammer.on("hold", ".spotifyPlaybackQueueItem", function (e) {
+        e.gesture.stopDetect()
         var browserDisplay = document.getElementById("spotifyBrowserItems");
         if (browserDisplay) {
             ReplaceBrowserPane("/Spotify/BrowserPane?mode=TrackInfo&id=" + this.id, "push")
@@ -309,7 +310,7 @@ function AddBrowserHammerActions() {
     });
 
     if (!browserHammer) {
-        browserHammer = $(".spotifyBrowserItems").hammer({ prevent_default: true });
+        browserHammer = $(".spotifyBrowserItems").hammer({ prevent_default: true, holdThreshold: 100 });
     }
 
     EnableDragScroll(browserHammer)
@@ -379,6 +380,7 @@ function AddBrowserHammerActions() {
     });
 
     browserHammer.on("hold", ".spotifyBrowserPlaylist", function (e) {
+        e.gesture.stopDetect()
         ReplaceBrowserPane("/Spotify/BrowserPane?mode=PlaylistInfo&Id=" + this.id + "&playlistId=" + this.id + "&playlistName=" + encodeURIComponent(this.innerText), "push", UpdateQueue)
         return false;
     });
@@ -425,6 +427,7 @@ function AddBrowserHammerActions() {
     });
 
     browserHammer.on("hold", ".spotifyBrowserArtist", function (e) {
+        e.gesture.stopDetect()
         ReplaceBrowserPane("/Spotify/BrowserPane?mode=ArtistInfo&id=" + this.id, "push")
         return false;
     });
@@ -459,6 +462,7 @@ function AddBrowserHammerActions() {
     });
 
     browserHammer.on("hold", ".spotifyBrowserAlbum", function (e) {
+        e.gesture.stopDetect()
         ReplaceBrowserPane("/Spotify/BrowserPane?mode=AlbumInfo&id=" + this.id + copyState(), "push")
     });
 
@@ -525,6 +529,7 @@ function AddBrowserHammerActions() {
     });
 
     browserHammer.on("hold", ".spotifyBrowserTrack", function (e) {
+        e.gesture.stopDetect()
         ReplaceBrowserPane("/Spotify/BrowserPane?mode=TrackInfo&id=" + this.id + copyState(), "push")
     });
 

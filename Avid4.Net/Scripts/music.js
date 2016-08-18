@@ -266,7 +266,7 @@ function AddQueueHammerActions(controlHeight) {
     });
 
     if (!queueHammer) {
-        queueHammer = $(".musicPlaybackQueueItems").hammer({ prevent_default: true });
+        queueHammer = $(".musicPlaybackQueueItems").hammer({ prevent_default: true, holdThreshold: 100 });
     }
 
     EnableDragScroll(queueHammer)
@@ -281,6 +281,7 @@ function AddQueueHammerActions(controlHeight) {
     });
 
     queueHammer.on("hold", ".musicPlaybackQueueItem", function (e) {
+        e.gesture.stopDetect()
         var browserDisplay = document.getElementById("musicBrowserItems");
         if (browserDisplay) {
             ReplaceBrowserPane("/Music/BrowserPane?mode=TrackInfo&id=" + this.id, "push")
@@ -316,7 +317,7 @@ function AddBrowserHammerActions() {
     });
 
     if (!browserHammer) {
-        browserHammer = $(".musicBrowserItems").hammer({ prevent_default: true });
+        browserHammer = $(".musicBrowserItems").hammer({ prevent_default: true, holdThreshold: 100 });
     }
 
     EnableDragScroll(browserHammer)
@@ -401,10 +402,12 @@ function AddBrowserHammerActions() {
     });
 
     browserHammer.on("hold", ".musicBrowserAlbum", function (e) {
+        e.gesture.stopDetect()
         ReplaceBrowserPane("/Music/BrowserPane?mode=AlbumInfo&id=" + this.id, "push")
     });
 
     browserHammer.on("hold", ".musicBrowserTrack", function (e) {
+        e.gesture.stopDetect()
         ReplaceBrowserPane("/Music/BrowserPane?mode=TrackInfo&id=" + this.id, "push")
     });
 
