@@ -129,6 +129,10 @@ public static class Running
         {
             StopSky();
         }
+        if (name != "Roku")
+        {
+            StopRoku();
+        }
         Receiver.SelectComputerInput();
 
         if (name == "Music")
@@ -330,6 +334,12 @@ public static class Running
             Receiver.SelectComputerInput();
         }
 
+        if (runningProgram == "Roku")
+        {
+            Roku.KeyPress("Home");
+            Receiver.SelectComputerInput();
+        }
+
         if (!keepScreen)
         {
             Receiver.TurnOff();
@@ -397,6 +407,17 @@ public static class Running
     }
 
     /// <summary>
+    ///
+    /// </summary>
+    private static void StopRoku()
+    {
+        if (runningProgram == "Roku")
+        {
+            Roku.KeyPress("Home");
+        }
+    }
+
+    /// <summary>
     /// Note that we are starting streaming, and so stop all media PC player applications
     /// </summary>
     /// <returns></returns>
@@ -412,6 +433,7 @@ public static class Running
                 ExitJRMC();
             }
             StopSky();
+            StopRoku();
             DesktopClient.ExitAllPrograms();
             DesktopClient.SendSpecialkey("ClearDesktop");
             NothingRunning();
