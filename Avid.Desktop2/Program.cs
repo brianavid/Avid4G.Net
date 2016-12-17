@@ -34,6 +34,13 @@ namespace Avid.Desktop
 
             try
             {
+#if USE_SKY_STB
+                //  The Desktop tray app is also responsible for discovering the Sky STB service locations and recording them in the registry
+                //  This is simply a convenient place to do this work with the necessary access rights
+                logger.Info("SkyLocator.GetSkyServices");
+                SkyLocator.GetSkyServices(ConfigurationManager.AppSettings["IpAddress"], logger);
+#endif
+
                 //  Run a background thread to monitor any DVBViewer player through its COM interface
                 DvbViewerMonitor.StartMonitoring();
 

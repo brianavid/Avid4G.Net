@@ -69,6 +69,7 @@
     <Compile Include="DvbViewerMonitor.cs" />
     <Compile Include="GPUZ.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="SkyLocator.cs" />
     <Compile Include="UsbService.cs" />
   </ItemGroup>
   <ItemGroup>
