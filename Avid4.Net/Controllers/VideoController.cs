@@ -124,6 +124,7 @@ namespace Avid4.Net.Controllers
                 Running.LaunchProgram("Video", "/Media /F /ExFunc:exSetVolume,100 /ExFunc:exSetMode,0 /Play \"" + recording.Filename + "\"");
                 Zoom.IsDvdMode = false;
                 Zoom.Title = recording.Title;
+                SendZoom("exInterface,08", null);
             }
             return this.Content("");
         }
@@ -155,6 +156,7 @@ namespace Avid4.Net.Controllers
             {
                 Zoom.Title = title;
             }
+            SendZoom("exInterface,08", null);
             return this.Content("");
         }
 
@@ -170,6 +172,7 @@ namespace Avid4.Net.Controllers
             {
                 Zoom.Title = title;
             }
+            SendZoom("exInterface,08", null);
             return this.Content("");
         }
 
@@ -185,6 +188,7 @@ namespace Avid4.Net.Controllers
             {
                 Zoom.Title = title;
             }
+            SendZoom("exInterface,08", null);
             return this.Content("");
         }
 

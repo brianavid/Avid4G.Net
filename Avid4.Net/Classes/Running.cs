@@ -232,9 +232,8 @@ public static class Running
                 Receiver.SelectTVOutput();
                 //Screen.WaitForScreenOn();
 
-                if (args != null ?
-                    !DesktopClient.LaunchNewProgram("Video", args) :
-                    !DesktopClient.LaunchProgram("Video", args))
+                if (args != null &&
+                    !DesktopClient.LaunchNewProgram("Video", args))
                 {
                     NothingRunning();
                     return false;

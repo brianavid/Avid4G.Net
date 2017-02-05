@@ -157,7 +157,7 @@ function AddVideoControlsHammerActions() {
     });
 
     videoControlHammer.on("touch", "#videoStop", function (e) {
-        sendZoom("fnPLClear", DisplayVideoRecordings)
+        sendZoom("fnExit", DisplayVideoRecordings)
     });
 
     videoControlHammer.on("touch", "#videoDvdMenu", function (e) {
