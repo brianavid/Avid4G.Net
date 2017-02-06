@@ -962,49 +962,13 @@ public class DvbViewer
 
         try
         {
-#if UseApiToRecord
             GetXml(String.Format("timeradd.html?ch={0}&dor={1}&enable=1&start={2}&stop={3}&title={4}",
                 programme.Channel.Id,
                 (programme.StartTime - EpgBaseDate).Days,
                 programme.StartTime.Hour * 60 + programme.StartTime.Minute,
                 programme.StopTime.Hour * 60 + programme.StopTime.Minute,
                 System.Uri.EscapeDataString(programme.Title)), true);
-#else
-            try
-            {
-                String requestUrl = String.Format(
-                    "http://{0}:8089/timer_new.html?active=active&prio=50" +
-                    "&channel={1}" +
-                    "&title={2}" +
-                    "&dor={3}&epgbefore={4}&starttime={5}&endtime={6}&epgafter={7}" +
-                    "&Exitaktion=0&Aufnahmeaktion=0&folder=Auto&Series=&Format=2" +
-                    "&scheme=%25year-%25date_%25time_%25station_%25event&RecAllAudio=checkbox" +
-                    "&PATPMTAdjust=checkbox&searchaction=none&aktion=timer_add&source=timer_add" +
-                    "&referer={8}" +
-                    "&timer_id=&do=&timertype=0&save=Speichern&pdc=0&epgevent={9}&_={10}",
-                    Host,
-                    programme.Channel.Number,
-                    System.Uri.EscapeDataString(programme.Title),
-                    programme.StartTime.ToString("dd.MM.yyyy"),
-                    recordingPrePadMinutes,
-                    System.Uri.EscapeDataString(programme.StartTime.ToString("HH:mm")),
-                    System.Uri.EscapeDataString(programme.StopTime.ToString("HH:mm")),
-                    recordingPostPadMinutes,
-                    System.Uri.EscapeDataString("http://localhost:83/Guide/Home"),
-                    programme.Id,
-                    DateTime.UtcNow.Ticks);
 
-                HttpWebRequest request =
-                    (HttpWebRequest)HttpWebRequest.Create(requestUrl);
-                request.Method = WebRequestMethods.Http.Get;
-
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            }
-            catch (System.Exception ex)
-            {
-                logger.Error(ex, "Cannot add timer: {0}", ex.Message);
-            }
-#endif
             LoadSchedule();
             var timer = Schedule.FirstOrDefault(t => t.EventId == programme.Id);
 
