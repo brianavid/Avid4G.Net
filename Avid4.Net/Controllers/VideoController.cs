@@ -133,9 +133,6 @@ namespace Avid4.Net.Controllers
         public ContentResult DeleteRecording(
             string id)
         {
-            //  Can't delete a recording that's still playing
-            Zoom.Stop();
-
             if (DvbViewer.AllRecordings.ContainsKey(id))
             {
                 var recording = DvbViewer.AllRecordings[id];
