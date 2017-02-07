@@ -962,11 +962,12 @@ public class DvbViewer
 
         try
         {
-            GetXml(String.Format("timeradd.html?ch={0}&dor={1}&enable=1&start={2}&stop={3}&title={4}",
+            GetXml(String.Format("timeradd.html?ch={0}&dor={1}&enable=1&start={2}&stop={3}&epgevent={4}&title={5}",
                 programme.Channel.Id,
                 (programme.StartTime - EpgBaseDate).Days,
                 programme.StartTime.Hour * 60 + programme.StartTime.Minute,
                 programme.StopTime.Hour * 60 + programme.StopTime.Minute,
+                programme.Id,
                 System.Uri.EscapeDataString(programme.Title)), true);
 
             LoadSchedule();
