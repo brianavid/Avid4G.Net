@@ -133,6 +133,9 @@ namespace Avid4.Net.Controllers
         public ContentResult DeleteRecording(
             string id)
         {
+            //  Can't delete a recording that's still playing
+            Running.StopZoom();
+
             if (DvbViewer.AllRecordings.ContainsKey(id))
             {
                 var recording = DvbViewer.AllRecordings[id];
@@ -202,38 +205,41 @@ namespace Avid4.Net.Controllers
             string cmd,
             string forceExtend)
         {
-            //  If this is a transport command to skip within the playing file,
-            //  check if the length of the file on disk has changed, indicating a recording in progress.
-            //  If so, re-load the current media file (at most once every 10 seconds) in order
-            //  to re-determine the current duration.
-            if (forceExtend != null && currentFilename != null && (DateTime.UtcNow - lastSizeCheck).TotalSeconds > 10)
+            if (Zoom.IsRunning)
             {
-                var currentFileSize = GetOnDiskFileSize(currentFilename);
-                if (currentFileSize != lastFileSize)
+                //  If this is a transport command to skip within the playing file,
+                //  check if the length of the file on disk has changed, indicating a recording in progress.
+                //  If so, re-load the current media file (at most once every 10 seconds) in order
+                //  to re-determine the current duration.
+                if (forceExtend != null && currentFilename != null && (DateTime.UtcNow - lastSizeCheck).TotalSeconds > 10)
                 {
-                    lastFileSize = currentFileSize;
-                    lastSizeCheck = DateTime.UtcNow;
+                    var currentFileSize = GetOnDiskFileSize(currentFilename);
+                    if (currentFileSize != lastFileSize)
+                    {
+                        lastFileSize = currentFileSize;
+                        lastSizeCheck = DateTime.UtcNow;
 
-                    SendZoom("fnReloadCurrent", null);
+                        SendZoom("fnReloadCurrent", null);
+                    }
                 }
-            }
 
-            Uri requestUri = new Uri(Zoom.FuncUrl + cmd);
+                Uri requestUri = new Uri(Zoom.FuncUrl + cmd);
 
-            for (int i = 1; i < 11; i++)
-            {
-                try
+                for (int i = 1; i < 11; i++)
                 {
-                    HttpWebRequest request =
-                        (HttpWebRequest)HttpWebRequest.Create(requestUri);
-                    request.Method = WebRequestMethods.Http.Get;
+                    try
+                    {
+                        HttpWebRequest request =
+                            (HttpWebRequest)HttpWebRequest.Create(requestUri);
+                        request.Method = WebRequestMethods.Http.Get;
 
-                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                    return this.Content("");
-                }
-                catch (Exception)
-                {
-                    System.Threading.Thread.Sleep(200 * i);
+                        HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                        return this.Content("");
+                    }
+                    catch (Exception)
+                    {
+                        System.Threading.Thread.Sleep(200 * i);
+                    }
                 }
             }
 

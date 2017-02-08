@@ -34,6 +34,7 @@ public static class Running
     static DateTime lastActive = DateTime.UtcNow;
 
     static bool spotifyRunning = false;
+    static bool zoomRunning = false;
 
     /// <summary>
     /// Initialize, detecting if Sky is running
@@ -232,13 +233,18 @@ public static class Running
                 Receiver.SelectTVOutput();
                 //Screen.WaitForScreenOn();
 
-                if (args != null &&
-                    !DesktopClient.LaunchNewProgram("Video", args))
+                if (args == null)
+                {
+                    return true;
+                }
+
+                if (!DesktopClient.LaunchProgram("Video", args))
                 {
                     NothingRunning();
                     return false;
                 }
 
+                zoomRunning = true;
                 logger.Info("Zoom.Start");
                 Zoom.Start();
                 logger.Info("LaunchProgram OK {0}", runningProgram);
@@ -417,6 +423,19 @@ public static class Running
     }
 
     /// <summary>
+    ///
+    /// </summary>
+    public static void StopZoom()
+    {
+        if (runningProgram == "Video" && zoomRunning)
+        {
+            Zoom.Stop();
+            DesktopClient.ExitProgram("Video");
+        }
+        zoomRunning = false;
+    }
+
+    /// <summary>
     /// Note that we are starting streaming, and so stop all media PC player applications
     /// </summary>
     /// <returns></returns>
@@ -448,6 +467,7 @@ public static class Running
     static void NothingRunning()
     {
         Zoom.Stop();
+        zoomRunning = false;
         DvbViewer.Stop();
         if (spotifyRunning)
         {

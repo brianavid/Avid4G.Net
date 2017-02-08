@@ -307,6 +307,12 @@ public class Zoom
     static string mode = "Unknown";
 
     /// <summary>
+    /// Is Zoom Player running (i.e. started and not stopped)
+    /// This is an indication if it is safe to send it commands through its HTTP API
+    /// </summary>
+    public static bool IsRunning { get { return reader != null; } }
+
+    /// <summary>
     /// Is Zoom Player currently playing (including if paused)?
     /// </summary>
     public static bool IsCurrentlyPlaying { get { return state == "Playing" || state == "Paused"; } }
