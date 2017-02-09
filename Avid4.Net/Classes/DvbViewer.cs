@@ -332,6 +332,8 @@ public class DvbViewer
                 series.isDeleted = true;
                 Save();
             }
+            // Force a re-load without any with isDeleted
+            seriesDefinitions = null;
         }
 
     }
@@ -999,8 +1001,12 @@ public class DvbViewer
     public static string CancelTimer(
         String timerId)
     {
+        var timer = Schedule.FirstOrDefault(t => t.Id == timerId);
+        if (timer != null)
+        {
+            Series.Delete(timer.EventId);
+        }
         GetXml(String.Format("timerdelete.html?id={0}&delfile=1", timerId));
-        Series.Delete(timerId);
 
         LoadSchedule();
 
