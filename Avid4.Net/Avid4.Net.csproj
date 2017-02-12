@@ -208,6 +208,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\apple-touch-icon.png" />
+    <Content Include="Content\Avid4-192.png" />
     <Content Include="Content\BBC Radio.jpg" />
     <Content Include="Content\Buttons\AudioCast.png" />
     <Content Include="Content\Buttons\BigRound\Home.png" />
