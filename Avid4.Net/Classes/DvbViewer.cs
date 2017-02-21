@@ -964,7 +964,7 @@ public class DvbViewer
 
         try
         {
-            GetXml(String.Format("timeradd.html?ch={0}&dor={1}&enable=1&start={2}&stop={3}&epgevent={4}&title={5}",
+            GetXml(String.Format("timeradd.html?ch={0}&dor={1}&enable=1&start={2}&stop={3}&pre=5&post=10&epgevent={4}&title={5}",
                 programme.Channel.Id,
                 (programme.StartTime - EpgBaseDate).Days,
                 programme.StartTime.Hour * 60 + programme.StartTime.Minute,
