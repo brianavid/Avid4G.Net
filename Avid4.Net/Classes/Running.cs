@@ -208,7 +208,7 @@ public static class Running
                     Receiver.SelectTVOutput();
                     Screen.WaitForScreenOn();
                 }
-                if (!DesktopClient.LaunchProgram("TV", args))
+                if (!DesktopClient.LaunchProgram("TV", null))
                 {
                     NothingRunning();
                     return false;

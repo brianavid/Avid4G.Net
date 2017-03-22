@@ -446,6 +446,8 @@ public class DvbViewer
             }
             Uri requestUri = new Uri(Url + url);
 
+            logger.Info(requestUri.ToString());
+
             HttpWebRequest request =
                 (HttpWebRequest)HttpWebRequest.Create(requestUri);
             request.Method = WebRequestMethods.Http.Get;

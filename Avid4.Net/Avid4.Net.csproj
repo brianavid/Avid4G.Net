@@ -589,6 +589,8 @@
     <Content Include="Views\Streaming\WebSearchPane.cshtml" />
     <Content Include="Views\Streaming\RokuSearchPane.cshtml" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
+    <Content Include="Views\Action\Security.cshtml" />
+    <Content Include="Views\Action\SecurityFailed.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

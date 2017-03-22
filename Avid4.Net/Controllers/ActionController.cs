@@ -76,6 +76,27 @@ namespace Avid4.Net.Controllers
             return Content("OK");
         }
 
+        // GET: /Action/Security
+        public ActionResult Security()
+        {
+            if (String.IsNullOrEmpty(Running.RunningProgram))
+            {
+                DesktopClient.SendSpecialkey("ClearDesktop");
+            }
+
+            Running.LaunchProgram("TV", "Radio");
+            var channel = DvbViewer.NamedChannel("BBC Radio 4");
+            for (var i = 0; i < 5; i++)
+            {
+                System.Threading.Thread.Sleep(5000);
+                DvbViewer.SelectChannel(channel);
+                if (DvbViewer.CurrentlySelectedChannel == channel)
+                    return View("Security");
+            }
+
+            return View("SecurityFailed");
+        }
+
 #if USE_SKY_STB
         // GET: /Action/StartSky
         public ActionResult StartSky(
