@@ -6,12 +6,15 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
+using NLog;
 
 namespace Avid4.Net.Controllers
 {
     [NoCache]
     public class TvController : Controller
     {
+        static Logger logger = LogManager.GetCurrentClassLogger();
+
         // GET: /Tv/Watch
         public ActionResult Watch()
         {
@@ -120,10 +123,14 @@ namespace Avid4.Net.Controllers
 	
 	            foreach (var channel in xStatus.Root.Elements("Channel"))
 	            {
-	                var channelNumber = int.Parse(channel.Attribute(("number")).Value);
-	                if (DvbViewer.CurrentlySelectedChannel == null || channelNumber != DvbViewer.CurrentlySelectedChannel.Number)
+	                var channelName = channel.Attribute(("name")).Value;
+	                if (DvbViewer.CurrentlySelectedChannel == null || channelName != DvbViewer.CurrentlySelectedChannel.Name)
 	                {
-	                    DvbViewer.SelectChannel(DvbViewer.NumberedChannel(channelNumber), true);
+                        logger.Info("UpdateStatus: current={0},{1}",
+                                    DvbViewer.CurrentlySelectedChannel?.Number.ToString() ?? "<UNSET>",
+                                    DvbViewer.CurrentlySelectedChannel?.Name.ToString() ?? "<UNSET>");
+                        logger.Info(xStatus.ToString());
+	                    DvbViewer.SelectChannel(DvbViewer.NamedChannel(channelName), true);
 	                }
 	            }
             }
