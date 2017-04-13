@@ -86,15 +86,25 @@ namespace Avid4.Net.Controllers
 
             Running.LaunchProgram("TV", "Radio");
             var channel = DvbViewer.NamedChannel("BBC Radio 4");
-            for (var i = 0; i < 5; i++)
+            for (var i = 0; i < 20; i++)
             {
-                System.Threading.Thread.Sleep(5000);
+                System.Threading.Thread.Sleep(1000);
                 DvbViewer.SelectChannel(channel);
                 if (DvbViewer.CurrentlySelectedChannel == channel)
+                {
+                    Response.AppendHeader("refresh", 
+                        String.Format("10; URL={0}", VirtualPathUtility.ToAbsolute("~/Action/SecurityRetry")));
                     return View("Security");
+                }
             }
 
             return View("SecurityFailed");
+        }
+
+        // GET: /Action/SecurityRetry
+        public ActionResult SecurityRetry()
+        {
+            return View("SecurityRetry");
         }
 
 #if USE_SKY_STB
