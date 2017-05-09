@@ -41,7 +41,7 @@ namespace Avid4SpotifyAuth.Controllers
             return CreateDate.Add(TimeSpan.FromSeconds(ExpiresIn)) >= DateTime.Now;
         }
     }
-    
+
     public class AuthController : Controller
     {
         static Logger logger = LogManager.GetCurrentClassLogger();
@@ -121,6 +121,12 @@ namespace Avid4SpotifyAuth.Controllers
                 logger.Error(ex);
                 return this.Content("");
             }
+        }
+
+        public ContentResult Probe()
+        {
+            logger.Info("Probe");
+            return this.Content("OK");
         }
 
         public ContentResult Authenticate(

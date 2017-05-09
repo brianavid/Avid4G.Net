@@ -136,6 +136,36 @@ public static class Spotify
         }
     }
 
+    public static bool Probe()
+    {
+        lock (logger)
+        {
+            if (webAppService == null || webApiExpiry <= DateTime.Now)
+            {
+                logger.Info("Probing Authentication API");
+                try
+                {
+                    HttpWebRequest request =
+                        (HttpWebRequest)HttpWebRequest.Create("http://brianavid.co.uk/Avid4SpotifyAuth/Auth/Probe");
+                    request.Method = WebRequestMethods.Http.Get;
+                    request.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
+                    request.Timeout = 10000;
+
+                    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+
+                    return response.StatusCode == HttpStatusCode.OK;
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex, "Failed to probe Authentication API: {0}", ex.Message);
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     static FullTrack GetFullTrack(
         string id)
     {
@@ -343,7 +373,8 @@ public static class Spotify
         trayAppClient.DefaultRequestHeaders.CacheControl.NoCache = true;
         trayAppClient.DefaultRequestHeaders.CacheControl.MaxAge = new TimeSpan(0);
 
-        LoadAndIndexAllSavedTracks();
+        if (Spotify.Probe())
+            LoadAndIndexAllSavedTracks();
     }
 
     #region Browsing and Searching
