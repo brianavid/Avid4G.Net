@@ -77,28 +77,17 @@ namespace Avid4.Net.Controllers
         }
 
         // GET: /Action/Security
-        public ActionResult Security()
+        public ActionResult Security(
+            string state)
         {
-            if (String.IsNullOrEmpty(Running.RunningProgram))
+            if (state != "running")
             {
-                DesktopClient.SendSpecialkey("ClearDesktop");
+                Receiver.Security();
+                Response.AppendHeader("refresh",
+                    String.Format("10; URL={0}", VirtualPathUtility.ToAbsolute("~/Action/Security?state=running")));
             }
-
-            Running.LaunchProgram("TV", "Radio");
-            var channel = DvbViewer.NamedChannel("BBC Radio 4");
-            for (var i = 0; i < 20; i++)
-            {
-                System.Threading.Thread.Sleep(1000);
-                DvbViewer.SelectChannel(channel);
-                if (DvbViewer.CurrentlySelectedChannel == channel)
-                {
-                    Response.AppendHeader("refresh", 
-                        String.Format("10; URL={0}", VirtualPathUtility.ToAbsolute("~/Action/SecurityRetry")));
-                    return View("Security");
-                }
-            }
-
-            return View("SecurityFailed");
+            ViewBag.Running = (state == "running");
+            return View("Security");
         }
 
         // GET: /Action/SecurityRetry

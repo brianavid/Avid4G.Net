@@ -5,9 +5,11 @@
 
 <div id="topBarTitle" style="display:none">@ViewBag.Title</div>
 
-<h2>Security Enabled - playing @DvbViewer.CurrentlySelectedChannelName</h2>
-<br />
-<br />
-<br />
-<p><a href="/Action/Security"><img src="~/Content/Buttons/Select.Radio.Button.png"></a></p>
-
+@if (ViewBag.Running)
+{
+    <a href="/Action/Security"><h2>Enable Security</h2></a>
+}
+else
+{
+    <h2>Security Enabled</h2>
+}

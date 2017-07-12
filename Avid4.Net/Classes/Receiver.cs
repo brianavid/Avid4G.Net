@@ -95,7 +95,7 @@ public static class Receiver
     static string ZoneName { get { return mainZone ? MainZoneName : Zone2ZoneName; } }
 
     /// <summary>
-    /// The currently selected input: "Sky" or "Computer"
+    /// The currently selected input: "Sky", "Roku", "Chromecast", or "Computer"
     /// </summary>
     public static string SelectedInput { get; private set; }
 
@@ -378,6 +378,7 @@ public static class Receiver
     {
         GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Power_Control><Power>On</Power></Power_Control></Main_Zone></YAMAHA_AV>");
         GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Power_Control><Power>On</Power></Power_Control></Zone_2></YAMAHA_AV>");
+        GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Input><Input_Sel>AUDIO2</Input_Sel></Input></Zone_2></YAMAHA_AV>");
 
         switchedOn = false;
     }
@@ -462,5 +463,20 @@ public static class Receiver
     public static bool IsOn()
     {
         return switchedOn;
+    }
+
+    /// <summary>
+    /// Set the Receiver to play the Tuner on Zone2 for security
+    /// </summary>
+    public static void Security()
+    {
+        if (Receiver.SelectedInput != "Security")
+        {
+            logger.Info("Security");
+            SelectedInput = "Security";
+            GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Power_Control><Power>Off</Power></Power_Control></Main_Zone></YAMAHA_AV>");
+            GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Power_Control><Power>On</Power></Power_Control></Zone_2></YAMAHA_AV>");
+            GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Input><Input_Sel>TUNER</Input_Sel></Input></Zone_2></YAMAHA_AV>");
+        }
     }
 }
