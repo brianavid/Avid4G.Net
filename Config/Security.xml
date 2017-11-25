@@ -1,0 +1,75 @@
+<Security>
+    <Zone name="Hall">
+        <Device name="Hall Bulb 1" ip="192.168.1.144" type="bulb"/>
+        <Device name="Hall Bulb 2" ip="192.168.1.145" type="bulb" />
+    </Zone>
+    <Zone name="Dressing Room">
+        <Device name="Dress Rm Bulb 1" ip="192.168.1.141" type="bulb" />
+        <Device name="Dress Rm Bulb 2" ip="192.168.1.142" type="bulb" />
+    </Zone>
+    <Zone name="Sitting Room Lamp">
+        <Device name="Lamp Plug 1" ip="192.168.1.140" type="socket" />
+    </Zone>
+    <Zone name="Dining Room Lamp">
+        <Device name="Lamp Plug 2" ip="192.168.1.146" type="socket" />
+    </Zone>
+    <Profile name="All Off" description="Turn all security lighting off"> 
+        <Schedule>
+            <Radio power="off" />
+            <Zone name="Hall" power="off" />
+            <Zone name="Dressing Room" power="off" />
+            <Zone name="Sitting Room Lamp" power="off" />
+            <Zone name="Dining Room Lamp" power="off" />
+        </Schedule>
+    </Profile>
+    <Profile name="Out for the Day" description="Security for the day, expecting to be back tonight"> 
+        <Schedule>
+            <Radio power="on" />
+            <Zone name="Hall" power="1630-" />
+            <Zone name="Dressing Room" power="1700-1730,2200-2300" />
+            <Zone name="Sitting Room Lamp" power="1700-2230@80%" />
+        </Schedule>
+    </Profile>
+    <Profile name="Away on a trip" description="Security when away on a trip"> 
+        <Schedule days="Mon,Tue,Thu,Fri">
+            <Radio power="0800-1200,1600-2300" />
+            <Zone name="Hall" power="0700-1000@30%,1630-2359@30%" />
+            <Zone name="Dressing Room" power="1700-2300@20%" />
+            <Zone name="Sitting Room Lamp" power="0700-0900,1600-2230@80%" />
+            <Zone name="Dining Room Lamp" power="1700-2230@20%" />
+        </Schedule>
+        <Schedule days="Wed">
+            <Radio power="0800-2300" />
+            <Zone name="Hall" power="0700-1000@30%,1630-2359@30%" />
+            <Zone name="Dressing Room" power="0700-1000@30%,1700-2300@20%" />
+            <Zone name="Sitting Room Lamp" power="1700-2230@80%" />
+            <Zone name="Dining Room Lamp" power="1600-2230@40%" />
+        </Schedule>
+        <Schedule days="Sat,Sun">
+            <Radio power="0800-1200,1600-2300" />
+            <Zone name="Hall" power="1630-2359@30%" />
+            <Zone name="Dressing Room" power="1700-2300@20%" />
+            <Zone name="Sitting Room Lamp" power="0700-0900,1600-2230@60%" />
+            <Zone name="Dining Room Lamp" power="1700-2230@60%" />
+        </Schedule>
+    </Profile>
+    <Profile name="Lamp on" description="Testing only"> 
+        <Schedule>
+            <Zone name="Sitting Room Lamp" power="on" />
+        </Schedule>
+    </Profile>
+    <Profile name="Lamp off" description="Testing only"> 
+        <Schedule>
+            <Zone name="Sitting Room Lamp" power="off" />
+        </Schedule>
+    </Profile>
+    <Profile name="Odd Hours" description="Testing only"> 
+        <Schedule days="Fri,Sat">
+            <Zone name="Sitting Room Lamp" power="1100-1200,1300-1400,1500-1600,1700-1800,1900-2000" />
+        </Schedule>
+        <Schedule>
+            <Zone name="Sitting Room Lamp" power="1100-1200,1300-1400,1500-1600,1700-1800,1900-2000" />
+        </Schedule>
+    </Profile>
+
+</Security>

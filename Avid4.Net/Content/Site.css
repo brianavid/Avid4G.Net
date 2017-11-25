@@ -200,21 +200,21 @@ textarea {
     margin-left:5%;
 }
 
-.musicPlaybackQueueItems, .musicBrowserItems, .webBrowserItems, .guideBrowserItems, .guideChannels, .guideDates, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .photosImagesGrid, .photosBrowserItems, .rokuBrowserItems, .tvButtons, .tvChannels, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoVideos, .videoDvds {
+.musicPlaybackQueueItems, .musicBrowserItems, .webBrowserItems, .guideBrowserItems, .guideChannels, .guideDates, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .photosImagesGrid, .photosBrowserItems, .rokuBrowserItems, .tvButtons, .tvChannels, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoVideos, .videoDvds, .securityProfileItems {
     position: relative;
-    overflow-y:hidden;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
 }
 
-.musicPlaybackQueueItem, .musicBrowserItem, .webBrowserItem, .guideItem, .spotifyPlaybackQueueItem, .spotifyBrowserItem, .photosBrowserItem, .rokuBrowserItem, .tvChannel, .skyChannel, .skyRecording, .skyRecordingGroup, .skyProgramme, .skyRecordingAction, .videoRecording, .videoRecordingGroup, .videoDvd, .videoRecordingAction, .actionMenuItem {
+.musicPlaybackQueueItem, .musicBrowserItem, .webBrowserItem, .guideItem, .spotifyPlaybackQueueItem, .spotifyBrowserItem, .photosBrowserItem, .rokuBrowserItem, .tvChannel, .skyChannel, .skyRecording, .skyRecordingGroup, .skyProgramme, .skyRecordingAction, .videoRecording, .videoRecordingGroup, .videoDvd, .videoRecordingAction, .actionMenuItem, .securityProfileItem {
     width: 100%;
-    border-width: thin; 
-    border-color: #3a5069; 
-    border-top-style: none; 
+    border-width: thin;
+    border-color: #3a5069;
+    border-top-style: none;
     border-bottom-style: solid;
 }
 
-.musicPlaybackQueueTitle, .musicBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .rokuBrowserTitle, .tvChannelName, .skyChannelName, .skyProgrammeName, .skyRecordingName, .skyRecordingAction, .videoRecordingName, .videoRecordingAction, .webBrowserTitle, .guideTitle, .actionMenuItem {
+.musicPlaybackQueueTitle, .musicBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .rokuBrowserTitle, .tvChannelName, .skyChannelName, .skyProgrammeName, .skyRecordingName, .skyRecordingAction, .videoRecordingName, .videoRecordingAction, .webBrowserTitle, .guideTitle, .actionMenuItem, .securityProfileName {
     color: #3a5069;
     display: block;
     padding-right: 0px;
@@ -263,8 +263,8 @@ textarea {
     -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
 }
 
-.musicProgrammeInfo, .webBrowserProgrammeInfo, .guideProgrammeInfo, .ProgrammeInfo, .tvProgrammeInfo, .skyProgrammeInfo, .skyRecordingInfo, skyRecordingDescription, .videoRecordingInfo, .videoRecordingDescription, .videoTimelineInfo {
-    font-size: small; 
+.musicProgrammeInfo, .webBrowserProgrammeInfo, .guideProgrammeInfo, .ProgrammeInfo, .tvProgrammeInfo, .skyProgrammeInfo, .skyRecordingInfo, skyRecordingDescription, .videoRecordingInfo, .videoRecordingDescription, .videoTimelineInfo, securityProfileDescription {
+    font-size: small;
 }
 
 .musicProgrammeDescription, .webBrowserProgrammeDescription, .guideEpgProgrammeDescription {

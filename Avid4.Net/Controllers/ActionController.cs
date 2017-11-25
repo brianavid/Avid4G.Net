@@ -82,6 +82,8 @@ namespace Avid4.Net.Controllers
         {
             if (state != "running")
             {
+                Running.ExitAllPrograms();
+                DesktopClient.SendSpecialkey("ClearDesktop");
                 Receiver.Security();
                 Response.AppendHeader("refresh",
                     String.Format("10; URL={0}", VirtualPathUtility.ToAbsolute("~/Action/Security?state=running")));

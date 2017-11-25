@@ -1,0 +1,17 @@
+﻿@Html.Partial("TopBar")
+@section scripts {
+    @Html.Raw(Render.Script("topBar", Request))
+    @Html.Raw(Render.Script("security", Request))
+}
+
+
+<div class="securityProfileItems">
+    @foreach (var profile in Security.GetProfiles())
+    {
+        <div class="securityProfileItem" id="@profile.Id">
+            <div class="securityProfileName">@profile.Name</div>
+            <div class="securityProfileDescription">@profile.Description</div>
+        </div>
+    }
+</div>
+

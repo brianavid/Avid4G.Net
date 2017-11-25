@@ -75,4 +75,9 @@ $(function () {
         LinkTo("/Guide/Browser?mode=GuideRoot");
     });
 
+    $("#selectSecurity").mousedown(function () {
+        StopSwitching();
+        LinkTo("/Security/GetProfiles");
+    });
+
 });

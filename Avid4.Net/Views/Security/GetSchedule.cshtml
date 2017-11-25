@@ -1,0 +1,20 @@
+﻿@Html.Partial("TopBar")
+@section scripts {
+    @Html.Raw(Render.Script("topBar", Request))
+    @Html.Raw(Render.Script("security", Request))
+}
+
+
+<div class="securityProfileItems">
+    @foreach (var zone in Security.GetCurrentSchedule())
+    {
+        <p>@(zone.Key)</p>
+        <ul>
+            @foreach (var period in zone.Value)
+            {
+                <li>@(period.StartTime.ToShortTimeString())-@(period.StartTime.Date == DateTime.Now.Date ? period.StopTime.ToShortTimeString() : "")</li>
+            }
+        </ul>
+    }
+</div>
+

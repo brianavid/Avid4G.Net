@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Avid4.Net</RootNamespace>
     <AssemblyName>Avid4.Net</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -183,8 +183,10 @@
     <Compile Include="Classes\Running.cs" />
     <Compile Include="Classes\Samsung.cs" />
     <Compile Include="Classes\Screen.cs" />
+    <Compile Include="Classes\Security.cs" />
     <Compile Include="Classes\Spotify.cs" />
     <Compile Include="Classes\SpotifyData.cs" />
+    <Compile Include="Classes\TP_Link.cs" />
     <Compile Include="Classes\Zoom.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -195,6 +197,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MusicController.cs" />
     <Compile Include="Controllers\PhotosController.cs" />
+    <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\StreamingController.cs" />
     <Compile Include="Controllers\TvController.cs" />
     <Compile Include="Controllers\SpotifyController.cs" />
@@ -221,6 +224,7 @@
     <Content Include="Content\Buttons\Prime.png" />
     <Content Include="Content\Buttons\Repeat.png" />
     <Content Include="Content\Buttons\Roku.png" />
+    <Content Include="Content\Buttons\Security.png" />
     <Content Include="Content\Buttons\Series.png" />
     <Content Include="Content\Buttons\SmallRound\Exit.png" />
     <Content Include="Content\Buttons\SmallRound\Transport.Rec.Series.png" />
@@ -417,6 +421,7 @@
     <Content Include="Content\Fonts\guifx_v2_transports-webfont.svg" />
     <Content Include="Content\nouislider.fox.css" />
     <Content Include="Content\nouislider.space.css" />
+    <Content Include="Content\Security.png" />
     <Content Include="Content\SkyPad.png" />
     <Content Include="Content\Spotify.png" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -478,6 +483,7 @@
     <Content Include="Scripts\knockout-3.3.0.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\photos.js" />
+    <Content Include="Scripts\security.js" />
     <Content Include="Scripts\streaming.js" />
     <Content Include="Scripts\touch-emulator.js" />
     <Content Include="Scripts\tv.js" />
@@ -590,6 +596,8 @@
     <Content Include="Views\Streaming\RokuSearchPane.cshtml" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
     <Content Include="Views\Action\Security.cshtml" />
+    <Content Include="Views\Security\GetProfiles.cshtml" />
+    <Content Include="Views\Security\GetSchedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

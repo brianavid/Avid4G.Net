@@ -12,6 +12,7 @@ using System.Xml.Linq;
 using System.ServiceProcess;
 using GetCoreTempInfoNET;
 using WindowsInput;
+using Microsoft.Win32;
 
 namespace Avid.Desktop
 {
@@ -692,6 +693,29 @@ namespace Avid.Desktop
                     spotifyProcess = Process.Start(startInfo);
                 }
 
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Persist a string value in the registry
+        /// </summary>
+        /// <returns>True if successful</returns>
+        [HttpGet]
+        public bool PersistStringInRegistry(
+            string name,
+            string value)
+        {
+            try
+            {
+                logger.Info("PersistStringInRegistry: {0}='{1}'", name, value);
+                RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Avid", true);
+                key.SetValue(name, value);
                 return true;
             }
             catch (Exception ex)

@@ -34,6 +34,7 @@ namespace Avid4.Net
             Running.Initialize();
             Spotify.Initialize();
             DvbViewer.Initialize();
+            Security.Initialize();
 
 #if USE_SKY_STB
             SkyData.Initialize(Config.SkyFavourites, Config.SkyRadio, Config.SkyPackages, Config.SkyCapacityGB);

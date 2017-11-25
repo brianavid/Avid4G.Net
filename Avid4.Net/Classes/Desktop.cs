@@ -333,6 +333,32 @@ public static class DesktopClient
     }
 
     /// <summary>
+    /// Persist a string value in the registry
+    /// </summary>
+    /// <returns>True if successful</returns>
+    static public bool PersistStringInRegistry(
+            string name,
+            string value)
+    {
+        lock (trayAppClient)
+        {
+            try
+            {
+                logger.Info("PersistStringInRegistry");
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/PersistStringInRegistry?name={0}&value={1}", name, value)).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<bool>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
+        }
+    }
+
+    /// <summary>
     /// 
     /// </summary>
     /// <returns></returns>
