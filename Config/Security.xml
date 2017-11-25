@@ -16,7 +16,7 @@
     <Profile name="All Off" description="Turn all security lighting off"> 
         <Schedule>
             <Radio power="off" />
-            <Zone name="Hall" power="off" />
+            <!--Zone name="Hall" power="off" /-->
             <Zone name="Dressing Room" power="off" />
             <Zone name="Sitting Room Lamp" power="off" />
             <Zone name="Dining Room Lamp" power="off" />
@@ -30,7 +30,7 @@
             <Zone name="Sitting Room Lamp" power="1700-2230@80%" />
         </Schedule>
     </Profile>
-    <Profile name="Away on a trip" description="Security when away on a trip"> 
+    <Profile name="Away on a trip" description="Security when away on a trip" default="yes"> 
         <Schedule days="Mon,Tue,Thu,Fri">
             <Radio power="0800-1200,1600-2300" />
             <Zone name="Hall" power="0700-1000@30%,1630-2359@30%" />
@@ -53,23 +53,23 @@
             <Zone name="Dining Room Lamp" power="1700-2230@60%" />
         </Schedule>
     </Profile>
-    <Profile name="Lamp on" description="Testing only"> 
+    <Profile name="Hall Light on" description="Switch on Hall light only" nonpersistent="yes"> 
         <Schedule>
-            <Zone name="Sitting Room Lamp" power="on" />
+            <Zone name="Hall" power="on" />
         </Schedule>
     </Profile>
-    <Profile name="Lamp off" description="Testing only"> 
+    <Profile name="Hall Light off" description="witch off Hall light only" nonpersistent="yes"> 
         <Schedule>
-            <Zone name="Sitting Room Lamp" power="off" />
+            <Zone name="Hall" power="off" />
         </Schedule>
     </Profile>
-    <Profile name="Odd Hours" description="Testing only"> 
+    <!--Profile name="Odd Hours" description="Testing only"> 
         <Schedule days="Fri,Sat">
             <Zone name="Sitting Room Lamp" power="1100-1200,1300-1400,1500-1600,1700-1800,1900-2000" />
         </Schedule>
         <Schedule>
             <Zone name="Sitting Room Lamp" power="1100-1200,1300-1400,1500-1600,1700-1800,1900-2000" />
         </Schedule>
-    </Profile>
+    </Profile-->
 
 </Security>

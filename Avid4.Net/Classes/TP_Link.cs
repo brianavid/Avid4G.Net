@@ -95,7 +95,7 @@ public class TP_Link
                 var response = responseBuf.Take(responseLen).ToArray();
                 //logger.Info(Encoding.ASCII.GetString(Decrypt(response)));
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //logger.Error(ex, "Failed to control device at {0}", ipAddress);
             }

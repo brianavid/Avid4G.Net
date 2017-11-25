@@ -151,60 +151,33 @@ public class Security
             var duration2 = duration12 - duration1;
             var duration3 = SplitDuration(duration34);
             var duration4 = duration34 - duration3;
-            var start1 = start;
-            var start2 = start1.AddMinutes(duration1);
-            var start3 = start2.AddMinutes(duration2);
-            var start4 = start3.AddMinutes(duration3);
-
-            var starts = new DateTime[4];
-            var stops = new DateTime[4];
-            if (FiftyFifty())
-            {
-                starts[0] = start1;
-                stops[0] = start1.AddMinutes(duration1 * percentage / 100);
-            }
-            else
-            {
-                starts[0] = start1.AddMinutes(duration1 - duration1 * percentage / 100); ;
-                stops[0] = start1.AddMinutes(duration1);
-            }
-            if (FiftyFifty())
-            {
-                starts[1] = start2;
-                stops[1] = start2.AddMinutes(duration2 * percentage / 100);
-            }
-            else
-            {
-                starts[1] = start2.AddMinutes(duration2 - duration2 * percentage / 100); ;
-                stops[1] = start2.AddMinutes(duration2);
-            }
-            if (FiftyFifty())
-            {
-                starts[2] = start3;
-                stops[2] = start3.AddMinutes(duration3 * percentage / 100);
-            }
-            else
-            {
-                starts[2] = start3.AddMinutes(duration3 - duration3 * percentage / 100); ;
-                stops[2] = start3.AddMinutes(duration3);
-            }
-            if (FiftyFifty())
-            {
-                starts[3] = start4;
-                stops[3] = start4.AddMinutes(duration4 * percentage / 100);
-            }
-            else
-            {
-                starts[3] = start4.AddMinutes(duration4 - duration4 * percentage / 100); ;
-                stops[3] = start4.AddMinutes(duration4);
-            }
+            var startChunk1 = start;
+            var startChunk2 = startChunk1.AddMinutes(duration1);
+            var startChunk3 = startChunk2.AddMinutes(duration2);
+            var startChunk4 = startChunk3.AddMinutes(duration3);
+            bool atStart1 = FiftyFifty();
+            bool atStart2 = FiftyFifty();
+            bool atStart3 = FiftyFifty();
+            bool atStart4 = FiftyFifty();
+            var onDuration1 = duration1 * percentage / 100;
+            var onDuration2 = duration2 * percentage / 100;
+            var onDuration3 = duration3 * percentage / 100;
+            var onDuration4 = duration4 * percentage / 100;
+            var start1 = atStart1 ? startChunk1 : startChunk1.AddMinutes(duration1 - onDuration1);
+            var stop1 = atStart1 ? startChunk1.AddMinutes(onDuration1) : startChunk1.AddMinutes(duration1);
+            var start2 = atStart2 ? startChunk2 : startChunk2.AddMinutes(duration2 - onDuration2);
+            var stop2 = atStart2 ? startChunk2.AddMinutes(onDuration2) : startChunk2.AddMinutes(duration3);
+            var start3 = atStart3 ? startChunk3 : startChunk3.AddMinutes(duration3 - onDuration3);
+            var stop3 = atStart3 ? startChunk3.AddMinutes(onDuration3) : startChunk3.AddMinutes(duration1);
+            var start4 = atStart4 ? startChunk4 : startChunk4.AddMinutes(duration4 - onDuration4);
+            var stop4 = atStart4 ? startChunk4.AddMinutes(onDuration4) : startChunk4.AddMinutes(duration1);
 
             //  Add the four random chunks separately
             return new OnPeriod[] {
-                new OnPeriod(starts[0], stops[0]),
-                new OnPeriod(starts[1], stops[1]),
-                new OnPeriod(starts[2], stops[2]),
-                new OnPeriod(starts[3], stops[3]) };
+                new OnPeriod(start1, stop1),
+                new OnPeriod(start2, stop2),
+                new OnPeriod(start3, stop3),
+                new OnPeriod(start4, stop4) };
     }
 }
 
@@ -352,7 +325,38 @@ public class Security
     /// <param name="isReload"></param>
     /// <returns></returns>
     public static bool LoadProfile(
-        int id, 
+        int id,
+        XElement profile,
+        bool isReload = false)
+    {
+        CurrentProfileSchedules = LoadSchedulesForToday(profile.Elements("Schedule"));
+        CurrentSecurityProfileId = id;
+        DateLoaded = DateTime.Now.Date;
+
+        if (!isReload)
+        {
+            InitSchedule();
+
+            if (profile.Attribute("nonpersistent") == null)
+            {
+                DesktopClient.PersistStringInRegistry("SecurityProfile", profile.Attribute("id").Value);
+            }
+        }
+
+        Tick(DateTime.Now);
+
+        logger.Info("Loaded profile {0}", profile.Attribute("name").Value);
+        return true;
+    }
+
+    /// <summary>
+    /// Load the profile anew from the XML file, selecting the appropriate "current" schedule to be used
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="isReload"></param>
+    /// <returns></returns>
+    public static bool LoadProfile(
+        int id,
         bool isReload = false)
     {
         logger.Info("Load profile id {0}", id);
@@ -362,27 +366,37 @@ public class Security
             Zones = LoadZones(doc.Root.Elements("Zone"));
             ZoneStates = new Dictionary<string, string>();
 
-            var profile = doc.Root.Elements("Profile").ElementAt(id);
-
-            CurrentProfileSchedules = LoadSchedulesForToday(profile.Elements("Schedule"));
-
-            if (!isReload)
-            {
-                InitSchedule();
-
-                DesktopClient.PersistStringInRegistry("SecurityProfile", id.ToString()); 
-            }
-
-            CurrentSecurityProfileId = id;
-            DateLoaded = DateTime.Now.Date;
-            Tick(DateTime.Now);
-
-            logger.Info("Loaded profile {0}", profile.Attribute("name").Value);
-            return true;
+            return LoadProfile(id, doc.Root.Elements("Profile").ElementAt(id), isReload);
         }
         catch (Exception ex)
         {
             logger.Error(ex, "Can't load profile");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Load the default profile anew from the XML file, selecting the appropriate "current" schedule to be used
+    /// </summary>
+    /// <param name="isReload"></param>
+    /// <returns></returns>
+    public static bool LoadDefaultProfile(
+        bool isReload = false)
+    {
+        logger.Info("Load default profile");
+        try
+        {
+            var doc = XDocument.Load(@"C:\Avid.Net\Security.xml");
+            Zones = LoadZones(doc.Root.Elements("Zone"));
+            ZoneStates = new Dictionary<string, string>();
+            var allProfiles = doc.Root.Elements("Profile").ToArray();
+            var id = Array.FindIndex(allProfiles, p => p.Attribute("default") != null);
+
+            return LoadProfile(id, allProfiles[id], isReload);
+        }
+        catch (Exception ex)
+        {
+            logger.Error(ex, "Can't load default profile");
             return false;
         }
     }
