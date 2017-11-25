@@ -105,6 +105,10 @@ public class Security
         }
     }
 
+    static Random rnd = new Random();
+    static int SplitDuration(int dur) => rnd.Next(dur / 4, dur - dur / 4);
+    static bool FiftyFifty() => rnd.Next(100) > 50;
+
     /// <summary>
     /// Parse a string as an array of OnPeriod values
     /// </summary>
@@ -132,8 +136,77 @@ public class Security
         //  The stop time can be missing to indicate remaining on indefinitely
         var stop = startStop[1].Length == 0 ? DateTime.MaxValue : DateTime.ParseExact(startStop[1], "HHmm", CultureInfo.InvariantCulture);
 
-        return new OnPeriod[] { new OnPeriod(start, stop) };
+        //  If 100% or the duration is less than 30 mins or there is no stop time, then schedule the entire period
+        if (stop == DateTime.MaxValue || percentage >= 100 || (stop - start).TotalMinutes < 30)
+        {
+            return new OnPeriod[] { new OnPeriod(start, stop) };
+        }
+        else
+        {
+            //  Otherwise split the duration into 4 random(ish) chunks and then schedule randomly either the first or last percentage of each chunk.
+            var durationMins = (int)((stop - start).TotalMinutes);
+            var duration12 = SplitDuration(durationMins);
+            var duration34 = durationMins - duration12;
+            var duration1 = SplitDuration(duration12);
+            var duration2 = duration12 - duration1;
+            var duration3 = SplitDuration(duration34);
+            var duration4 = duration34 - duration3;
+            var start1 = start;
+            var start2 = start1.AddMinutes(duration1);
+            var start3 = start2.AddMinutes(duration2);
+            var start4 = start3.AddMinutes(duration3);
+
+            var starts = new DateTime[4];
+            var stops = new DateTime[4];
+            if (FiftyFifty())
+            {
+                starts[0] = start1;
+                stops[0] = start1.AddMinutes(duration1 * percentage / 100);
+            }
+            else
+            {
+                starts[0] = start1.AddMinutes(duration1 - duration1 * percentage / 100); ;
+                stops[0] = start1.AddMinutes(duration1);
+            }
+            if (FiftyFifty())
+            {
+                starts[1] = start2;
+                stops[1] = start2.AddMinutes(duration2 * percentage / 100);
+            }
+            else
+            {
+                starts[1] = start2.AddMinutes(duration2 - duration2 * percentage / 100); ;
+                stops[1] = start2.AddMinutes(duration2);
+            }
+            if (FiftyFifty())
+            {
+                starts[2] = start3;
+                stops[2] = start3.AddMinutes(duration3 * percentage / 100);
+            }
+            else
+            {
+                starts[2] = start3.AddMinutes(duration3 - duration3 * percentage / 100); ;
+                stops[2] = start3.AddMinutes(duration3);
+            }
+            if (FiftyFifty())
+            {
+                starts[3] = start4;
+                stops[3] = start4.AddMinutes(duration4 * percentage / 100);
+            }
+            else
+            {
+                starts[3] = start4.AddMinutes(duration4 - duration4 * percentage / 100); ;
+                stops[3] = start4.AddMinutes(duration4);
+            }
+
+            //  Add the four random chunks separately
+            return new OnPeriod[] {
+                new OnPeriod(starts[0], stops[0]),
+                new OnPeriod(starts[1], stops[1]),
+                new OnPeriod(starts[2], stops[2]),
+                new OnPeriod(starts[3], stops[3]) };
     }
+}
 
     /// <summary>
     /// Pare the scedule for a zone, which can be "on", "off", empty or a (comma separated) sequence of OnPeriod encodings
