@@ -101,7 +101,7 @@ public class Security
         }
         catch (Exception ex)
         {
-            logger.Error(ex,"Failed to initialize");
+            logger.Error(ex,"Failed to initialize: {0}", ex.ToString());
         }
     }
 
@@ -125,16 +125,36 @@ public class Security
         {
             var enc1 = encoding.Trim('%').Split('@');
             range = enc1[0];
-            percentage = Int32.Parse(enc1[1]);
+            if (enc1.Length == 2)
+            {
+                if (!Int32.TryParse(enc1[1], out percentage))
+                {
+                    logger.Error("Can't parse schedule: {0}", encoding);
+                }
+            }
         }
         else
         {
             range = encoding;
         }
         var startStop = range.Split('-');
-        var start = DateTime.ParseExact(startStop[0], "HHmm", CultureInfo.InvariantCulture);
+        if (startStop.Length != 2)
+        {
+            logger.Error("Can't parse schedule: {0}", encoding);
+            return new OnPeriod[0];
+        }
+        DateTime start, stop = DateTime.MaxValue;
+        if (!DateTime.TryParseExact(startStop[0], "HHmm", CultureInfo.InvariantCulture, DateTimeStyles.None, out start))
+        {
+            logger.Error("Can't parse schedule: {0}", encoding);
+            return new OnPeriod[0];
+        }
         //  The stop time can be missing to indicate remaining on indefinitely
-        var stop = startStop[1].Length == 0 ? DateTime.MaxValue : DateTime.ParseExact(startStop[1], "HHmm", CultureInfo.InvariantCulture);
+        if (startStop[1].Length > 0 && !DateTime.TryParseExact(startStop[1], "HHmm", CultureInfo.InvariantCulture, DateTimeStyles.None, out stop))
+        {
+            logger.Error("Can't parse schedule: {0}", encoding);
+            return new OnPeriod[0];
+        }
 
         //  If 100% or the duration is less than 30 mins or there is no stop time, then schedule the entire period
         if (stop == DateTime.MaxValue || percentage >= 100 || (stop - start).TotalMinutes < 30)
@@ -299,7 +319,7 @@ public class Security
 
         foreach (var zoneKV in CurrentProfileSchedules.zoneSchedules)
         {
-            if (zoneKV.Value.initiallyOn)
+            if (zoneKV.Value.initiallyOn && Zones.ContainsKey(zoneKV.Key))
             {
                 foreach (Device d in Zones[zoneKV.Key])
                 {
@@ -307,7 +327,7 @@ public class Security
                 }
                 ZoneStates[zoneKV.Key] = "on";
             }
-            if (zoneKV.Value.initiallyOff)
+            if (zoneKV.Value.initiallyOff && Zones.ContainsKey(zoneKV.Key))
             {
                 foreach (Device d in Zones[zoneKV.Key])
                 {
@@ -324,7 +344,7 @@ public class Security
     /// <param name="id"></param>
     /// <param name="isReload"></param>
     /// <returns></returns>
-    public static bool LoadProfile(
+    static bool LoadProfile(
         int id,
         XElement profile,
         bool isReload = false)
@@ -350,7 +370,19 @@ public class Security
     }
 
     /// <summary>
-    /// Load the profile anew from the XML file, selecting the appropriate "current" schedule to be used
+    /// Load all profiles into an array for easy id checking and profile selection
+    /// </summary>
+    /// <returns></returns>
+    static XElement[] MakeProfileArray()
+    {
+        var doc = XDocument.Load(@"C:\Avid.Net\Security.xml");
+        Zones = LoadZones(doc.Root.Elements("Zone"));
+        ZoneStates = new Dictionary<string, string>();
+        return doc.Root.Elements("Profile").ToArray();
+    }
+
+    /// <summary>
+    /// Load the profile selected by id from the XML file, selecting the appropriate "current" schedule to be used
     /// </summary>
     /// <param name="id"></param>
     /// <param name="isReload"></param>
@@ -362,15 +394,13 @@ public class Security
         logger.Info("Load profile id {0}", id);
         try
         {
-            var doc = XDocument.Load(@"C:\Avid.Net\Security.xml");
-            Zones = LoadZones(doc.Root.Elements("Zone"));
-            ZoneStates = new Dictionary<string, string>();
+            var allProfiles = MakeProfileArray();
 
-            return LoadProfile(id, doc.Root.Elements("Profile").ElementAt(id), isReload);
+            return id < 0 || id >= allProfiles .Length ? false : LoadProfile(id, allProfiles[id], isReload);
         }
         catch (Exception ex)
         {
-            logger.Error(ex, "Can't load profile");
+            logger.Error(ex, "Can't load profile: {0}", ex.ToString());
             return false;
         }
     }
@@ -386,17 +416,14 @@ public class Security
         logger.Info("Load default profile");
         try
         {
-            var doc = XDocument.Load(@"C:\Avid.Net\Security.xml");
-            Zones = LoadZones(doc.Root.Elements("Zone"));
-            ZoneStates = new Dictionary<string, string>();
-            var allProfiles = doc.Root.Elements("Profile").ToArray();
+            var allProfiles = MakeProfileArray();
             var id = Array.FindIndex(allProfiles, p => p.Attribute("default") != null);
 
-            return LoadProfile(id, allProfiles[id], isReload);
+            return id < 0 ? false : LoadProfile(id, allProfiles[id], isReload);
         }
         catch (Exception ex)
         {
-            logger.Error(ex, "Can't load default profile");
+            logger.Error(ex, "Can't load default profile: {0}", ex.ToString());
             return false;
         }
     }
@@ -475,13 +502,13 @@ public class Security
                 }
                 catch (Exception ex)
                 {
-                    logger.Error(ex, "Can't schedule Radio");
+                    logger.Error(ex, "Can't schedule Radio: {0}", ex.ToString());
                 }
             }
 
             foreach (var zoneKV in CurrentProfileSchedules.zoneSchedules)
             {
-                if (zoneKV.Value.onPeriods.Length != 0)
+                if (zoneKV.Value.onPeriods.Length != 0 && Zones.ContainsKey(zoneKV.Key))
                 {
                     try
                     {
@@ -506,7 +533,7 @@ public class Security
                     }
                     catch (Exception ex)
                     {
-                        logger.Error(ex, "Can't schedule Zone {0}", zoneKV.Key);
+                        logger.Error(ex, "Can't schedule Zone {0}: {1}", zoneKV.Key, ex.ToString());
                     }
                 }
             }

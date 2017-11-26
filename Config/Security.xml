@@ -58,7 +58,7 @@
             <Zone name="Hall" power="on" />
         </Schedule>
     </Profile>
-    <Profile name="Hall Light off" description="witch off Hall light only" nonpersistent="yes"> 
+    <Profile name="Hall Light off" description="Switch off Hall light only" nonpersistent="yes"> 
         <Schedule>
             <Zone name="Hall" power="off" />
         </Schedule>
