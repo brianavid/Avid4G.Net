@@ -93,9 +93,15 @@ public class Security
             //  This makes the secuity cycling persist acrosss web app restarts and even power failures.
             RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Avid");
             var securityProfileId = key.GetValue("SecurityProfile") as string;
-            if (securityProfileId != null)
+            if (securityProfileId == null)
             {
-                LoadProfile(Int32.Parse(securityProfileId), true);
+                key = Registry.LocalMachine.OpenSubKey(@"Software\WOW6432Node\Avid");
+                securityProfileId = key.GetValue("SecurityProfile") as string;
+            }
+
+            if (securityProfileId != null)
+                {
+                    LoadProfile(Int32.Parse(securityProfileId), true);
             }
 
         }
@@ -359,7 +365,7 @@ public class Security
 
             if (profile.Attribute("nonpersistent") == null)
             {
-                DesktopClient.PersistStringInRegistry("SecurityProfile", profile.Attribute("id").Value);
+                DesktopClient.PersistStringInRegistry("SecurityProfile", id.ToString());
             }
         }
 
