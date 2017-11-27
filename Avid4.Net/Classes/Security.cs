@@ -43,7 +43,7 @@ public class Security
     {
         internal bool initiallyOn;
         internal bool initiallyOff;
-        internal OnPeriod[] onPeriods;
+        internal List<OnPeriod> onPeriods;
     }
 
     /// <summary>
@@ -111,10 +111,6 @@ public class Security
         }
     }
 
-    static Random rnd = new Random();
-    static int SplitDuration(int dur) => rnd.Next(dur / 4, dur - dur / 4);
-    static bool FiftyFifty() => rnd.Next(100) > 50;
-
     /// <summary>
     /// Parse a string as an array of OnPeriod values
     /// </summary>
@@ -123,7 +119,7 @@ public class Security
     /// </remarks>
     /// <param name="encoding"></param>
     /// <returns></returns>
-    static OnPeriod[] ParseOnPeriod(string encoding)
+    static List<OnPeriod> ParseOnPeriod(string encoding)
     {
         string range;
         var percentage = 100;
@@ -147,65 +143,70 @@ public class Security
         if (startStop.Length != 2)
         {
             logger.Error("Can't parse schedule: {0}", encoding);
-            return new OnPeriod[0];
+            return new List<OnPeriod>();
         }
         DateTime start, stop = DateTime.MaxValue;
         if (!DateTime.TryParseExact(startStop[0], "HHmm", CultureInfo.InvariantCulture, DateTimeStyles.None, out start))
         {
             logger.Error("Can't parse schedule: {0}", encoding);
-            return new OnPeriod[0];
+            return new List<OnPeriod>();
         }
         //  The stop time can be missing to indicate remaining on indefinitely
         if (startStop[1].Length > 0 && !DateTime.TryParseExact(startStop[1], "HHmm", CultureInfo.InvariantCulture, DateTimeStyles.None, out stop))
         {
             logger.Error("Can't parse schedule: {0}", encoding);
-            return new OnPeriod[0];
+            return new List<OnPeriod>();
         }
 
-        //  If 100% or the duration is less than 30 mins or there is no stop time, then schedule the entire period
-        if (stop == DateTime.MaxValue || percentage >= 100 || (stop - start).TotalMinutes < 30)
-        {
-            return new OnPeriod[] { new OnPeriod(start, stop) };
-        }
-        else
-        {
-            //  Otherwise split the duration into 4 random(ish) chunks and then schedule randomly either the first or last percentage of each chunk.
-            var durationMins = (int)((stop - start).TotalMinutes);
-            var duration12 = SplitDuration(durationMins);
-            var duration34 = durationMins - duration12;
-            var duration1 = SplitDuration(duration12);
-            var duration2 = duration12 - duration1;
-            var duration3 = SplitDuration(duration34);
-            var duration4 = duration34 - duration3;
-            var startChunk1 = start;
-            var startChunk2 = startChunk1.AddMinutes(duration1);
-            var startChunk3 = startChunk2.AddMinutes(duration2);
-            var startChunk4 = startChunk3.AddMinutes(duration3);
-            bool atStart1 = FiftyFifty();
-            bool atStart2 = FiftyFifty();
-            bool atStart3 = FiftyFifty();
-            bool atStart4 = FiftyFifty();
-            var onDuration1 = duration1 * percentage / 100;
-            var onDuration2 = duration2 * percentage / 100;
-            var onDuration3 = duration3 * percentage / 100;
-            var onDuration4 = duration4 * percentage / 100;
-            var start1 = atStart1 ? startChunk1 : startChunk1.AddMinutes(duration1 - onDuration1);
-            var stop1 = atStart1 ? startChunk1.AddMinutes(onDuration1) : startChunk1.AddMinutes(duration1);
-            var start2 = atStart2 ? startChunk2 : startChunk2.AddMinutes(duration2 - onDuration2);
-            var stop2 = atStart2 ? startChunk2.AddMinutes(onDuration2) : startChunk2.AddMinutes(duration2);
-            var start3 = atStart3 ? startChunk3 : startChunk3.AddMinutes(duration3 - onDuration3);
-            var stop3 = atStart3 ? startChunk3.AddMinutes(onDuration3) : startChunk3.AddMinutes(duration3);
-            var start4 = atStart4 ? startChunk4 : startChunk4.AddMinutes(duration4 - onDuration4);
-            var stop4 = atStart4 ? startChunk4.AddMinutes(onDuration4) : startChunk4.AddMinutes(duration4);
+        var durationMins = (int)((stop - start).TotalMinutes);
 
-            //  Add the four random chunks separately
-            return new OnPeriod[] {
-                new OnPeriod(start1, stop1),
-                new OnPeriod(start2, stop2),
-                new OnPeriod(start3, stop3),
-                new OnPeriod(start4, stop4) };
+        //  If 100% or there is no stop time, then schedule the entire period
+        if (stop == DateTime.MaxValue || percentage >= 100)
+        {
+            return new List<OnPeriod> { new OnPeriod(start, stop) };
+        }
+
+        Random rnd = new Random();
+        int SplitDuration(int dur) => rnd.Next(dur / 4, dur - dur / 4);
+        List<OnPeriod> PercentageOfTimeSpan(
+            DateTime chunkStart,
+            int chunkDuration)
+        {
+            var randomStart = rnd.Next(chunkDuration);
+            var randomEnd = (randomStart + chunkDuration * percentage / 100) % chunkDuration;
+            if (randomEnd == 0)
+                return new List<OnPeriod> { new OnPeriod(chunkStart.AddMinutes(randomStart), chunkStart.AddMinutes(chunkDuration)) };
+            if (randomEnd > randomStart)
+                return new List<OnPeriod> { new OnPeriod(chunkStart.AddMinutes(randomStart), chunkStart.AddMinutes(randomEnd)) };
+            return new List<OnPeriod> { new OnPeriod(chunkStart, chunkStart.AddMinutes(randomEnd)), new OnPeriod(chunkStart.AddMinutes(randomStart), chunkStart.AddMinutes(chunkDuration)) };
+        }
+
+        if (durationMins < 30)
+        {
+            //  If the duration is less than 30 mins return one chunk only
+            return PercentageOfTimeSpan(start, durationMins);
+        }
+
+        //  Otherwise split the duration into 4 random(ish) chunks and then schedule randomly one or two times totalling the percentage
+        var duration12 = SplitDuration(durationMins);
+        var duration34 = durationMins - duration12;
+        var duration1 = SplitDuration(duration12);
+        var duration2 = duration12 - duration1;
+        var duration3 = SplitDuration(duration34);
+        var duration4 = duration34 - duration3;
+
+        var start1 = start;
+        var start2 = start1.AddMinutes(duration1);
+        var start3 = start2.AddMinutes(duration2);
+        var start4 = start3.AddMinutes(duration3);
+
+        var chunk1 = PercentageOfTimeSpan(start1, duration1);
+        var chunk2 = PercentageOfTimeSpan(start2, duration2);
+        var chunk3 = PercentageOfTimeSpan(start3, duration3);
+        var chunk4 = PercentageOfTimeSpan(start4, duration4);
+
+        return chunk1.Concat(chunk2).Concat(chunk3).Concat(chunk4).ToList();
     }
-}
 
     /// <summary>
     /// Pare the scedule for a zone, which can be "on", "off", empty or a (comma separated) sequence of OnPeriod encodings
@@ -241,7 +242,7 @@ public class Security
         {
             initiallyOn = initiallyOn,
             initiallyOff = initiallyOff,
-            onPeriods = schedulePeriods.SelectMany(sp => ParseOnPeriod(sp)).ToArray()
+            onPeriods = schedulePeriods.SelectMany(sp => ParseOnPeriod(sp)).ToList()
         };
     }
 
@@ -457,7 +458,7 @@ public class Security
         var dict = new Dictionary<String, IEnumerable<OnPeriod>>();
         if (CurrentProfileSchedules != null)
         {
-            if (CurrentProfileSchedules.radioSchedule != null && CurrentProfileSchedules.radioSchedule.onPeriods.Length != 0)
+            if (CurrentProfileSchedules.radioSchedule != null && CurrentProfileSchedules.radioSchedule.onPeriods.Count != 0)
             {
                 dict.Add("Radio", CurrentProfileSchedules.radioSchedule.onPeriods);
             }
@@ -465,7 +466,7 @@ public class Security
 
         foreach (var zoneKV in CurrentProfileSchedules.zoneSchedules)
         {
-            if (zoneKV.Value.onPeriods.Length != 0)
+            if (zoneKV.Value.onPeriods.Count != 0)
             {
                 dict.Add(zoneKV.Key, zoneKV.Value.onPeriods);
 
@@ -489,7 +490,7 @@ public class Security
                 LoadProfile(CurrentSecurityProfileId, true);
             }
 
-            if (CurrentProfileSchedules.radioSchedule.onPeriods.Length != 0)
+            if (CurrentProfileSchedules.radioSchedule.onPeriods.Count != 0)
             {
                 try
                 {
@@ -514,7 +515,7 @@ public class Security
 
             foreach (var zoneKV in CurrentProfileSchedules.zoneSchedules)
             {
-                if (zoneKV.Value.onPeriods.Length != 0 && Zones.ContainsKey(zoneKV.Key))
+                if (zoneKV.Value.onPeriods.Count != 0 && Zones.ContainsKey(zoneKV.Key))
                 {
                     try
                     {
@@ -552,7 +553,7 @@ public class Security
     /// <param name="when"></param>
     /// <param name="onPeriods"></param>
     /// <returns></returns>
-    static bool TestIfOn(DateTime when, OnPeriod[] onPeriods)
+    static bool TestIfOn(DateTime when, List<OnPeriod> onPeriods)
     {
         foreach (var onPeriod in onPeriods)
         {
