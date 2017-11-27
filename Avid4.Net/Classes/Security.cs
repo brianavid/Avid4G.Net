@@ -192,11 +192,11 @@ public class Security
             var start1 = atStart1 ? startChunk1 : startChunk1.AddMinutes(duration1 - onDuration1);
             var stop1 = atStart1 ? startChunk1.AddMinutes(onDuration1) : startChunk1.AddMinutes(duration1);
             var start2 = atStart2 ? startChunk2 : startChunk2.AddMinutes(duration2 - onDuration2);
-            var stop2 = atStart2 ? startChunk2.AddMinutes(onDuration2) : startChunk2.AddMinutes(duration3);
+            var stop2 = atStart2 ? startChunk2.AddMinutes(onDuration2) : startChunk2.AddMinutes(duration2);
             var start3 = atStart3 ? startChunk3 : startChunk3.AddMinutes(duration3 - onDuration3);
-            var stop3 = atStart3 ? startChunk3.AddMinutes(onDuration3) : startChunk3.AddMinutes(duration1);
+            var stop3 = atStart3 ? startChunk3.AddMinutes(onDuration3) : startChunk3.AddMinutes(duration3);
             var start4 = atStart4 ? startChunk4 : startChunk4.AddMinutes(duration4 - onDuration4);
-            var stop4 = atStart4 ? startChunk4.AddMinutes(onDuration4) : startChunk4.AddMinutes(duration1);
+            var stop4 = atStart4 ? startChunk4.AddMinutes(onDuration4) : startChunk4.AddMinutes(duration4);
 
             //  Add the four random chunks separately
             return new OnPeriod[] {
