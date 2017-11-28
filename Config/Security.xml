@@ -22,7 +22,7 @@
             <Zone name="Dining Room Lamp" power="off" />
         </Schedule>
     </Profile>
-    <Profile name="Out for the Day" description="Security for the day, expecting to be back tonight"> 
+    <Profile name="Out for the Day" description="Security for the day, expecting to be back tonight" default="yes"> 
         <Schedule>
             <Radio power="on" />
             <Zone name="Hall" power="1630-" />
@@ -30,7 +30,7 @@
             <Zone name="Sitting Room Lamp" power="1700-2230@80%" />
         </Schedule>
     </Profile>
-    <Profile name="Away on a trip" description="Security when away on a trip" default="yes"> 
+    <Profile name="Away on a trip" description="Security when away on a trip"> 
         <Schedule days="Mon,Tue,Thu,Fri">
             <Radio power="0800-1200,1600-2300" />
             <Zone name="Hall" power="0700-1000@30%,1630-2359@30%" />

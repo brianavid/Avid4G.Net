@@ -76,28 +76,6 @@ namespace Avid4.Net.Controllers
             return Content("OK");
         }
 
-        // GET: /Action/Security
-        public ActionResult Security(
-            string state)
-        {
-            if (state != "running")
-            {
-                Running.ExitAllPrograms();
-                DesktopClient.SendSpecialkey("ClearDesktop");
-                Receiver.Security();
-                Response.AppendHeader("refresh",
-                    String.Format("10; URL={0}", VirtualPathUtility.ToAbsolute("~/Action/Security?state=running")));
-            }
-            ViewBag.Running = (state == "running");
-            return View("Security");
-        }
-
-        // GET: /Action/SecurityRetry
-        public ActionResult SecurityRetry()
-        {
-            return View("SecurityRetry");
-        }
-
 #if USE_SKY_STB
         // GET: /Action/StartSky
         public ActionResult StartSky(

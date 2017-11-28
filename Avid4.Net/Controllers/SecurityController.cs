@@ -70,10 +70,22 @@ namespace Avid4.Net.Controllers
             return Content("OK");
         }
 
+        // GET: Security/Away
+        public ActionResult Away()
+        {
+            Security.LoadDefaultProfile();
+            return View();
+        }
+
         // GET: Security/GetSchedule
         public ActionResult GetSchedule()
         {
             return View();
+        }
+
+        public ActionResult IsDefault()
+        {
+            return Content(Security.IsDefaultProfile() ? "Yes" : "No");
         }
     }
 }

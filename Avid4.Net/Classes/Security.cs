@@ -77,7 +77,10 @@ public class Security
 
     }
 
+    public static Dictionary<string, String> ZoneConfig { get; private set; }
+
     static int CurrentSecurityProfileId;
+    static bool CurrentProfileIsDefault;
     static Schedules CurrentProfileSchedules;
     static Dictionary<string, IEnumerable<Device>> Zones;
     static Dictionary<string, String> ZoneStates;
@@ -213,7 +216,9 @@ public class Security
     /// </summary>
     /// <param name="encoding"></param>
     /// <returns></returns>
-    static Schedule ParseSchedule(string encoding)
+    static Schedule ParseSchedule(
+        string zoneName,
+        string encoding)
     {
         var initiallyOn = false;
         var initiallyOff = false;
@@ -235,6 +240,7 @@ public class Security
         }
         else
         {
+            ZoneConfig[zoneName] = encoding;
             schedulePeriods = encoding.Split(',');
         }
 
@@ -253,11 +259,12 @@ public class Security
     /// <returns></returns>
     static Schedules LoadSchedules(XElement elSchedule)
     {
+        ZoneConfig = new Dictionary<string, string>();
         var elRadio = elSchedule.Element("Radio");
         var elZones = elSchedule.Elements("Zone");
 
-        var radioSchedule = ParseSchedule(elRadio == null ? "" : elRadio.Attribute("power").Value);
-        var zoneSchedules = elZones.ToDictionary(z => z.Attribute("name").Value, z => ParseSchedule(z.Attribute("power").Value));
+        var radioSchedule = ParseSchedule("Radio", elRadio == null ? "" : elRadio.Attribute("power").Value);
+        var zoneSchedules = elZones.ToDictionary(z => z.Attribute("name").Value, z => ParseSchedule(z.Attribute("name").Value, z.Attribute("power").Value));
 
         return new Schedules {
             radioSchedule = radioSchedule,
@@ -358,6 +365,7 @@ public class Security
     {
         CurrentProfileSchedules = LoadSchedulesForToday(profile.Elements("Schedule"));
         CurrentSecurityProfileId = id;
+        CurrentProfileIsDefault = profile.Attribute("default") != null;
         DateLoaded = DateTime.Now.Date;
 
         if (!isReload)
@@ -474,6 +482,11 @@ public class Security
         }
 
         return dict;
+    }
+
+    public static bool IsDefaultProfile()
+    {
+        return CurrentProfileSchedules != null && CurrentProfileIsDefault;
     }
 
     /// <summary>

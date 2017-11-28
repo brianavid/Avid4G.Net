@@ -1,15 +1,13 @@
-﻿@Html.Partial("TopBar")
+﻿<div id="topBarTitle" style="display:none">@ViewBag.Title</div>
 @section scripts {
-    @Html.Raw(Render.Script("topBar", Request))
     @Html.Raw(Render.Script("security", Request))
+    <script>CheckUsingDefaultProfileWhenFocussed(window)</script>
 }
 
-
-<div class="securityProfileItems">
+<div class="securitySchedule">
     @foreach (var zone in Security.GetCurrentSchedule())
     {
         <p>@(zone.Key) @{String config; if (Security.ZoneConfig.TryGetValue(zone.Key, out config)) { <span>@config</span>} }</p>
-
         <ul>
             @foreach (var period in zone.Value)
             {
