@@ -200,13 +200,13 @@ textarea {
     margin-left:5%;
 }
 
-.musicPlaybackQueueItems, .musicBrowserItems, .webBrowserItems, .guideBrowserItems, .guideChannels, .guideDates, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .photosImagesGrid, .photosBrowserItems, .rokuBrowserItems, .tvButtons, .tvChannels, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoVideos, .videoDvds, .securityProfileItems {
+.musicPlaybackQueueItems, .musicBrowserItems, .webBrowserItems, .guideBrowserItems, .guideChannels, .guideDates, .spotifyPlaybackQueueItems, .spotifyBrowserItems, .photosImagesGrid, .photosBrowserItems, .rokuBrowserItems, .tvButtons, .tvChannels, .skyButtons, .skyChannels, .skyRecordings, .videoRecordings, .videoVideos, .videoDvds, .securityProfileItems, .securityZoneItems, .securityScheduleItems {
     position: relative;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
 }
 
-.musicPlaybackQueueItem, .musicBrowserItem, .webBrowserItem, .guideItem, .spotifyPlaybackQueueItem, .spotifyBrowserItem, .photosBrowserItem, .rokuBrowserItem, .tvChannel, .skyChannel, .skyRecording, .skyRecordingGroup, .skyProgramme, .skyRecordingAction, .videoRecording, .videoRecordingGroup, .videoDvd, .videoRecordingAction, .actionMenuItem, .securityProfileItem {
+.musicPlaybackQueueItem, .musicBrowserItem, .webBrowserItem, .guideItem, .spotifyPlaybackQueueItem, .spotifyBrowserItem, .photosBrowserItem, .rokuBrowserItem, .tvChannel, .skyChannel, .skyRecording, .skyRecordingGroup, .skyProgramme, .skyRecordingAction, .videoRecording, .videoRecordingGroup, .videoDvd, .videoRecordingAction, .actionMenuItem, .securityProfileItem, .securityZoneItem {
     width: 100%;
     border-width: thin;
     border-color: #3a5069;
@@ -214,7 +214,7 @@ textarea {
     border-bottom-style: solid;
 }
 
-.musicPlaybackQueueTitle, .musicBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .rokuBrowserTitle, .tvChannelName, .skyChannelName, .skyProgrammeName, .skyRecordingName, .skyRecordingAction, .videoRecordingName, .videoRecordingAction, .webBrowserTitle, .guideTitle, .actionMenuItem, .securityProfileName {
+.musicPlaybackQueueTitle, .musicBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .rokuBrowserTitle, .tvChannelName, .skyChannelName, .skyProgrammeName, .skyRecordingName, .skyRecordingAction, .videoRecordingName, .videoRecordingAction, .webBrowserTitle, .guideTitle, .actionMenuItem, .securityProfileName, .securityZoneName {
     color: #3a5069;
     display: block;
     padding-right: 0;
@@ -222,7 +222,7 @@ textarea {
     font-size: 1.2em;
 }
 
-.musicPlaybackQueueTitle, .musicBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .tvChannelName, .skyChannelName, .skyProgrammeName, .skyRecordingName, .skyRecordingAction, .videoRecordingName, .videoRecordingAction, .webBrowserTitle, .actionMenuItem {
+.musicPlaybackQueueTitle, .musicBrowserTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .tvChannelName, .skyChannelName, .skyProgrammeName, .skyRecordingName, .skyRecordingAction, .videoRecordingName, .videoRecordingAction, .webBrowserTitle, .actionMenuItem, .securityZoneItem {
     clear: both;
 }
 
@@ -230,7 +230,7 @@ textarea {
     background-color:#DDD;
 }
 
-.musicPlaybackQueueTitle, .musicBrowserTitle, .webBrowserTitle, .guideTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .rokuBrowserTitle, .skyRecordingAction, .actionMenuItem, .videoDvd, .videoRecordingAction, .tvPlayingInfo, .securityProfileItem {
+.musicPlaybackQueueTitle, .musicBrowserTitle, .webBrowserTitle, .guideTitle, .spotifyPlaybackQueueTitle, .spotifyBrowserTitle, .photosBrowserTitle, .rokuBrowserTitle, .skyRecordingAction, .actionMenuItem, .videoDvd, .videoRecordingAction, .tvPlayingInfo, .securityProfileItem, .securityZoneName {
     padding-top: 10px;
     padding-bottom: 10px;
 }
@@ -443,7 +443,7 @@ textarea {
 }
 
 
-.tvProgrammeRecord, .guideEpgProgrammeRecord, .guideEpgProgrammeRecordSeries, .guideEpgProgrammeCancel, .guideEpgSeriesCancel, #remoteExit {
+.tvProgrammeRecord, .guideEpgProgrammeRecord, .guideEpgProgrammeRecordSeries, .guideEpgProgrammeCancel, .guideEpgSeriesCancel, #remoteExit, .securityZoneOn, .securityZoneOff {
     float: right;
 }
 

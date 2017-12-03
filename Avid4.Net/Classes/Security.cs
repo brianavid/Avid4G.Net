@@ -577,4 +577,30 @@ public class Security
         }
         return false;
     }
+
+    public static IEnumerable<String> GetZoneNames()
+    {
+        return Zones.Keys;
+    }
+
+    public static void TurnZoneOn(
+        string name)
+    {
+        foreach (Device d in Zones[name])
+        {
+            TP_Link.TurnOn(d.ipAddress, d.name, d.isSocket);
+        }
+        ZoneStates[name] = "on";
+    }
+
+    public static void TurnZoneOff(
+        string name)
+    {
+        foreach (Device d in Zones[name])
+        {
+            TP_Link.TurnOff(d.ipAddress, d.name, d.isSocket);
+        }
+        ZoneStates[name] = "off";
+    }
 }
+

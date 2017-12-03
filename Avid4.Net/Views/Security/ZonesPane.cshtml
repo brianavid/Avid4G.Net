@@ -1,0 +1,12 @@
+﻿<div class="securityZoneItems">
+    @foreach (var zone in Security.GetZoneNames())
+    {
+        <div class="securityZoneItem" id="@zone">
+            <img class="securityZoneOn startHidden" id="@zone" src="/Content/Buttons/SmallRound/ThumbsUp.png" />
+            <img class="securityZoneOff startHidden" id="@zone" src="/Content/Buttons/SmallRound/ThumbsDown.png" />
+            <div class="securityZoneName">
+                @zone
+            </div>
+        </div>
+    }
+</div>

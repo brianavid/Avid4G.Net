@@ -73,14 +73,49 @@ namespace Avid4.Net.Controllers
         // GET: Security/Away
         public ActionResult Away()
         {
-            Security.LoadDefaultProfile();
             return View();
+        }
+
+        // GET: Security/AwayToday
+        public ActionResult AwayToday()
+        {
+            Security.LoadProfile(1);
+            return View("Away");
+        }
+
+        // GET: Security/AwayTrip
+        public ActionResult AwayTrip()
+        {
+            Security.LoadProfile(2);
+            return View("Away");
         }
 
         // GET: Security/GetSchedule
         public ActionResult GetSchedule()
         {
             return View();
+        }
+
+        // GET: Security/GetZones
+        public ActionResult GetZones()
+        {
+            return View();
+        }
+
+        // GET: Security/TurnZoneOn
+        public ActionResult TurnZoneOn(
+            string id)
+        {
+            Security.TurnZoneOn(id);
+            return Content("OK");
+        }
+
+        // GET: Security/TurnZoneOff
+        public ActionResult TurnZoneOff(
+            string id)
+        {
+            Security.TurnZoneOff(id);
+            return Content("OK");
         }
 
         public ActionResult IsDefault()

@@ -1,0 +1,14 @@
+﻿<div class="securityScheduleItems">
+    @foreach (var zone in Security.GetCurrentSchedule())
+    {
+        <p>@(zone.Key) @{String config; if (Security.ZoneConfig.TryGetValue(zone.Key, out config))
+            { <span>@config</span>} }</p>
+
+            <ul>
+                @foreach (var period in zone.Value)
+                {
+                    <li>@(period.StartTime.ToShortTimeString())-@(period.StartTime.Date == DateTime.Now.Date ? period.StopTime.ToShortTimeString() : "")</li>
+                }
+            </ul>
+            }
+</div>

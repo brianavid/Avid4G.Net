@@ -1,0 +1,10 @@
+﻿<div class="securityProfileItems">
+    @foreach (var profile in Security.GetProfiles())
+    {
+        <div class="securityProfileItem" id="@profile.Id">
+            <div class="securityProfileName">@profile.Name</div>
+            <div class="securityProfileDescription">@profile.Description</div>
+        </div>
+    }
+</div>
+
