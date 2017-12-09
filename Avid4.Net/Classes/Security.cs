@@ -466,18 +466,19 @@ public class Security
         var dict = new Dictionary<String, IEnumerable<OnPeriod>>();
         if (CurrentProfileSchedules != null)
         {
-            if (CurrentProfileSchedules.radioSchedule != null && CurrentProfileSchedules.radioSchedule.onPeriods.Count != 0)
+            if (CurrentProfileSchedules.radioSchedule != null && 
+                (CurrentProfileSchedules.radioSchedule.initiallyOn || CurrentProfileSchedules.radioSchedule.onPeriods.Count != 0))
             {
                 dict.Add("Radio", CurrentProfileSchedules.radioSchedule.onPeriods);
             }
-        }
 
-        foreach (var zoneKV in CurrentProfileSchedules.zoneSchedules)
-        {
-            if (zoneKV.Value.onPeriods.Count != 0)
+            foreach (var zoneKV in CurrentProfileSchedules.zoneSchedules)
             {
-                dict.Add(zoneKV.Key, zoneKV.Value.onPeriods);
+                if (zoneKV.Value.initiallyOn || zoneKV.Value.onPeriods.Count != 0)
+                {
+                    dict.Add(zoneKV.Key, zoneKV.Value.onPeriods);
 
+                }
             }
         }
 
