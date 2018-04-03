@@ -11,7 +11,7 @@
         <Device name="Lamp Plug 1" ip="192.168.1.140" type="socket" />
     </Zone>
     <Zone name="Dining Room Lamp">
-        <Device name="Lamp Plug 2" ip="192.168.1.146" type="socket" />
+        <Device name="Lamp Plug 2" ip="192.168.1.148" type="socket" />
     </Zone>
     <Profile name="All Off" description="Turn all security lighting off"> 
         <Schedule>
@@ -53,23 +53,6 @@
             <Zone name="Dining Room Lamp" power="1700-2230@60%" />
         </Schedule>
     </Profile>
-    <Profile name="Hall Light on" description="Switch on Hall light only" nonpersistent="yes"> 
-        <Schedule>
-            <Zone name="Hall" power="on" />
-        </Schedule>
-    </Profile>
-    <Profile name="Hall Light off" description="Switch off Hall light only" nonpersistent="yes"> 
-        <Schedule>
-            <Zone name="Hall" power="off" />
-        </Schedule>
-    </Profile>
-    <!--Profile name="Odd Hours" description="Testing only"> 
-        <Schedule days="Fri,Sat">
-            <Zone name="Sitting Room Lamp" power="1100-1200,1300-1400,1500-1600,1700-1800,1900-2000" />
-        </Schedule>
-        <Schedule>
-            <Zone name="Sitting Room Lamp" power="1100-1200,1300-1400,1500-1600,1700-1800,1900-2000" />
-        </Schedule>
-    </Profile-->
+
 
 </Security>
