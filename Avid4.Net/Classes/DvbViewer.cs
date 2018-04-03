@@ -193,6 +193,7 @@ public class DvbViewer
     {
         public String Id { get; private set; }
         public String Name { get; private set; }
+        public Boolean WeakNaming { get; private set; }
         public Channel Channel { get; private set; }
         public DateTime StartTime { get; private set; }
         public DateTime StartTimeLow { get; private set; }
@@ -211,6 +212,7 @@ public class DvbViewer
             try
             {
                 Id = xSeries.Attribute("Id").Value;
+                WeakNaming = xSeries.Attribute("Weak") != null;
                 Name = xSeries.Attribute("Name").Value;
                 Channel = NamedChannel(xSeries.Attribute("Channel").Value);
                 StartTime = DateTime.ParseExact(xSeries.Attribute("StartTime").Value,
@@ -234,6 +236,7 @@ public class DvbViewer
         {
             Id = id;
             Name = name;
+            WeakNaming = false;
             Channel = channel;
             StartTime = startTime;
             var prePad = Math.Min(startTime.Hour * 60 + startTime.Minute, PreWindowMinutes);
@@ -281,6 +284,7 @@ public class DvbViewer
                 return new XElement("Series",
                     new XAttribute("Id", Id),
                     new XAttribute("Name", Name),
+                    WeakNaming ? new XAttribute("Weak", "Yes") : null,
                     new XAttribute("Channel", Channel.Name),
                     new XAttribute("StartTime", StartTime.ToString(Format)),
                     new XAttribute("StartTimeLow", StartTimeLow.ToString(Format)),
@@ -848,7 +852,9 @@ public class DvbViewer
         Series series)
     {
         return
-            programme.Title == series.Name &&
+            (series.WeakNaming ?
+                programme.Title.ToLower().Contains(series.Name.ToLower()) :
+                programme.Title == series.Name) &&
             programme.StartTime.DayOfWeek == series.StartTime.DayOfWeek &&
             programme.StartTime.TimeOfDay >= series.StartTimeLow.TimeOfDay &&
             (series.StartTimeLow.TimeOfDay > series.StartTimeHigh.TimeOfDay || 
