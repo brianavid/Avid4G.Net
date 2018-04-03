@@ -104,7 +104,7 @@ namespace Avid.Spotify
                 if (string.IsNullOrEmpty(webKey.GetValue(SpotifyRefreshUrlRegistryValue) as string))
                 {
                     logger.Info("Must authenticate to Spotify Web API");
-                    const String RedirectUri = "http://www.brianavid.co.uk/Avid4SpotifyAuth/Auth/";
+                    const String RedirectUri = "http://avid4spotifyauth.azurewebsites.net/Auth/";
                     var auth = new SpotifyAPI.Web.Auth.AutorizationCodeAuth()
                     {
                         ClientId = "b2d4e764bb8c49f39f1211dfc6b71b34",

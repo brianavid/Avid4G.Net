@@ -146,7 +146,7 @@ public static class Spotify
                 try
                 {
                     HttpWebRequest request =
-                        (HttpWebRequest)HttpWebRequest.Create("http://brianavid.co.uk/Avid4SpotifyAuth/Auth/Probe");
+                        (HttpWebRequest)HttpWebRequest.Create("http://avid4spotifyauth.azurewebsites.net/Auth/Probe");
                     request.Method = WebRequestMethods.Http.Get;
                     request.CachePolicy = new HttpRequestCachePolicy(HttpRequestCacheLevel.NoCacheNoStore);
                     request.Timeout = 10000;
