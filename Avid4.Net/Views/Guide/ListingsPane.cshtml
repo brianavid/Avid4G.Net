@@ -52,7 +52,7 @@
                 {
                     var beingRecordedClass = timer.IsRecording ? "tvRecordingBeingRecorded" : "";
                     <div class="guideScheduledRecording guideItem @beingRecordedClass" id="@timer.Id">
-                        <img class="guideEpgProgrammeCancel" id="@timer.Id" src="/Content/Buttons/SmallRound/Exit.png" />
+                        <img class="guideEpgProgrammeCancel startHidden" id="@timer.Id" src="/Content/Buttons/SmallRound/Exit.png" />
                         <div class="guideProgrammeInfo">
                             <span>@(timer.StartTime.ToLocalTime().ToString("ddd dd MMM HH:mm")) [@JRMC.FormatDuration(timer.Duration.TotalMinutes.ToString())] @(timer.InSeries ? "SERIES" : "")</span>
                             <span>@(timer.ChannelName)</span>
@@ -80,7 +80,7 @@
                 foreach (DvbViewer.Series series in allSeries)
                 {
                     <div class="guideSeriesDefinitions guideItem" id="@series.Id">
-                        <img class="guideEpgSeriesCancel" id="@series.Id" src="/Content/Buttons/SmallRound/Exit.png" />
+                        <img class="guideEpgSeriesCancel startHidden" id="@series.Id" src="/Content/Buttons/SmallRound/Exit.png" />
                         <div class="guideProgrammeInfo">
                             <span>@(series.StartTime.ToLocalTime().ToString("dddd")) starting between @(series.StartTimeLow.ToLocalTime().ToString("HH:mm")) and @(series.StartTimeHigh.ToLocalTime().ToString("HH:mm"))</span>
                             <span>@(series.ChannelName)</span>

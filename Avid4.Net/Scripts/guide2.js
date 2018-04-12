@@ -145,6 +145,20 @@ function AddListingsHammerActions() {
         })
     });
 
+    listingsHammer.on("tap", ".guideScheduledRecording", function (e) {
+        $(".guideEpgProgrammeCancel").addClass("startHidden");
+        $(this).children("img").removeClass("startHidden");
+
+        return false;
+    });
+
+    listingsHammer.on("tap", ".guideSeriesDefinitions", function (e) {
+        $(".guideEpgSeriesCancel").addClass("startHidden");
+        $(this).children("img").removeClass("startHidden");
+
+        return false;
+    });
+
     listingsHammer.on("tap", ".guideEpgProgrammeCancel", function (e) {
         var programItem = this;
 
