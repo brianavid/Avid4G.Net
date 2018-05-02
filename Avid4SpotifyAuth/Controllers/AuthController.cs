@@ -49,7 +49,7 @@ namespace Avid4SpotifyAuth.Controllers
         //Your client Id
         private const string ClientId = "b2d4e764bb8c49f39f1211dfc6b71b34";
         private const string ClientSecret = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"; //  Replace with real secret before deploying
-        private const string RedirectUri = "http://avid4spotifyauth.azurewebsites.net/Auth/Authenticate";
+        private const string RedirectUri = "http://brianavid.dnsalias.com/SpotifyAuth/Auth/Authenticate";
 
         private static string lastRefreshToken = "";
         private static DateTime refreshTokenFetchExpiry = DateTime.MinValue;
