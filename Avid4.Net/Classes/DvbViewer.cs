@@ -120,7 +120,7 @@ public class DvbViewer
             {
                 Id = xProg.Element("eventid").Value;
                 Title = xProg.Element("titles").Element("title").Value;
-                Description = xProg.Element("events").Element("event").Value;
+                Description = xProg.Element("descriptions")?.Element("description")?.Value ?? "";
                 Channel = AllChannels.FirstOrDefault(c => c.EpgId == xProg.Attribute("channel").Value);
                 StartTime = DateTime.ParseExact(
                     xProg.Attribute("start").Value,
@@ -388,7 +388,15 @@ public class DvbViewer
         {
             get
             {
-                return Schedule.Where(s => s.Channel.Id == Channel.Id && s.StartTime == StartTime).Any(s => s.IsRecording);
+                try
+                {
+                    return Schedule.Where(s => s.Channel?.Id == Channel?.Id && s.StartTime == StartTime).Any(s => s.IsRecording);
+                }
+                catch (System.Exception ex)
+                {
+                    logger.Error(ex, "Error Determining if IsRecording('{1}'): {0}", ex, Title);
+                    return false;
+                }
             }
         }
 
