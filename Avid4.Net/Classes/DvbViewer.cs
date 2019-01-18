@@ -930,7 +930,7 @@ public class DvbViewer
     /// </summary>
     public static void LoadSchedule()
     {
-        XDocument scheduleDoc = GetXml("timerlist.html");
+        XDocument scheduleDoc = GetXml("timerlist.html?utf8=2");
         schedule = scheduleDoc.Element("Timers").Elements("Timer")
             .Select(t => new Timer(t))
             .Where(t => !t.InError)
