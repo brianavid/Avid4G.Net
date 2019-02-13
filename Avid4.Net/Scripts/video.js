@@ -121,11 +121,11 @@ function DisplayRunningOnWatchPane(jump) {
 }
 
 function sendZoom(cmd, onAfter) {
-    $.get("/Video/SendZoom?cmd=" + escape(cmd), null, onAfter)
+    $.get("/Video/SendZoom?cmd=" + encodeURIComponent(cmd), null, onAfter)
 }
 
 function sendZoomExtend(cmd, onAfter) {
-    $.get("/Video/SendZoom?cmd=" + escape(cmd) + "&forceExtend=yes", null, onAfter)
+    $.get("/Video/SendZoom?cmd=" + encodeURIComponent(cmd) + "&forceExtend=yes", null, onAfter)
 }
 
 var videoControlHammer = null;
@@ -209,7 +209,7 @@ function AddVideoRecordingsHammerActions() {
 
     videoRecordingsListHammer.on("tap", ".videoRecordingGroup", function (e) {
         e.gesture.preventDefault()
-        ReplacePane("videoRecordings", "/Video/RecordingsPane?title=" + escape(this.id), "push")
+        ReplacePane("videoRecordings", "/Video/RecordingsPane?title=" + encodeURIComponent(this.id), "push")
     });
 
     videoRecordingsListHammer.on("tap", "#videoRecordingPlayFromStart", function () {
@@ -253,7 +253,7 @@ function AddVideoVideosHammerActions() {
 
     videoVideosListHammer.on("doubletap", ".videoVideo", function () {
         OverlayScreenForLaunch()
-        var playUrl = "/Video/PlayVideoFile?path=" + escape(this.id) + "&title=" + escape($(".videoRecordingTitle", this).text());
+        var playUrl = "/Video/PlayVideoFile?path=" + encodeURIComponent(this.id) + "&title=" + encodeURIComponent($(".videoRecordingTitle", this).text());
         $.ajax({
             url: playUrl,
             success: function (data) {
@@ -278,7 +278,7 @@ function AddVideoDvdsHammerActions() {
 
     videoDvdsListHammer.on("doubletap", ".videoDvdDrive", function () {
         OverlayScreenForLaunch()
-        var playUrl = "/Video/PlayDvdDisk?drive=" + this.id + "&title=" + escape($(".videoRecordingTitle", this).text());
+        var playUrl = "/Video/PlayDvdDisk?drive=" + this.id + "&title=" + encodeURIComponent($(".videoRecordingTitle", this).text());
         $.ajax({
             url: playUrl,
             success: function (data) {
@@ -292,7 +292,7 @@ function AddVideoDvdsHammerActions() {
 
     videoDvdsListHammer.on("doubletap", ".videoDvdDirectory", function () {
         OverlayScreenForLaunch()
-        var playUrl = "/Video/PlayDvdDirectory?path=" + escape(this.id) + "&title=" + escape($(".videoRecordingTitle", this).text());
+        var playUrl = "/Video/PlayDvdDirectory?path=" + encodeURIComponent(this.id) + "&title=" + encodeURIComponent($(".videoRecordingTitle", this).text());
         $.ajax({
             url: playUrl,
             success: function (data) {

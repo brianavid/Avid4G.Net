@@ -256,7 +256,7 @@ function AddRecordingsHammerActions() {
 
     recordingsHammer.on("tap", ".skyRecordingGroup", function (e) {
         e.gesture.preventDefault()
-        ReplacePane("skyRecordings", "/Sky/RecordingsPane?title=" + escape(this.id), "push")
+        ReplacePane("skyRecordings", "/Sky/RecordingsPane?title=" + encodeURIComponent(this.id), "push")
     });
 
 

@@ -112,7 +112,7 @@ function AddImagesHammerActions(controlHeight) {
         var url = "Playback/PlayByKey?Album=1&Key=";
 
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape("Playback/PlayByIndex?Index=" + $(".photoGridImage").index(this)),
+            url: "/Music/SendMCWS?url=" + encodeURIComponent("Playback/PlayByIndex?Index=" + $(".photoGridImage").index(this)),
             cache: false
         });
         return false;
@@ -149,7 +149,7 @@ function AddBrowserHammerActions() {
         var url = "Playback/PlayByKey?Album=1&Key=";
 
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape(url + this.id),
+            url: "/Music/SendMCWS?url=" + encodeURIComponent(url + this.id),
             success: function (data) {
                 UpdateImages();
             },

@@ -190,7 +190,7 @@ function AddControlHammerActions() {
 
     controlHammer.on("touch", "#musicPrev", function () {
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape("Playback/Previous"),
+            url: "/Music/SendMCWS?url=" + encodeURIComponent("Playback/Previous"),
             cache: false
         })
     });
@@ -200,14 +200,14 @@ function AddControlHammerActions() {
         var status = statusElement.innerText;
         var playCommand = status == "Stopped" ? "Playback/PlayByIndex?Index=0" : "Playback/PlayPause";
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape(playCommand),
+            url: "/Music/SendMCWS?url=" + encodeURIComponent(playCommand),
             cache: false
         })
     });
 
     controlHammer.on("touch", "#musicNext", function () {
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape("Playback/Next"),
+            url: "/Music/SendMCWS?url=" + encodeURIComponent("Playback/Next"),
             cache: false
         })
     });
@@ -215,7 +215,7 @@ function AddControlHammerActions() {
     controlHammer.on("touch", "#musicMinus10", function (e) {
         e.preventDefault();
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape("Playback/Position?Position=10000&Relative=-1"),
+            url: "/Music/SendMCWS?url=" + encodeURIComponent("Playback/Position?Position=10000&Relative=-1"),
             success: function (data) {
                 PositionMS -= 10000;
                 UpdatePositionDisplay();
@@ -227,7 +227,7 @@ function AddControlHammerActions() {
     controlHammer.on("touch", "#musicPlus10", function (e) {
         e.preventDefault();
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape("Playback/Position?Position=10000&Relative=1"),
+            url: "/Music/SendMCWS?url=" + encodeURIComponent("Playback/Position?Position=10000&Relative=1"),
             success: function (data) {
                 PositionMS += 10000;
                 UpdatePositionDisplay();
@@ -247,7 +247,7 @@ function AddControlHammerActions() {
             PositionMS = pos * DurationMS / 200;
             UpdatePositionDisplay();
             $.ajax({
-                url: "/Music/SendMCWS?url=" + escape("Playback/Position?Position=" + PositionMS),
+                url: "/Music/SendMCWS?url=" + encodeURIComponent("Playback/Position?Position=" + PositionMS),
                 cache: false
             })
         }
@@ -274,7 +274,7 @@ function AddQueueHammerActions(controlHeight) {
     queueHammer.on("tap", ".musicPlaybackQueueItem", function (e) {
 
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape("Playback/PlayByIndex?Index=" + $(".musicPlaybackQueueItem").index(this)),
+            url: "/Music/SendMCWS?url=" + encodeURIComponent("Playback/PlayByIndex?Index=" + $(".musicPlaybackQueueItem").index(this)),
             cache: false
         })
         return false;
@@ -369,7 +369,7 @@ function AddBrowserHammerActions() {
 
     browserHammer.on("doubletap", ".musicBrowserPlaylist", function (e) {
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape("Playlist/Files?Action=Play&Playlist=" + this.id),
+            url: "/Music/SendMCWS?url=" + encodeURIComponent("Playlist/Files?Action=Play&Playlist=" + this.id),
             success: function (data) {
                 UpdateQueue(DisplayBrowserHome);
             },
@@ -425,7 +425,7 @@ function AddBrowserHammerActions() {
         }
 
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape(url + this.id),
+            url: "/Music/SendMCWS?url=" + encodeURIComponent(url + this.id),
             success: function (data) {
                 UpdateQueue(DisplayBrowserHome);
             },
@@ -439,7 +439,7 @@ function AddBrowserHammerActions() {
 
     browserHammer.on("tap", "#musicBrowserLibraryPlayAlbum", function (e) {
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape("Playback/PlayByKey?Album=1&Key=" + $("#TrackInfoId").text()),
+            url: "/Music/SendMCWS?url=" + encodeURIComponent("Playback/PlayByKey?Album=1&Key=" + $("#TrackInfoId").text()),
             success: function (data) {
                 UpdateQueue(DisplayBrowserHome);
             },
@@ -453,7 +453,7 @@ function AddBrowserHammerActions() {
 
     browserHammer.on("tap", "#musicBrowserLibraryAppendAlbum", function (e) {
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape("Playback/PlayByKey?Album=1&Location=End&Key=" + $("#TrackInfoId").text()),
+            url: "/Music/SendMCWS?url=" + encodeURIComponent("Playback/PlayByKey?Album=1&Location=End&Key=" + $("#TrackInfoId").text()),
             success: function (data) {
                 UpdateQueue(DisplayBrowserHome);
             },
@@ -479,7 +479,7 @@ function AddBrowserHammerActions() {
         }
 
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape(url + this.id),
+            url: "/Music/SendMCWS?url=" + encodeURIComponent(url + this.id),
             success: function (data) {
                 if (playNow) {
                     $(".playButton").text("+ ")
@@ -496,7 +496,7 @@ function AddBrowserHammerActions() {
 
     browserHammer.on("tap", "#musicBrowserLibraryPlayTrack", function (e) {
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape("Playback/PlayByKey?Key=" + $("#TrackInfoId").text()),
+            url: "/Music/SendMCWS?url=" + encodeURIComponent("Playback/PlayByKey?Key=" + $("#TrackInfoId").text()),
             success: function (data) {
                 UpdateQueue(DisplayBrowserAlbumTracksAppend);
             },
@@ -510,7 +510,7 @@ function AddBrowserHammerActions() {
 
     browserHammer.on("tap", "#musicBrowserLibraryAppendTrack", function (e) {
         $.ajax({
-            url: "/Music/SendMCWS?url=" + escape("Playback/PlayByKey?&Location=End&Key=" + $("#TrackInfoId").text()),
+            url: "/Music/SendMCWS?url=" + encodeURIComponent("Playback/PlayByKey?&Location=End&Key=" + $("#TrackInfoId").text()),
             success: function (data) {
                 UpdateQueue(DisplayBrowserAlbumTracksAppend);
             },
