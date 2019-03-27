@@ -193,7 +193,7 @@ public class DvbViewer
     {
         public String Id { get; private set; }
         public String Name { get; private set; }
-        public Boolean WeakNaming { get; private set; }
+        private Boolean WeakNaming { get; set; }
         public Channel Channel { get; private set; }
         public DateTime StartTime { get; private set; }
         public DateTime StartTimeLow { get; private set; }
@@ -304,6 +304,21 @@ public class DvbViewer
                 seriesDefinitions.Add(new Series(id, name, channel, startTime));
                 Save();
             }
+        }
+
+        string StripNew(string title)
+        {
+            return title.Length > 3 && title.StartsWith("New") && !Char.IsLetter(title[3]) ?
+                String.Concat(title.Substring(3).SkipWhile(c => !Char.IsLetter(c))) : 
+                title;
+        }
+
+        public bool MatchesProgrammeTitle(
+            string title)
+        {
+            return WeakNaming ?
+                title.ToLower().Contains(Name.ToLower()) :
+                StripNew(title) == StripNew(Name);
         }
 
         public static Series Find(
@@ -854,15 +869,13 @@ public class DvbViewer
             epgProgrammes.SkipWhile(p => p.StartTime <= startTime).TakeWhile(p => p.StartTime <= endTime);
     }
 
-
+    
     static bool ProgrammeInSeries(
         Programme programme,
         Series series)
     {
         return
-            (series.WeakNaming ?
-                programme.Title.ToLower().Contains(series.Name.ToLower()) :
-                programme.Title == series.Name) &&
+            series.MatchesProgrammeTitle(programme.Title) &&
             programme.StartTime.DayOfWeek == series.StartTime.DayOfWeek &&
             programme.StartTime.TimeOfDay >= series.StartTimeLow.TimeOfDay &&
             (series.StartTimeLow.TimeOfDay > series.StartTimeHigh.TimeOfDay || 
