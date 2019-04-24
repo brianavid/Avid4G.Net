@@ -95,6 +95,12 @@ public static class Screen
     /// </summary>
     static void TurnOff()
     {
+        // if we've just turned the screen on, wait for the transition
+        if (isOn)
+        {
+            WaitForScreenOn();
+        }
+
         DesktopClient.TvScreenOff();
         isOn = false;
     }
