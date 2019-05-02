@@ -751,7 +751,24 @@ public static class Spotify
                     var a = GetFullAlbum(SimplifyId(id));
                     if (a != null && a.Images.Count != 0)
                     {
-                        return a.Images[0].Url;
+                        var url = a.Images[0].Url;
+                        //  It's also useful (though not essential) for the player to have the album cover URL to display
+                        lock (trayAppClient)
+                        {
+                            try
+                            {
+                                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/NoteAlbumUrlForId?id={0}&url={1}", 
+                                    HttpUtility.UrlEncode(id), HttpUtility.UrlEncode(url))).Result;
+                                resp.EnsureSuccessStatusCode();
+
+                                var dontCare = resp.Content.ReadAsAsync<Boolean>().Result;
+                            }
+                            catch (System.Exception ex)
+                            {
+                                logger.Error(ex.Message);
+                            }
+                        }
+                        return url;
                     }
                 }
                 catch (System.Exception ex)
