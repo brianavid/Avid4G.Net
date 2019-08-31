@@ -120,7 +120,7 @@ public class DvbViewer
             {
                 Id = xProg.Element("eventid").Value;
                 Title = xProg.Element("titles").Element("title").Value;
-                Description = xProg.Element("descriptions")?.Element("description")?.Value ?? "";
+                Description = xProg.Element("events")?.Element("event")?.Value ?? "";
                 Channel = AllChannels.FirstOrDefault(c => c.EpgId == xProg.Attribute("channel").Value);
                 StartTime = DateTime.ParseExact(
                     xProg.Attribute("start").Value,
