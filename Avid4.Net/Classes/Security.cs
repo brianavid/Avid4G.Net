@@ -102,9 +102,9 @@ public class Security
                 securityProfileId = key.GetValue("SecurityProfile") as string;
             }
 
-            if (securityProfileId != null)
-                {
-                    LoadProfile(Int32.Parse(securityProfileId), true);
+            if (!String.IsNullOrEmpty(securityProfileId))
+            {
+                LoadProfile(Int32.Parse(securityProfileId), true);
             }
 
         }
@@ -382,6 +382,14 @@ public class Security
 
         logger.Info("Loaded profile {0}", profile.Attribute("name").Value);
         return true;
+    }
+
+    /// <summary>
+    /// Clear any persistent value in the registry which will turn on security
+    /// </summary>
+    public static void ClearSavedProfile()
+    {
+        DesktopClient.PersistStringInRegistry("SecurityProfile", "");
     }
 
     /// <summary>

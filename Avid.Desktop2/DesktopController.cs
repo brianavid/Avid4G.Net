@@ -715,7 +715,14 @@ namespace Avid.Desktop
             {
                 logger.Info("PersistStringInRegistry: {0}='{1}'", name, value);
                 RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Avid", true);
-                key.SetValue(name, value);
+                if (value == "")
+                {
+                    key.DeleteValue(name);
+                }
+                else
+                {
+                    key.SetValue(name, value);
+                }
                 return true;
             }
             catch (Exception ex)

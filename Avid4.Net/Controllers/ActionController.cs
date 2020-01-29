@@ -52,6 +52,8 @@ namespace Avid4.Net.Controllers
             string title,
             string detach)
         {
+            Security.ClearSavedProfile();
+
             if (String.IsNullOrEmpty(Running.RunningProgram))
             {
                 DesktopClient.SendSpecialkey("ClearDesktop");
@@ -136,7 +138,9 @@ namespace Avid4.Net.Controllers
         {
             try
             {
-	            Running.ExitAllPrograms(!string.IsNullOrEmpty(keep));
+                Security.ClearSavedProfile();
+
+                Running.ExitAllPrograms(!string.IsNullOrEmpty(keep));
 	            DesktopClient.SendSpecialkey("ClearDesktop");
 	            return Content(Receiver.VolumeDisplay);
             }
