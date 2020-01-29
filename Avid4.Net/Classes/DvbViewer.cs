@@ -603,16 +603,16 @@ public class DvbViewer
             if (allChannels == null)
             {
                 var favouriteChannelNames = FavouriteChannelNames.Select(n => n.ToLower());
-                allChannels = ChannelsXml.Element("channels").Element("root").Element("group").Elements("channel")
+                allChannels = ChannelsXml.Element("channels").Element("root").Elements("group").Elements("channel")
                     .Where(c => !String.IsNullOrEmpty(c.Attribute("name").Value))
                     .Select(c => new Channel(c, favouriteChannelNames.Contains(c.Attribute("name").Value.ToLower())))
-                    .Where(c => !c.InError);
+                    .Where(c => !c.InError).ToList();
             }
 
             return allChannels;
         }
     }
-    static IEnumerable<Channel> allChannels = null;
+    static List<Channel> allChannels = null;
 
     /// <summary>
     /// A named channel
