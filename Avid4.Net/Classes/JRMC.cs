@@ -132,6 +132,16 @@ public class JRMC
             DateTime dateImported = track0.ContainsKey("Date Imported") ? new DateTime(Convert.ToInt64(track0["Date Imported"])) : DateTime.MinValue;
             return dateImported;
         }
+
+        /// <summary>
+        /// Get the date at which the album was last played
+        /// </summary>
+        public DateTime GetAlbumDateLastPlayed()
+        {
+            var track0 = Track0.Info;
+            DateTime dateImported = track0.ContainsKey("Last Played") ? new DateTime(Convert.ToInt64(track0["Last Played"])) : DateTime.MinValue;
+            return dateImported;
+        }
     };
 
     /// <summary>
@@ -230,7 +240,7 @@ public class JRMC
     /// <summary>
     /// The subset of available JRMC fields included in the TrackData info name=value Dictionary and used within Avid
     /// </summary>
-    private const string RequiredTrackData = "Name,Track,Album,Artist,Genre,Composer,Duration,Album Artist,Filename,Date Imported";
+    private const string RequiredTrackData = "Name,Track,Album,Artist,Genre,Composer,Duration,Album Artist,Filename,Date Imported,Last Played";
 
     /// <summary>
     /// The real Host address of the JRMC web service on the local computer (not 127.0.0.1 which is unreliable)
@@ -1023,7 +1033,7 @@ public class JRMC
     }
 
     /// <summary>
-    /// Get a randon collection of 20 albums
+    /// Get a random collection of 20 albums
     /// </summary>
     /// <returns></returns>
     public static IEnumerable<AlbumData> GetLuckyDipAlbums()
@@ -1031,12 +1041,13 @@ public class JRMC
         List<AlbumData> luckyDip = new List<AlbumData>();
 
         Random rand = new Random();
-        int count = AlbumList.Count;
+        var allAlbums = AlbumList.InArtistOrder.ToArray();
+        int count = allAlbums.Length;
 
         for (int i = 0; i < 20; i++)
         {
             int index = rand.Next(count);
-            var album = AlbumList.GetByIndex(index);
+            var album = allAlbums[index];
             luckyDip.Add(album);
         }
 
@@ -1051,6 +1062,29 @@ public class JRMC
     {
         return AlbumList.MostRecentFirst.Take(100);
     }
+
+    /// <summary>
+    /// Get a random collection of 20 albums not necently played
+    /// </summary>
+    /// <returns></returns>
+    public static IEnumerable<AlbumData> GetNotRecentlyPlayed()
+    {
+        List<AlbumData> luckyDip = new List<AlbumData>();
+
+        Random rand = new Random();
+        var allAlbumsNotRecentlyPlayed = AlbumList.InArtistOrder.Where((a => a.GetAlbumDateLastPlayed() < DateTime.Today.AddYears(-1))).ToArray();
+        int count = allAlbumsNotRecentlyPlayed.Length;
+
+        for (int i = 0; i < 20; i++)
+        {
+            int index = rand.Next(count);
+            var album = allAlbumsNotRecentlyPlayed[index];
+            luckyDip.Add(album);
+        }
+
+        return luckyDip;
+    }
+
 
     /// <summary>
     /// Get the collection of tracks which comprise an album

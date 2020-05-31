@@ -357,6 +357,11 @@ function AddBrowserHammerActions() {
         return false;
     });
 
+    browserHammer.on("tap", "#musicBrowserLibraryNotRecentlyPlayed", function (e) {
+        ReplaceBrowserPane("/Music/BrowserPane?mode=NotRecentlyPlayed", "push")
+        return false;
+    });
+
     browserHammer.on("tap", "#musicBrowserLibrarySearch", function (e) {
         ReplaceBrowserPane("/Music/BrowserPane?mode=Search", "push")
         return false;
