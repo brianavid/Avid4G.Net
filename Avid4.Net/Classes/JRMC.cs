@@ -123,13 +123,18 @@ public class JRMC
             return track0.ContainsKey("Album") ? track0["Album"] : string.Empty;
         }
 
+        DateTime StoredDateTime(String keyValue)
+        {
+            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(Convert.ToInt64(keyValue));
+        }
+
         /// <summary>
         /// Get the date at which the album was imported
         /// </summary>
         public DateTime GetAlbumDateImported()
         {
             var track0 = Track0.Info;
-            DateTime dateImported = track0.ContainsKey("Date Imported") ? new DateTime(Convert.ToInt64(track0["Date Imported"])) : DateTime.MinValue;
+            DateTime dateImported = track0.ContainsKey("Date Imported") ? StoredDateTime(track0["Date Imported"]) : DateTime.MinValue;
             return dateImported;
         }
 
@@ -139,7 +144,7 @@ public class JRMC
         public DateTime GetAlbumDateLastPlayed()
         {
             var track0 = Track0.Info;
-            DateTime dateImported = track0.ContainsKey("Last Played") ? new DateTime(Convert.ToInt64(track0["Last Played"])) : DateTime.MinValue;
+            DateTime dateImported = track0.ContainsKey("Last Played") ? StoredDateTime(track0["Last Played"]) : DateTime.MinValue;
             return dateImported;
         }
     };
@@ -659,6 +664,11 @@ public class JRMC
             BuildIndexByArtist();
         }
 
+        foreach (var a in GetVeryRecentlyPlayed())
+        {
+            logger.Info("Recently Played: {0} ({1}) {2}", a.GetAlbumName(), a.GetArtistName(), a.GetAlbumDateLastPlayed().ToString());
+        }
+
         return AlbumList;
     }
 
@@ -1064,7 +1074,7 @@ public class JRMC
     }
 
     /// <summary>
-    /// Get a random collection of 20 albums not necently played
+    /// Get a random collection of 20 albums not recently played
     /// </summary>
     /// <returns></returns>
     public static IEnumerable<AlbumData> GetNotRecentlyPlayed()
@@ -1083,6 +1093,15 @@ public class JRMC
         }
 
         return luckyDip;
+    }
+
+    /// <summary>
+    /// Get a collection of albums played in the last 48 hours
+    /// </summary>
+    /// <returns></returns>
+    public static IEnumerable<AlbumData> GetVeryRecentlyPlayed()
+    {
+        return AlbumList.InArtistOrder.Where((a => a.GetAlbumDateLastPlayed() > DateTime.Today.AddDays(-2)));
     }
 
 
