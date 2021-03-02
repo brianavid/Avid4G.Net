@@ -198,6 +198,16 @@ namespace Avid4.Net.Controllers
             return this.Content("");
         }
 
+        // GET: /Spotify/PlayPlaylist
+        public ContentResult PlayPlaylist(
+            string id,
+            bool append = false)
+        {
+            Spotify.PlayPlaylist(id, append);
+            isPaused = false;
+            return this.Content("");
+        }
+
         // GET: /Spotify/SkipToQueuedTrack
         public ContentResult SkipToQueuedTrack(
             string id)

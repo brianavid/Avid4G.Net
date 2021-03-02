@@ -801,7 +801,7 @@ public static class Spotify
                 try
                 {
                     return MakeTracks(
-                        WebAppService.GetPlaylistTracks(SimplifyId(id), market:PreferredMarket),
+                        WebAppService.GetPlaylistTracks(SimplifyId(id), market: PreferredMarket),
                         next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
                 }
                 catch (System.Exception ex)
@@ -891,7 +891,7 @@ public static class Spotify
             {
                 try
                 {
-                    WebAppService.UnfollowPlaylist(webApiCurrentUserId, SimplifyId(id));
+                    WebAppService.UnfollowPlaylist(SimplifyId(id));
                 }
                 catch (System.Exception ex)
                 {
@@ -1179,6 +1179,33 @@ public static class Spotify
             try
             {
                 HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/PlayAlbum?id={0}&append={1}", HttpUtility.UrlEncode(id), append)).Result;
+                resp.EnsureSuccessStatusCode();
+
+                return resp.Content.ReadAsAsync<Boolean>().Result;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Play all tracks of the identified playlist, either immediately or after the currently queued tracks
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="append"></param>
+    /// <returns></returns>
+    public static Boolean PlayPlaylist(
+        string id,
+        bool append = false)
+    {
+        lock (trayAppClient)
+        {
+            try
+            {
+                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/playqueue/PlayPlaylist?id={0}&append={1}", HttpUtility.UrlEncode(id), append)).Result;
                 resp.EnsureSuccessStatusCode();
 
                 return resp.Content.ReadAsAsync<Boolean>().Result;

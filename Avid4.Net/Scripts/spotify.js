@@ -374,7 +374,7 @@ function AddBrowserHammerActions() {
         return false;
     });
 
-    browserHammer.on("tap", ".spotifyBrowserPlaylist", function (e) {
+    browserHammer.on("doubletap", ".spotifyBrowserPlaylist", function (e) {
         ReplaceBrowserPane("/Spotify/BrowserPane?mode=AlbumsOfPlayist&Id=" + this.id + "&playlistId=" + this.id + "&playlistName=" + encodeURIComponent(this.innerText), "push", UpdateQueue)
         return false;
     });
@@ -382,6 +382,12 @@ function AddBrowserHammerActions() {
     browserHammer.on("hold", ".spotifyBrowserPlaylist", function (e) {
         e.gesture.stopDetect()
         ReplaceBrowserPane("/Spotify/BrowserPane?mode=PlaylistInfo&Id=" + this.id + "&playlistId=" + this.id + "&playlistName=" + encodeURIComponent(this.innerText), "push", UpdateQueue)
+        return false;
+    });
+
+    browserHammer.on("tap", "#spotifyBrowserLibraryPlaylistAlbums", function (e) {
+        var playlistName = document.getElementById("spotifyInfoPlayist").value
+        ReplaceBrowserPane("/Spotify/BrowserPane?mode=AlbumsOfPlayist&Id=" + $("#PlaylistId").text() + "&playlistId=" + $("#PlaylistId").text() + "&playlistName=" + playlistName, "push", UpdateQueue)
         return false;
     });
 
