@@ -205,6 +205,13 @@ function AddControlHammerActions() {
         })
     });
 
+    controlHammer.on("hold", "#musicPlayPause", function () {
+        $.ajax({
+            url: "/Music/SendMCWS?url=" + encodeURIComponent("Playback/Stop"),
+            cache: false
+        })
+    });
+
     controlHammer.on("touch", "#musicNext", function () {
         $.ajax({
             url: "/Music/SendMCWS?url=" + encodeURIComponent("Playback/Next"),
