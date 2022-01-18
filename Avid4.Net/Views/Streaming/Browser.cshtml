@@ -10,7 +10,7 @@
         <td class="centeredButton"><img id="goRokuSelect" src="/Content/Buttons/Roku.png" /></td>
         <td class="centeredButton"><img id="goChromecastSelect" src="/Content/Buttons/Cast.png" /></td>
         <td class="centeredButton"><img id="goChromecastAudioSelect" src="/Content/Buttons/AudioCast.png" /></td>
-        <td class="centeredButton"><img id="goLogFireSelect" src="/Content/Buttons/LogFire.png" /></td>
+        <td class="centeredButton"><img id="goSmartTvSelect" src="/Content/Buttons/Smart.png" /></td>
     </tr>
 </table>
 
@@ -20,8 +20,12 @@
         <li>Use <strong>Roku</strong> for Sky Now TV, Amazon Prime, Netflix and TV catchup services</li>
         <li>Use <strong>Cast</strong> for YouTube, Curzon Home Cinema and other video content sent to Chromecast from a player on the phone or tablet</li>
         <li>Use <strong>Audio</strong> for BBC iPlayer Radio and other audio-only content sent to Chromecast from a player on the phone or tablet</li>
-        <li>Use <strong>Log Fire</strong> for cold winter nights</li>
+        <li>Use <strong>Smart</strong> for controlling the TV with its own remote control</li>
     </ul>
+</div>
+
+<div class="@(ViewBag.HideSmartClass ?? "")">
+    <p>Control the TV with its own remote control - start with the "Home" button</p>
 </div>
 
 <div id="rokuBrowserPane" class="rokuBrowserPane @(ViewBag.HideRokuClass ?? "")">

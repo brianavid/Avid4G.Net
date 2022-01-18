@@ -207,6 +207,7 @@ public static class Running
                     Screen.EnsureScreenOn();
                     Receiver.SelectTVOutput();
                     Screen.WaitForScreenOn();
+                    Receiver.SelectComputerInput();
                 }
                 if (!DesktopClient.LaunchProgram("TV", null))
                 {
@@ -220,6 +221,7 @@ public static class Running
                 Screen.EnsureScreenOn();
                 Receiver.SelectTVOutput();
                 Screen.WaitForScreenOn();
+                Receiver.SelectComputerInput();
                 if (!DesktopClient.LaunchProgram("Web", args))
                 {
                     NothingRunning();
@@ -231,7 +233,6 @@ public static class Running
             case "Video":
                 Screen.EnsureScreenOn();
                 Receiver.SelectTVOutput();
-                //Screen.WaitForScreenOn();
 
                 if (args == null)
                 {
@@ -244,6 +245,8 @@ public static class Running
                     return false;
                 }
 
+                Screen.WaitForScreenOn();
+                Receiver.SelectComputerInput();
                 zoomRunning = true;
                 logger.Info("Zoom.Start");
                 Zoom.Start();

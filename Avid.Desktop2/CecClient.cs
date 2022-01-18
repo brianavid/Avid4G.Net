@@ -134,5 +134,23 @@ namespace Avid.Desktop
             return CecLib.GetDevicePowerStatus(CecLogicalAddress.Tv) == CecPowerStatus.On;
         }
 
+        /// <summary>
+        /// Send a remote key press to the TV
+        /// </summary>
+        public bool TvSendKey(int keyNum)
+        {
+            var res = CecLib.SendKeypress(CecLogicalAddress.Tv, (CecUserControlCode)keyNum, true);
+            //CecLib.SendKeyRelease(CecLogicalAddress.Tv, true);
+            return res;
+        }
+
+        /// <summary>
+        /// Select an HDMI input port
+        /// </summary>
+        public void TvSelectHdmi(byte port)
+        {
+            CecLib.SetHDMIPort(CecLogicalAddress.Tv, port);
+        }
+
     }
 }

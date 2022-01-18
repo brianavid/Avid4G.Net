@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Avid.Desktop</RootNamespace>
     <AssemblyName>Avid.Desktop</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -93,7 +93,8 @@
     <Reference Include="InputSimulator">
       <HintPath>..\ReferencedDLLs\InputSimulator.dll</HintPath>
     </Reference>
-    <Reference Include="LibCecSharp">
+    <Reference Include="LibCecSharp, Version=3.0.1.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Pulse-Eight\USB-CEC Adapter\LibCecSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -110,6 +111,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Avid4Blue64.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="cec.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -142,10 +146,10 @@
       <Version>2.2.29</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.3</Version>
+      <Version>13.0.1</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.3</Version>
+      <Version>4.7.11</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

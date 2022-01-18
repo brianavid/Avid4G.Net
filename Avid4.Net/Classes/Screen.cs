@@ -67,25 +67,15 @@ public static class Screen
     /// <summary>
     /// Ensure that the screen is on - we do this by turning it on!
     /// </summary>
-    /// <param name="exitSmart">True to exit the currently on screen from its "SmartTV" mode</param>
-    public static void EnsureScreenOn(
-        bool exitSmart = true)
+    public static void EnsureScreenOn()
     {
         logger.Info("EnsureScreenOn");
-
-        //  If it wasn't previously on, it can't have been in its "SmartTV" mode 
-        exitSmart &= isOn;
 
         TurnOn();
 
         if (currentMode == 0)
         {
             currentMode = 1;
-        }
-
-        if (exitSmart)
-        {
-            Samsung.SendKey("EXIT");
         }
 
     }

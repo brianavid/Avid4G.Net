@@ -249,6 +249,7 @@ public static class Receiver
         SelectedInput = "Computer";
         MainZoneInput = "HDMI2";
         GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Input><Input_Sel>HDMI2</Input_Sel></Input></Main_Zone></YAMAHA_AV>");
+        GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Input><Input_Sel>Main Zone Sync</Input_Sel></Input></Zone_2></YAMAHA_AV>");
     }
 
     /// <summary>
@@ -285,14 +286,14 @@ public static class Receiver
     }
 
     /// <summary>
-    /// Set the Receiver to take digital input from the TV itself (AV4)
+    /// Set the Receiver to take digital input from the TV itself
     /// </summary>
     public static void SelectTvInput()
     {
         logger.Info("SelectTvInput");
         SelectedInput = "TV";
-        MainZoneInput = "AV4";
-        GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Input><Input_Sel>AV4</Input_Sel></Input></Main_Zone></YAMAHA_AV>");
+        MainZoneInput = "TV";
+        GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Input><Input_Sel>TV</Input_Sel></Input></Main_Zone></YAMAHA_AV>");
     }
 
     /// <summary>
@@ -378,7 +379,7 @@ public static class Receiver
     {
         GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Power_Control><Power>On</Power></Power_Control></Main_Zone></YAMAHA_AV>");
         GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Power_Control><Power>On</Power></Power_Control></Zone_2></YAMAHA_AV>");
-        GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Input><Input_Sel>AUDIO2</Input_Sel></Input></Zone_2></YAMAHA_AV>");
+        GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Input><Input_Sel>Main Zone Sync</Input_Sel></Input></Zone_2></YAMAHA_AV>");
 
         switchedOn = false;
     }
@@ -389,6 +390,7 @@ public static class Receiver
     public static void TurnOff()
     {
         SelectComputerInput();
+        GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Input><Input_Sel>Main Zone Sync</Input_Sel></Input></Zone_2></YAMAHA_AV>");
         GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Power_Control><Power>Standby</Power></Power_Control></Main_Zone></YAMAHA_AV>");
         GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Power_Control><Power>Standby</Power></Power_Control></Zone_2></YAMAHA_AV>");
 
@@ -474,7 +476,7 @@ public static class Receiver
         {
             logger.Info("Security");
             SelectedInput = "Security";
-            GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Power_Control><Power>Off</Power></Power_Control></Main_Zone></YAMAHA_AV>");
+            GetXml("<YAMAHA_AV cmd=\"PUT\"><Main_Zone><Power_Control><Power>Standby</Power></Power_Control></Main_Zone></YAMAHA_AV>");
             GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Power_Control><Power>On</Power></Power_Control></Zone_2></YAMAHA_AV>");
             GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Input><Input_Sel>TUNER</Input_Sel></Input></Zone_2></YAMAHA_AV>");
         }

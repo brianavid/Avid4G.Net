@@ -804,5 +804,40 @@ namespace Avid.Desktop
             }
         }
 
+        /// </summary>
+        [HttpGet]
+        public bool TvSendKey(string keyName)
+        {
+            logger.Info($"TvSendKey {keyName}");
+            try
+            {
+                InitCec();
+                return cecClient.TvSendKey(int.Parse(keyName));
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
+        }
+
+        /// </summary>
+        [HttpGet]
+        public bool TvSelectHdmi(string portName)
+        {
+            logger.Info("TvSelectHdmi");
+            try
+            {
+                InitCec();
+                cecClient.TvSelectHdmi(byte.Parse(portName));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                return false;
+            }
+        }
+
     }
 }

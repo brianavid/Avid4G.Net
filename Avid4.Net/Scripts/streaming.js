@@ -312,17 +312,6 @@ $(function () {
         }
     });
 
-    $("#goSmartTvSelect").click(function () {
-        if (document.getElementById("isWide") == null &&
-            $("#homeTitle").text() == "SmartTv") {
-            LinkTo("/Streaming/Controls")
-        } else {
-            $.get("/Action/GoSmart", null, function () {
-                LinkTo(document.getElementById("isWide") != null ? "/Streaming/All" : "/Streaming/Controls")
-            })
-        }
-    });
-
     $("#goChromecastSelect").click(function () {
         $.get("/Action/GoChromecast", null, function () {
             LinkTo(document.getElementById("isWide") != null ? "/Streaming/All" : "/Streaming/Browser")
@@ -335,7 +324,13 @@ $(function () {
         })
     });
 
-    $("#goCurzonSelect").click(function () {
+    $("#goSmartTvSelect").click(function () {
+        $.get("/Action/GoSmart", null, function () {
+            LinkTo(document.getElementById("isWide") != null ? "/Streaming/All" : "/Streaming/Browser")
+        })
+    });
+
+   $("#goCurzonSelect").click(function () {
         $.get("/Action/GoCurzon", null, function () {
             LinkTo(document.getElementById("isWide") != null ? "/Streaming/All" : "/Streaming/Controls")
         })

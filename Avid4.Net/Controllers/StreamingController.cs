@@ -101,7 +101,6 @@ namespace Avid4.Net.Controllers
         public ActionResult SendTvKey(
             string keyName)
         {
-            Samsung.SendKey(keyName);
             return Content("");
         }
 
@@ -111,7 +110,6 @@ namespace Avid4.Net.Controllers
         public ActionResult SmartTvPlayPause()
         {
             isPlaying = !isPlaying;
-            Samsung.SendKey(isPlaying ? "PLAY" : "PAUSE");
             return Content("");
         }
 

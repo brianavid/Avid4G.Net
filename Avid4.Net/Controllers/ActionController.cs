@@ -212,7 +212,7 @@ namespace Avid4.Net.Controllers
         // GET: /Action/StartStream
         public ActionResult StartStream()
         {
-            Screen.EnsureScreenOn(Running.RunningProgram != "SmartTv");
+            Screen.EnsureScreenOn();
             var streamProgram = "";
             switch (Running.RunningProgram)
             {
@@ -301,12 +301,11 @@ namespace Avid4.Net.Controllers
         // GET: /Action/GoSmart
         public ActionResult GoSmart()
         {
-            Screen.EnsureScreenOn(false);
+            Screen.EnsureScreenOn();
             Running.StartStream("SmartTv");
             Screen.WaitForScreenOn();
             Receiver.SelectTvInput();
             Receiver.SelectTVOutput();
-            Samsung.SendKey("CONTENTS");
             return Content("");
         }
 
