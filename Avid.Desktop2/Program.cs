@@ -43,9 +43,6 @@ namespace Avid.Desktop
                 SkyLocator.GetSkyServices(ConfigurationManager.AppSettings["IpAddress"], logger);
 #endif
 
-                //  Run a background thread to monitor any DVBViewer player through its COM interface
-                DvbViewerMonitor.StartMonitoring();
-
                 var config = new HttpSelfHostConfiguration("http://localhost:89");
 
                 config.Routes.MapHttpRoute(

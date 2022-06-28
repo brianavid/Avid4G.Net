@@ -98,7 +98,7 @@ public class Security
             var securityProfileId = key.GetValue("SecurityProfile") as string;
             if (securityProfileId == null)
             {
-                key = Registry.LocalMachine.OpenSubKey(@"Software\WOW6432Node\Avid");
+                key = Registry.LocalMachine.OpenSubKey(@"Software\Avid");
                 securityProfileId = key.GetValue("SecurityProfile") as string;
             }
 

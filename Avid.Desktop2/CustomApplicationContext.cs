@@ -37,13 +37,18 @@ namespace Avid.Desktop
                 Visible = true
             };
 
+            MenuItem loginContextMenuItem = new System.Windows.Forms.MenuItem();
+            loginContextMenuItem.Index = 1;
+            loginContextMenuItem.Text = "&Spotify Login";
+            loginContextMenuItem.Click += new System.EventHandler(this.spotifyLoginItem_Click);
+
             MenuItem exitContextMenuItem = new System.Windows.Forms.MenuItem();
-            exitContextMenuItem.Index = 1;
+            exitContextMenuItem.Index = 2;
             exitContextMenuItem.Text = "&Exit";
             exitContextMenuItem.Click += new System.EventHandler(this.exitItem_Click);
 
             ContextMenu contextMenu = new System.Windows.Forms.ContextMenu();
-            contextMenu.MenuItems.AddRange(new MenuItem[] { exitContextMenuItem });
+            contextMenu.MenuItems.AddRange(new MenuItem[] { loginContextMenuItem, exitContextMenuItem });
 
             notifyIcon.ContextMenu = contextMenu;
 
@@ -66,6 +71,16 @@ namespace Avid.Desktop
         private void exitItem_Click(object sender, EventArgs e)
         {
             ExitThread();
+        }
+
+        /// <summary>
+        /// When the Spotify Login menu item is clicked, make a call to request a Spotify login and the credentials stored in the registry.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void spotifyLoginItem_Click(object sender, EventArgs e)
+        {
+            SpotifyAuth.Auth();
         }
 
         /// <summary>

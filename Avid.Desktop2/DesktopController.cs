@@ -195,8 +195,6 @@ namespace Avid.Desktop
     {
         static Logger logger = LogManager.GetCurrentClassLogger();
 
-        static Process spotifyProcess = null;
-
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         static extern void mouse_event(uint dwFlags, Int32 dx, Int32 dy, uint dwData,
           int dwExtraInfo);
@@ -673,36 +671,6 @@ namespace Avid.Desktop
         }
 
         /// <summary>
-        /// Ensure that the Spotify Player is running and has not died
-        /// </summary>
-        /// <returns>True if the player is now running</returns>
-        [HttpGet]
-        public bool EnsureSpotifyRunning()
-        {
-            try
-            {
-                if (spotifyProcess == null || spotifyProcess.HasExited)
-                {
-                    logger.Info("EnsureSpotifyRunning");
-
-                    ProcessStartInfo startInfo = new ProcessStartInfo();
-                    startInfo.FileName = @"C:\Avid.Net\Avid.Spotify.exe";
-                    startInfo.Arguments = "";
-                    startInfo.WindowStyle = ProcessWindowStyle.Minimized;
-
-                    spotifyProcess = Process.Start(startInfo);
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex);
-                return false;
-            }
-        }
-
-        /// <summary>
         /// Persist a string value in the registry
         /// </summary>
         /// <returns>True if successful</returns>
@@ -714,7 +682,7 @@ namespace Avid.Desktop
             try
             {
                 logger.Info("PersistStringInRegistry: {0}='{1}'", name, value);
-                RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Avid", true);
+                RegistryKey key = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).OpenSubKey(@"Software\Avid", true);
                 if (value == "")
                 {
                     key.DeleteValue(name);

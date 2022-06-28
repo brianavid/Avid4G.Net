@@ -23,8 +23,6 @@ public static class DesktopClient
         trayAppClient.DefaultRequestHeaders.CacheControl = new System.Net.Http.Headers.CacheControlHeaderValue();
         trayAppClient.DefaultRequestHeaders.CacheControl.NoCache = true;
         trayAppClient.DefaultRequestHeaders.CacheControl.MaxAge = new TimeSpan(0);
-
-        EnsureSpotifyRunning();
     }
 
     /// <summary>
@@ -304,30 +302,6 @@ public static class DesktopClient
             {
                 logger.Error(ex);
                 return null;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Ensure that the Spotify Player is running and has not died
-    /// </summary>
-    /// <returns>True if the player is now running</returns>
-    static public bool EnsureSpotifyRunning()
-    {
-        lock (trayAppClient)
-        {
-            try
-            {
-                logger.Info("EnsureSpotifyRunning");
-                HttpResponseMessage resp = trayAppClient.GetAsync(string.Format("api/Desktop/EnsureSpotifyRunning")).Result;
-                resp.EnsureSuccessStatusCode();
-
-                return resp.Content.ReadAsAsync<bool>().Result;
-            }
-            catch (System.Exception ex)
-            {
-                logger.Error(ex);
-                return false;
             }
         }
     }

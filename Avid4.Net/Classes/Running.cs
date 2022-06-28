@@ -255,9 +255,9 @@ public static class Running
 
             case "Spotify":
                 Screen.SetScreenDisplayMode(0);
+                Receiver.SelectComputerInput();
                 Receiver.SelectRoomsOutput();
                 DesktopClient.ExitAllPrograms();
-                DesktopClient.EnsureSpotifyRunning();
                 spotifyRunning = true;
                 logger.Info("LaunchProgram OK {0}", runningProgram);
                 return true;

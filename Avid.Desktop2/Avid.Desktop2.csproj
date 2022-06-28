@@ -84,6 +84,7 @@
     <Compile Include="GPUZ.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SkyLocator.cs" />
+    <Compile Include="SpotifyAuth.cs" />
     <Compile Include="UsbService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +151,12 @@
     </PackageReference>
     <PackageReference Include="NLog">
       <Version>4.7.11</Version>
+    </PackageReference>
+    <PackageReference Include="SpotifyAPI.Web">
+      <Version>6.2.2</Version>
+    </PackageReference>
+    <PackageReference Include="SpotifyAPI.Web.Auth">
+      <Version>6.2.2</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

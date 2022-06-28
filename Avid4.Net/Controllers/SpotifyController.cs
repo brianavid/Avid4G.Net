@@ -12,8 +12,6 @@ namespace Avid4.Net.Controllers
 {
     public class SpotifyController : Controller
     {
-        static bool isPaused = false;
-
         // GET: /Spotify/Mouse
         public ActionResult Mouse()
         {
@@ -149,17 +147,6 @@ namespace Avid4.Net.Controllers
             }
 
             int pos = Spotify.GetPosition();
-            int trackCount = 0;
-            int trackIndex = 0;
-            foreach (SpotifyData.Track track in queuedTracks)
-            {
-                trackCount++;
-                if (track.Id == currentTrack.Id)
-                {
-                    trackIndex = trackCount;
-                }
-            }
-
             int playStatus = Spotify.GetPlaying();
 
             XElement info = new XElement("Track",
@@ -173,7 +160,7 @@ namespace Avid4.Net.Controllers
                 new XAttribute("position", pos),
                 new XAttribute("status", playStatus == -1 ? "Stolen" : playStatus == 0 ? "Paused" : "Playing"),
                 new XAttribute("postionDisplay", Spotify.FormatDuration(pos) + "/" + Spotify.FormatDuration(currentTrack.Duration)),
-                new XAttribute("indexDisplay", trackIndex + "/" + trackCount));
+                new XAttribute("indexDisplay", currentTrack.Index + "/" + currentTrack.Count));
 
             return this.Content(info.ToString(), @"text/xml", Encoding.UTF8);
         }
@@ -184,7 +171,6 @@ namespace Avid4.Net.Controllers
             bool append = false)
         {
             Spotify.PlayAlbum(id, append);
-            isPaused = false;
             return this.Content("");
         }
 
@@ -194,7 +180,6 @@ namespace Avid4.Net.Controllers
             bool append = false)
         {
             Spotify.PlayTrack(id, append);
-            isPaused = false;
             return this.Content("");
         }
 
@@ -204,7 +189,6 @@ namespace Avid4.Net.Controllers
             bool append = false)
         {
             Spotify.PlayPlaylist(id, append);
-            isPaused = false;
             return this.Content("");
         }
 
@@ -213,7 +197,6 @@ namespace Avid4.Net.Controllers
             string id)
         {
             Spotify.SkipToQueuedTrack(id);
-            isPaused = false;
             return this.Content("");
         }
 
@@ -228,15 +211,13 @@ namespace Avid4.Net.Controllers
         // GET: /Spotify/PlayPause
         public ContentResult PlayPause()
         {
-            if (isPaused)
+            if (Spotify.GetPlaying() <= 0)
             {
                 Spotify.Play();
-                isPaused = false;
             }
             else
             {
                 Spotify.Pause();
-                isPaused = true;
             }
             return this.Content("");
         }
