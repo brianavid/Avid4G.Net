@@ -107,7 +107,7 @@ function UpdateSpotifyDisplayPlayingInformation() {
     });
 }
 
-function UpdateQueue(display,id) {
+function UpdateQueue(display, id) {
     lastTrackId = null;
     var queueDisplay = document.getElementById("spotifyPlaybackQueueItems");
     if (queueDisplay != null) {
@@ -342,17 +342,17 @@ function AddBrowserHammerActions() {
     })
 
     browserHammer.on("tap", "#spotifyBrowserLibraryArtists", function (e) {
-        ReplaceBrowserPane("/Spotify/BrowserPane?mode=SearchArtists", "push", HandleSearchKeyPresses)
+        ReplaceBrowserPane("/Spotify/BrowserPane?mode=SearchArtists", "push")
         return false;
     });
 
     browserHammer.on("tap", "#spotifyBrowserLibraryAlbums", function (e) {
-        ReplaceBrowserPane("/Spotify/BrowserPane?mode=SearchAlbums", "push", HandleSearchKeyPresses)
+        ReplaceBrowserPane("/Spotify/BrowserPane?mode=SearchAlbums", "push")
         return false;
     });
 
     browserHammer.on("tap", "#spotifyBrowserLibrarySearchTracks", function (e) {
-        ReplaceBrowserPane("/Spotify/BrowserPane?mode=SearchTracks", "push", HandleSearchKeyPresses)
+        ReplaceBrowserPane("/Spotify/BrowserPane?mode=SearchTracks", "push")
         return false;
     });
 
@@ -705,70 +705,43 @@ function AddBrowserHammerActions() {
         });
         return false;
     });
+
+    var pendingSearch = null;
+
+    $("#ArtistSearchText").bind('keyup', function () {
+        if (pendingSearch != null) clearTimeout(pendingSearch);
+        pendingSearch = setTimeout(function () {
+            pendingSearch = null;
+            var query = document.getElementById("ArtistSearchText").value
+            if (query.length >= 4)
+                ReplaceBrowserPane("/Spotify/BrowserPane?mode=SearchArtists&query=" + encodeURIComponent(query), "push")
+           return false;
+        }, 700)
+    })
+
+    $("#AlbumSearchText").bind('keyup', function () {
+        if (pendingSearch != null) clearTimeout(pendingSearch);
+        pendingSearch = setTimeout(function () {
+            pendingSearch = null;
+            var query = document.getElementById("AlbumSearchText").value
+            if (query.length >= 4)
+                ReplaceBrowserPane("/Spotify/BrowserPane?mode=SearchAlbums&query=" + encodeURIComponent(query), "push")
+            return false;
+        }, 700)
+    })
+
+    $("#TrackSearchText").bind('keyup', function () {
+        if (pendingSearch != null) clearTimeout(pendingSearch);
+        pendingSearch = setTimeout(function () {
+            pendingSearch = null;
+            var query = document.getElementById("TrackSearchText").value
+            if (query.length >= 4)
+                ReplaceBrowserPane("/Spotify/BrowserPane?mode=SearchTracks&query=" + encodeURIComponent(query), "push")
+            return false;
+        }, 700)
+    })
+
 }
-
-var searchHammer = null;
-
-function AddSearchHammerActions() {
-    if (!searchHammer) {
-        searchHammer = $(".spotifyBrowserSearchEntry").hammer();
-    }
-
-    searchHammer.on("tap", "#goSpotifyArtistSearch", function (e) {
-        var query = document.getElementById("ArtistSearchText").value
-        $("#spotifyBrowserPlaylistHeader").text("Searching ...")
-        ReplaceBrowserPane("/Spotify/BrowserPane?mode=SearchArtists&query=" + encodeURIComponent(query), "push", HandleSearchKeyPresses)
-        return false;
-    });
-
-    searchHammer.on("tap", "#goSpotifyAlbumSearch", function (e) {
-        var query = document.getElementById("AlbumSearchText").value
-        $("#spotifyBrowserPlaylistHeader").text("Searching ...")
-        ReplaceBrowserPane("/Spotify/BrowserPane?mode=SearchAlbums&query=" + encodeURIComponent(query), "push", HandleSearchKeyPresses)
-        return false;
-    });
-
-    searchHammer.on("tap", "#goSpotifyTrackSearch", function (e) {
-        var query = document.getElementById("TrackSearchText").value
-        $("#spotifyBrowserPlaylistHeader").text("Searching ...")
-        ReplaceBrowserPane("/Spotify/BrowserPane?mode=SearchTracks&query=" + encodeURIComponent(query), "push", HandleSearchKeyPresses)
-        return false;
-    });
-
-}
-
-function HandleSearchKeyPresses()
- {
-    $("#ArtistSearchText").keypress(function (e) {
-         if (e.keyCode == 13)
-         {
-             var query = document.getElementById("ArtistSearchText").value
-             ReplaceBrowserPane("/Spotify/BrowserPane?mode=SearchArtists&query=" + encodeURIComponent(query), "push", HandleSearchKeyPresses)
-             return false;
-         }
-     })
-
-     $("#AlbumSearchText").keypress(function (e) {
-         if (e.keyCode == 13) {
-             var query = document.getElementById("AlbumSearchText").value
-             ReplaceBrowserPane("/Spotify/BrowserPane?mode=SearchAlbums&query=" + encodeURIComponent(query), "push", HandleSearchKeyPresses)
-             return false;
-         }
-     })
-
-     $("#TrackSearchText").keypress(function (e) {
-         if (e.keyCode == 13) {
-             var query = document.getElementById("TrackSearchText").value
-             ReplaceBrowserPane("/Spotify/BrowserPane?mode=SearchTracks&query=" + encodeURIComponent(query), "push", HandleSearchKeyPresses)
-             return false;
-         }
-     })
-
-    //  Searching and selecting Playlists invalidates all cached ID values previously returned and hence those displayed in the queued tracks.
-    //  Consequently it is necessary to refresh the display of queued tracks.
-    //  This is a convenient place to do so for searching
-    UpdateQueue(false);
- }
 
 $(function () {
     var controlHeight = 0;
@@ -797,7 +770,6 @@ $(function () {
 
     AddControlHammerActions()
     AddBrowserHammerActions();
-    AddSearchHammerActions();
     AddQueueHammerActions(controlHeight)
 
     // update information once now

@@ -1614,7 +1614,7 @@ public static class Spotify
         List<SpotifyData.Artist> result = new List<SpotifyData.Artist>();
         int noFound = 0;
 
-        while (noFound < 200)
+        while (col != null && noFound < 200)
         {
             if (col.Items == null) return null;
             foreach (var a in col.Items)
@@ -1628,7 +1628,7 @@ public static class Spotify
             for (var retries = 5; retries >= 0; retries--)
             {
                 var newCol = ReadNext(col.Next);
-                if (retries > 0 && newCol.HasError())
+                if (newCol != null && retries > 0 && newCol.HasError())
                 {
                     logger.Info("Paged artists error - {0} - {1} [{2} found]",
                         newCol.Error.Status, newCol.Error.Message, noFound);
@@ -1711,7 +1711,7 @@ public static class Spotify
         List<SpotifyData.Album> result = new List<SpotifyData.Album>();
         int noFound = 0;
 
-        while (noFound < 200)
+        while (col != null && noFound < 200)
         {
             if (col.Items == null) return null;
             var albumIds = col.Items.Select(a => GetAlbumId(a)).ToList();
@@ -1729,7 +1729,7 @@ public static class Spotify
             for (var retries = 5; retries >= 0; retries--)
             {
                 var newCol = ReadNext(col.Next);
-                if (retries > 0 && newCol.HasError())
+                if (newCol != null && retries > 0 && newCol.HasError())
                 {
                     logger.Info("Paged albums error - {0} - {1} [{2} found]",
                         newCol.Error.Status, newCol.Error.Message, noFound);
@@ -1796,7 +1796,7 @@ public static class Spotify
         List<SpotifyData.Track> result = new List<SpotifyData.Track>();
         int noFound = 0;
 
-        while (noFound < 200)
+        while (col != null && noFound < 200)
         {
             if (col.Items == null) return null;
             foreach (var t in col.Items)
@@ -1814,7 +1814,7 @@ public static class Spotify
             for (var retries = 5; retries >= 0; retries--)
             {
                 var newCol = ReadNext(col.Next);
-                if (retries > 0 && newCol.HasError())
+                if (newCol != null && retries > 0 && newCol.HasError())
                 {
                     logger.Info("Paged tracks error - {0} - {1} [{2} found]",
                         newCol.Error.Status, newCol.Error.Message, noFound);
@@ -1846,7 +1846,7 @@ public static class Spotify
         List<SpotifyData.Track> result = new List<SpotifyData.Track>();
         int noFound = 0;
 
-        while (noFound < 200)
+        while (col != null && noFound < 200)
         {
             if (col.Items == null) return null;
             foreach (var t in col.Items)
@@ -1865,7 +1865,7 @@ public static class Spotify
             for (var retries = 5; retries >= 0; retries--)
             {
                 var newCol = ReadNext(col.Next);
-                if (retries > 0 && newCol.HasError())
+                if (newCol != null && retries > 0 && newCol.HasError())
                 {
                     logger.Info("Paged tracks error - {0} - {1} [{2} found]",
                         newCol.Error.Status, newCol.Error.Message, noFound);
@@ -1895,7 +1895,7 @@ public static class Spotify
         List<SpotifyData.Track> result = new List<SpotifyData.Track>();
         int noFound = 0;
 
-        for (; ; )  //  Unbounded within a playlist or saved tracks
+        while (col != null)  //  Unbounded within a playlist or saved tracks
         {
             if (col.Items == null) return null;
             foreach (var t in col.Items)
@@ -1913,7 +1913,7 @@ public static class Spotify
             for (var retries = 5; retries >= 0; retries--)
             {
                 var newCol = ReadNext(col.Next);
-                if (retries > 0 && newCol.HasError())
+                if (newCol != null && retries > 0 && newCol.HasError())
                 {
                     logger.Info("Paged tracks error - {0} - {1} [{2} found]",
                         newCol.Error.Status, newCol.Error.Message, noFound);
@@ -1957,7 +1957,7 @@ public static class Spotify
         List<SpotifyData.Playlist> result = new List<SpotifyData.Playlist>();
         int noFound = 0;
 
-        while (noFound < 200)
+        while (col != null && noFound < 200)
         {
             if (col.Items == null) break;
             foreach (var p in col.Items)
@@ -1971,7 +1971,7 @@ public static class Spotify
             for (var retries = 5; retries >= 0; retries--)
             {
                 var newCol = ReadNext(col.Next);
-                if (retries > 0 && newCol.HasError())
+                if (newCol != null && retries > 0 && newCol.HasError())
                 {
                     logger.Info("Paged playlists error - {0} - {1} [{2} found]",
                         newCol.Error.Status, newCol.Error.Message, noFound);
