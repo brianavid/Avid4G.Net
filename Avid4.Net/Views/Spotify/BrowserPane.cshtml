@@ -255,12 +255,6 @@
                     <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibraryArtistAlbums">
                         <div class="spotifyBrowserTitle">List Albums</div>
                     </div>
-                    if (!string.IsNullOrEmpty(artist.Biography))
-                    {
-                        <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibraryArtistBiography">
-                            <div class="spotifyBrowserTitle">Biography</div>
-                        </div>
-                    }
                     <div class="spotifyBrowserLibrary spotifyBrowserItem" id="spotifyBrowserLibrarySimilarArtists">
                         <div class="spotifyBrowserTitle">Similar Artists</div>
                     </div>
@@ -360,16 +354,6 @@
                     ViewBag.TrackId = track.Id;
                     ViewBag.AlbumId = track.AlbumId;
                     ViewBag.ArtistId = track.TrackFirstArtistId;
-                }
-                break;
-
-            case "ArtistBiography":
-                {
-                    Avid.Spotify.SpotifyData.Artist artist = Spotify.GetArtistById(id);
-                    <div class="spotifyPlayingTrack">
-                        <div class="spotifyInfoArtist">@artist.Name</div>
-                    </div>
-                    <div class="spotifyBrowserLibrary spotifyBrowserBiography">@WebUtility.HtmlDecode(System.Text.RegularExpressions.Regex.Replace(artist.Biography, "<[^>]*(>|$)", string.Empty))</div>
                 }
                 break;
 

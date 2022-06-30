@@ -438,11 +438,6 @@ function AddBrowserHammerActions() {
         return false;
     });
 
-    browserHammer.on("tap", "#spotifyBrowserLibraryArtistBiography", function (e) {
-        ReplaceBrowserPane("/Spotify/BrowserPane?mode=ArtistBiography&id=" + $("#ArtistInfoId").text(), "push")
-        return false;
-    });
-
     browserHammer.on("tap", "#spotifyBrowserLibraryArtistAlbums", function (e) {
         ReplaceBrowserPane("/Spotify/BrowserPane?mode=AlbumsOfArtist&id=" + $("#ArtistInfoId").text(), "push")
         return false;
