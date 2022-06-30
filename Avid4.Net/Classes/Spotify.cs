@@ -174,6 +174,8 @@ public static class Spotify
     static FullTrack GetFullTrack(
         string id)
     {
+        if (id == null) return null;
+
         if (!trackCache.ContainsKey(id))
         {
             trackCache[id] = WebAppService.GetTrack(id);
@@ -184,6 +186,8 @@ public static class Spotify
     static FullAlbum GetFullAlbum(
         string id)
     {
+        if (id == null) return null;
+
         if (!albumCache.ContainsKey(id))
         {
             albumCache[id] = WebAppService.GetAlbum(id);
@@ -194,6 +198,8 @@ public static class Spotify
     static FullArtist GetFullArtist(
         string id)
     {
+        if (id == null) return null;
+
         if (!artistCache.ContainsKey(id))
         {
             artistCache[id] = WebAppService.GetArtist(id);
@@ -1159,6 +1165,7 @@ public static class Spotify
                     {
                         WebAppService.ResumePlayback(deviceId: GetPlaybackDevice(), contextUri: id, offset: 0);
                     }
+
                     return true;
                 }
                 catch (System.Exception ex)
@@ -1200,6 +1207,7 @@ public static class Spotify
                     {
                         WebAppService.ResumePlayback(deviceId: GetPlaybackDevice(), contextUri: id, offset: 0);
                     }
+
                     return true;
                 }
                 catch (System.Exception ex)
@@ -1241,6 +1249,8 @@ public static class Spotify
                     {
                         WebAppService.ResumePlayback(deviceId: GetPlaybackDevice(), contextUri: id, offset: 0);
                     }
+
+
                     return true;
                 }
                 catch (System.Exception ex)
@@ -1264,8 +1274,8 @@ public static class Spotify
             {
                 try
                 {
-                    var track = WebAppService.GetPlayingTrack().Item;
-                    return track == null ? null : MakeTrack(track);
+                    PlaybackContext playingTrack = WebAppService.GetPlayingTrack();
+                    return MakeTrack(playingTrack.Item);
                 }
                 catch (System.Exception ex)
                 {
@@ -1302,7 +1312,7 @@ public static class Spotify
                                 GetFullAlbum(SimplifyId(playback.Context.Uri)),
                                 next => WebAppService.DownloadData<Paging<SimpleTrack>>(next));
                         }
-                        if (playback.Context.Type == "album")
+                        if (playback.Context.Type == "playlist")
                         {
                             return MakeTracks(
                                 WebAppService.GetPlaylistTracks(SimplifyId(playback.Context.Uri), market: PreferredMarket),
@@ -1754,13 +1764,13 @@ public static class Spotify
     /// <summary>
     static SpotifyData.Track MakeTrack(FullTrack track, FullAlbum album = null)
     {
-        if (album == null && track != null)
+        if (album == null && track != null && track.Album != null)
         {
             album = GetFullAlbum(track.Album.Id);
         }
         try
         {
-            var noFullAlbum = album.Artists == null || album.Artists.Count == 0;
+            var noFullAlbum = album == null || album.Artists == null || album.Artists.Count == 0;
 	        return track == null ? null : new SpotifyData.Track
 	        {
 	            Id = track.Uri,
@@ -1772,7 +1782,7 @@ public static class Spotify
 	            TrackArtistNames = track.Artists.Aggregate("", ConstructTrackArtistNames),
                 TrackFirstArtistId = track.Artists[0].Uri,
                 Index = track.TrackNumber,
-                Count = album.TotalTracks,
+                Count = noFullAlbum ? 0 : album.TotalTracks,
                 Duration = track.DurationMs / 1000
 	        };
         }

@@ -127,7 +127,7 @@ namespace Avid4.Net.Controllers
         public ContentResult GetPlayingInfo()
         {
             SpotifyData.Track currentTrack = Spotify.GetCurrentTrack();
-            IEnumerable<SpotifyData.Track> queuedTracks = Spotify.GetQueuedTracks();
+
             if (currentTrack == null)
             {
                 XElement stoppedInfo = new XElement("Track",
@@ -149,6 +149,12 @@ namespace Avid4.Net.Controllers
             int pos = Spotify.GetPosition();
             int playStatus = Spotify.GetPlaying();
 
+            SpotifyData.Track[] queuedTracks = Spotify.GetQueuedTracks().ToArray();
+            int foundIndexInQueue = Array.FindIndex(queuedTracks, t => t.Id == currentTrack.Id);
+            string indexDisplay = (foundIndexInQueue >= 0) ?
+                foundIndexInQueue + 1 + " / " + queuedTracks.Length :
+                "[ " + currentTrack.Index + 1 + " / " + currentTrack.Count + " ]";
+
             XElement info = new XElement("Track",
                 new XAttribute("id", currentTrack.Id),
                 new XAttribute("name", currentTrack.Name),
@@ -160,7 +166,7 @@ namespace Avid4.Net.Controllers
                 new XAttribute("position", pos),
                 new XAttribute("status", playStatus == -1 ? "Stolen" : playStatus == 0 ? "Paused" : "Playing"),
                 new XAttribute("postionDisplay", Spotify.FormatDuration(pos) + "/" + Spotify.FormatDuration(currentTrack.Duration)),
-                new XAttribute("indexDisplay", currentTrack.Index + "/" + currentTrack.Count));
+                new XAttribute("indexDisplay", indexDisplay));
 
             return this.Content(info.ToString(), @"text/xml", Encoding.UTF8);
         }

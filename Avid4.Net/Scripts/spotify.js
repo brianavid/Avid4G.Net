@@ -375,7 +375,16 @@ function AddBrowserHammerActions() {
     });
 
     browserHammer.on("doubletap", ".spotifyBrowserPlaylist", function (e) {
-        ReplaceBrowserPane("/Spotify/BrowserPane?mode=AlbumsOfPlayist&Id=" + this.id + "&playlistId=" + this.id + "&playlistName=" + encodeURIComponent(this.innerText), "push", UpdateQueue)
+        $.ajax({
+            url: "/Spotify/PlayPlaylist?id=" + this.id,
+            success: function (data) {
+                UpdateQueue(DisplayBrowserHome);
+            },
+            error: function (data) {
+                UpdateQueue(DisplayBrowserHome);
+            },
+            cache: false
+        });
         return false;
     });
 
