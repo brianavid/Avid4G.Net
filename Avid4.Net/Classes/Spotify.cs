@@ -178,7 +178,10 @@ public static class Spotify
 
         if (!trackCache.ContainsKey(id))
         {
-            trackCache[id] = WebAppService.GetTrack(id);
+            lock (WebAppService)
+            {
+                trackCache[id] = WebAppService.GetTrack(id);
+            }
         }
         return trackCache[id];
     }
@@ -190,7 +193,10 @@ public static class Spotify
 
         if (!albumCache.ContainsKey(id))
         {
-            albumCache[id] = WebAppService.GetAlbum(id);
+            lock (WebAppService)
+            {
+                albumCache[id] = WebAppService.GetAlbum(id);
+            }
         }
         return albumCache[id];
     }
@@ -202,7 +208,10 @@ public static class Spotify
 
         if (!artistCache.ContainsKey(id))
         {
-            artistCache[id] = WebAppService.GetArtist(id);
+            lock (WebAppService)
+            {
+                artistCache[id] = WebAppService.GetArtist(id);
+            }
         }
         return artistCache[id];
     }
@@ -255,81 +264,92 @@ public static class Spotify
     {
         if (webAppService != null)
         {
+            logger.Info("LoadAndIndexAllSavedTracks start");
+
             AllSavedAlbumList = new List<SpotifyData.Album>(); // prevents reentrancy
 
             for (var retries = 0; retries < 20; retries++)
             {
-                lock (WebAppService)
+                try
                 {
-                    try
+                    Paging<SavedAlbum> pagedAlbums;
+
+                    lock (WebAppService)
                     {
-                        logger.Info("LoadAndIndexAllSavedTracks start");
-
-                        var pagedAlbums = WebAppService.GetSavedAlbums();
-                        if (pagedAlbums.HasError() && pagedAlbums.Error.Status == 429)
-                        {
-                            logger.Info("LoadAndIndexAllSavedTracks rate limited");
-                            System.Threading.Thread.Sleep(1000);
-                            continue;
-                        }
-                        var foundSavedAlbums = MakeAlbums(
-                            pagedAlbums,
-                            next => WebAppService.DownloadData<Paging<SavedAlbum>>(next));
-
-                        if (foundSavedAlbums == null)
-                        {
-                            logger.Info("LoadAndIndexAllSavedTracks albums incomplete");
-                            System.Threading.Thread.Sleep(1000);
-                            continue;
-                        }
-
-                        AllSavedAlbumList = foundSavedAlbums;
-                        logger.Info("LoadAndIndexAllSavedTracks {0} albums", AllSavedAlbumList.Count());
-
-                        AllSavedAlbums = AllSavedAlbumList.ToArray();
-
-                        HashSet<String> artistIds = new HashSet<String>();
-                        foreach (var album in AllSavedAlbums)
-                        {
-                            if (!artistIds.Contains(album.ArtistId))
-                            {
-                                artistIds.Add(album.ArtistId);
-                            }
-                        }
-
-                        List<SpotifyData.Artist> savedArtistList = new List<SpotifyData.Artist>();
-                        foreach (var batch in artistIds.Batch(20))
-                        {
-                            var batchOfIds = batch.Select(id => SimplifyId(id));
-                            var batchOfArtists = WebAppService.GetSeveralArtists(batchOfIds.ToList());
-                            if (batchOfArtists.Artists == null)
-                            {
-                                System.Threading.Thread.Sleep(2000);
-                                batchOfArtists = WebAppService.GetSeveralArtists(batchOfIds.ToList());
-                            }
-                            if (batchOfArtists.Artists != null)
-                            {
-                                foreach (var artist in batchOfArtists.Artists)
-                                {
-                                    savedArtistList.Add(MakeArtist(artist));
-                                }
-                            }
-                        }
-
-                        AllSavedArtists = savedArtistList.ToArray();
-                        logger.Info("LoadAndIndexAllSavedTracks {0}/{1} artists", AllSavedArtists.Count(), artistIds.Count);
-
-                        Array.Sort(AllSavedAlbums, CompareAlbumByArtist);
-                        Array.Sort(AllSavedArtists, (a1, a2) => a1.Name.CompareTo(a2.Name));
-
-                        break;
+                        pagedAlbums = WebAppService.GetSavedAlbums();
                     }
-                    catch (System.Exception ex)
+                    if (pagedAlbums.HasError() && pagedAlbums.Error.Status == 429)
                     {
-                        logger.Error(ex);
+                        logger.Info("LoadAndIndexAllSavedTracks rate limited");
+                        System.Threading.Thread.Sleep(1000);
+                        continue;
                     }
+                    AllSavedAlbumList = MakeAlbums(
+                        pagedAlbums,
+                        next => WebAppService.DownloadData<Paging<SavedAlbum>>(next));
+
+                    AllSavedAlbums = AllSavedAlbumList.ToArray();
+
+                    logger.Info("LoadAndIndexAllSavedTracks {0} albums", AllSavedAlbums.Count());
+
+                    break;
+                }
+                catch (System.Exception ex)
+                {
+                    logger.Error(ex);
                 }
             }
+
+            HashSet<String> artistIds = new HashSet<String>();
+            foreach (var album in AllSavedAlbums)
+            {
+                if (!artistIds.Contains(album.ArtistId))
+                {
+                    artistIds.Add(album.ArtistId);
+                }
+            }
+
+            List<SpotifyData.Artist> savedArtistList = new List<SpotifyData.Artist>();
+            foreach (var batch in artistIds.Batch(20))
+            {
+                try
+                {
+                    var batchOfIds = batch.Select(id => SimplifyId(id));
+                    SeveralArtists batchOfArtists;
+                    lock (WebAppService)
+                    {
+                        batchOfArtists = WebAppService.GetSeveralArtists(batchOfIds.ToList());
+                    }
+                    if (batchOfArtists.Artists == null)
+                    {
+                        System.Threading.Thread.Sleep(2000);
+                        lock (WebAppService)
+                        {
+                            batchOfArtists = WebAppService.GetSeveralArtists(batchOfIds.ToList());
+                        }
+                    }
+                    if (batchOfArtists.Artists != null)
+                    {
+                        foreach (var artist in batchOfArtists.Artists)
+                        {
+                            savedArtistList.Add(MakeArtist(artist));
+                        }
+                    }
+                    logger.Info("LoadAndIndexAllSavedTracks {0}/{1} artists", savedArtistList.Count, artistIds.Count);
+
+                    if (savedArtistList.Count == artistIds.Count)
+                        break;
+                }
+                catch (System.Exception ex)
+                {
+                    logger.Error(ex);
+                }
+            }
+
+            AllSavedArtists = savedArtistList.ToArray();
+
+            Array.Sort(AllSavedAlbums, CompareAlbumByArtist);
+            Array.Sort(AllSavedArtists, (a1, a2) => a1.Name.CompareTo(a2.Name));
         }
     }
 
@@ -359,20 +379,21 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
-            {
-                logger.Info("SearchTracks {0}", name);
+            logger.Info("SearchTracks {0}", name);
 
-                try
+            try
+            {
+                Paging<FullTrack> tracks;
+                lock (WebAppService)
                 {
-                    return MakeTracks(
-                        WebAppService.SearchItems(HttpUtility.UrlEncode(name), SearchType.Track, limit: 50).Tracks,
-                        next => WebAppService.DownloadData<SearchItem>(next).Tracks);
+                    tracks = WebAppService.SearchItems(HttpUtility.UrlEncode(name), SearchType.Track, limit: 50).Tracks;
                 }
-                catch (System.Exception ex)
-                {
-                    logger.Error(ex);
-                }
+                    return MakeTracks( tracks,
+                                       next => WebAppService.DownloadData<SearchItem>(next).Tracks);
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
             }
         }
 
@@ -389,20 +410,22 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
-            {
-                logger.Info("SearchAlbums {0}", name);
+            logger.Info("SearchAlbums {0}", name);
 
-                try
+            try
+            {
+                Paging<SimpleAlbum> albums;
+                lock (WebAppService)
                 {
-                    return MakeAlbums(
-                        WebAppService.SearchItems(HttpUtility.UrlEncode(name), SearchType.Album).Albums,
-                        next => WebAppService.DownloadData<SearchItem>(next).Albums);
+                    albums = WebAppService.SearchItems(HttpUtility.UrlEncode(name), SearchType.Album).Albums;
                 }
-                catch (System.Exception ex)
-                {
-                    logger.Error(ex);
-                }
+                return MakeAlbums(
+                    albums,
+                    next => WebAppService.DownloadData<SearchItem>(next).Albums);
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
             }
         }
 
@@ -419,21 +442,23 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            logger.Info("SearchArtists {0}", name);
+
+            try
             {
-                logger.Info("SearchArtists {0}", name);
-
-                try
+                Paging<FullArtist> artists;
+                lock (WebAppService)
                 {
-                    return MakeArtists(
-                        WebAppService.SearchItems(HttpUtility.UrlEncode(name), SearchType.Artist, limit: 50).Artists,
-                        next => WebAppService.DownloadData<SearchItem>(next).Artists);
+                    artists = WebAppService.SearchItems(HttpUtility.UrlEncode(name), SearchType.Artist, limit: 50).Artists;
+                }
+                return MakeArtists(
+                    artists,
+                    next => WebAppService.DownloadData<SearchItem>(next).Artists);
 
-                }
-                catch (System.Exception ex)
-                {
-                    logger.Error(ex);
-                }
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
             }
         }
 
@@ -619,22 +644,24 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            try
             {
-                try
-                {
-                    var artist = GetArtistById(id);
-                    ArtistHistory.Add(artist.Name, artist.Id);
+                var artist = GetArtistById(id);
+                ArtistHistory.Add(artist.Name, artist.Id);
 
-                    return MakeAlbums(
-                        WebAppService.GetArtistsAlbums(SimplifyId(id), AlbumType.Album, market:PreferredMarket, limit: 50),
-                        next => WebAppService.DownloadData<Paging<SimpleAlbum>>(next));
-
-                }
-                catch (System.Exception ex)
+                Paging<SimpleAlbum> albums;
+                lock (WebAppService)
                 {
-                    logger.Error(ex);
+                    albums = WebAppService.GetArtistsAlbums(SimplifyId(id), AlbumType.Album, market: PreferredMarket, limit: 50);
                 }
+                return MakeAlbums(
+                    albums,
+                    next => WebAppService.DownloadData<Paging<SimpleAlbum>>(next));
+
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
             }
         }
 
@@ -686,19 +713,21 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            try
             {
-                try
+                Paging<SimpleTrack> tracks;
+                lock (WebAppService)
                 {
-                    return MakeTracks(
-                        WebAppService.GetAlbumTracks(SimplifyId(id), market:PreferredMarket, limit: 50),
+                    tracks = WebAppService.GetAlbumTracks(SimplifyId(id), market: PreferredMarket, limit: 50);
+                }
+                return MakeTracks(
+                        tracks,
                         GetFullAlbum(SimplifyId(id)),
                         next => WebAppService.DownloadData<Paging<SimpleTrack>>(next));
-                }
-                catch (System.Exception ex)
-                {
-                    logger.Error(ex);
-                }
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
             }
         }
 
@@ -748,20 +777,23 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            try
             {
-                try
+                Paging<SimplePlaylist> pagingPlaylist;
+
+                lock (WebAppService)
                 {
-                    var playlists = MakePlaylists(
-                        WebAppService.GetUserPlaylists(webApiCurrentUserId),
-                        next => WebAppService.DownloadData<Paging<SimplePlaylist>>(next));
-                    CurrentPlaylists = playlists.ToDictionary(p => p.Name);
-                    return playlists;
+                    pagingPlaylist = WebAppService.GetUserPlaylists(webApiCurrentUserId);
                 }
-                catch (System.Exception ex)
-                {
-                    logger.Error(ex);
-                }
+                var playlists = MakePlaylists(
+                    pagingPlaylist,
+                    next => WebAppService.DownloadData<Paging<SimplePlaylist>>(next));
+                CurrentPlaylists = playlists.ToDictionary(p => p.Name);
+                return playlists;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
             }
         }
 
@@ -778,18 +810,20 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            try
             {
-                try
+                Paging<PlaylistTrack> tracks;
+                lock (WebAppService)
                 {
-                    return MakeTracks(
-                        WebAppService.GetPlaylistTracks(SimplifyId(id), market: PreferredMarket),
-                        next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
+                    tracks = WebAppService.GetPlaylistTracks(SimplifyId(id), market: PreferredMarket);
                 }
-                catch (System.Exception ex)
-                {
-                    logger.Error(ex);
-                }
+                return MakeTracks(
+                    tracks,
+                    next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
             }
         }
 
@@ -806,29 +840,31 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            try
             {
-                try
+                Paging<PlaylistTrack> pagingTracks;
+                lock (WebAppService)
                 {
-                    var tracks = MakeTracks(
-                        WebAppService.GetPlaylistTracks(SimplifyId(id), market:PreferredMarket),
-                        next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
+                    pagingTracks = WebAppService.GetPlaylistTracks(SimplifyId(id), market: PreferredMarket);
+                }
+                var tracks = MakeTracks(
+                    pagingTracks,
+                    next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
 
-                    HashSet<String> albumIds = new HashSet<String>();
-                    foreach (var track in tracks)
+                HashSet<String> albumIds = new HashSet<String>();
+                foreach (var track in tracks)
+                {
+                    if (!albumIds.Contains(track.AlbumId))
                     {
-                        if (!albumIds.Contains(track.AlbumId))
-                        {
-                            albumIds.Add(track.AlbumId);
-                        }
+                        albumIds.Add(track.AlbumId);
                     }
+                }
 
-                    return albumIds.Select(a => MakeAlbum(GetFullAlbum(SimplifyId(a))));
-                }
-                catch (System.Exception ex)
-                {
-                    logger.Error(ex);
-                }
+                return albumIds.Select(a => MakeAlbum(GetFullAlbum(SimplifyId(a))));
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
             }
         }
 
@@ -1163,7 +1199,7 @@ public static class Spotify
                     }
                     else
                     {
-                        WebAppService.ResumePlayback(deviceId: GetPlaybackDevice(), contextUri: id, offset: 0);
+                        WebAppService.ResumePlayback(deviceId: GetPlaybackDevice(), uris: new List<string> { id }, offset: 0);
                     }
 
                     return true;
@@ -1189,31 +1225,39 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            try
             {
-                try
+                if (append)
                 {
-                    if (append)
+                    Paging<SimpleTrack> pagingTracks;
+                    lock (WebAppService)
                     {
-                        var tracks = MakeTracks(WebAppService.GetAlbumTracks(SimplifyId(id), market: PreferredMarket, limit: 50),
-                                        GetFullAlbum(SimplifyId(id)),
-                                        next => WebAppService.DownloadData<Paging<SimpleTrack>>(next));
+                        pagingTracks = WebAppService.GetAlbumTracks(SimplifyId(id), market: PreferredMarket, limit: 50);
+                    }
+                    var tracks = MakeTracks(pagingTracks,
+                                GetFullAlbum(SimplifyId(id)),
+                                next => WebAppService.DownloadData<Paging<SimpleTrack>>(next));
+                    lock (WebAppService)
+                    {
                         foreach (var t in tracks)
                         {
                             WebAppService.AddToQueue(t.Id);
                         }
                     }
-                    else
+                }
+                else
+                {
+                    lock (WebAppService)
                     {
                         WebAppService.ResumePlayback(deviceId: GetPlaybackDevice(), contextUri: id, offset: 0);
                     }
+                }
 
-                    return true;
-                }
-                catch (System.Exception ex)
-                {
-                    logger.Error(ex);
-                }
+                return true;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
             }
         }
         return false;
@@ -1231,32 +1275,38 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            try
             {
-                try
+                if (append)
                 {
-                    if (append)
+                    Paging<PlaylistTrack> pagingTracks;
+                    lock (WebAppService)
                     {
-                        var tracks = MakeTracks(
-                                        WebAppService.GetPlaylistTracks(SimplifyId(id), market: PreferredMarket),
-                                        next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
+                        pagingTracks = WebAppService.GetPlaylistTracks(SimplifyId(id), market: PreferredMarket, limit: 50);
+                    }
+                    var tracks = MakeTracks(pagingTracks,
+                                next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
+                    lock (WebAppService)
+                    {
                         foreach (var t in tracks)
                         {
                             WebAppService.AddToQueue(t.Id);
                         }
                     }
-                    else
+                }
+                else
+                {
+                    lock (WebAppService)
                     {
                         WebAppService.ResumePlayback(deviceId: GetPlaybackDevice(), contextUri: id, offset: 0);
                     }
-
-
-                    return true;
                 }
-                catch (System.Exception ex)
-                {
-                    logger.Error(ex);
-                }
+
+                return true;
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
             }
         }
         return false;
@@ -1298,32 +1348,44 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            try
             {
-                try
+                var playback = WebAppService.GetPlayback();
+                if (playback.Context != null)
                 {
-                    var playback = WebAppService.GetPlayback();
-                    if (playback.Context != null)
+                    if (playback.Context.Type == "album")
                     {
-                        if (playback.Context.Type == "album")
+                        Paging<SimpleTrack> pagingTracks;
+                        lock (WebAppService)
                         {
-                            return MakeTracks(
-                                WebAppService.GetAlbumTracks(SimplifyId(playback.Context.Uri), market: PreferredMarket, limit: 50),
-                                GetFullAlbum(SimplifyId(playback.Context.Uri)),
-                                next => WebAppService.DownloadData<Paging<SimpleTrack>>(next));
+                            pagingTracks = WebAppService.GetAlbumTracks(SimplifyId(playback.Context.Uri), market: PreferredMarket, limit: 50);
                         }
-                        if (playback.Context.Type == "playlist")
+                        return MakeTracks(
+                            pagingTracks,
+                            GetFullAlbum(SimplifyId(playback.Context.Uri)),
+                            next => WebAppService.DownloadData<Paging<SimpleTrack>>(next));
+                    }
+                    if (playback.Context.Type == "playlist")
+                    {
+                        Paging<PlaylistTrack> pagingTracks;
+                        lock (WebAppService)
                         {
-                            return MakeTracks(
-                                WebAppService.GetPlaylistTracks(SimplifyId(playback.Context.Uri), market: PreferredMarket),
-                                next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
+                            pagingTracks = WebAppService.GetPlaylistTracks(SimplifyId(playback.Context.Uri), market: PreferredMarket, limit: 50);
                         }
+                        return MakeTracks(
+                            pagingTracks,
+                            next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
                     }
                 }
-                catch (System.Exception ex)
+
+                if (playback.Item != null)
                 {
-                    logger.Error(ex);
+                    return new List<SpotifyData.Track> { MakeTrack(GetFullTrack(SimplifyId(playback.Item.Uri))) };
                 }
+            }
+            catch (System.Exception ex)
+            {
+                logger.Error(ex);
             }
         }
         return new List<SpotifyData.Track>();
@@ -1412,9 +1474,12 @@ public static class Spotify
                 try
                 {
                     var playback = WebAppService.GetPlayback();
-                    if (!playback.IsPlaying)
+                    if (!playback.IsPlaying && playback.Item != null)
                     {
-                        WebAppService.ResumePlayback(deviceId: playback.Device.Id, contextUri: playback.Context.Uri, null, playback.Item.Uri, playback.ProgressMs);
+                        if (playback.Context != null)
+                            WebAppService.ResumePlayback(deviceId: playback.Device.Id, contextUri: playback.Context.Uri, null, playback.Item.Uri, playback.ProgressMs);
+                        else
+                            WebAppService.ResumePlayback(deviceId: playback.Device.Id, contextUri: null, new List<String> { playback.Item.Uri }, 0, playback.ProgressMs);
                     }
                     return 0;
                 }
@@ -1637,7 +1702,11 @@ public static class Spotify
 
             for (var retries = 5; retries >= 0; retries--)
             {
-                var newCol = ReadNext(col.Next);
+                Paging<FullArtist> newCol;
+                lock (WebAppService)
+                {
+                    newCol = ReadNext(col.Next);
+                }
                 if (newCol != null && retries > 0 && newCol.HasError())
                 {
                     logger.Info("Paged artists error - {0} - {1} [{2} found]",
@@ -1725,20 +1794,33 @@ public static class Spotify
         {
             if (col.Items == null) return null;
             var albumIds = col.Items.Select(a => GetAlbumId(a)).ToList();
-            foreach (var a in WebAppService.GetSeveralAlbums(albumIds, market: PreferredMarket).Albums)
+            List<FullAlbum> severalAlbums;
+            lock (WebAppService)
             {
-                if (a != null)
+                severalAlbums = WebAppService.GetSeveralAlbums(albumIds, market: PreferredMarket).Albums;
+            }
+
+            if (severalAlbums != null)
+            {
+                foreach (var a in severalAlbums)
                 {
-                    result.Add(MakeAlbum(a));
+                    if (a != null)
+                    {
+                        result.Add(MakeAlbum(a));
+                    }
+                    noFound++;
                 }
-                noFound++;
             }
 
             if (col.Next == null) break;
 
             for (var retries = 5; retries >= 0; retries--)
             {
-                var newCol = ReadNext(col.Next);
+                Paging<T> newCol;
+                lock (WebAppService)
+                {
+                    newCol = ReadNext(col.Next);
+                }
                 if (newCol != null && retries > 0 && newCol.HasError())
                 {
                     logger.Info("Paged albums error - {0} - {1} [{2} found]",
@@ -1823,7 +1905,11 @@ public static class Spotify
 
             for (var retries = 5; retries >= 0; retries--)
             {
-                var newCol = ReadNext(col.Next);
+                Paging<FullTrack> newCol;
+                lock (WebAppService)
+                {
+                    newCol = ReadNext(col.Next);
+                }
                 if (newCol != null && retries > 0 && newCol.HasError())
                 {
                     logger.Info("Paged tracks error - {0} - {1} [{2} found]",
@@ -1874,7 +1960,11 @@ public static class Spotify
 
             for (var retries = 5; retries >= 0; retries--)
             {
-                var newCol = ReadNext(col.Next);
+                Paging<SimpleTrack> newCol;
+                lock (WebAppService)
+                {
+                    newCol = ReadNext(col.Next);
+                }
                 if (newCol != null && retries > 0 && newCol.HasError())
                 {
                     logger.Info("Paged tracks error - {0} - {1} [{2} found]",
@@ -1922,7 +2012,11 @@ public static class Spotify
 
             for (var retries = 5; retries >= 0; retries--)
             {
-                var newCol = ReadNext(col.Next);
+                Paging<PlaylistTrack> newCol;
+                lock (WebAppService)
+                {
+                    newCol = ReadNext(col.Next);
+                }
                 if (newCol != null && retries > 0 && newCol.HasError())
                 {
                     logger.Info("Paged tracks error - {0} - {1} [{2} found]",
@@ -1980,7 +2074,11 @@ public static class Spotify
 
             for (var retries = 5; retries >= 0; retries--)
             {
-                var newCol = ReadNext(col.Next);
+                Paging<SimplePlaylist> newCol;
+                lock (WebAppService)
+                {
+                    newCol = ReadNext(col.Next);
+                }
                 if (newCol != null && retries > 0 && newCol.HasError())
                 {
                     logger.Info("Paged playlists error - {0} - {1} [{2} found]",

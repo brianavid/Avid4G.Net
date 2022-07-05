@@ -149,11 +149,12 @@ namespace Avid4.Net.Controllers
             int pos = Spotify.GetPosition();
             int playStatus = Spotify.GetPlaying();
 
-            SpotifyData.Track[] queuedTracks = Spotify.GetQueuedTracks().ToArray();
-            int foundIndexInQueue = Array.FindIndex(queuedTracks, t => t.Id == currentTrack.Id);
+            var queuedTracks = Spotify.GetQueuedTracks();
+            var queuedTracksArray = queuedTracks == null ? new SpotifyData.Track[0] : queuedTracks.ToArray();
+            int foundIndexInQueue = Array.FindIndex(queuedTracksArray, t => t.Id == currentTrack.Id);
             string indexDisplay = (foundIndexInQueue >= 0) ?
-                foundIndexInQueue + 1 + " / " + queuedTracks.Length :
-                "[ " + currentTrack.Index + 1 + " / " + currentTrack.Count + " ]";
+                foundIndexInQueue + 1 + " / " + queuedTracksArray.Length :
+                "[ " + (currentTrack.Index + 1) + " / " + currentTrack.Count + " ]";
 
             XElement info = new XElement("Track",
                 new XAttribute("id", currentTrack.Id),
