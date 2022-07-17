@@ -287,6 +287,16 @@ namespace Avid4.Net.Controllers
             return Content("");
         }
 
+        // GET: /Action/GoPC
+        public ActionResult GoPC()
+        {
+            Screen.EnsureScreenOn();
+            Running.StartStream("PC");
+            Receiver.SelectComputerInput();
+            Receiver.SelectTVOutput();
+            return Content("");
+        }
+
         // GET: /Action/GoRoku
         public ActionResult GoRoku()
         {

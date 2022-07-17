@@ -70,6 +70,13 @@ $(function () {
         }
     });
 
+    $("#selectPC").click(function () {
+        StopSwitching();
+        $.get("/Action/GoPC", null, function () {
+            LinkTo("/Home/Home")
+        })
+    });
+
     $("#selectEpg").mousedown(function () {
         StopSwitching();
         LinkTo("/Guide/Browser?mode=GuideRoot");
