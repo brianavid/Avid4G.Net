@@ -25,6 +25,7 @@ public static class Spotify
     static SpotifyWebAPI webAppService = null;
     static DateTime webApiExpiry = DateTime.Now;
     static string webApiCurrentUserId = null;
+    static object webAppServiceLock = new object();
 
     static string playbackDevice = null;
 
@@ -178,7 +179,7 @@ public static class Spotify
 
         if (!trackCache.ContainsKey(id))
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 trackCache[id] = WebAppService.GetTrack(id);
             }
@@ -193,7 +194,7 @@ public static class Spotify
 
         if (!albumCache.ContainsKey(id))
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 albumCache[id] = WebAppService.GetAlbum(id);
             }
@@ -208,7 +209,7 @@ public static class Spotify
 
         if (!artistCache.ContainsKey(id))
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 artistCache[id] = WebAppService.GetArtist(id);
             }
@@ -274,7 +275,7 @@ public static class Spotify
                 {
                     Paging<SavedAlbum> pagedAlbums;
 
-                    lock (WebAppService)
+                    lock (webAppServiceLock)
                     {
                         pagedAlbums = WebAppService.GetSavedAlbums();
                     }
@@ -316,14 +317,14 @@ public static class Spotify
                 {
                     var batchOfIds = batch.Select(id => SimplifyId(id));
                     SeveralArtists batchOfArtists;
-                    lock (WebAppService)
+                    lock (webAppServiceLock)
                     {
                         batchOfArtists = WebAppService.GetSeveralArtists(batchOfIds.ToList());
                     }
                     if (batchOfArtists.Artists == null)
                     {
                         System.Threading.Thread.Sleep(2000);
-                        lock (WebAppService)
+                        lock (webAppServiceLock)
                         {
                             batchOfArtists = WebAppService.GetSeveralArtists(batchOfIds.ToList());
                         }
@@ -384,7 +385,7 @@ public static class Spotify
             try
             {
                 Paging<FullTrack> tracks;
-                lock (WebAppService)
+                lock (webAppServiceLock)
                 {
                     tracks = WebAppService.SearchItems(HttpUtility.UrlEncode(name), SearchType.Track, limit: 50).Tracks;
                 }
@@ -415,7 +416,7 @@ public static class Spotify
             try
             {
                 Paging<SimpleAlbum> albums;
-                lock (WebAppService)
+                lock (webAppServiceLock)
                 {
                     albums = WebAppService.SearchItems(HttpUtility.UrlEncode(name), SearchType.Album).Albums;
                 }
@@ -447,7 +448,7 @@ public static class Spotify
             try
             {
                 Paging<FullArtist> artists;
-                lock (WebAppService)
+                lock (webAppServiceLock)
                 {
                     artists = WebAppService.SearchItems(HttpUtility.UrlEncode(name), SearchType.Artist, limit: 50).Artists;
                 }
@@ -475,7 +476,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -501,7 +502,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -527,7 +528,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -650,9 +651,9 @@ public static class Spotify
                 ArtistHistory.Add(artist.Name, artist.Id);
 
                 Paging<SimpleAlbum> albums;
-                lock (WebAppService)
+                lock (webAppServiceLock)
                 {
-                    albums = WebAppService.GetArtistsAlbums(SimplifyId(id), AlbumType.Album, market: PreferredMarket, limit: 50);
+                    albums = WebAppService.GetArtistsAlbums(SimplifyId(id), AlbumType.All, market: PreferredMarket, limit: 50);
                 }
                 return MakeAlbums(
                     albums,
@@ -678,7 +679,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -716,7 +717,7 @@ public static class Spotify
             try
             {
                 Paging<SimpleTrack> tracks;
-                lock (WebAppService)
+                lock (webAppServiceLock)
                 {
                     tracks = WebAppService.GetAlbumTracks(SimplifyId(id), market: PreferredMarket, limit: 50);
                 }
@@ -744,7 +745,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -781,7 +782,7 @@ public static class Spotify
             {
                 Paging<SimplePlaylist> pagingPlaylist;
 
-                lock (WebAppService)
+                lock (webAppServiceLock)
                 {
                     pagingPlaylist = WebAppService.GetUserPlaylists(webApiCurrentUserId);
                 }
@@ -813,7 +814,7 @@ public static class Spotify
             try
             {
                 Paging<PlaylistTrack> tracks;
-                lock (WebAppService)
+                lock (webAppServiceLock)
                 {
                     tracks = WebAppService.GetPlaylistTracks(SimplifyId(id), market: PreferredMarket);
                 }
@@ -843,7 +844,7 @@ public static class Spotify
             try
             {
                 Paging<PlaylistTrack> pagingTracks;
-                lock (WebAppService)
+                lock (webAppServiceLock)
                 {
                     pagingTracks = WebAppService.GetPlaylistTracks(SimplifyId(id), market: PreferredMarket);
                 }
@@ -880,7 +881,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -905,7 +906,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -930,7 +931,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -955,7 +956,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -980,7 +981,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -1011,7 +1012,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -1036,7 +1037,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -1087,7 +1088,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -1111,7 +1112,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -1135,7 +1136,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -1189,7 +1190,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -1230,14 +1231,14 @@ public static class Spotify
                 if (append)
                 {
                     Paging<SimpleTrack> pagingTracks;
-                    lock (WebAppService)
+                    lock (webAppServiceLock)
                     {
                         pagingTracks = WebAppService.GetAlbumTracks(SimplifyId(id), market: PreferredMarket, limit: 50);
                     }
                     var tracks = MakeTracks(pagingTracks,
                                 GetFullAlbum(SimplifyId(id)),
                                 next => WebAppService.DownloadData<Paging<SimpleTrack>>(next));
-                    lock (WebAppService)
+                    lock (webAppServiceLock)
                     {
                         foreach (var t in tracks)
                         {
@@ -1247,7 +1248,7 @@ public static class Spotify
                 }
                 else
                 {
-                    lock (WebAppService)
+                    lock (webAppServiceLock)
                     {
                         WebAppService.ResumePlayback(deviceId: GetPlaybackDevice(), contextUri: id, offset: 0);
                     }
@@ -1280,13 +1281,13 @@ public static class Spotify
                 if (append)
                 {
                     Paging<PlaylistTrack> pagingTracks;
-                    lock (WebAppService)
+                    lock (webAppServiceLock)
                     {
                         pagingTracks = WebAppService.GetPlaylistTracks(SimplifyId(id), market: PreferredMarket, limit: 50);
                     }
                     var tracks = MakeTracks(pagingTracks,
                                 next => WebAppService.DownloadData<Paging<PlaylistTrack>>(next));
-                    lock (WebAppService)
+                    lock (webAppServiceLock)
                     {
                         foreach (var t in tracks)
                         {
@@ -1296,7 +1297,7 @@ public static class Spotify
                 }
                 else
                 {
-                    lock (WebAppService)
+                    lock (webAppServiceLock)
                     {
                         WebAppService.ResumePlayback(deviceId: GetPlaybackDevice(), contextUri: id, offset: 0);
                     }
@@ -1320,7 +1321,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -1356,7 +1357,7 @@ public static class Spotify
                     if (playback.Context.Type == "album")
                     {
                         Paging<SimpleTrack> pagingTracks;
-                        lock (WebAppService)
+                        lock (webAppServiceLock)
                         {
                             pagingTracks = WebAppService.GetAlbumTracks(SimplifyId(playback.Context.Uri), market: PreferredMarket, limit: 50);
                         }
@@ -1368,7 +1369,7 @@ public static class Spotify
                     if (playback.Context.Type == "playlist")
                     {
                         Paging<PlaylistTrack> pagingTracks;
-                        lock (WebAppService)
+                        lock (webAppServiceLock)
                         {
                             pagingTracks = WebAppService.GetPlaylistTracks(SimplifyId(playback.Context.Uri), market: PreferredMarket, limit: 50);
                         }
@@ -1421,7 +1422,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -1445,7 +1446,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -1469,7 +1470,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -1500,7 +1501,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -1524,7 +1525,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -1548,7 +1549,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -1572,7 +1573,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -1598,7 +1599,7 @@ public static class Spotify
     {
         if (WebAppService != null)
         {
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 try
                 {
@@ -1616,6 +1617,7 @@ public static class Spotify
 
     public static void ExitPlayer()
     {
+        Stop();
     }
     #endregion
 
@@ -1703,7 +1705,7 @@ public static class Spotify
             for (var retries = 5; retries >= 0; retries--)
             {
                 Paging<FullArtist> newCol;
-                lock (WebAppService)
+                lock (webAppServiceLock)
                 {
                     newCol = ReadNext(col.Next);
                 }
@@ -1752,7 +1754,8 @@ public static class Spotify
             Name = album.Name,
             ArtistId = album.Artists[0].Uri,
             ArtistName = album.Artists[0].Name,
-            Year = ReleaseYear(album)
+            Year = ReleaseYear(album),
+            TrackCount = album.TotalTracks
         };
     }
 
@@ -1795,7 +1798,7 @@ public static class Spotify
             if (col.Items == null) return null;
             var albumIds = col.Items.Select(a => GetAlbumId(a)).ToList();
             List<FullAlbum> severalAlbums;
-            lock (WebAppService)
+            lock (webAppServiceLock)
             {
                 severalAlbums = WebAppService.GetSeveralAlbums(albumIds, market: PreferredMarket).Albums;
             }
@@ -1817,7 +1820,7 @@ public static class Spotify
             for (var retries = 5; retries >= 0; retries--)
             {
                 Paging<T> newCol;
-                lock (WebAppService)
+                lock (webAppServiceLock)
                 {
                     newCol = ReadNext(col.Next);
                 }
@@ -1906,7 +1909,7 @@ public static class Spotify
             for (var retries = 5; retries >= 0; retries--)
             {
                 Paging<FullTrack> newCol;
-                lock (WebAppService)
+                lock (webAppServiceLock)
                 {
                     newCol = ReadNext(col.Next);
                 }
@@ -1961,7 +1964,7 @@ public static class Spotify
             for (var retries = 5; retries >= 0; retries--)
             {
                 Paging<SimpleTrack> newCol;
-                lock (WebAppService)
+                lock (webAppServiceLock)
                 {
                     newCol = ReadNext(col.Next);
                 }
@@ -2013,7 +2016,7 @@ public static class Spotify
             for (var retries = 5; retries >= 0; retries--)
             {
                 Paging<PlaylistTrack> newCol;
-                lock (WebAppService)
+                lock (webAppServiceLock)
                 {
                     newCol = ReadNext(col.Next);
                 }
@@ -2075,7 +2078,7 @@ public static class Spotify
             for (var retries = 5; retries >= 0; retries--)
             {
                 Paging<SimplePlaylist> newCol;
-                lock (WebAppService)
+                lock (webAppServiceLock)
                 {
                     newCol = ReadNext(col.Next);
                 }

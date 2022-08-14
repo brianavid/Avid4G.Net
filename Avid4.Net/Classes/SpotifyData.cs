@@ -34,6 +34,7 @@ namespace Avid.Spotify
             public string ArtistId { get; set; }
             public string ArtistName { get; set; }
             public string Year { get; set; }
+            public int TrackCount { get; set; }
         }
 
         /// <summary>
