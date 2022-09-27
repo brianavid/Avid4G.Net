@@ -98,13 +98,17 @@ public class Security
             var securityProfileId = key.GetValue("SecurityProfile") as string;
             if (securityProfileId == null)
             {
-                key = Registry.LocalMachine.OpenSubKey(@"Software\Avid");
+                key = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).OpenSubKey(@"Software\Avid");
                 securityProfileId = key.GetValue("SecurityProfile") as string;
             }
 
             if (!String.IsNullOrEmpty(securityProfileId))
             {
                 LoadProfile(Int32.Parse(securityProfileId), true);
+            }
+            else
+            {
+                LoadDefaultProfile(true);
             }
 
         }
