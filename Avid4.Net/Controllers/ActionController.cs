@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -352,6 +353,15 @@ namespace Avid4.Net.Controllers
             Spotify.ExitPlayer();
 
             HttpRuntime.UnloadAppDomain();
+            return Content("");
+        }
+
+        // GET: /Action/RebootSystems
+        public ActionResult RebootSystems()
+        {
+            Receiver.Reboot();
+
+            Process.Start("shutdown", "/r /t 0");
             return Content("");
         }
 

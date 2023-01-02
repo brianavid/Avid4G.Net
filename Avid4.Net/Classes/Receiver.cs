@@ -481,4 +481,12 @@ public static class Receiver
             GetXml("<YAMAHA_AV cmd=\"PUT\"><Zone_2><Input><Input_Sel>TUNER</Input_Sel></Input></Zone_2></YAMAHA_AV>");
         }
     }
+
+    /// <summary>
+    /// Reboot the Receiver
+    /// </summary>
+    public static void Reboot()
+    {
+        GetXml("<YAMAHA_AV cmd=\"PUT\"><System><Service><System_Reboot>Reboot</System_Reboot></Service></System></YAMAHA_AV>");
+    }
 }

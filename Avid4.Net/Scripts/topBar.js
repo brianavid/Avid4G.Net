@@ -251,6 +251,31 @@ $(function () {
         });
     });
 
+    $("#actionMenuRebootSystems").click(function () {
+        $(".actionMenu").hide()
+        OverlayScreen()
+        $.ajax({
+            url: "/Action/RebootSystems",
+            success: function (data) {
+                setInterval(waitForServerToRestart, 10000);
+            },
+            error: function (data) {
+                setInterval(waitForServerToRestart, 10000);
+            },
+            cache: false
+        });
+    });
+
+    function waitForServerToRestart() {
+        OverlayScreen()
+        $.ajax({
+            url: "/Action/GetRunning",
+            success: function (result) {
+                window.location.reload(true);
+            },
+            cache: false
+        });
+    }
     panelSwitcher = setInterval('SwitchPanelAfterWake(' + (document.getElementById("isWide") != null) + ')', 1000);
 });
 
