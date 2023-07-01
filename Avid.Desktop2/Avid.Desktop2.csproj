@@ -94,9 +94,8 @@
     <Reference Include="InputSimulator">
       <HintPath>..\ReferencedDLLs\InputSimulator.dll</HintPath>
     </Reference>
-    <Reference Include="LibCecSharp, Version=3.0.1.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Pulse-Eight\USB-CEC Adapter\LibCecSharp.dll</HintPath>
+    <Reference Include="LibCecSharp">
+      <HintPath>.\LibCecSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />

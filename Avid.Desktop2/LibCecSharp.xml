@@ -1,0 +1,2231 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        "LibCecSharp"
+    </assembly>
+    <members>
+        <member name="M:CecSharp.LibCecSharp.GetAdapterProductId">
+            <summary>
+Get the (virtual) USB product id
+</summary>
+            <returns>The (virtual) USB product id</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.GetAdapterVendorId">
+            <summary>
+Get the (virtual) USB vendor id
+</summary>
+            <returns>The (virtual) USB vendor id</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.InitVideoStandalone">
+            <summary>
+Calling this method will initialise the host on which libCEC is running.
+On the RPi, it calls bcm_host_init(), which may only be called once per process, and is called by any process using
+the video api on that system. So only call this method if libCEC is used in an application that
+does not already initialise the video api.
+</summary>
+            <remarks>Should be called as first call to libCEC, directly after CECInitialise() and before using Open()</remarks>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.GetLibInfo">
+            <summary>
+Get a string with information about how libCEC was compiled.
+</summary>
+            <returns>A string with information about how libCEC was compiled.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.GetDeviceInformation(System.String,CecSharp.LibCECConfiguration,System.UInt32)">
+            <summary>
+Get information about the given CEC adapter.
+</summary>
+            <param name="port">The COM port to which the device is connected</param>
+            <param name="configuration">The device configuration</param>
+            <param name="timeoutMs">The timeout in milliseconds</param>
+            <returns>True when the device was found, false otherwise</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.IsLibCECActiveSource">
+            <summary>
+Check whether libCEC is the active source on the bus.
+</summary>
+            <returns>True when libCEC is the active source on the bus, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.SetConfiguration(CecSharp.LibCECConfiguration)">
+            <summary>
+Change libCEC's configuration.
+</summary>
+            <param name="configuration">The new configuration.</param>
+            <returns>True when the configuration was changed successfully, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.PersistConfiguration(CecSharp.LibCECConfiguration)">
+            <summary>
+Persist the given configuration in adapter (if supported)
+</summary>
+            <param name="configuration">The configuration to store.</param>
+            <returns>True when the configuration was persisted, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.CanPersistConfiguration">
+            <summary>
+Check whether the CEC adapter can persist a configuration.
+</summary>
+            <returns>True when this CEC adapter can persist the user configuration, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.GetCurrentConfiguration(CecSharp.LibCECConfiguration)">
+            <summary>
+Get libCEC's current configuration.
+</summary>
+            <param name="configuration">The configuration.</param>
+            <returns>True when the configuration was updated, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.GetLogicalAddresses">
+            <summary>
+Get the list of logical addresses that libCEC is controlling
+</summary>
+            <returns>The list of logical addresses that libCEC is controlling</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.SetStreamPath(System.UInt16)">
+            <summary>
+Sets the stream path to the device on the given physical address.
+</summary>
+            <param name="physicalAddress">The address to activate.</param>
+            <returns>True when the command was sent, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.SetStreamPath(CecSharp.CecLogicalAddress)">
+            <summary>
+Sets the stream path to the device on the given logical address.
+</summary>
+            <param name="address">The address to activate.</param>
+            <returns>True when the command was sent, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.GetDevicePhysicalAddress(CecSharp.CecLogicalAddress)">
+            <summary>
+Get the physical address of the device with the given logical address.
+</summary>
+            <param name="address">The logical address of the device to get the physical address for.</param>
+            <returns>The physical address or 0 if it wasn't found.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.IsActiveSource(CecSharp.CecLogicalAddress)">
+            <summary>
+Check whether a device is currently the active source on the CEC bus.
+</summary>
+            <param name="logicalAddress">The logical address of the device to check.</param>
+            <returns>True when it is the active source, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.GetActiveSource">
+            <summary>
+Get the logical address of the device that is currently the active source on the CEC bus.
+</summary>
+            <returns>The active source or CECDEVICE_UNKNOWN when unknown.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.GetDeviceOSDName(CecSharp.CecLogicalAddress)">
+            <summary>
+Get the OSD name of a device on the CEC bus.
+</summary>
+            <param name="logicalAddress">The logical address of the device to get the OSD name for.</param>
+            <returns>The OSD name.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.SendKeyRelease(CecSharp.CecLogicalAddress,System.Boolean)">
+            <summary>
+Send a key release to a device on the CEC bus.
+</summary>
+            <param name="destination">The logical address of the device to send the message to.</param>
+            <param name="wait">True to wait for a response, false otherwise.</param>
+            <returns>True when the key release was acked, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.SendKeypress(CecSharp.CecLogicalAddress,CecSharp.CecUserControlCode,System.Boolean)">
+            <summary>
+Send a keypress to a device on the CEC bus.
+</summary>
+            <param name="destination">The logical address of the device to send the message to.</param>
+            <param name="key">The key to send.</param>
+            <param name="wait">True to wait for a response, false otherwise.</param>
+            <returns>True when the keypress was acked, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.MuteAudio">
+            <summary>
+Sends a mute keypress to an audiosystem if it's present.
+</summary>
+            <returns>The new audio status.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.VolumeDown(System.Boolean)">
+            <summary>
+Sends a volume down keypress to an audiosystem if it's present.
+</summary>
+            <param name="sendRelease">Send a key release after the keypress.</param>
+            <returns>The new audio status.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.VolumeUp(System.Boolean)">
+            <summary>
+Sends a volume up keypress to an audiosystem if it's present.
+</summary>
+            <param name="sendRelease">Send a key release after the keypress.</param>
+            <returns>The new audio status.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.SetHDMIPort(CecSharp.CecLogicalAddress,System.Byte)">
+            <summary>
+Changes the active HDMI port.
+</summary>
+            <param name="address">The device to which this libCEC is connected.</param>
+            <param name="port">The new port number.</param>
+            <returns>True when changed, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.IsActiveDeviceType(CecSharp.CecDeviceType)">
+            <summary>
+Check whether a device of the given type is active on the bus.
+</summary>
+            <param name="type">The type to check.</param>
+            <returns>True when active, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.IsActiveDevice(CecSharp.CecLogicalAddress)">
+            <summary>
+Check whether a device is active on the bus.
+</summary>
+            <param name="logicalAddress">The address to check.</param>
+            <returns>True when active, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.GetActiveDevices">
+            <summary>
+Get the logical addresses of the devices that are active on the bus, including those handled by libCEC.
+</summary>
+            <returns>The logical addresses of the active devices</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.RescanActiveDevices">
+            <summary>
+Tell libCEC to poll for active devices on the bus.
+</summary>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.GetDevicePowerStatus(CecSharp.CecLogicalAddress)">
+            <summary>
+Get the power status of the device with the given logical address.
+</summary>
+            <param name="logicalAddress">The logical address of the device to get the power status for.</param>
+            <returns>The power status or CEC_POWER_STATUS_UNKNOWN if it wasn't found.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.GetDeviceVendorId(CecSharp.CecLogicalAddress)">
+            <summary>
+Get the vendor ID of the device with the given logical address.
+</summary>
+            <param name="logicalAddress">The logical address of the device to get the vendor ID for.</param>
+            <returns>The vendor ID or 0 if it wasn't found.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.GetDeviceMenuLanguage(CecSharp.CecLogicalAddress)">
+            <summary>
+Get the menu language of the device with the given logical address
+</summary>
+            <param name="logicalAddress">The logical address of the device to get the menu language for.</param>
+            <returns>The requested menu language.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.GetDeviceCecVersion(CecSharp.CecLogicalAddress)">
+            <summary>
+Get the CEC version of the device with the given logical address
+</summary>
+            <param name="logicalAddress">The logical address of the device to get the CEC version for.</param>
+            <returns>The version or CEC_VERSION_UNKNOWN when the version couldn't be fetched.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.SwitchMonitoring(System.Boolean)">
+            <summary>
+Enable or disable monitoring mode, for debugging purposes. If monitoring mode is enabled, libCEC won't respond to any command, but only log incoming data.
+</summary>
+            <param name="enable">True to enable, false to disable.</param>
+            <returns>True when switched successfully, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.SetOSDString(CecSharp.CecLogicalAddress,CecSharp.CecDisplayControl,System.String)">
+            <summary>
+Display a message on the device with the given logical address. Not supported by most TVs.
+</summary>
+            <param name="logicalAddress">The logical address of the device to display the message on.</param>
+            <param name="duration">The duration of the message</param>
+            <param name="message">The message to display.</param>
+            <returns>True when the command was sent, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.SetMenuState(CecSharp.CecMenuState,System.Boolean)">
+            <summary>
+Change the menu state. This value is already changed by libCEC automatically if a device is (de)activated.
+</summary>
+            <param name="state">The new state.</param>
+            <param name="sendUpdate">True to send the new status over the CEC line.</param>
+            <returns>True if set, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.SetInactiveView">
+            <summary>
+Broadcast a message that notifies connected CEC capable devices that this device is no longer the active source.
+</summary>
+            <returns>True when the command was sent successfully, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.SetDeckInfo(CecSharp.CecDeckInfo,System.Boolean)">
+            <summary>
+Change the deck info, if this adapter is a playback or recording device.
+</summary>
+            <param name="info">The new deck info.</param>
+            <param name="sendUpdate">True to send the new status over the CEC line.</param>
+            <returns>True if set, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.SetDeckControlMode(CecSharp.CecDeckControlMode,System.Boolean)">
+            <summary>
+Change the deck control mode, if this adapter is registered as playback or recording device.
+</summary>
+            <param name="mode">The new control mode.</param>
+            <param name="sendUpdate">True to send the new status over the CEC line.</param>
+            <returns>True if set, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.SetActiveSource(CecSharp.CecDeviceType)">
+            <summary>
+Change the active source to a device type handled by libCEC. Use CEC_DEVICE_TYPE_RESERVED to make the default type used by libCEC active.
+</summary>
+            <param name="type">The new active source. Use CEC_DEVICE_TYPE_RESERVED to use the primary type</param>
+            <returns>True when the command was sent successfully, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.PollDevice(CecSharp.CecLogicalAddress)">
+            <summary>
+Sends a POLL message to a device, to check if it's present and responding.
+</summary>
+            <param name="logicalAddress">The device to send the message to.</param>
+            <returns>True if the POLL was acked, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.StandbyDevices(CecSharp.CecLogicalAddress)">
+            <summary>
+Put the given CEC capable devices in standby mode. If CECDEVICE_BROADCAST is used, then standbyDevices in libcec_configuration will be used.
+</summary>
+            <param name="logicalAddress">The logical address of the device to put in standby.</param>
+            <returns>True when the command was sent successfully, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.PowerOnDevices(CecSharp.CecLogicalAddress)">
+            <summary>
+Power on the given CEC capable devices. If CECDEVICE_BROADCAST is used, then wakeDevice in libcec_configuration will be used.
+</summary>
+            <param name="logicalAddress">The logical address to power on.</param>
+            <returns>True when the command was sent successfully, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.SetPhysicalAddress(System.UInt16)">
+            <summary>
+Change the physical address (HDMI port) of the CEC adapter. libCEC will try to autodetect the physical address when connecting. If it did, it's set in libcec_configuration.
+</summary>
+            <param name="physicalAddress">The CEC adapter's new physical address.</param>
+            <returns>True when the physical address was set successfully, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.SetLogicalAddress(CecSharp.CecLogicalAddress)">
+            <summary>
+Change the logical address on the CEC bus of the CEC adapter. libCEC automatically assigns a logical address, and this method is only available for debugging purposes.
+</summary>
+            <param name="logicalAddress">The CEC adapter's new logical address.</param>
+            <returns>True when the logical address was set successfully, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.Transmit(CecSharp.CecCommand)">
+            <summary>
+Transmit a raw CEC command over the CEC line.
+</summary>
+            <param name="command">The command to transmit</param>
+            <returns>True when the data was sent and acked, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.StartBootloader">
+            <summary>
+Start the bootloader of the CEC adapter. Closes the connection when successful.
+</summary>
+            <returns>True when the command was sent successfully, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.PingAdapter">
+            <summary>
+Sends a ping command to the adapter, to check if it's responding.
+</summary>
+            <returns>True when the ping was successful, false otherwise</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.EnableCallbacks(CecSharp.CecCallbackMethods)">
+            <summary>
+Enable or change the callback methods that libCEC uses to send changes to the client application.
+</summary>
+            <param name="callbacks">The new callback methods to use.</param>
+            <returns>True when the callbacks were changed, false otherwise</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.DisableCallbacks">
+            <summary>
+Disable all calls to callback methods.
+</summary>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.Close">
+            <summary>
+Close the connection to the CEC adapter
+</summary>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.Open(System.String,System.Int32)">
+            <summary>
+Open a connection to the CEC adapter.
+</summary>
+            <param name="strPort">The COM port of the adapter</param>
+            <param name="iTimeoutMs">Connection timeout in milliseconds</param>
+            <returns>True when a connection was opened, false otherwise.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.FindAdapters(System.String)">
+            <summary>
+Try to find all connected CEC adapters.
+</summary>
+            <param name="path">The path filter for adapters. Leave empty to return all adapters.</param>
+            <returns>The adapters that were found.</returns>
+        </member>
+        <member name="M:CecSharp.LibCecSharp.#ctor(CecSharp.LibCECConfiguration)">
+            <summary>
+Create a new LibCecSharp instance.
+</summary>
+            <param name="config">The configuration to pass to libCEC.</param>
+        </member>
+        <member name="T:CecSharp.LibCecSharp">
+            <summary>
+Create a LibCecSharp instance and pass the configuration as argument.
+Then call Open() to open a connection to the adapter. Close() closes the
+connection.
+
+libCEC can send commands to other devices on the CEC bus via the methods
+on this interface, and all commands that libCEC received are sent back
+to the application via callback methods. The callback methods can be
+found in CecSharpTypes.h, CecCallbackMethods.
+</summary>
+        </member>
+        <member name="M:CecSharp.CecCallbackMethods.SourceActivated(CecSharp.CecLogicalAddress,System.Boolean)">
+            <summary>
+Called by libCEC to notify the application that the source that is handled by libCEC was (de)activated.
+Override in the application to handle this callback.
+</summary>
+            <param name="logicalAddress">The logical address that was (de)activated</param>
+            <param name="activated">True when activated, false when deactivated</param>
+        </member>
+        <member name="M:CecSharp.CecCallbackMethods.ReceiveMenuStateChange(CecSharp.CecMenuState)">
+            <summary>
+Called by libCEC to send back a menu state change to the application.
+Override in the application to handle this callback.
+</summary>
+            <param name="newVal">The new menu state</param>
+            <return>1 when handled, 0 otherwise</return>
+        </member>
+        <member name="M:CecSharp.CecCallbackMethods.ReceiveAlert(CecSharp.CecAlert,CecSharp.CecParameter)">
+            <summary>
+Called by libCEC to send back an alert message to the application.
+Override in the application to handle this callback.
+</summary>
+            <param name="data">The alert message</param>
+            <return>1 when handled, 0 otherwise</return>
+        </member>
+        <member name="M:CecSharp.CecCallbackMethods.ConfigurationChanged(CecSharp.LibCECConfiguration)">
+            <summary>
+Called by libCEC to send back an updated configuration to the application.
+Override in the application to handle this callback.
+</summary>
+            <param name="config">The new configuration</param>
+            <return>1 when handled, 0 otherwise</return>
+        </member>
+        <member name="M:CecSharp.CecCallbackMethods.ReceiveCommand(CecSharp.CecCommand)">
+            <summary>
+Called by libCEC to send back raw CEC data to the application.
+Override in the application to handle this callback.
+</summary>
+            <param name="command">The raw CEC data</param>
+            <return>1 when handled, 0 otherwise</return>
+        </member>
+        <member name="M:CecSharp.CecCallbackMethods.ReceiveKeypress(CecSharp.CecKeypress)">
+            <summary>
+Called by libCEC to send back a key press or release to the application.
+Override in the application to handle this callback.
+</summary>
+            <param name="key">The key press command that libCEC received</param>
+            <return>1 when handled, 0 otherwise</return>
+        </member>
+        <member name="M:CecSharp.CecCallbackMethods.ReceiveLogMessage(CecSharp.CecLogMessage)">
+            <summary>
+Called by libCEC to send back a log message to the application.
+Override in the application to handle this callback.
+</summary>
+            <param name="message">The log message</param>
+            <return>1 when handled, 0 otherwise</return>
+        </member>
+        <member name="M:CecSharp.CecCallbackMethods.EnableCallbacks(CecSharp.CecCallbackMethods)">
+            <summary>
+Enable callback methods
+</summary>
+            <param name="callbacks">Callback methods to activate</param>
+            <return>true when handled, false otherwise</return>
+        </member>
+        <member name="M:CecSharp.CecCallbackMethods.DisableCallbacks">
+            <summary>
+Disable callback methods
+</summary>
+        </member>
+        <member name="M:CecSharp.CecCallbackMethods.GetCallbackPtr">
+            <summary>
+Pointer to the callbacks struct entry
+</summary>
+        </member>
+        <member name="T:CecSharp.CecCallbackMethods">
+            <summary>
+The callback methods that libCEC uses
+</summary>
+        </member>
+        <member name="M:CecSharp.AssignCallbacks">
+            <summary>
+Assign the callback methods in the g_cecCallbacks struct
+</summary>
+        </member>
+        <member name="T:CecSharp.CecSourceActivatedManagedDelegate">
+            <summary>
+Delegate method for the CecSourceActivatedCB callback in CecCallbackMethods
+</summary>
+        </member>
+        <member name="T:CecSharp.CecMenuManagedDelegate">
+            <summary>
+Delegate method for the CecMenuCB callback in CecCallbackMethods
+</summary>
+        </member>
+        <member name="T:CecSharp.CecAlertManagedDelegate">
+            <summary>
+Delegate method for the CecAlertCB callback in CecCallbackMethods
+</summary>
+        </member>
+        <member name="T:CecSharp.CecConfigManagedDelegate">
+            <summary>
+Delegate method for the CecConfigCB callback in CecCallbackMethods
+</summary>
+        </member>
+        <member name="T:CecSharp.CecCommandManagedDelegate">
+            <summary>
+Delegate method for the CecCommandCB callback in CecCallbackMethods
+</summary>
+        </member>
+        <member name="T:CecSharp.CecKeyPressManagedDelegate">
+            <summary>
+Delegate method for the CecKeyPressCB callback in CecCallbackMethods
+</summary>
+        </member>
+        <member name="T:CecSharp.CecLogMessageManagedDelegate">
+            <summary>
+Delegate method for the CecLogMessageCB callback in CecCallbackMethods
+</summary>
+        </member>
+        <member name="M:CecSharp.CecSourceActivatedCB(System.Void*,CEC.cec_logical_address!System.Runtime.CompilerServices.IsConst,System.Byte!System.Runtime.CompilerServices.IsConst)">
+            <summary>
+Called by libCEC to notify the application that the source that is handled by libCEC was (de)activated
+</summary>
+            <param name="cbParam">Pointer to the callback struct</param>
+            <param name="logicalAddress">The logical address that was (de)activated</param>
+            <param name="activated">True when activated, false when deactivated</param>
+        </member>
+        <member name="M:CecSharp.CecMenuCB(System.Void*,CEC.cec_menu_state!System.Runtime.CompilerServices.IsConst)">
+            <summary>
+Called by libCEC to send back a menu state change to the application
+</summary>
+            <param name="cbParam">Pointer to the callback struct</param>
+            <param name="newVal">The new menu state</param>
+            <return>1 when handled, 0 otherwise</return>
+        </member>
+        <member name="M:CecSharp.CecAlertCB(System.Void*,CEC.libcec_alert!System.Runtime.CompilerServices.IsConst,CEC.libcec_parameter!System.Runtime.CompilerServices.IsConst)">
+            <summary>
+Called by libCEC to send back an alert message to the application
+</summary>
+            <param name="cbParam">Pointer to the callback struct</param>
+            <param name="data">The alert message</param>
+        </member>
+        <member name="M:CecSharp.CecConfigCB(System.Void*,CEC.libcec_configuration!System.Runtime.CompilerServices.IsConst*)">
+            <summary>
+Called by libCEC to send back an updated configuration to the application
+</summary>
+            <param name="cbParam">Pointer to the callback struct</param>
+            <param name="config">The new configuration</param>
+        </member>
+        <member name="M:CecSharp.CecCommandCB(System.Void*,CEC.cec_command!System.Runtime.CompilerServices.IsConst*)">
+            <summary>
+Called by libCEC to send back raw CEC data to the application
+</summary>
+            <param name="cbParam">Pointer to the callback struct</param>
+            <param name="command">The raw CEC data</param>
+        </member>
+        <member name="M:CecSharp.CecKeyPressCB(System.Void*,CEC.cec_keypress!System.Runtime.CompilerServices.IsConst*)">
+            <summary>
+Called by libCEC to send back a key press or release to the application
+</summary>
+            <param name="cbParam">Pointer to the callback struct</param>
+            <param name="key">The key press command that libCEC received</param>
+        </member>
+        <member name="M:CecSharp.CecLogMessageCB(System.Void*,CEC.cec_log_message!System.Runtime.CompilerServices.IsConst*)">
+            <summary>
+Called by libCEC to send back a log message to the application
+</summary>
+            <param name="cbParam">Pointer to the callback struct</param>
+            <param name="message">The log message</param>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.AdapterType">
+            <summary>
+The type of adapter that libCEC is connected to.
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.CECVersion">
+            <summary>
+The CEC version that libCEC uses.
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.FirmwareBuildDate">
+            <summary>
+The build date of the firmware.
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.Callbacks">
+            <summary>
+The callback methods to use.
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.DeviceLanguage">
+            <summary>
+The language code of the menu language that libCEC reports to other devices.
+3 character ISO 639-2 country code. see http://http://www.loc.gov/standards/iso639-2/
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.MonitorOnlyClient">
+            <summary>
+True to start a monitor-only client, false to start a standard client.
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.FirmwareVersion">
+            <summary>
+The firmware version of the adapter to which libCEC is connected
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.LogicalAddresses">
+            <summary>
+The list of logical addresses that libCEC is using
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.PowerOffOnStandby">
+            <summary>
+Power off the PC when the TV powers off. Must be implemented by the client application.
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.PowerOffDevices">
+            <summary>
+List of devices to power off when calling StandbyDevices() without any parameter.
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.WakeDevices">
+            <summary>
+List of devices to wake when initialising libCEC or when calling PowerOnDevices() without any parameter.
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.ActivateSource">
+            <summary>
+Make libCEC the active source when starting the client application
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.GetSettingsFromROM">
+            <summary>
+True to read the settings from the EEPROM, which possibly override the settings passed here
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.TvVendor">
+            <summary>
+Override the vendor ID of the TV. Leave this untouched to autodetect
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.ServerVersion">
+            <summary>
+The version of libCEC
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.ClientVersion">
+            <summary>
+The client API version to use
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.HDMIPort">
+            <summary>
+The HDMI port to which the adapter is connected. Only used when iPhysicalAddress = 0 or when the adapter doesn't support autodetection
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.BaseDevice">
+            <summary>
+The logical address of the device to which the adapter is connected. Only used when PhysicalAddress = 0 or when the adapter doesn't support autodetection
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.PhysicalAddress">
+            <summary>
+The physical address of the CEC adapter
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.AutodetectAddress">
+            <summary>
+(read only) set to true by libCEC when the physical address was autodetected
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.DeviceTypes">
+            <summary>
+The device type(s) to use on the CEC bus for libCEC
+</summary>
+        </member>
+        <member name="P:CecSharp.LibCECConfiguration.DeviceName">
+            <summary>
+The device name to use on the CEC bus
+</summary>
+        </member>
+        <member name="M:CecSharp.LibCECConfiguration.Update(CEC.libcec_configuration!System.Runtime.CompilerServices.IsConst*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
+            <summary>
+Update this configuration with data received from libCEC
+</summary>
+            <param name="config">The configuration that was received from libCEC</param>
+        </member>
+        <member name="M:CecSharp.LibCECConfiguration.SetCallbacks(CecSharp.CecCallbackMethods)">
+            <summary>
+Change the callback method pointers in this configuration instance.
+</summary>
+            <param name="callbacks">The new callbacks</param>
+        </member>
+        <member name="M:CecSharp.LibCECConfiguration.#ctor">
+            <summary>
+Create a new configuration instance with default settings.
+</summary>
+        </member>
+        <member name="T:CecSharp.LibCECConfiguration">
+            <summary>
+The configuration that libCEC uses.
+</summary>
+        </member>
+        <member name="P:CecSharp.CecLogMessage.Time">
+            <summary>
+The timestamp of this message, in milliseconds after connecting
+</summary>
+        </member>
+        <member name="P:CecSharp.CecLogMessage.Level">
+            <summary>
+The log level, so the application can choose what type information to display
+</summary>
+        </member>
+        <member name="P:CecSharp.CecLogMessage.Message">
+            <summary>
+The actual message
+</summary>
+        </member>
+        <member name="P:CecSharp.CecLogMessage.Empty">
+            <summary>
+True when empty, false otherwise.
+</summary>
+        </member>
+        <member name="M:CecSharp.CecLogMessage.#ctor">
+            <summary>
+Create a new empty log message
+</summary>
+        </member>
+        <member name="M:CecSharp.CecLogMessage.#ctor(System.String,CecSharp.CecLogLevel,System.Int64)">
+            <summary>
+Create a new log message
+</summary>
+            <param name="message">The actual message</param>
+            <param name="level">The log level, so the application can choose what type information to display</param>
+            <param name="time">The timestamp of this message, in milliseconds after connecting</param>
+        </member>
+        <member name="T:CecSharp.CecLogMessage">
+            <summary>
+A log message that libCEC generated
+</summary>
+        </member>
+        <member name="P:CecSharp.CecKeypress.Duration">
+            <summary>
+The duration of this key press in milliseconds
+</summary>
+        </member>
+        <member name="P:CecSharp.CecKeypress.Keycode">
+            <summary>
+The key code of this key press
+</summary>
+        </member>
+        <member name="P:CecSharp.CecKeypress.Empty">
+            <summary>
+True when empty, false otherwise
+</summary>
+        </member>
+        <member name="M:CecSharp.CecKeypress.#ctor">
+            <summary>
+Create a new empty key press instance
+</summary>
+        </member>
+        <member name="M:CecSharp.CecKeypress.#ctor(CecSharp.CecUserControlCode,System.UInt32)">
+            <summary>
+Create a new key press instance
+</summary>
+            <param name="keycode">The key code of this key press</param>
+            <param name="duration">The duration of this key press in milliseconds</param>
+        </member>
+        <member name="T:CecSharp.CecKeypress">
+            <summary>
+A key press that was received
+</summary>
+        </member>
+        <member name="P:CecSharp.CecCommand.TransmitTimeout">
+            <summary>
+The timeout to use when transmitting a command
+</summary>
+        </member>
+        <member name="P:CecSharp.CecCommand.OpcodeSet">
+            <summary>
+True when an opcode is set, false otherwise (poll message)
+</summary>
+        </member>
+        <member name="P:CecSharp.CecCommand.Parameters">
+            <summary>
+The parameters of this command
+</summary>
+        </member>
+        <member name="P:CecSharp.CecCommand.Opcode">
+            <summary>
+The CEC opcode of the command
+</summary>
+        </member>
+        <member name="P:CecSharp.CecCommand.Eom">
+            <summary>
+True when the eom bit is set, false otherwise
+</summary>
+        </member>
+        <member name="P:CecSharp.CecCommand.Ack">
+            <summary>
+True when the ack bit is set, false otherwise
+</summary>
+        </member>
+        <member name="P:CecSharp.CecCommand.Destination">
+            <summary>
+The destination of the command
+</summary>
+        </member>
+        <member name="P:CecSharp.CecCommand.Initiator">
+            <summary>
+The initiator of the command
+</summary>
+        </member>
+        <member name="P:CecSharp.CecCommand.Empty">
+            <summary>
+True when this command is empty, false otherwise.
+</summary>
+        </member>
+        <member name="M:CecSharp.CecCommand.PushBack(System.Byte)">
+            <summary>
+Pushes a byte of data to this CEC command
+</summary>
+            <param name="data">The byte to add</param>
+        </member>
+        <member name="M:CecSharp.CecCommand.#ctor">
+            <summary>
+Create a new empty CEC command instance
+</summary>
+        </member>
+        <member name="M:CecSharp.CecCommand.#ctor(CecSharp.CecLogicalAddress,CecSharp.CecLogicalAddress,System.Boolean,System.Boolean,CecSharp.CecOpcode,System.Int32)">
+            <summary>
+Create a new CEC command instance
+</summary>
+            <param name="initiator">The initiator of the command</param>
+            <param name="destination">The receiver of the command</param>
+            <param name="ack">True when the ack bit is set, false otherwise</param>
+            <param name="eom">True when the eom bit is set, false otherwise</param>
+            <param name="opcode">The CEC opcode of this command</param>
+            <param name="transmitTimeout">The timeout to use when transmitting a command</param>
+        </member>
+        <member name="T:CecSharp.CecCommand">
+            <summary>
+A CEC command that is received or transmitted over the CEC bus
+</summary>
+        </member>
+        <member name="P:CecSharp.CecDatapacket.Size">
+            <summary>
+Current data size
+</summary>
+        </member>
+        <member name="P:CecSharp.CecDatapacket.Data">
+            <summary>
+Array data
+</summary>
+        </member>
+        <member name="M:CecSharp.CecDatapacket.PushBack(System.Byte)">
+            <summary>
+Adds a byte to this byte array
+</summary>
+            <param name="data">The byte to add.</param>
+        </member>
+        <member name="M:CecSharp.CecDatapacket.#ctor">
+            <summary>
+Create a new byte array with maximum size 100
+</summary>
+        </member>
+        <member name="T:CecSharp.CecDatapacket">
+            <summary>
+Byte array used for CEC command parameters
+</summary>
+        </member>
+        <member name="P:CecSharp.CecLogicalAddresses.Addresses">
+            <summary>
+The list of addresses
+</summary>
+        </member>
+        <member name="P:CecSharp.CecLogicalAddresses.Primary">
+            <summary>
+The primary (first) address in this list
+</summary>
+        </member>
+        <member name="M:CecSharp.CecLogicalAddresses.Set(CecSharp.CecLogicalAddress)">
+            <summary>
+Add a logical address to this list (if it's not set already)
+</summary>
+            <param name="address">The address to add.</param>
+        </member>
+        <member name="M:CecSharp.CecLogicalAddresses.IsSet(CecSharp.CecLogicalAddress)">
+            <summary>
+Checks whether a logical address is set in this list.
+</summary>
+            <param name="address">The address to check.</param>
+            <returns>True when set, false otherwise</returns>
+        </member>
+        <member name="M:CecSharp.CecLogicalAddresses.Clear">
+            <summary>
+Clears this list
+</summary>
+        </member>
+        <member name="M:CecSharp.CecLogicalAddresses.#ctor">
+            <summary>
+Create a new empty list of logical addresses
+</summary>
+        </member>
+        <member name="T:CecSharp.CecLogicalAddresses">
+            <summary>
+A list of logical addresses
+</summary>
+        </member>
+        <member name="P:CecSharp.CecDeviceTypeList.Types">
+            <summary>
+The array with CecDeviceType instances in this list.
+</summary>
+        </member>
+        <member name="M:CecSharp.CecDeviceTypeList.#ctor">
+            <summary>
+Create a new empty list of CEC device types
+</summary>
+        </member>
+        <member name="T:CecSharp.CecDeviceTypeList">
+            <summary>
+A list of CEC device types
+</summary>
+        </member>
+        <member name="P:CecSharp.CecAdapter.PhysicalAddress">
+            <summary>
+Adapter physical address
+</summary>
+        </member>
+        <member name="P:CecSharp.CecAdapter.FirmwareBuildDate">
+            <summary>
+Adapter firmware build date
+</summary>
+        </member>
+        <member name="P:CecSharp.CecAdapter.FirmwareVersion">
+            <summary>
+Adapter firmware version
+</summary>
+        </member>
+        <member name="P:CecSharp.CecAdapter.ProductID">
+            <summary>
+USB product ID
+</summary>
+        </member>
+        <member name="P:CecSharp.CecAdapter.VendorID">
+            <summary>
+USB vendor ID
+</summary>
+        </member>
+        <member name="P:CecSharp.CecAdapter.ComPort">
+            <summary>
+The COM port of this CEC adapter
+</summary>
+        </member>
+        <member name="P:CecSharp.CecAdapter.Path">
+            <summary>
+The path descriptor for this CEC adapter
+</summary>
+        </member>
+        <member name="M:CecSharp.CecAdapter.#ctor(System.String,System.String,System.UInt16,System.UInt16,System.UInt16,System.UInt32,System.UInt16)">
+            <summary>
+Create a new CEC adapter descriptor
+</summary>
+            <param name="path"> The path descriptor for this CEC adapter</param>
+            <param name="comPort">The COM port of this CEC adapter</param>
+        </member>
+        <member name="T:CecSharp.CecAdapter">
+            <summary>
+Descriptor of a CEC adapter, returned when scanning for adapters that are connected to the system
+</summary>
+        </member>
+        <member name="T:CecSharp.CecAdapterType">
+            <summary>
+Type of adapter to which libCEC is connected
+</summary>
+        </member>
+        <member name="F:CecSharp.CecAdapterType.TDA995x">
+            <summary>
+TDA995x
+</summary>
+        </member>
+        <member name="F:CecSharp.CecAdapterType.RaspberryPi">
+            <summary>
+Raspberry Pi
+</summary>
+        </member>
+        <member name="F:CecSharp.CecAdapterType.PulseEightDaughterboard">
+            <summary>
+Pulse-Eight CEC daughterboard
+</summary>
+        </member>
+        <member name="F:CecSharp.CecAdapterType.PulseEightExternal">
+            <summary>
+Pulse-Eight USB-CEC adapter
+</summary>
+        </member>
+        <member name="F:CecSharp.CecAdapterType.Unknown">
+            <summary>
+Unknown adapter type
+</summary>
+        </member>
+        <member name="T:CecSharp.CecSystemAudioStatus">
+            <summary>
+Audiosystem status
+</summary>
+        </member>
+        <member name="F:CecSharp.CecSystemAudioStatus.On">
+            <summary>
+Turned on
+</summary>
+        </member>
+        <member name="F:CecSharp.CecSystemAudioStatus.Off">
+            <summary>
+Turned off
+</summary>
+        </member>
+        <member name="T:CecSharp.CecOpcode">
+            <summary>
+CEC opcodes, as described in the HDMI CEC specification
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.None">
+            <summary>
+When this opcode is set, no opcode will be sent to the device / poll message
+This is one of the reserved numbers
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.SetAudioRate">
+            <summary>
+Set audio bitrate
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.SystemAudioModeStatus">
+            <summary>
+Report audiosystem mode
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.SystemAudioModeRequest">
+            <summary>
+Request audiosystem mode
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.SetSystemAudioMode">
+            <summary>
+Set audiosystem mode
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.ReportAudioStatus">
+            <summary>
+Report device audio status
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.GiveSystemAudioMode">
+            <summary>
+Give audiosystem mode
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.GiveAudioStatus">
+            <summary>
+Give audio status
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.Abort">
+            <summary>
+Abort command
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.FeatureAbort">
+            <summary>
+Feature abort / unsupported command
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.ReportPowerStatus">
+            <summary>
+Report device power status
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.GiveDevicePowerStatus">
+            <summary>
+Request device power status
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.UserControlRelease">
+            <summary>
+Remote button released
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.UserControlPressed">
+            <summary>
+Remote button pressed
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.MenuStatus">
+            <summary>
+Report device menu status
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.MenuRequest">
+            <summary>
+Request device menu status
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.SetOsdName">
+            <summary>
+Report device OSD name
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.GiveOsdName">
+            <summary>
+Request device OSD name
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.SetOsdString">
+            <summary>
+Display / clear OSD string
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.VendorRemoteButtonUp">
+            <summary>
+Vendor specific remote button released
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.VendorRemoteButtonDown">
+            <summary>
+Vendor specific remote button pressed
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.VendorCommandWithId">
+            <summary>
+Vendor specific command with vendor ID
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.VendorCommand">
+            <summary>
+Vendor specific command
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.GiveDeviceVendorId">
+            <summary>
+Request device vendor ID
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.DeviceVendorId">
+            <summary>
+Report device vendor ID
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.TunerStepIncrement">
+            <summary>
+Tuner step increment
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.TunerStepDecrement">
+            <summary>
+Tuner step decrement
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.TunerDeviceStatus">
+            <summary>
+Report tuner device status
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.SelectDigtalService">
+            <summary>
+Select digital service on a tuner
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.SelectAnalogueService">
+            <summary>
+Select analogue service on a tuner
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.GiveTunerDeviceStatus">
+            <summary>
+Request tuner status
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.Play">
+            <summary>
+Start playback on playback and recording devices
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.GiveDeckStatus">
+            <summary>
+Request deck status from playback and recording devices
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.DeckStatus">
+            <summary>
+Deck status for playback and recording devices
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.DeckControl">
+            <summary>
+Deck control for playback and recording devices
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.SetMenuLanguage">
+            <summary>
+Report the language code of the menu language
+3 character ISO 639-2 country code. see http://http://www.loc.gov/standards/iso639-2/
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.ReportPhysicalAddress">
+            <summary>
+Report the physical address
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.GetMenuLanguage">
+            <summary>
+Request language code of the menu language of a device
+3 character ISO 639-2 country code. see http://http://www.loc.gov/standards/iso639-2/
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.GivePhysicalAddress">
+            <summary>
+Request physical address of a device
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.GetCecVersion">
+            <summary>
+Request CEC version of a device
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.CecVersion">
+            <summary>
+CEC version used by a device
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.TimerStatus">
+            <summary>
+Timer status information
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.TimerClearedStatus">
+            <summary>
+Timer status cleared
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.SetTimerProgramTitle">
+            <summary>
+Set program title of a timer
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.SetExternalTimer">
+            <summary>
+Set external timer
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.SetDigitalTimer">
+            <summary>
+Set digital timer
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.SetAnalogueTimer">
+            <summary>
+Set analogue timer
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.ClearExternalTimer">
+            <summary>
+Clear external timer
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.ClearDigitalTimer">
+            <summary>
+Clear digital timer
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.ClearAnalogueTimer">
+            <summary>
+Clear analogue timer
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.RecordTvScreen">
+            <summary>
+Record current display
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.RecordStatus">
+            <summary>
+Recording status information
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.RecordOn">
+            <summary>
+Start recording
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.RecordOff">
+            <summary>
+Stop recording
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.Standby">
+            <summary>
+Inform that a device went into standby mode
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.SetStreamPath">
+            <summary>
+Change the stream path to the given physical address
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.RoutingInformation">
+            <summary>
+Routing information for HDMI switches
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.RoutingChange">
+            <summary>
+Routing change for HDMI switches
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.RequestActiveSource">
+            <summary>
+Request which device has the active source status
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.InactiveSource">
+            <summary>
+Device no longer is the active source
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.TextViewOn">
+            <summary>
+Text view on: power on display for text display
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.ImageViewOn">
+            <summary>
+Image view on: power on display for image display
+</summary>
+        </member>
+        <member name="F:CecSharp.CecOpcode.ActiveSource">
+            <summary>
+Active source
+</summary>
+        </member>
+        <member name="T:CecSharp.CecAudioStatus">
+            <summary>
+Audio status of audio system / AVR devices
+</summary>
+        </member>
+        <member name="F:CecSharp.CecAudioStatus.VolumeStatusUnknown">
+            <summary>
+Unknown status
+</summary>
+        </member>
+        <member name="F:CecSharp.CecAudioStatus.VolumeMax">
+            <summary>
+Maximum volume
+</summary>
+        </member>
+        <member name="F:CecSharp.CecAudioStatus.VolumeMin">
+            <summary>
+Minimum volume
+</summary>
+        </member>
+        <member name="F:CecSharp.CecAudioStatus.VolumeStatusMask">
+            <summary>
+Not muted, volume status mask
+</summary>
+        </member>
+        <member name="F:CecSharp.CecAudioStatus.MuteStatusMask">
+            <summary>
+Muted
+</summary>
+        </member>
+        <member name="T:CecSharp.CecVendorId">
+            <summary>
+Vendor IDs for CEC devices
+</summary>
+        </member>
+        <member name="T:CecSharp.CecUserControlCode">
+            <summary>
+User control code, the key code when the user presses or releases a button on the remote.
+Used by SendKeypress() and the CecKey callback.
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Unknown">
+            <summary>
+Unknown / invalid key code
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.SamsungReturn">
+            <summary>
+Extra return button on Samsung remotes
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Max">
+            <summary>
+Max. valid key code for standard buttons
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Data">
+            <summary>
+Data / teletext
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.F5">
+            <summary>
+F5
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.F4Yellow">
+            <summary>
+F4 / yellow button
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.F3Green">
+            <summary>
+F3 / green button
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.F2Red">
+            <summary>
+F2 / red button
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.F1Blue">
+            <summary>
+F1 / blue button
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.PowerOnFunction">
+            <summary>
+Power on function
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.PowerOffFunction">
+            <summary>
+Power off function
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.PowerToggleFunction">
+            <summary>
+Toggle powered on / standby function
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.SelectAudioInputFunction">
+            <summary>
+Select audio input function
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.SelectAVInputFunction">
+            <summary>
+Select AV input function
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.SelectMediaFunction">
+            <summary>
+Select media function
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.TuneFunction">
+            <summary>
+Tune function
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.RestoreVolumeFunction">
+            <summary>
+Restore volume function
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.MuteFunction">
+            <summary>
+Mute audio function
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.StopFunction">
+            <summary>
+Stop playback function
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.PauseRecordFunction">
+            <summary>
+Pause recording function
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.RecordFunction">
+            <summary>
+Toggle recording function
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.PausePlayFunction">
+            <summary>
+Pause playback function
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.PlayFunction">
+            <summary>
+Start playback function
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.InitialConfiguration">
+            <summary>
+Set initial configuration
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.TimerProgramming">
+            <summary>
+Toggle timer programming
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.ElectronicProgramGuide">
+            <summary>
+Toggle electronic program guide (EPG)
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.VideoOnDemand">
+            <summary>
+Toggle video on demand
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.SubPicture">
+            <summary>
+Toggle sub picture
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Angle">
+            <summary>
+Change angle
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.PauseRecord">
+            <summary>
+Pause recording
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.StopRecord">
+            <summary>
+Stop recording
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Backward">
+            <summary>
+Backward
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Forward">
+            <summary>
+Forward
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Eject">
+            <summary>
+Eject media
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.FastForward">
+            <summary>
+Fast forward
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Rewind">
+            <summary>
+Rewind
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Record">
+            <summary>
+Toggle recording
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Pause">
+            <summary>
+Pause playback
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Stop">
+            <summary>
+Stop playback
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Play">
+            <summary>
+Start playback
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Mute">
+            <summary>
+Mute audio
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.VolumeDown">
+            <summary>
+Volume down
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.VolumeUp">
+            <summary>
+Volume up
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Power">
+            <summary>
+Toggle powered on / standby
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.PageDown">
+            <summary>
+Page down
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.PageUp">
+            <summary>
+Page up
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Help">
+            <summary>
+Show help
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.DisplayInformation">
+            <summary>
+Display information
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.InputSelect">
+            <summary>
+Select input
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.SoundSelect">
+            <summary>
+Select sound track
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.PreviousChannel">
+            <summary>
+Previous channel
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.ChannelDown">
+            <summary>
+Channel down
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.ChannelUp">
+            <summary>
+Channel up
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.NextFavorite">
+            <summary>
+Next favourite
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Clear">
+            <summary>
+Clear input
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Enter">
+            <summary>
+Enter input
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Dot">
+            <summary>
+.
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Number9">
+            <summary>
+Number 9
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Number8">
+            <summary>
+Number 8
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Number7">
+            <summary>
+Number 7
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Number6">
+            <summary>
+Number 6
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Number5">
+            <summary>
+Number 5
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Number4">
+            <summary>
+Number 4
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Number3">
+            <summary>
+Number 3
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Number2">
+            <summary>
+Number 2
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Number1">
+            <summary>
+Number 1
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Number0">
+            <summary>
+Number 0
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Exit">
+            <summary>
+Exit / back
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.FavoriteMenu">
+            <summary>
+Favourite menu
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.ContentsMenu">
+            <summary>
+Contents menu
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.SetupMenu">
+            <summary>
+Setup menu
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.RootMenu">
+            <summary>
+Root menu
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.LeftDown">
+            <summary>
+Direction left + down
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.LeftUp">
+            <summary>
+Direction left + up
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.RightDown">
+            <summary>
+Direction right + down
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.RightUp">
+            <summary>
+Direction right + up
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Right">
+            <summary>
+Direction right
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Left">
+            <summary>
+Direction left
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Down">
+            <summary>
+Direction down
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Up">
+            <summary>
+Direction up
+</summary>
+        </member>
+        <member name="F:CecSharp.CecUserControlCode.Select">
+            <summary>
+Select / OK
+</summary>
+        </member>
+        <member name="T:CecSharp.CecDeckInfo">
+            <summary>
+Deck status for playback and recording devices
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckInfo.OtherStatus">
+            <summary>
+Other / unknown status
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckInfo.IndexSearchReverse">
+            <summary>
+Index search reverse
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckInfo.IndexSearchForward">
+            <summary>
+Index search forward
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckInfo.SkipReverseRewind">
+            <summary>
+Skip reverse / rewind
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckInfo.SkipForwardWind">
+            <summary>
+Skip forward / wind
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckInfo.Stop">
+            <summary>
+Stop / not playing
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckInfo.NoMedia">
+            <summary>
+No media detected
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckInfo.FastReverse">
+            <summary>
+Fast reverse
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckInfo.FastForward">
+            <summary>
+Fast forward
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckInfo.SlowReverse">
+            <summary>
+Playing slow reverse
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckInfo.Slow">
+            <summary>
+Playing slow
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckInfo.Still">
+            <summary>
+Showing still frame
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckInfo.Reverse">
+            <summary>
+Reverse
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckInfo.Record">
+            <summary>
+Recording
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckInfo.Play">
+            <summary>
+Playing
+</summary>
+        </member>
+        <member name="T:CecSharp.CecDeckControlMode">
+            <summary>
+Deck control mode for playback and recording devices
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckControlMode.Eject">
+            <summary>
+Eject
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckControlMode.Stop">
+            <summary>
+Stop
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckControlMode.SkipReverseRewind">
+            <summary>
+Skip reverse / rewind
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeckControlMode.SkipForwardWind">
+            <summary>
+Skip forward / wind
+</summary>
+        </member>
+        <member name="T:CecSharp.CecMenuState">
+            <summary>
+The menu state of a CEC device
+</summary>
+        </member>
+        <member name="F:CecSharp.CecMenuState.Deactivated">
+            <summary>
+Menu not active
+</summary>
+        </member>
+        <member name="F:CecSharp.CecMenuState.Activated">
+            <summary>
+Menu active
+</summary>
+        </member>
+        <member name="T:CecSharp.CecDisplayControl">
+            <summary>
+Parameter for OSD string display, that controls how to display the string
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDisplayControl.ReservedForFutureUse">
+            <summary>
+Reserved / do not use
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDisplayControl.ClearPreviousMessage">
+            <summary>
+Clear message displayed by DisplayUntilCleared
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDisplayControl.DisplayUntilCleared">
+            <summary>
+Display until it is cleared by ClearPreviousMessage
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDisplayControl.DisplayForDefaultTime">
+            <summary>
+Display for the default time
+</summary>
+        </member>
+        <member name="T:CecSharp.CecVersion">
+            <summary>
+The CEC version of a CEC device
+</summary>
+        </member>
+        <member name="F:CecSharp.CecVersion.V1_4">
+            <summary>
+Version 1.4
+</summary>
+        </member>
+        <member name="F:CecSharp.CecVersion.V1_3A">
+            <summary>
+Version 1.3a
+</summary>
+        </member>
+        <member name="F:CecSharp.CecVersion.V1_3">
+            <summary>
+Version 1.3
+</summary>
+        </member>
+        <member name="F:CecSharp.CecVersion.V1_2A">
+            <summary>
+Version 1.2a
+</summary>
+        </member>
+        <member name="F:CecSharp.CecVersion.V1_2">
+            <summary>
+Version 1.2
+</summary>
+        </member>
+        <member name="F:CecSharp.CecVersion.Unknown">
+            <summary>
+Unknown version
+</summary>
+        </member>
+        <member name="T:CecSharp.CecPowerStatus">
+            <summary>
+The power status of a CEC device
+</summary>
+        </member>
+        <member name="F:CecSharp.CecPowerStatus.Unknown">
+            <summary>
+Unknown status
+</summary>
+        </member>
+        <member name="F:CecSharp.CecPowerStatus.InTransitionOnToStandby">
+            <summary>
+In transition from on to standby
+</summary>
+        </member>
+        <member name="F:CecSharp.CecPowerStatus.InTransitionStandbyToOn">
+            <summary>
+In transition from standby to on
+</summary>
+        </member>
+        <member name="F:CecSharp.CecPowerStatus.Standby">
+            <summary>
+In standby mode
+</summary>
+        </member>
+        <member name="F:CecSharp.CecPowerStatus.On">
+            <summary>
+Powered on
+</summary>
+        </member>
+        <member name="P:CecSharp.CecParameter.Data">
+            <summary>
+The value of this parameter
+</summary>
+        </member>
+        <member name="P:CecSharp.CecParameter.Type">
+            <summary>
+The type of this parameter
+</summary>
+        </member>
+        <member name="M:CecSharp.CecParameter.#ctor(CecSharp.CecParameterType,System.String)">
+            <summary>
+Create a new parameter
+</summary>
+            <param name="type">The type of this parameter.</param>
+            <param name="data">The value of this parameter.</param>
+        </member>
+        <member name="T:CecSharp.CecParameter">
+            <summary>
+A parameter for the CecAlert callback
+</summary>
+        </member>
+        <member name="T:CecSharp.CecParameterType">
+            <summary>
+The type of parameter that is sent with the CecAlert callback
+</summary>
+        </member>
+        <member name="F:CecSharp.CecParameterType.ParameterTypeString">
+            <summary>
+The parameter is a string
+</summary>
+        </member>
+        <member name="T:CecSharp.CecAlert">
+            <summary>
+The type of alert when libCEC calls the CecAlert callback
+</summary>
+        </member>
+        <member name="F:CecSharp.CecAlert.TVPollFailed">
+            <summary>
+The TV does not respond to polls.
+</summary>
+        </member>
+        <member name="F:CecSharp.CecAlert.PhysicalAddressError">
+            <summary>
+The physical address that is assigned to the adapter is already being used.
+</summary>
+        </member>
+        <member name="F:CecSharp.CecAlert.PortBusy">
+            <summary>
+The device is being used by another program.
+</summary>
+        </member>
+        <member name="F:CecSharp.CecAlert.PermissionError">
+            <summary>
+No permission from the OS to access the adapter.
+</summary>
+        </member>
+        <member name="F:CecSharp.CecAlert.ConnectionLost">
+            <summary>
+The connection to the adapter was lost, probably because the device got unplugged.
+</summary>
+        </member>
+        <member name="F:CecSharp.CecAlert.ServiceDevice">
+            <summary>
+The device needs servicing. This is set when the firmware can be upgraded, or when a problem with the firmware is detected.
+The latest firmware flash tool can be downloaded from http://packages.pulse-eight.net/
+</summary>
+        </member>
+        <member name="T:CecSharp.CecLogicalAddress">
+            <summary>
+A logical address on the CEC bus
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.Broadcast">
+            <summary>
+Broadcast address
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.Unregistered">
+            <summary>
+Unregistered / new device
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.FreeUse">
+            <summary>
+Free to use
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.Reserved2">
+            <summary>
+Reserved address 2
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.Reserved1">
+            <summary>
+Reserved address 1
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.PlaybackDevice3">
+            <summary>
+Playback device 3
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.Tuner4">
+            <summary>
+Tuner 4
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.RecordingDevice3">
+            <summary>
+Recording device 3
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.PlaybackDevice2">
+            <summary>
+Playback device 2
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.Tuner3">
+            <summary>
+Tuner 3
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.Tuner2">
+            <summary>
+Tuner 2
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.AudioSystem">
+            <summary>
+Audio system / AVR
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.PlaybackDevice1">
+            <summary>
+Playback device 1
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.Tuner1">
+            <summary>
+Tuner 1
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.RecordingDevice2">
+            <summary>
+Recording device 2
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.RecordingDevice1">
+            <summary>
+Recording device 1
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.Tv">
+            <summary>
+Television
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogicalAddress.Unknown">
+            <summary>
+Not a valid logical address
+</summary>
+        </member>
+        <member name="T:CecSharp.CecLogLevel">
+            <summary>
+Log level that can be used by the logging callback method to filter messages from libCEC.
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogLevel.All">
+            <summary>
+Display all messages
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogLevel.Debug">
+            <summary>
+Debugging messages
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogLevel.Traffic">
+            <summary>
+Raw CEC data traffic
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogLevel.Notice">
+            <summary>
+libCEC informs the client about a CEC state change.
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogLevel.Warning">
+            <summary>
+libCEC warns that it encountered a problem, but recovered.
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogLevel.Error">
+            <summary>
+libCEC encountered a serious problem, and couldn't complete an action.
+</summary>
+        </member>
+        <member name="F:CecSharp.CecLogLevel.None">
+            <summary>
+No logging
+</summary>
+        </member>
+        <member name="T:CecSharp.CecDeviceType">
+            <summary>
+The device type. For client applications, libCEC only supports RecordingDevice, PlaybackDevice or Tuner.
+libCEC uses RecordingDevice by default.
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeviceType.AudioSystem">
+            <summary>
+Audio system / AVR
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeviceType.PlaybackDevice">
+            <summary>
+Playback device
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeviceType.Tuner">
+            <summary>
+Tuner
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeviceType.Reserved">
+            <summary>
+Reserved / do not use
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeviceType.RecordingDevice">
+            <summary>
+Recording device
+</summary>
+        </member>
+        <member name="F:CecSharp.CecDeviceType.Tv">
+            <summary>
+Television
+</summary>
+        </member>
+        <member name="M:CEC.ICECAdapter.AudioEnable(System.Boolean)">
+Enable or disable system audio mode
+@param enable True to enable, false to disable
+@return True if the command was sent, false otherwise
+
+</member>
+        <member name="M:CEC.cec_datapacket.IsFull">
+@return True when this packet is false, false otherwise. 
+</member>
+        <member name="M:CEC.cec_datapacket.IsEmpty">
+@return True when this packet is empty, false otherwise. 
+</member>
+        <member name="T:CEC.libcec_version">
+force exporting through swig 
+</member>
+        <member name="T:CEC.cec_abort_reason">
+Maximum size of a data packet
+
+</member>
+    </members>
+</doc>
