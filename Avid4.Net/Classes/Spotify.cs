@@ -1166,7 +1166,7 @@ public static class Spotify
             {
                 foreach (var dev in devices.Devices)
                 {
-                    logger.Info($"Spotify play device found: ${dev.Name}");
+                    logger.Info($"Spotify play device found: {dev.Name} [{dev.Type}]");
                     if (dev.Type == "Computer" && dev.Name == HttpContext.Current.Server.MachineName)
                     {
                         playbackDevice = dev.Id;
