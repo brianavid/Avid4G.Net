@@ -561,7 +561,15 @@ public class DvbViewer
         }
 
         LastChannelChangeTime = DateTime.UtcNow;
-    }
+
+        try
+        {
+            XDocument recordingsDoc = GetXml("recordings.html");
+            recordingsDoc.Save(System.IO.Path.Combine(Config.RecordingsPath, "Recordings.xml"));
+        }
+        catch { }
+
+        }
 
     /// <summary>
     /// The live channel name currently selected to watch
